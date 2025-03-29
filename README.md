@@ -167,3 +167,13 @@
 | インフラ | Render |
 | API | OmniAuth LineLoginAPI LineBotAPI|
 | VCS | GitHub |
+
+---
+
+## 画面遷移図
+
+https://www.figma.com/design/6D9vI84v3wzD69sPWU2pAw/%E6%98%9F%E3%81%AB%E3%82%BF%E3%82%B9%E3%82%AF%E3%82%92?node-id=0-1&t=FpYJbQqhrMrQv05b-1
+
+## プロトタイプ
+
+https://www.figma.com/proto/6D9vI84v3wzD69sPWU2pAw/%E6%98%9F%E3%81%AB%E3%82%BF%E3%82%B9%E3%82%AF%E3%82%92?node-id=8-78&p=f&t=jKHxKEk1ukl9UK2n-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=8%3A78
