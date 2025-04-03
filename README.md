@@ -88,6 +88,7 @@
 
 - **タスク管理**  
   - 大タスク・小タスクの一覧確認、詳細確認、登録、編集、削除  
+  - 大タスク・小タスクはそれぞれ独立して作成することが可能で、任意のタイミングで小タスクを1つの大タスクに紐づけることができる
   - タスク詳細画面には、そのタスクの詳細とSNS共有ボタン、ガントチャートが単体で表示
   - タスクには、タスク名、詳細、期間、完了ステータスが含まれ、期間は「完了目標日：最大半年以内」「開始日は目標日以前」という制限付き
   - 小タスクの完了ステータスは（未着手、進行中、完了）の3種類
@@ -151,7 +152,10 @@
 
 ### 本リリース
 - 履歴から同じ構成のタスクを作成
-- 限定公開URL（限定公開用モデルにデータをコピーし、そちらはuuidで管理する形で実装予定）
+- 限定公開URL
+  - 大タスクと同様の内容の限定公開用タスクを作成し、紐づけたnanoidを用いてURLを発行
+  - 限定公開URLはURLを知っている誰でもアクセスすることができ、ログインの必要はない
+  - 公開用タスクは編集したり小タスクを追加したりすることができず、元となった大タスクを編集して再度限定公開用タスクを生成することを想定
 - 動的OGP生成（gem[ miniMagic ]）
 - 曖昧検索・オートコンプリート（gem[ ransack ]、stimulus-autocomplete）
 - タスク期限前通知（Cron Job）
@@ -177,3 +181,6 @@ https://www.figma.com/design/6D9vI84v3wzD69sPWU2pAw/%E6%98%9F%E3%81%AB%E3%82%BF%
 ## プロトタイプ
 
 https://www.figma.com/proto/6D9vI84v3wzD69sPWU2pAw/%E6%98%9F%E3%81%AB%E3%82%BF%E3%82%B9%E3%82%AF%E3%82%92?node-id=8-78&p=f&t=jKHxKEk1ukl9UK2n-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=8%3A78
+
+## ER図
+![er_diagram](https://github.com/user-attachments/assets/a47a2ce2-8cfd-4531-9c7b-1496ee06d0e3)
