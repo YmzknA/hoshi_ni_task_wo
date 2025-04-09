@@ -15,9 +15,72 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+
   </head>
 
-  <body>
+  <body class="min-h-screen bg-[radial-gradient(ellipse_at_bottom,_#466374_0%,_#080606_100%)] zen-old-mincho-regular">
     <%= yield %>
+
+    <!-- 星をランダムに生成するための要素 -->
+    <div>
+      <div
+        id="stars1"
+        class="w-[1px] h-[1px] bg-transparent absolute top-0 left-0 before:content-[''] before:absolute before:left-[2000px]"
+        ></div>
+      <div
+        id="stars2"
+        class="w-[2px] h-[2px] bg-transparent absolute top-0 left-0 before:content-[''] before:absolute before:left-[2000px] after:content-[''] after:absolute after:top-[2000px]"
+        ></div>
+      <div
+        id="stars3"
+        class="w-[3px] h-[3px] bg-transparent absolute top-0 left-0 before:content-[''] before:absolute before:left-[2000px] after:content-[''] after:absolute after:top-[2000px]"
+        ></div>
+    </div>
   </body>
 </html>
+
+<script>
+  // ランダムな box-shadow の文字列を生成する関数
+  function generateBoxShadows(count) {
+    const shadows = [];
+    for (let i = 0; i < count; i++) {
+      const x = Math.floor(Math.random() * 2000);
+      const y = Math.floor(Math.random() * 2000);
+      // 白い星を生成
+      shadows.push(`${x}px ${y}px rgba(255, 255, 255, 50%)`);
+    }
+    return shadows.join(', ');
+  }
+
+  // 各星要素に対するランダムな box-shadow を生成
+  const star1Shadows = generateBoxShadows(500);
+  const star2Shadows = generateBoxShadows(100);
+  const star3Shadows = generateBoxShadows(50);
+
+  // 要素取得
+  const stars1 = document.getElementById('stars1');
+  const stars2 = document.getElementById('stars2');
+  const stars3 = document.getElementById('stars3');
+
+  // 生成した box-shadow を直接 style に設定
+  stars1.style.boxShadow = star1Shadows;
+  stars2.style.boxShadow = star2Shadows;
+  stars3.style.boxShadow = star3Shadows;
+
+  // 疑似要素にはインラインスタイルが使えないため、動的にスタイルシートへ追加
+  const styleTag = document.createElement('style');
+  styleTag.textContent = `
+  #stars1::before { box-shadow: ${star1Shadows}; }
+  #stars2::before { box-shadow: ${star2Shadows}; }
+  #stars2::after { box-shadow: ${star2Shadows}; }
+  #stars3::before { box-shadow: ${star3Shadows}; }
+  #stars3::after { box-shadow: ${star3Shadows}; }
+  `;
+  document.head.appendChild(styleTag);
+</script>
+
