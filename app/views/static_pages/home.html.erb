@@ -1,64 +1,18 @@
 <div class="w-full h-full">
-<%= image_tag 'mikaduki.png', class: 'absolute top-5 left-5 z-0 h-[50px] w-[50px]' %>
+  <%= image_tag 'mikaduki.png', class: 'absolute top-5 left-5 z-0 h-[50px] w-[50px]' %>
 
-<div class="text-6xl pt-15 mb-8 xl:text-8xl">
-  <div class="flex justify-center">
-    <%= image_tag 'mikaduki.png', class: ' h-[200px] w-[200px] inline-block' %>
-  </div>
-  <p class="text-center">星にタスクを</p>
-</div>
-<div class="text-center text-xl xl:text-2xl mb-8 animate-fade">
-  今日したことを星で繋いで、<br>
-  終わったタスクを星座にかえて。
-</div>
-
-<!-- ボタン -->
-<div class="flex justify-center items-center mb-4">
-  <button class="btn btn-neutral text-accent w-[170px] h-[50px]">
-    新規登録
-  </button>
-  <button class="btn btn-secondary ml-4 w-[170px] h-[50px]">
-    ログインせず<br>
-    使ってみる
-  </button>
-</div>
-<div class="flex justify-center">
-  <button class="btn btn-accent mb-20 w-[170px] h-[50px]">
-    ログイン
-  </button>
-</div>
-
-<!-- 説明部分 -->
-<div class="z-10 relative p-8 text-center bg-primary rounded-t-[4rem] xl:text-xl animate-fadein">
-  <div class="text-center text-2xl">
-    星にタスクを<br>
-    とは
-  </div>
-  <div class="px-4 md:px-8 py-6 mb-8 text-base md:text-lg">
-    <p class="mb-4">このアプリは、縦型ガントチャートで管理する新しいカタチのタスク管理ツールです。<br>
-    日々のタスクを「星」として、集まったタスクは「星座」となります。</p>
-
-    <p class="mb-4">タスクは個別に作成でき、「星座」にまとめることも可能です。</p>
-
-    <p class="mb-4">進捗は3段階で管理され、「星座」は属するタスクの進み具合に応じて自動で更新。</p>
-
-    <p class="mb-4">すべてのタスクが完了すると「星座」も完成し、88星座の中からアイコンが付きます。<br>
-    さらに、完成した「星座」にはコメントも追加できます。</p>
-
-    <div class="mb-4">
-      <p class="font-medium">「星座」だけの作成もOK！</p>
-      <p>あとからタスクを紐づけたり、その場で作成もできます。<br>
-      表示スタイル（ガントチャート or リスト）や、公開・非公開の設定も自由。<br>
-      公開用に複製して、限定URLで共有することも可能です。</p>
+  <div class="text-6xl pt-15 mb-8 xl:text-8xl">
+    <div class="flex justify-center">
+      <%= image_tag 'mikaduki.png', class: ' h-[200px] w-[200px] inline-block' %>
     </div>
-
-    <p class="mb-4">また、LINE認証に対応！<br>
-    連携すると、LINEでタスクや「星座」の進捗を手軽に確認できます。</p>
-
-    <p class="mb-4">ユーザーページでは、公開設定された「星座」を誰でも見ることができます。<br>
-    自分のがんばりを、ちょっとした物語として世界にシェアしてみませんか？</p>
+    <p class="text-center">星にタスクを</p>
   </div>
 
+  <div class="text-center text-xl xl:text-2xl mb-8 animate-fade">
+    今日したことを星で繋いで、<br>
+    終わったタスクを星座にかえて。
+
+  </div>
 
   <!-- ボタン -->
   <div class="flex justify-center items-center mb-4">
@@ -71,11 +25,69 @@
     </button>
   </div>
   <div class="flex justify-center">
-    <button class="btn btn-accent mb-4 w-[170px] h-[50px]">
+    <button class="btn btn-accent mb-15 w-[170px] h-[50px]">
       ログイン
     </button>
   </div>
-</div>
+
+  <!-- スクロールの矢印 -->
+  <div class="flex justify-center">
+    scroll
+  </div>
+  <div class="flex justify-center">
+    <%= image_tag 'bar.png', class: 'h-[30px] w-[1px] animate-fade-in' %>
+  </div>
+
+
+
+  <!-- 説明部分 -->
+  <div class="z-10 relative p-8 text-center bg-primary rounded-t-[4rem] xl:text-xl animate-fadein">
+    <div class="text-center text-2xl">
+      星にタスクを<br>
+      とは
+    </div>
+    <div class="px-4 md:px-8 py-6 mb-8 text-base md:text-lg">
+      <p class="mb-4">このアプリは、縦型ガントチャートで管理する新しいカタチのタスク管理ツールです。<br>
+      日々のタスクを「星」として、集まったタスクは「星座」となります。</p>
+
+      <p class="mb-4">タスクは個別に作成でき、「星座」にまとめることも可能です。</p>
+
+      <p class="mb-4">進捗は3段階で管理され、「星座」は属するタスクの進み具合に応じて自動で更新。</p>
+
+      <p class="mb-4">すべてのタスクが完了すると「星座」も完成し、88星座の中からアイコンが付きます。<br>
+      さらに、完成した「星座」にはコメントも追加できます。</p>
+
+      <div class="mb-4">
+        <p class="font-medium">「星座」だけの作成もOK！</p>
+        <p>あとからタスクを紐づけたり、その場で作成もできます。<br>
+        表示スタイル（ガントチャート or リスト）や、公開・非公開の設定も自由。<br>
+        公開用に複製して、限定URLで共有することも可能です。</p>
+      </div>
+
+      <p class="mb-4">また、LINE認証に対応！<br>
+      連携すると、LINEでタスクや「星座」の進捗を手軽に確認できます。</p>
+
+      <p class="mb-4">ユーザーページでは、公開設定された「星座」を誰でも見ることができます。<br>
+      自分のがんばりを、ちょっとした物語として世界にシェアしてみませんか？</p>
+    </div>
+
+
+    <!-- ボタン -->
+    <div class="flex justify-center items-center mb-4">
+      <button class="btn btn-neutral text-accent w-[170px] h-[50px]">
+        新規登録
+      </button>
+      <button class="btn btn-secondary ml-4 w-[170px] h-[50px]">
+        ログインせず<br>
+        使ってみる
+      </button>
+    </div>
+    <div class="flex justify-center">
+      <button class="btn btn-accent mb-4 w-[170px] h-[50px]">
+        ログイン
+      </button>
+    </div>
+  </div>
 
 
 </div>

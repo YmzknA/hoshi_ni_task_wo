@@ -43,3 +43,26 @@
   --depth: 1;
   --noise: 1;
 }
+
+@theme {
+  --animate-fade-in: fade-in 2.5s ease-in-out infinite;
+
+  @keyframes fade-in {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  50.1% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  }
+}
