@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
 .zen-old-mincho-regular {
   font-family: "Zen Old Mincho", serif;
@@ -7,15 +8,41 @@
 }
 
 
-@theme {
-  --color-white: #F9F4ED;
-  --color-white-blue: #EAF2F5;
-  --color-black: #00002A;
-  --color-bage: #DEC4A4;
-  --color-blue: #466374;
-  --color-yellow: #BF9C50;
-  --color-blue-dark: #0F3678;
-  --color-red: #A91F2B;
-  --color-gray: #5B6574:
+
+@plugin "daisyui/theme" {
+  name: "hoshi";
+  default: false;
+  prefersdark: false;
+  color-scheme: "dark";
+  --color-base-100: #466374;
+  --color-base-200: #EAF2F5;
+  --color-base-300: oklch(26% 0.007 34.298);
+  --color-base-content: #EAF2F5;
+  --color-primary: #466374;
+  --color-primary-content: #EAF2F5;
+  --color-secondary: #DEC4A4;
+  --color-secondary-content: #00002A;
+  --color-accent: #BF9C50;
+  --color-accent-content: #EAF2F5;
+  --color-neutral: #00002A;
+  --color-neutral-content: #EAF2F5;
+  --color-info: #0F3678;
+  --color-info-content: oklch(98% 0.019 200.873);
+  --color-success: oklch(59% 0.145 163.225);
+  --color-success-content: oklch(97% 0.021 166.113);
+  --color-warning: oklch(68% 0.162 75.834);
+  --color-warning-content: oklch(98% 0.026 102.212);
+  --color-error: #A91F2B;
+  --color-error-content: #EAF2F5;
+  --radius-selector: 2rem;
+  --radius-field: 2rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.28125rem;
+  --border: 0px;
+  --depth: 1;
+  --noise: 1;
 }
 
+
+--color-text: #00002A;
