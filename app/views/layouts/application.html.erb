@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="hoshi">
   <head>
     <title><%= content_for(:title) || "Myapp" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -23,11 +23,13 @@
 
   </head>
 
-  <body class="min-h-screen bg-[radial-gradient(ellipse_at_bottom,_#466374_0%,_#080606_100%)] zen-old-mincho-regular">
+  <body class="flex w-full zen-old-mincho-regular">
+    <div class="w-full flex-glow bg-[radial-gradient(ellipse_at_bottom,_#466374_0%,_#080606_100%)]">
     <%= yield %>
+    </div>
 
     <!-- 星をランダムに生成するための要素 -->
-    <div class="-z-10">
+    <div>
       <div
         id="stars1"
         class="w-[1px] h-[1px] bg-transparent absolute top-0 left-0 before:content-[''] before:absolute before:left-[2000px]"
