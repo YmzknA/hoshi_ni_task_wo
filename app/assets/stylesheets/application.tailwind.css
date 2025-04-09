@@ -6,3 +6,16 @@
   font-style: normal;
 }
 
+
+@theme {
+  --color-white: #F9F4ED;
+  --color-white-blue: #EAF2F5;
+  --color-black: #00002A;
+  --color-bage: #DEC4A4;
+  --color-blue: #466374;
+  --color-yellow: #BF9C50;
+  --color-blue-dark: #0F3678;
+  --color-red: #A91F2B;
+  --color-gray: #5B6574:
+}
+
