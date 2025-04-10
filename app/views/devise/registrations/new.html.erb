@@ -1,29 +1,70 @@
-<h2>Sign up</h2>
+<div class="flex items-center justify-center min-h-screen px-6">
+  <div class="card bg-base-300 w-2xl h-2xl p-10 flex justify-center z-10">
+    <div>
+      <!-- ロゴ -->
+      <div class="flex justify-center mx-auto">
+        <%= image_tag "mikaduki.png", width: "90" %>
+      </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <!-- タイトルタブ -->
+      <div class="flex items-center justify-center mt-6 text-secondary">
+        <div role="tablist" class="tabs tabs-border">
+          <a href="<%= new_session_path(resource_name) %>" role="tab" class="tab">ログイン</a>
+          <a role="tab" class="tab tab-active">新規登録</a>
+        </div>
+      </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+      <!-- 新規登録フォーム -->
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data:{ turbo: false}, html: { class: "w-full mt-6" }) do |f| %>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+        <label class="floating-label">
+          <%= f.text_field :name,
+            autofocus: true,
+            autocomplete: "name",
+            placeholder: "User name",
+            class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
+          <span class="floating-label-text">Name</span>
+        </label>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+        <label class="floating-label mt-5">
+          <%= f.text_field :email,
+            autocomplete: "email",
+            placeholder: "Email address",
+            class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
+          <span class="floating-label-text">Email</span>
+        </label>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
+        <label class="floating-label mt-5">
+          <%= f.text_field :password,
+            autocomplete: "new-password",
+            placeholder: "Password",
+            class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
+          <span class="floating-label-text">Password</span>
+        </label>
+
+        <label class="floating-label mt-5">
+          <%= f.password_field :password_confirmation,
+            autocomplete: "new-password",
+            placeholder: "Confirm Password",
+            class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
+          <span class="floating-label-text">Confirm Password</span>
+        </label>
+
+<% if @minimum_password_length %>
+  <p class="mt-2 text-xs">
+  <em><%= @minimum_password_length %> characters minimum</em>
+  </p>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<div class="mt-6">
+  <%= f.submit "登録",
+    class:"btn btn-secondary w-full text-base-200" %>
+        </div>
+      <% end %>
+
+      <div class="mt-6 text-center">
+        <%= link_to "アカウントをお持ちの方はこちら", new_session_path(resource_name), class: "text-sm text-base-200 hover:underline" %>
+      </div>
+    </div>
+  </div>
+</div>
