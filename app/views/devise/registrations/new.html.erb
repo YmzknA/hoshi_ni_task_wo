@@ -3,7 +3,9 @@
     <div>
       <!-- ロゴ -->
       <div class="flex justify-center mx-auto">
-        <%= image_tag "mikaduki.png", width: "90" %>
+        <%= link_to root_path do %>
+          <%= image_tag "mikaduki.png", width: "90" %>
+        <% end %>
       </div>
 
       <!-- タイトルタブ -->
@@ -35,7 +37,7 @@
         </label>
 
         <label class="floating-label mt-5">
-          <%= f.text_field :password,
+          <%= f.password_field :password,
             autocomplete: "new-password",
             placeholder: "Password",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
