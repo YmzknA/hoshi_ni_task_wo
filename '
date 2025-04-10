@@ -14,11 +14,10 @@
   default: false;
   prefersdark: false;
   color-scheme: "dark";
-  --color-base-100: #466374;
   --color-base-200: #EAF2F5;
-  --color-base-300: #1E2939;
+  --color-base-300: oklch(26% 0.007 34.298);
   --color-base-content: #EAF2F5;
-  --color-primary: #DEC4A4;
+  --color-primary: #466374;
   --color-primary-content: #EAF2F5;
   --color-secondary: #DEC4A4;
   --color-secondary-content: #00002A;
