@@ -49,6 +49,7 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'solargraph'
+  gem 'swimming_fish'
 end
 
 group :development do
