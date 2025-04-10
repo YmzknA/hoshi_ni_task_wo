@@ -34,7 +34,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.2]
 
 
       t.string :name, null: false
-      t.string :introduction
+      t.text :bio
       t.boolean :is_guest, default: false, null: false
 
       t.timestamps null: false
