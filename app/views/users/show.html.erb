@@ -5,6 +5,9 @@
   <!-- 内容表示部分 -->
   <div class="z-10 space-y-5 bg-base-300 border-t-1 border-x-1 border-base-200 relative p-8 text-center rounded-t-[4rem] xl:text-xl">
 
+    <!-- フラッシュメッセージ -->
+    <%= render 'flash' %>
+
     <div class=" text-center text-3xl">
       <%= @user.name %>
     </div>
@@ -22,21 +25,24 @@
       </div>
 
       <div class="bg-primary flex justify-center w-full p-3 rounded-xl min-h-[100px] items-center">
-        <% if @user.bio %>
-          <%= @user.bio %>
-        <% else %>
+        <% if @user.bio.blank? %>
           <p class="text-center">ここに自己紹介等が入ります</p>
+        <% else %>
+          <%= @user.bio %>
         <% end %>
       </div>
 
-      <div class="flex justify-between">
-        <button class="btn btn-accent rounded-lg">ユーザー編集</button>
+      <div class="flex <%= current_user?(@user) ? 'justify-between' : 'justify-end' %>">
+        <% if current_user?(@user) %>
+          <button class="btn btn-accent rounded-lg" onclick="edit_modal.showModal()">ユーザー編集</button>
+        <% end %>
         <button class="btn btn-neutral rounded-lg px-3">
           <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
         </button>
       </div>
     </div>
 
+    <% if current_user?(@user) %>
     <div class="bg-base-100 p-5 rounded-xl flex justify-center">
       <div class="text-center space-y-5">
         <p>認証して、LINEから確認する</p>
@@ -46,6 +52,7 @@
         </button>
         </div>
     </div>
+    <% end %>
 
     <!-- タスクの表示部分 -->
     <div class="tabs tabs-lift">
@@ -93,3 +100,8 @@
   <!-- メニューバー -->
   <%= render 'menu_bar' %>
 </div>
+
+<% if current_user?(@user) %>
+  <!-- モーダル -->
+  <%= render 'devise/registrations/edit_form_modal' %>
+<% end %>
