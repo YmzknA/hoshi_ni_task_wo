@@ -25,7 +25,7 @@
       </div>
 
       <div class="bg-primary flex justify-center w-full p-3 rounded-xl min-h-[100px] items-center">
-        <% if @user.bio.nil? %>
+        <% if @user.bio.blank? %>
           <p class="text-center">ここに自己紹介等が入ります</p>
         <% else %>
           <%= @user.bio %>
