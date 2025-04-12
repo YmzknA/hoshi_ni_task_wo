@@ -32,17 +32,15 @@
         <% end %>
       </div>
 
-      <% if current_user?(@user) %>
-        <div class="flex justify-between">
+      <div class="flex <%= current_user?(@user) ? 'justify-between' : 'justify-end' %>">
+        <% if current_user?(@user) %>
           <button class="btn btn-accent rounded-lg" onclick="edit_modal.showModal()">ユーザー編集</button>
-      <% else %>
-        <div class="flex justify-end">
-      <% end %>
+        <% end %>
         <button class="btn btn-neutral rounded-lg px-3">
           <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
         </button>
-        </div>
       </div>
+    </div>
 
     <% if current_user?(@user) %>
     <div class="bg-base-100 p-5 rounded-xl flex justify-center">
