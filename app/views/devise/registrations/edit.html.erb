@@ -1,23 +1,19 @@
-<div class="flex items-center justify-center min-h-screen px-6">
-  <div class="card bg-base-300 w-2xl h-2xl p-10 flex justify-center z-10">
+<div class="flex items-center justify-center">
+  <div class="card bg-base-300 w-2xl h-2xl p-5 flex justify-center z-10">
     <div>
-      <!-- ロゴ -->
-      <div class="flex justify-center mx-auto">
-        <%= link_to root_path do %>
-          <%= image_tag "mikaduki.png", width: "90" %>
-        <% end %>
-      </div>
 
       <!-- タイトルタブ -->
-      <div class="flex items-center justify-center mt-6 text-secondary">
-        <div role="tablist" class="tabs tabs-border">
-          <a role="tab" class="tab tab-active">アカウント編集</a>
-        </div>
+      <div class="flex items-center justify-center text-secondary">
+        <p class="text-xl">ユーザー編集</p>
       </div>
 
+      <!-- エラーメッセージ -->
+      <%= render "devise/shared/error_messages", resource: @user %>
+
       <!-- 編集フォーム -->
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }, html: { method: :put, class: "w-full mt-6" }) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
+      <%= form_for(@user, as: @user, url: registration_path(@user), html: { method: :put, class: "w-full mt-6" }) do |f| %>
+
+        <div class="divider mb-4">プロフィール</div>
 
         <label class="floating-label">
           <%= f.text_field :name,
@@ -25,7 +21,7 @@
             autocomplete: "name",
             placeholder: "User name",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Name</span>
+            <span class="floating-label-text">Name</span>
         </label>
 
         <label class="floating-label mt-5">
@@ -33,21 +29,25 @@
             autocomplete: "email",
             placeholder: "Email address",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Email</span>
+            <span class="floating-label-text">Email</span>
         </label>
 
-        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-          <div class="mt-2 text-xs text-base-200">
-            Currently waiting confirmation for: <%= resource.unconfirmed_email %>
-          </div>
-        <% end %>
+        <label class="floating-label mt-5">
+          <%= f.text_area :bio,
+            autocomplete: "bio",
+            placeholder: "Bio (optional)",
+            class: "textarea textarea-lg input-primary w-full text-base-100 bg-base-200 rounded-lg" %>
+            <span class="floating-label-text">Bio</span>
+        </label>
+
+        <div class="divider mb-4 mt-10">パスワード変更時のみ入力</div>
 
         <label class="floating-label mt-5">
           <%= f.password_field :password,
             autocomplete: "new-password",
-            placeholder: "New Password (leave blank if no change)",
+            placeholder: "New Password",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">New Password</span>
+            <span class="floating-label-text">New Password</span>
         </label>
 
         <label class="floating-label mt-5">
@@ -55,44 +55,42 @@
             autocomplete: "new-password",
             placeholder: "Confirm New Password",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Confirm New Password</span>
+            <span class="floating-label-text">Confirm New Password</span>
         </label>
 
         <% if @minimum_password_length %>
           <p class="mt-2 text-xs text-base-200">
-            <em><%= @minimum_password_length %> characters minimum</em>
+          <em><%= @minimum_password_length %> characters minimum</em>
           </p>
         <% end %>
+
+        <div class="divider mb-4 mt-10">パスワード</div>
 
         <label class="floating-label mt-5">
           <%= f.password_field :current_password,
             autocomplete: "current-password",
             placeholder: "Current Password (required)",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Current Password</span>
+            <span class="floating-label-text">Current Password</span>
         </label>
         <p class="mt-1 text-xs text-base-200">
-          <em>※変更を確定するには現在のパスワードが必要です</em>
+        <em>※変更を確定するには現在のパスワードが必要です</em>
         </p>
 
-        <div class="mt-6">
-          <%= f.submit "更新",
+        <div class="mt-8">
+          <%= f.submit "保存",
             class:"btn btn-secondary w-full text-base-200" %>
         </div>
       <% end %>
 
-      <div class="divider text-base-200 my-6">アカウント削除</div>
-      
+      <div class="divider mb-4 mt-15">ユーザー削除</div>
+
       <div class="flex flex-col items-center">
         <%= button_to "アカウントを削除する", 
-          registration_path(resource_name), 
+          registration_path(@user), 
           data: { confirm: "本当に削除しますか？", turbo_confirm: "本当に削除しますか？" }, 
           method: :delete, 
           class: "btn btn-error w-full" %>
-        
-        <div class="mt-4">
-          <%= link_to "戻る", :back, class: "text-sm text-base-200 hover:underline" %>
-        </div>
       </div>
     </div>
   </div>
