@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@import "tailwindcss";
+@import "tailwindcss-intersect";
+
+@plugin "tailwindcss-motion";
 @plugin "daisyui";
 
 .zen-old-mincho-regular {
