@@ -11,20 +11,20 @@
       <% if user_signed_in? %>
 
         <li>
-          <div class="flex items-center inline-flex">
+          <%= link_to  destroy_user_session_path, data: { turbo_method: :delete }, class: "whitespace-nowrap text-base-200 flex items-center inline-flex w-full" do %>
             <span class="material-symbols-outlined">
               logout
             </span>
-            <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "whitespace-nowrap text-base-200" %>
-          </div>
+            <p class="whitespace-nowrap"> Log out </p>
+          <% end %>
         </li>
         <li>
-          <div class="flex items-center inline-flex">
+          <%= link_to user_path(current_user), class: "whitespace-nowrap text-base-200 flex items-center inline-flex w-full" do %>
             <span class="material-symbols-outlined">
               person
             </span>
-            <%= link_to "#{@user.name}", user_path(current_user), class: "whitespace-nowrap text-base-200" %>
-          </div>
+            <p class="whitespace-nowrap"> <%= current_user.name %> </p>
+          <% end %>
         </li>
 
       <% else %>
@@ -81,8 +81,8 @@
 
       <div class="divider"></div>
 
-      <li class="mx-auto">
-        <a href="https://x.com/Ym_sknA_61a" target="_blank">
+      <li class="w-full">
+        <a href="https://x.com/Ym_sknA_61a" target="_blank" class="flex justify-center w-full">
           <%= image_tag "x-logo.png", class: 'h-6 w-6' %>
         </a>
       </li>
