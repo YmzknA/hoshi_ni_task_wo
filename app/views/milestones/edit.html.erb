@@ -1,0 +1,12 @@
+<% content_for :title, "Editing milestone" %>
+
+<h1>Editing milestone</h1>
+
+<%= render "form", milestone: @milestone %>
+
+<br>
+
+<div>
+  <%= link_to "Show this milestone", @milestone %> |
+  <%= link_to "Back to milestones", milestones_path %>
+</div>
