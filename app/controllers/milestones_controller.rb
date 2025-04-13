@@ -23,14 +23,13 @@ class MilestonesController < ApplicationController
   def create
     @milestone = Milestone.new(milestone_params)
 
-    respond_to do |format|
-      if @milestone.save
-        format.html { redirect_to @milestone, notice: "Milestone was successfully created." }
-        format.json { render :show, status: :created, location: @milestone }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @milestone.errors, status: :unprocessable_entity }
-      end
+    if @milestone.save
+      flash[:notice] = "星座を作成しました"
+      redirect_to user_check_path
+    else
+      @modal_open = true
+      flash.now[:alert] = "星座の作成に失敗しました"
+      render "static_pages/user_check", status: :unprocessable_entity
     end
   end
 
@@ -58,13 +57,19 @@ class MilestonesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_milestone
-      @milestone = Milestone.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def milestone_params
-      params.fetch(:milestone, {})
-    end
+  def set_milestone
+    @milestone = Milestone.find(params[:id])
+  end
+
+  def milestone_params
+    params.require(:milestone).permit(
+      :title,
+      :description,
+      :is_public,
+      :is_on_chart,
+      :start_date,
+      :end_date
+    ).merge(user_id: current_user.id)
+  end
 end

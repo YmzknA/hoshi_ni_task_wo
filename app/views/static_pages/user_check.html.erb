@@ -6,6 +6,8 @@
         <%= image_tag "mikaduki.png", width: "90" %>
       </div>
 
+      <%= render "flash" %>
+
       <!-- ユーザー情報 -->
       <div class="flex justify-center mt-6">
         <div class="text-center">
@@ -32,6 +34,8 @@
             <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-secondary w-full text-base-200" %>
             <%= link_to "ユーザー詳細", user_path(@user), class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
             <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
+            <div class="divider my-4"></div>
+            <button class="btn btn-accent rounded-lg" onclick="milestone_new_modal.showModal()">星座作製</button>
           <% else %>
             <h1 class="text-2xl font-bold text-secondary mb-4">Welcome, Guest!</h1>
             <p class="text-base-100 mb-6">Please log in or sign up to continue.</p>
@@ -40,6 +44,7 @@
               <%= link_to "Log in", new_user_session_path, class: "btn btn-secondary text-base-200" %>
               <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline btn-secondary text-base-200" %>
             </div>
+            
           <% end %>
         </div>
       </div>
@@ -48,3 +53,4 @@
 </div>
 
 <%= render "menu_bar" %>
+<%= render "milestones/milestone_new_form", milestone: @milestone %>
