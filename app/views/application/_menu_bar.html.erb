@@ -1,24 +1,132 @@
-<div class="z-100 fixed bottom-0 w-full bg-gray-800 border-t border-gray-700">
-  <div class="flex justify-around py-2">
-    <button class="p-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
+
+<div class="z-100 dock dock-md md:dock-xl bg-base-300">
+
+  <div class="dropdown dropdown-top">
+    <button tabindex="0" class="flex flex-col w-full h-full items-center justify-center">
+      <span class="material-symbols-outlined">menu</span>
+      <span class="dock-label">Menu</span>
     </button>
-    <button class="p-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-      </svg>
-    </button>
-    <button class="p-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-    </button>
-    <button class="p-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>
-    </button>
+    <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded z-120 p-5 inline-flex p-2 shadow-xl text-2xl">
+
+      <% if user_signed_in? %>
+
+        <li>
+          <div class="flex items-center inline-flex">
+            <span class="material-symbols-outlined">
+              logout
+            </span>
+            <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "whitespace-nowrap text-base-200" %>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center inline-flex">
+            <span class="material-symbols-outlined">
+              person
+            </span>
+            <%= link_to "#{@user.name}", user_path(current_user), class: "whitespace-nowrap text-base-200" %>
+          </div>
+        </li>
+
+      <% else %>
+
+        <li>
+          <div class="flex items-center">
+            <span class="material-symbols-outlined">
+              login
+            </span>
+            <%= link_to "Log in", new_user_session_path, class: "whitespace-nowrap text-base-200" %>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <span class="material-symbols-outlined">
+              person_add
+            </span>
+            <%= link_to "Sign up", new_user_registration_path, class: "whitespace-nowrap text-base-200" %>
+          </div>
+        </li>
+
+      <% end %>
+
+      <div class="divider"></div>
+
+      <li>
+        <div class="flex items-center">
+          <%= render 'stars_icon' %>
+          <p class="whitespace-nowrap"> 星座一覧 </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="flex items-center">
+          <%= render 'star_icon' %>
+          <p class="whitespace-nowrap"> タスク一覧 </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="flex items-center">
+          <span class="material-symbols-outlined">
+            stacked_bar_chart
+          </span>
+          <p class="whitespace-nowrap"> ガントチャート </p>
+        </div>
+      </li>
+
+      <div class="divider"></div>
+
+      <li><a>利用規約</a></li>
+      <li><a class="whitespace-nowrap">プライバシーポリシー</a></li>
+      <li><a>お問い合わせ</a></li>
+
+      <div class="divider"></div>
+
+      <li class="mx-auto">
+        <a href="https://x.com/Ym_sknA_61a" target="_blank">
+          <%= image_tag "x-logo.png", class: 'h-6 w-6' %>
+        </a>
+      </li>
+    </ul>
   </div>
+
+  <button class="p-2">
+    <span class="material-symbols-outlined">
+      stacked_bar_chart
+    </span
+    <span class="dock-label">Chart</span>
+  </button>
+
+  <button class="p-2">
+    <%= render 'star_icon' %>
+    <span class="dock-label">Tasks</span>
+  </button>
+
+  <button class="p-2">
+    <%= render 'stars_icon' %>
+    <span class="dock-label">星座</span>
+  </button>
+
+  <% if user_signed_in? %>
+
+  <button class="p-2 <%= "dock-active" if current_page?(user_path(current_user)) %>">
+    <%= link_to user_path(current_user), class:"w-full flex flex-col items-center" do %>
+      <span class="material-symbols-outlined">
+        person
+      </span>
+        <span class="dock-label"><%= current_user.name %></span>
+    <% end %>
+  </button>
+
+  <% else %>
+
+  <button class="p-2">
+    <%= link_to new_user_session_path, class:"w-full flex flex-col items-center" do %>
+      <span class="material-symbols-outlined">
+        person
+      </span>
+        <span class="dock-label">Sign in</span>
+      <% end %>
+  </button>
+
+  <% end %>
 </div>
