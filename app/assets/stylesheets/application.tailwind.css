@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@import "tailwindcss";
+@import "tailwindcss-intersect";
+
+@plugin "tailwindcss-motion";
 @plugin "daisyui";
 
 .zen-old-mincho-regular {
@@ -45,9 +49,10 @@
 }
 
 @theme {
-  --animate-fade-in: fade-in 2.5s ease-in-out infinite;
+  --animate-scroll: scroll 2.5s ease-in-out infinite;
+  --animate-fade-in: fade-in 1.5s ease-in-out;
 
-  @keyframes fade-in {
+  @keyframes scroll{
   0% {
     transform: scaleY(0);
     transform-origin: top;
@@ -63,6 +68,14 @@
   100% {
     transform: scaleY(0);
     transform-origin: bottom;
+  }
+  }
+  @keyframes fade-in{
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
   }
 }
