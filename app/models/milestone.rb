@@ -4,8 +4,7 @@ class Milestone < ApplicationRecord
 
   validates :title, presence: true
   validates :start_date, presence: true, if: -> { should_validate_dates? }
-  validates :end_date, presence: true, if: -> { should_validate_dates? && progress > 0 }
-
+  validates :end_date, presence: true, if: -> { should_validate_dates? }
   private
 
   def should_validate_dates?
