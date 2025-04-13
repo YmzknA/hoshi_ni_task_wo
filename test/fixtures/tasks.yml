@@ -1,0 +1,11 @@
+one:
+  title: First Task
+  progress: 0
+  user: one
+  milestone: one
+
+two:
+  title: Second Task
+  progress: 1
+  user: two
+  milestone: two

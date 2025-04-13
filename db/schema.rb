@@ -10,9 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_10_135811) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_13_123214) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "milestones", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.integer "progress", default: 0, null: false
+    t.boolean "is_public", default: false, null: false
+    t.boolean "is_on_chart", default: true, null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.text "completed_comment"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_milestones_on_user_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.integer "progress", default: 0, null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.bigint "milestone_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["milestone_id"], name: "index_tasks_on_milestone_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -34,4 +63,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_10_135811) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
+
+  add_foreign_key "milestones", "users"
+  add_foreign_key "tasks", "milestones"
+  add_foreign_key "tasks", "users"
 end

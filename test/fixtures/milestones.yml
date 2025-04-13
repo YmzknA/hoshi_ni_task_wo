@@ -1,0 +1,14 @@
+one:
+  title: First Milestone
+  progress: 0
+  is_public: false
+  is_on_chart: true
+  user: one
+
+two:
+  title: Second Milestone
+  progress: 20
+  is_public: true
+  is_on_chart: true
+  user: two
+
