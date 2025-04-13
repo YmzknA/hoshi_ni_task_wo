@@ -4,8 +4,11 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     omniauth_callbacks: "users/omniauth_callbacks"
   }
+
   root "static_pages#home"
   get "user_check" => "static_pages#user_check"
+  get "privacy_policy" => "static_pages#privacy_policy"
+  get "terms_of_service" => "static_pages#terms_of_service"
 
   resources :users, only: [:show]
 
