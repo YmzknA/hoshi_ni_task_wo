@@ -1,5 +1,5 @@
 class MilestonesController < ApplicationController
-  before_action :set_milestone, only: %i[ show edit update destroy ]
+  before_action :set_milestone, only: [:show, :edit, :update, :destroy]
 
   # GET /milestones or /milestones.json
   def index
@@ -7,8 +7,7 @@ class MilestonesController < ApplicationController
   end
 
   # GET /milestones/1 or /milestones/1.json
-  def show
-  end
+  def show; end
 
   # GET /milestones/new
   def new
@@ -16,8 +15,7 @@ class MilestonesController < ApplicationController
   end
 
   # GET /milestones/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /milestones or /milestones.json
   def create
