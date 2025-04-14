@@ -7,7 +7,7 @@ one:
 
 two:
   title: Second Milestone
-  progress: 20
+  progress: 1
   is_public: true
   is_on_chart: true
   user: two

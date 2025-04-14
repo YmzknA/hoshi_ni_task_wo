@@ -13,7 +13,7 @@
           </div>
 
           <!-- エラーメッセージ -->
-          <%= render "devise/shared/error_messages", resource: @user %>
+          <%= render "error_messages", resource: @user %>
 
           <!-- 編集フォーム -->
           <%= form_for(@user, as: @user, url: registration_path(@user), html: { method: :put, class: "w-full mt-6" }) do |f| %>

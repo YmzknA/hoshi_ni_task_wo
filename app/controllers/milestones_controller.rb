@@ -25,7 +25,10 @@ class MilestonesController < ApplicationController
       flash[:notice] = "星座を作成しました"
       redirect_to user_check_path
     else
-      @modal_open = true
+      @milestone_new_modal_open = true
+      @task = Task.new
+      @tasks = Task.all
+      @milestones = Milestone.all
       flash.now[:alert] = "星座の作成に失敗しました"
       render "static_pages/user_check", status: :unprocessable_entity
     end

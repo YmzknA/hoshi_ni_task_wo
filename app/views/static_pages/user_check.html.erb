@@ -11,31 +11,105 @@
       <!-- ユーザー情報 -->
       <div class="flex justify-center mt-6">
         <div class="text-center">
-          <% if @user %>
-            <h1 class="text-2xl font-bold text-secondary mb-4">Welcome, <%= @user.name %>!</h1>
-            
+          <% if current_user %>
+            <h1 class="text-2xl font-bold text-secondary mb-4">Welcome, <%= current_user.name %>!</h1>
+
             <div class="card bg-base-200 p-6 w-full max-w-md mb-6">
               <div class="mb-4">
                 <p class="text-sm text-base-100">Your Profile</p>
                 <div class="divider my-1"></div>
               </div>
-              
+
               <div class="text-left mb-4">
                 <p class="text-sm text-base-100">Name:</p>
-                <p class="text-lg text-primary"><%= @user.name %></p>
+                <p class="text-lg text-primary"><%= current_user.name %></p>
               </div>
-              
+
               <div class="text-left">
                 <p class="text-sm text-base-100">Email:</p>
-                <p class="text-lg text-primary"><%= @user.email %></p>
+                <p class="text-lg text-primary"><%= current_user.email %></p>
               </div>
             </div>
-            
+
             <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-secondary w-full text-base-200" %>
-            <%= link_to "ユーザー詳細", user_path(@user), class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
+            <%= link_to "ユーザー詳細", user_path(current_user), class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
             <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
             <div class="divider my-4"></div>
             <button class="btn btn-accent rounded-lg" onclick="milestone_new_modal.showModal()">星座作製</button>
+            <button class="btn btn-accent rounded-lg" onclick="tasks_new_modal.showModal()">タスク作製</button>
+
+            <div class="divider my-4"></div>
+
+            <% @milestones.each do |milestone| %>
+              <div class="card bg-base-200 p-6 w-full max-w-md mb-4">
+                <div class="mb-4">
+                  <p class="text-sm text-base-100">Milestone</p>
+                  <div class="divider my-1"></div>
+                </div>
+
+                <div class="text-left mb-4">
+                  <p class="text-sm text-base-100">ID:</p>
+                  <p class="text-lg text-primary"><%= milestone.id %></p>
+                </div>
+                
+                <div class="text-left mb-4">
+                  <p class="text-sm text-base-100">Title:</p>
+                  <p class="text-lg text-primary"><%= milestone.title %></p>
+                </div>
+                
+                <div class="text-left">
+                  <p class="text-sm text-base-100">Description:</p>
+                  <p class="text-lg text-primary"><%= milestone.description %></p>
+                </div>
+
+                <div class="text-left">
+                  <p class="text-sm text-base-100">is_public:</p>
+                  <p class="text-lg text-primary"><%= milestone.is_public%></p>
+                </div>
+
+                <div class="text-left">
+                  <p class="text-sm text-base-100">is_on_chart:</p>
+                  <p class="text-lg text-primary"><%= milestone.is_on_chart%></p>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="divider my-4"></div>
+
+            <% @tasks.each do |task| %>
+              <div class="card bg-base-200 p-6 w-full max-w-md mb-4">
+                <div class="mb-4">
+                  <p class="text-sm text-base-100">Task</p>
+                  <div class="divider my-1"></div>
+                </div>
+
+                <div class="text-left mb-4">
+                  <p class="text-sm text-base-100">ID:</p>
+                  <p class="text-lg text-primary"><%= task.id %></p>
+                </div>
+
+                <div class="text-left mb-4">
+                  <p class="text-sm text-base-100">Milestone Title:</p>
+                  <p class="text-lg text-primary"><%= task.milestone.title%></p>
+                </div>
+
+                <div class="text-left mb-4">
+                  <p class="text-sm text-base-100">Title:</p>
+                  <p class="text-lg text-primary"><%= task.title %></p>
+                </div>
+                
+                <div class="text-left">
+                  <p class="text-sm text-base-100">Description:</p>
+                  <p class="text-lg text-primary"><%= task.description %></p>
+                </div>
+
+                <div class="text-left">
+                  <p class="text-sm text-base-100">Progress:</p>
+                  <p class="text-lg text-primary"><%= task.progress %></p>
+                </div>
+              </div>
+              <% end %>
+
           <% else %>
             <h1 class="text-2xl font-bold text-secondary mb-4">Welcome, Guest!</h1>
             <p class="text-base-100 mb-6">Please log in or sign up to continue.</p>
@@ -52,5 +126,8 @@
   </div>
 </div>
 
+<div class="mt-20" >
 <%= render "menu_bar" %>
+</div>
 <%= render "milestones/milestone_new_form", milestone: @milestone %>
+<%= render "tasks/tasks_new_form", task: @task, milestones: @milestones %>

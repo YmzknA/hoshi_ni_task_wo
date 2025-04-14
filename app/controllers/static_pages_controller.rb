@@ -11,5 +11,8 @@ class StaticPagesController < ApplicationController
   def user_check
     @user = current_user if user_signed_in?
     @milestone = Milestone.new
+    @milestones = Milestone.all
+    @task = Task.new
+    @tasks = Task.all
   end
 end
