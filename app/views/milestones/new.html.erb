@@ -1,0 +1,13 @@
+<% content_for :title, "New milestone" %>
+
+<h1>New milestone</h1>
+
+<%= render "milestones/milestone_new_form", milestone: @milestone %>
+
+<br>
+
+<div>
+  <%= link_to "Back to milestones", milestones_path %>
+</div>
+
+<button class="btn btn-accent rounded-lg" onclick="milestone_new_modal.showModal()">星座作製</button>

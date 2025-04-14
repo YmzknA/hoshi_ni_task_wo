@@ -1,0 +1,102 @@
+<dialog id="milestone_new_modal" class="modal" <%= @modal_open ? 'open' : ' ' %> >
+  <div class="modal-box">
+    <p class="pb-4 text-center">ESC or 下の(X)を押すと閉じます</p>
+    <div class="flex items-center justify-center">
+      <div class="card bg-base-300 w-2xl h-2xl p-5 flex justify-center z-10">
+        <div>
+
+          <!-- タイトルタブ -->
+          <div class="flex items-center justify-center text-secondary">
+            <p class="text-xl">星座作成</p>
+          </div>
+
+          <!-- エラーメッセージ -->
+          <%= render "devise/shared/error_messages", resource: @milestone %>
+
+          <!-- 編集フォーム -->
+          <%= form_for(@milestone, as: @milestone, url: milestones_path, html: { method: :post, class: "w-full mt-6 p-2" }) do |f| %>
+
+            <label class="floating-label">
+              <%= f.text_field :title,
+                autofocus: true,
+                autocomplete: "title",
+                placeholder: "Title",
+                class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
+                <span class="floating-label-text">Title</span>
+            </label>
+
+            <div class="mt-5 w-full">
+              <div class="flex items-center justify-center">
+              <p class="text-2xl mr-2">Color</p>
+              <%= f.color_field :color,
+                value: "#FFDF5E",
+                autocomplete: "Color",
+                placeholder: "Color",
+                class: "w-[30px] h-[35px] rounded-full" %>
+                </div>
+            </div>
+
+          <div class="flex items-center justify-between mt-10">
+            <label class="floating-label">
+              <%= f.date_field :start_date,
+                autocomplete: "Start Date",
+                placeholder: "Start Date",
+                class: "textarea textarea-lg input-primary w-full text-base-100 bg-base-200 rounded-lg" %>
+                <span class="floating-label-text">Start Date</span>
+            </label>
+
+            <p class="text-2xl">~</p>
+
+            <label class="floating-label">
+              <%= f.date_field :end_date,
+                autocomplete: "End Date",
+                placeholder: "End Date",
+                class: "textarea textarea-lg input-primary w-full text-base-100 bg-base-200 rounded-lg" %>
+                <span class="floating-label-text">End Date</span>
+            </label>
+          </div>
+
+            <label class="floating-label mt-10">
+              <%= f.text_area :description,
+                autocomplete: "description",
+                placeholder: "Description",
+                class: "textarea textarea-lg input-primary w-full text-base-100 bg-base-200 rounded-lg" %>
+                <span class="floating-label-text">Description</span>
+            </label>
+
+            <div class="divider mb-4 mt-10">ON/OFF</div>
+
+            <div class="flex flex-col items-center mt-10">
+              <div class="text-end">
+              <div>
+                <%= f.label :is_public, "全体に公開する", class: "cursor-pointer mr-2" %>
+                <%= f.check_box :is_public, class: "toggle toggle-xl bg-base-100 checked:bg-primary checked:text-accent checked:border-primary" %>
+              </div>
+
+              <div class="mt-5">
+                <%= f.label :is_on_chart, "チャートに表示する", class: "cursor-pointer mr-2" %>
+                <%= f.check_box :is_on_chart, class: "toggle toggle-xl bg-base-100 checked:bg-primary checked:text-accent checked:border-primary" %>
+              </div>
+            </div>
+            </div>
+
+            <div class="mt-10">
+              <%= f.submit "作成", class:"btn btn-secondary w-full text-base-200" %>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-action flex justify-center">
+      <form method="dialog">
+        <button class="btn btn-accent px-9">
+          <span class="material-symbols-outlined">
+            close
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+</dialog>
