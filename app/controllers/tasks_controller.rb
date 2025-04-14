@@ -24,9 +24,16 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
       if @task.save
-        redirect_to @task, notice: "Task was successfully created."
+        flash[:notice] = "タスクを作成しました"
+        redirect_to user_check_path
       else
-        render :new, status: :unprocessable_entity
+        @task_new_modal_open = true
+        @milestone = Milestone.new
+        @milestones = Milestone.all
+        @tasks = Task.all
+
+        flash.now[:alert] = "タスクの作成に失敗しました"
+        render "static_pages/user_check", status: :unprocessable_entity
       end
   end
 
@@ -54,13 +61,18 @@ class TasksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_task
-      @task = Task.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def task_params
-      params.fetch(:task, {})
-    end
+  def set_task
+    @task = Task.find(params[:id])
+  end
+
+  def task_params
+    params.require(:task).permit(:title,
+                                 :description,
+                                 :progress,
+                                 :start_date,
+                                 :end_date,
+                                 :milestone_id
+                              ).merge(user_id: current_user.id)
+  end
 end

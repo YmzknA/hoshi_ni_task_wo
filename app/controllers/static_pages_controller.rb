@@ -13,5 +13,6 @@ class StaticPagesController < ApplicationController
     @milestone = Milestone.new
     @milestones = Milestone.all
     @task = Task.new
+    @tasks = Task.all
   end
 end
