@@ -4,5 +4,5 @@ class Task < ApplicationRecord
 
   validates :title, presence: true
 
-  enum progress: [ :not_started, :in_progress, :completed ]
+  enum progress: [:not_started, :in_progress, :completed]
 end

@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   # GET /tasks or /tasks.json
   def index
@@ -7,8 +7,7 @@ class TasksController < ApplicationController
   end
 
   # GET /tasks/1 or /tasks/1.json
-  def show
-  end
+  def show; end
 
   # GET /tasks/new
   def new
@@ -16,25 +15,24 @@ class TasksController < ApplicationController
   end
 
   # GET /tasks/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /tasks or /tasks.json
   def create
     @task = Task.new(task_params)
 
-      if @task.save
-        flash[:notice] = "タスクを作成しました"
-        redirect_to user_check_path
-      else
-        @task_new_modal_open = true
-        @milestone = Milestone.new
-        @milestones = Milestone.all
-        @tasks = Task.all
+    if @task.save
+      flash[:notice] = "タスクを作成しました"
+      redirect_to user_check_path
+    else
+      @task_new_modal_open = true
+      @milestone = Milestone.new
+      @milestones = Milestone.all
+      @tasks = Task.all
 
-        flash.now[:alert] = "タスクの作成に失敗しました"
-        render "static_pages/user_check", status: :unprocessable_entity
-      end
+      flash.now[:alert] = "タスクの作成に失敗しました"
+      render "static_pages/user_check", status: :unprocessable_entity
+    end
   end
 
   # PATCH/PUT /tasks/1 or /tasks/1.json
@@ -72,7 +70,6 @@ class TasksController < ApplicationController
                                  :progress,
                                  :start_date,
                                  :end_date,
-                                 :milestone_id
-                              ).merge(user_id: current_user.id)
+                                 :milestone_id).merge(user_id: current_user.id)
   end
 end
