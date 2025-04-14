@@ -10,13 +10,10 @@ class Milestone < ApplicationRecord
 
   def update_progress
     self.progress = if tasks.empty?
-                      logger.swim("tasks.empty? => true")
                       "not_started"
                     elsif tasks.any? { |t| t.progress == "in_progress" } || tasks.any? { |t| t.progress == "completed" }
-                      logger.swim("tasks.any? => true")
                       "in_progress"
                     else
-                      logger.swim("tasks.any? => false")
                       "not_started"
                     end
     save
