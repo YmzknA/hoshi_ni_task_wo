@@ -22,6 +22,9 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
+      task_milestone = Milestone.find_by(id: @task.milestone_id)
+      task_milestone&.update_progress
+
       flash[:notice] = "タスクを作成しました"
       redirect_to user_check_path
     else

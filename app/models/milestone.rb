@@ -1,15 +1,21 @@
 class Milestone < ApplicationRecord
-  has_many :tasks
+  has_many :tasks, dependent: :nullify
   belongs_to :user
 
   validates :title, presence: true
-  validates :start_date, presence: true, if: -> { should_validate_dates? }
-  validates :end_date, presence: true, if: -> { should_validate_dates? }
-  private
+  validates :start_date, presence: true, if: -> { is_on_chart }
+  validates :end_date, presence: true, if: -> { is_on_chart }
 
-  def should_validate_dates?
-    # 特定の条件下でのみバリデーションを行うロジック
-    # 例: 公開されているマイルストーンや進行中のマイルストーンには日付が必要
-    is_public || progress.positive?
+  enum progress: [:not_started, :in_progress, :completed]
+
+  def update_progress
+    self.progress = if tasks.empty?
+                      "not_started"
+                    elsif tasks.any? { |t| t.progress == "in_progress" } || tasks.any? { |t| t.progress == "completed" }
+                      "in_progress"
+                    else
+                      "not_started"
+                    end
+    save
   end
 end
