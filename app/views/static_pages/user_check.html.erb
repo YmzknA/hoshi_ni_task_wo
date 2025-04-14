@@ -36,6 +36,7 @@
             <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
             <div class="divider my-4"></div>
             <button class="btn btn-accent rounded-lg" onclick="milestone_new_modal.showModal()">星座作製</button>
+            <button class="btn btn-accent rounded-lg" onclick="tasks_new_modal.showModal()">タスク作製</button>
           <% else %>
             <h1 class="text-2xl font-bold text-secondary mb-4">Welcome, Guest!</h1>
             <p class="text-base-100 mb-6">Please log in or sign up to continue.</p>
@@ -54,3 +55,4 @@
 
 <%= render "menu_bar" %>
 <%= render "milestones/milestone_new_form", milestone: @milestone %>
+<%= render "tasks/tasks_new_form", task: @task, milestones: @milestones %>
