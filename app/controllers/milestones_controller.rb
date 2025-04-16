@@ -74,6 +74,7 @@ class MilestonesController < ApplicationController
   def milestone_params
     params.require(:milestone).permit(
       :title,
+      :color,
       :description,
       :is_public,
       :is_on_chart,
