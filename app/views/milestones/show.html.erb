@@ -1,10 +1,138 @@
-<p style="color: green"><%= notice %></p>
+<div class="w-full h-full">
+  <!-- 月の画像 -->
+  <%= render 'title_header', title: @title %>
 
-<%= render @milestone %>
+  <!-- 内容表示部分 -->
+  <div class="z-10 space-y-5 bg-base-300/30 border-t-1 border-x-1 min-h-screen border-base-200 p-8 text-center rounded-t-[4rem] text-lg md:text-xl">
 
-<div>
-  <%= link_to "Edit this milestone", edit_milestone_path(@milestone) %> |
-  <%= link_to "Back to milestones", milestones_path %>
+    <!-- フラッシュメッセージ -->
+    <%= render 'flash' %>
 
-  <%= button_to "Destroy this milestone", @milestone, method: :delete %>
+    <div class=" flex justify-center items-center text-3xl">
+      <div class="mr-2">
+        <%= render "stars_icon", { width: 35, height: 35, color: @milestone.color } %>
+      </div>
+      <%= @milestone.title %>
+    </div>
+
+    <div class="flex justify-center text-xl w-full h-[50px] text-neutral my-10">
+      <%= render "milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
+    </div>
+
+    <% if @milestone.start_date.present? || @milestone.end_date.present? %>
+      <div class="flex justify-center w-full h-35 text-neutral">
+        <div class="flex jusify-between w-xl p-5">
+          <div class="card bg-primary w-2/5 p-2 h-full flex flex-col justify-center">
+            <div>
+              <%= @milestone.start_date&.year %>年
+            </div>
+            <div class="text-2xl w-full">
+              <%= @milestone.start_date&.mon %>月
+              <%= @milestone.start_date&.mday %>日
+              (<%= day_of_week(@milestone.start_date) %>)
+            </div>
+          </div>
+          <div class="flex w-1/5 items-center justify-center">
+            <p class="text-5xl text-primary w-full">~</p>
+          </div>
+          <div class="card bg-primary w-2/5 p-2 h-full flex flex-col justify-center">
+            <%= @milestone.end_date&.year %>年<br>
+            <div class="text-2xl w-full">
+              <%= @milestone.end_date&.mon %>月
+              <%= @milestone.end_date&.mday %>日
+              (<%= day_of_week(@milestone.end_date) %>)
+            </div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="flex justify-center w-full">
+        <div class="card p-10 w-xl bg-primary text-neutral">
+          日付は設定されていません
+        </div>
+      </div>
+    <% end %>
+
+    <div class="flex justify-center items-center w-full">
+      <div class="card w-xl text-neutral">
+        <% unless @milestone.description == "" || @milestone.description.blank? %>
+          <p class="card-title pl-2 h-5 text-primary">詳細</p>
+          <div class="bg-primary flex justify-center w-full p-3 rounded-xl min-h-[100px] items-center">
+            <%= @milestone.description %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="flex justify-center items-center h-[100px] mb-8">
+      <div class="w-xl flex  h-full">
+        <div class="skelton text-base-200 flex justify-center items-center w-3/4">
+          <div>
+            <div class="flex justify-end items-center mb-3">
+              <div class="text-center mr-2">
+                全体に公開する：
+              </div>
+              <% if @milestone.is_public %>
+                <span class="badge badge-md md:badge-lg badge-primary">ON</span>
+              <% else %>
+                <span class="badge badge-md md:badge-lg badge-base-300">OFF</span>
+              <% end %>
+            </div>
+
+            <div class="flex items-center">
+              <div class="text-center mr-2">
+                チャートに表示する：
+              </div>
+              <% if @milestone.is_on_chart %>
+                <span class="badge badge-md md:badge-lg badge-primary">ON</span>
+              <% else %>
+                <span class="badge badge-md md:badge-lg badge-base-300">OFF</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center items-center w-1/4 h-full">
+          <button class="btn btn-neutral rounded-lg px-3">
+            <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+        <div class="flex justify-center w-full h-[50px] text-neutral">
+          <div class="btn btn-error w-[170px] h-[50px] mr-5">
+            削除
+          </div>
+          <div class="btn btn-accent w-[170px] h-[50px]">
+            編集
+          </div>
+        </div>
+
+    <!-- タスクの表示部分 -->
+    <div class="tabs tabs-lift">
+      <input type="radio" name="my_tabs" class="tab" aria-label="チャート" checked="checked"  />
+      <div class="tab-content bg-base-100 border-base-300 p-6">
+        <div class="overflow-x-auto">
+          test
+        </div>
+      </div>
+
+      <input type="radio" name="my_tabs" class="tab" aria-label="タスク" />
+      <div class="tab-content bg-base-100 border-base-300 p-6">属するタスク一覧</div>
+    </div>
+
+  </div>
+
+  <!-- メニューバー -->
+  <div class="mt-10">
+    <%= render 'menu_bar' %>
+  </div>
 </div>
+
+<% if current_user?(@user) %>
+  <!-- モーダル -->
+  <%= render 'devise/registrations/edit_form_modal' %>
+<% end %>
+
