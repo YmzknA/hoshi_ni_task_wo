@@ -7,7 +7,11 @@ class MilestonesController < ApplicationController
   end
 
   # GET /milestones/1 or /milestones/1.json
-  def show; end
+  def show
+    @title = "星座詳細"
+    @user = current_user
+    @milestone_tasks = @milestone.tasks
+  end
 
   # GET /milestones/new
   def new
