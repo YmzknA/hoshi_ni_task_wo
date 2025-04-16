@@ -7,7 +7,15 @@ class MilestonesController < ApplicationController
   end
 
   # GET /milestones/1 or /milestones/1.json
-  def show; end
+  def show
+    if @milestone.is_public || @milestone.user.id == current_user.id
+      @title = "星座詳細"
+      @milestone_tasks = @milestone.tasks
+    else
+      flash[:alert] = "この星座は非公開です"
+      redirect_to user_check_path
+    end
+  end
 
   # GET /milestones/new
   def new

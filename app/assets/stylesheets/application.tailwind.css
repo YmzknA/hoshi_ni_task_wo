@@ -12,7 +12,6 @@
 }
 
 
-
 @plugin "daisyui/theme" {
   name: "hoshi";
   default: false;
