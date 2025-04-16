@@ -7,7 +7,14 @@ class TasksController < ApplicationController
   end
 
   # GET /tasks/1 or /tasks/1.json
-  def show; end
+  def show
+    if @task.milestone&.is_public || @task.milestone&.user&.id == current_user.id
+      # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合
+    else
+      flash[:alert] = "このタスクは非公開です"
+      redirect_to user_check_path
+    end
+  end
 
   # GET /tasks/new
   def new
