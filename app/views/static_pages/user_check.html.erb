@@ -78,6 +78,8 @@
                       <p class="text-sm text-base-100">is_on_chart:</p>
                       <p class="text-lg text-primary"><%= milestone.is_on_chart%></p>
                     </div>
+
+                    <%= link_to "Show", milestone_path(milestone), class: "btn btn-secondary w-full text-base-200 mt-4" %>
                   </div>
                 <% end %>
               </div>
