@@ -16,7 +16,7 @@ class Milestone < ApplicationRecord
     total_tasks = tasks.length
 
     n = completed_tasks.to_f / total_tasks
-    percentage = (n * 100).round
+    (n * 100).round
   end
 
   def update_progress
