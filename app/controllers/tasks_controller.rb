@@ -1,8 +1,11 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
   # GET /tasks or /tasks.json
   def index
+    @title = "タスク一覧"
     @user = current_user
     @task = Task.new
     @milestones = @user.milestones
@@ -115,5 +118,15 @@ class TasksController < ApplicationController
                                  :start_date,
                                  :end_date,
                                  :milestone_id).merge(user_id: current_user.id)
+  end
+
+  def ensure_correct_user
+    task = Task.find(params[:id])
+    user = task.user
+
+    return if user.id == current_user.id
+
+    flash[:alert] = "アクセス権限がありません"
+    redirect_to user_path(current_user)
   end
 end
