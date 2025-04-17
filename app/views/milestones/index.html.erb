@@ -1,16 +1,38 @@
-<p style="color: green"><%= notice %></p>
+<div class="h-full w-full">
+  <!-- 月の画像 -->
+  <%= render 'title_header', title: @title %>
 
-<% content_for :title, "Milestones" %>
+  <!-- 内容表示部分 -->
+  <div class="relative z-10 min-h-screen space-y-5 rounded-t-[4rem] border-x-1 border-t-1 border-base-200 bg-base-300/30 p-8 text-center text-base-200 xl:text-xl">
 
-<h1>Milestones</h1>
+    <!-- フラッシュメッセージ -->
+    <%= render 'flash' %>
 
-<div id="milestones">
-  <% @milestones.each do |milestone| %>
-    <%= render milestone %>
-    <p>
-      <%= link_to "Show this milestone", milestone %>
-    </p>
-  <% end %>
-</div>
+    <div class="text-center text-3xl text-base-200">
+      <%= @user.name %>
+    </div>
 
-<%= link_to "New milestone", new_milestone_path %>
+
+    <!-- 表示部分 -->
+    <div class="flex w-full items-center justify-center mb-10">
+      <div class="tabs tabs-lift w-xl">
+        <input type="radio" name="my_tabs" class="tab" aria-label="作成中の星座" checked="checked"/>
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+          <!-- 星座 -->
+          <%= render "milestones", milestones: @not_completed_milestones, completed: false %>
+        </div>
+
+        <!-- 完成済みの星座 -->
+        <input type="radio" name="my_tabs" class="tab" aria-label="完成した星座" />
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+          <!-- 星座 -->
+          <%= render "milestones", milestones: @completed_milestones, completed: true %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="mt-10" >
+    <%= render "menu_bar" %>
+  </div>
