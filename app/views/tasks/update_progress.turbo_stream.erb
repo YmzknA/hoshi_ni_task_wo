@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "flash" do %>
+  <%= render "flash" %>
+<% end %>
+
+<%= turbo_stream.replace "progress_button_#{@task.id}" do %>
+  <%= render "progress_button", task: @task %>
+<% end %>
