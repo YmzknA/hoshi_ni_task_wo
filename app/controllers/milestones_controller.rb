@@ -1,6 +1,6 @@
 class MilestonesController < ApplicationController
   before_action :set_milestone, only: [:show, :edit, :update, :destroy]
-  before_action :ensure_correct_user, only: [:create, :edit, :update, :destroy]
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
   # GET /milestones or /milestones.json
   def index
