@@ -4,10 +4,13 @@ class TasksController < ApplicationController
   # GET /tasks or /tasks.json
   def index
     @user = current_user
+    @task = Task.new
+    @milestones = Milestone.all
     @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
     @not_started_tasks = @tasks.where(progress: :not_started)
     @in_progress_tasks = @tasks.where(progress: :in_progress)
     @completed_tasks = @tasks.where(progress: :completed)
+    @not_completed_tasks = @tasks.where.not(progress: :completed)
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -23,6 +26,7 @@ class TasksController < ApplicationController
   # GET /tasks/new
   def new
     @task = Task.new
+    @milestones = Milestone.all
   end
 
   # GET /tasks/1/edit
@@ -33,19 +37,27 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
-      task_milestone = Milestone.find_by(id: @task.milestone_id)
+      task_milestone = @task.milestone
       task_milestone&.update_progress
 
       flash[:notice] = "タスクを作成しました"
-      redirect_to user_check_path
+      redirect_to tasks_path
     else
+      # タスクの作成に失敗した場合、モーダルを開いた状態でタスク一覧を表示
+      # indexをrenderすることで、@taskがnilにならないようにする
+      # indexに渡すインスタンス変数は、@taskを除いてすべて同じ
       @task_new_modal_open = true
-      @milestone = Milestone.new
+      @user = current_user
       @milestones = Milestone.all
-      @tasks = Task.all
+      @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
+      @not_started_tasks = @tasks.where(progress: :not_started)
+      @in_progress_tasks = @tasks.where(progress: :in_progress)
+      @completed_tasks = @tasks.where(progress: :completed)
+      @not_completed_tasks = @tasks.where.not(progress: :completed)
+      @milestone = Milestone.new
 
       flash.now[:alert] = "タスクの作成に失敗しました"
-      render "static_pages/user_check", status: :unprocessable_entity
+      render "tasks/index", status: :unprocessable_entity
     end
   end
 

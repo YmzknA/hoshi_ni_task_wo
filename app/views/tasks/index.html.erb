@@ -16,30 +16,55 @@
     <!-- 表示部分 -->
     <div class="flex w-full items-center justify-center mb-10">
       <div class="tabs tabs-lift w-xl">
-        <!-- すべてのタスク -->
-        <input type="radio" name="my_tabs" class="tab w-1/5" aria-label="すべて" checked="checked"/>
+        <!-- 未完了のタスク -->
+        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="未完了" checked="checked"/>
         <div class="tab-content border-base-300 bg-base-100 p-3">
           <!-- タスク -->
-          <%= render "tasks", tasks: @tasks, completed: false %>
+          <%= render "tasks", tasks: @not_completed_tasks %>
+
+          <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
+            <button class="size-full p-1 rounded-xl hover:bg-base-300/30 p-4" onclick="tasks_new_modal.showModal()">
+                <div class="flex items-center justify-center size-full">
+                  <span class="material-symbols-outlined">
+                    add_circle
+                  </span>
+                  追加
+                </div>
+            </button>
+          </div>
+
         </div>
 
         <!-- not_start -->
-        <input type="radio" name="my_tabs" class="tab w-1/5" aria-label="未着手" />
+        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="未着手" />
         <div class="tab-content border-base-300 bg-base-100 p-3">
           <!-- タスク -->
+          <%= render "tasks", tasks: @not_started_tasks %>
         </div>
 
         <!-- in_progress -->
-        <input type="radio" name="my_tabs" class="tab w-1/5" aria-label="進行中" />
+        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="進行中" />
         <div class="tab-content border-base-300 bg-base-100 p-3">
           <!-- タスク -->
+          <%= render "tasks", tasks: @in_progress_tasks %>
         </div>
 
         <!-- completed -->
-        <input type="radio" name="my_tabs" class="tab w-1/5" aria-label="完了" />
+        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="完了" />
         <div class="tab-content border-base-300 bg-base-100 p-3">
           <!-- タスク -->
+          <%= render "tasks", tasks: @completed_tasks %>
         </div>
+
+        <!-- すべてのタスク -->
+        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="すべて" />
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+          <!-- タスク -->
+          <%= render "tasks", tasks: @tasks %>
+
+
+        </div>
+
       </div>
     </div>
   </div>
@@ -48,3 +73,4 @@
   <div class="mt-10" >
     <%= render "menu_bar" %>
   </div>
+  <%= render "tasks/tasks_new_form", task: @task, milestones: @milestones %>
