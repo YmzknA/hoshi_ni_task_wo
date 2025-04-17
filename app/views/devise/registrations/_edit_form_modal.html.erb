@@ -1,7 +1,7 @@
 <!-- @modal_openはregistrations_controller.rbで定義 -->
 <!-- update失敗時にrender users/showを行う際にモーダルが閉じてしまうことを回避 -->
 <dialog id="edit_modal" class="modal" <%= @modal_open ? 'open' : ' ' %> >
-  <div class="modal-box">
+  <div class="modal-box max-h-[90vh]">
     <p class="pb-4 text-center">ESC or 下の(X)を押すと閉じます</p>
     <div class="flex items-center justify-center">
       <div class="card bg-base-300 w-2xl h-2xl p-5 flex justify-center z-10">
