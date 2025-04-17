@@ -36,8 +36,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_minimum_password_length
 
       @user = resource
+      user_milestones = current_user.milestones
       @title = "ユーザーページ"
       @modal_open = true
+      @not_completed_milestones = user_milestones.where.not(progress: "completed")
+      @completed_milestones = user_milestones.where(progress: "completed")
       render "users/show", status: :unprocessable_entity
     end
   end
