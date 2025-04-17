@@ -44,13 +44,6 @@
           <%= render "tasks", tasks: @completed_tasks %>
         </div>
 
-        <!-- すべてのタスク -->
-        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="すべて" />
-        <div class="tab-content border-base-300 bg-base-100 p-3">
-          <!-- タスク -->
-          <%= render "tasks", tasks: @tasks %>
-        </div>
-
       </div>
     </div>
   </div>
