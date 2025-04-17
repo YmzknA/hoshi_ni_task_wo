@@ -3,12 +3,16 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
+    @user = current_user
+    @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
+    @not_started_tasks = @tasks.where(progress: :not_started)
+    @in_progress_tasks = @tasks.where(progress: :in_progress)
+    @completed_tasks = @tasks.where(progress: :completed)
   end
 
   # GET /tasks/1 or /tasks/1.json
   def show
-    if @task.milestone&.is_public || @task.milestone&.user&.id == current_user.id
+    if @task.milestone&.is_public || current_user?(@task&.user)
       # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合
     else
       flash[:alert] = "このタスクは非公開です"

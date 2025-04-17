@@ -1,16 +1,50 @@
-<p style="color: green"><%= notice %></p>
+<div class="h-full w-full">
+  <!-- 月の画像 -->
+  <%= render 'title_header', title: @title %>
 
-<% content_for :title, "Tasks" %>
+  <!-- 内容表示部分 -->
+  <div class="relative z-10 min-h-screen space-y-5 rounded-t-[4rem] border-x-1 border-t-1 border-base-200 bg-base-300/30 p-8 text-center text-base-200 xl:text-xl">
 
-<h1>Tasks</h1>
+    <!-- フラッシュメッセージ -->
+    <%= render 'flash' %>
 
-<div id="tasks">
-  <% @tasks.each do |task| %>
-    <%= render task %>
-    <p>
-      <%= link_to "Show this task", task %>
-    </p>
-  <% end %>
-</div>
+    <div class="text-center text-3xl text-base-200">
+      <%= @user.name %>
+    </div>
 
-<%= link_to "New task", new_task_path %>
+
+    <!-- 表示部分 -->
+    <div class="flex w-full items-center justify-center mb-10">
+      <div class="tabs tabs-lift w-xl">
+        <!-- すべてのタスク -->
+        <input type="radio" name="my_tabs" class="tab w-1/5" aria-label="すべて" checked="checked"/>
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+          <!-- タスク -->
+          <%= render "tasks", tasks: @tasks, completed: false %>
+        </div>
+
+        <!-- not_start -->
+        <input type="radio" name="my_tabs" class="tab w-1/5" aria-label="未着手" />
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+          <!-- タスク -->
+        </div>
+
+        <!-- in_progress -->
+        <input type="radio" name="my_tabs" class="tab w-1/5" aria-label="進行中" />
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+          <!-- タスク -->
+        </div>
+
+        <!-- completed -->
+        <input type="radio" name="my_tabs" class="tab w-1/5" aria-label="完了" />
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+          <!-- タスク -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="mt-10" >
+    <%= render "menu_bar" %>
+  </div>
