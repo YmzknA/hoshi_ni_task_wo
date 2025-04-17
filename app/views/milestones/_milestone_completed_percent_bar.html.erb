@@ -1,9 +1,9 @@
 <!-- milestone: 必須, milestone_tasks: 必須 , bar_height: 無くても -->
-  <div class="flex px-5 justify-center items-center rounded-lg bg-primary w-full max-w-xl h-full">
+  <div class="flex justify-center items-center rounded-lg w-full max-w-xl h-full">
     <div class="flex justify-center">
       <%= render "star_icon", { color: milestone.color } %>
     </div>
-    <div class="ml-2 whitespace-nowrap text-center">
+    <div class="text-sm ml-2 whitespace-nowrap text-center">
       <%= milestone_tasks.select{ |t| t.progress == "completed" }.length%> / <%= milestone_tasks.length%>
     </div>
     <div class="flex justify-center items-center ml-4 h-full w-full">

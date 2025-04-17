@@ -34,6 +34,7 @@
             <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-secondary w-full text-base-200" %>
             <%= link_to "ユーザー詳細", user_path(current_user), class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
             <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
+            <%= link_to "星座一覧", milestones_path, class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
             <div class="divider my-4"></div>
             <button class="btn btn-accent rounded-lg" onclick="milestone_new_modal.showModal()">星座作製</button>
             <button class="btn btn-accent rounded-lg" onclick="tasks_new_modal.showModal()">タスク作製</button>
@@ -85,7 +86,7 @@
               </div>
 
 
-              <div>
+              <div class="mr-3">
                 <% @tasks.each do |task| %>
                   <div class="card bg-base-200 p-6 w-full max-w-md mb-4">
                     <div class="mb-4">
@@ -123,7 +124,32 @@
                   </div>
 
                 <% end %>
+
               </div>
+              <div>
+                <% @users.each do |user| %>
+                  <div class="card bg-base-200 p-6 w-full max-w-md mb-4">
+                    <div class="mb-4">
+                      <p class="text-sm text-base-100">User</p>
+                      <div class="divider my-1"></div>
+                    </div>
+
+                    <div class="text-left mb-4">
+                      <p class="text-sm text-base-100">ID:</p>
+                      <p class="text-lg text-primary"><%= user.id %></p>
+                    </div>
+
+                    <div class="text-left mb-4">
+                      <p class="text-sm text-base-100">Name:</p>
+                      <p class="text-lg text-primary"><%= user.name %></p>
+                    </div>
+
+                    <%= link_to "show", user_path(user), class: "btn btn-secondary w-full text-base-200 mt-4" %>
+
+                  </div>
+                <% end %>
+              </div>
+
             </div>
 
           <% else %>

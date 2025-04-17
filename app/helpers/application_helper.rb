@@ -12,4 +12,10 @@ module ApplicationHelper
 
     day_name_ja[d]
   end
+
+  def to_short_date(date)
+    return if date.nil?
+
+    "#{date.mon}/#{date.mday} (#{day_of_week(date)})"
+  end
 end

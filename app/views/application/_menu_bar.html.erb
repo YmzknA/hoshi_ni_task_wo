@@ -51,10 +51,10 @@
       <div class="divider"></div>
 
       <li>
-        <div class="flex items-center">
+        <%= link_to milestones_path, class: "flex items-center" do %>
           <%= render 'stars_icon' %>
           <p class="whitespace-nowrap"> 星座一覧 </p>
-        </div>
+        <% end %>
       </li>
 
       <li>
@@ -101,9 +101,11 @@
     <span class="dock-label mt-1">Tasks</span>
   </button>
 
-  <button class="p-2">
-    <%= render 'stars_icon' %>
-    <span class="dock-label">星座</span>
+  <button class="p-2 <%= "dock-active" if current_page?(milestones_path) %>">
+    <%= link_to milestones_path, class: "w-full flex flex-col items-center" do %>
+        <%= render 'stars_icon' %>
+      <span class="dock-label">星座一覧</span>
+    <% end %>
   </button>
 
   <% if user_signed_in? %>

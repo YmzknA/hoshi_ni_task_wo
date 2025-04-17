@@ -1,5 +1,6 @@
 <%= turbo_frame_tag "tasks_show_modal" do %>
   <div data-controller="show-modal">
+    <div data-show-modal-target="modal_top">
     <dialog data-show-modal-target="task_modal" id="tasks_show_modal" class="modal" <%= @task_new_modal_open ? 'open' : ' ' %> >
       <div class="modal-box">
         <p class="text-center pb-4">ESC or 下の(X)を押すと閉じます</p>
@@ -123,5 +124,6 @@
       </div>
 
     </dialog>
+    </div>
   </div>
 <% end %>

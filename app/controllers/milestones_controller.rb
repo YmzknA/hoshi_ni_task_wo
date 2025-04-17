@@ -1,19 +1,28 @@
 class MilestonesController < ApplicationController
   before_action :set_milestone, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
   # GET /milestones or /milestones.json
   def index
-    @milestones = Milestone.all
+    @user = current_user
+    @completed_milestones = @user.milestones.where(progress: "completed")
+    @not_completed_milestones = @user.milestones.where.not(progress: "completed")
+    @title = "星座一覧"
   end
 
   # GET /milestones/1 or /milestones/1.json
   def show
+    @title = if current_user?(@milestone.user)
+               "星座詳細"
+             else
+               "#{@milestone.user.name}さんの星座詳細"
+             end
+
     if @milestone.is_public || @milestone.user.id == current_user.id
-      @title = "星座詳細"
       @milestone_tasks = @milestone.tasks
     else
       flash[:alert] = "この星座は非公開です"
-      redirect_to user_check_path
+      redirect_to user_path(current_user)
     end
   end
 
@@ -37,6 +46,7 @@ class MilestonesController < ApplicationController
       @task = Task.new
       @tasks = Task.all
       @milestones = Milestone.all
+      @users = User.all
       flash.now[:alert] = "星座の作成に失敗しました"
       render "static_pages/user_check", status: :unprocessable_entity
     end
@@ -81,5 +91,15 @@ class MilestonesController < ApplicationController
       :start_date,
       :end_date
     ).merge(user_id: current_user.id)
+  end
+
+  def ensure_correct_user
+    milestone = Milestone.find(params[:id])
+    user = milestone.user
+
+    return if user.id == current_user.id
+
+    flash[:alert] = "アクセス権限がありません"
+    redirect_to user_path(current_user)
   end
 end
