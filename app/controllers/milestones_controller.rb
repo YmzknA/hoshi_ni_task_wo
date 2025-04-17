@@ -46,6 +46,7 @@ class MilestonesController < ApplicationController
       @task = Task.new
       @tasks = Task.all
       @milestones = Milestone.all
+      @users = User.all
       flash.now[:alert] = "星座の作成に失敗しました"
       render "static_pages/user_check", status: :unprocessable_entity
     end
