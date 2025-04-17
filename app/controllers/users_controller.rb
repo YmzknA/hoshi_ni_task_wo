@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     else
       @title = "ユーザーページ"
 
-      if current_user == @user
+      if current_user?(@user)
         @not_completed_milestones = @user.milestones.where.not(progress: "completed")
         @completed_milestones = @user.milestones.where(progress: "completed")
       else
