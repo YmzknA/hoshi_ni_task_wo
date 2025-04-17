@@ -3,7 +3,7 @@
   <% tasks.each do |task| %>
     <div class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
 
-      <div class="mb-4 flex w-full items-center text-left">
+      <div class="flex w-full items-center text-left">
         <%= link_to task_path(task), class: "w-full p-1 rounded-xl hover:bg-base-300/30", data: { turbo_frame: "tasks_show_modal"} do %>
           <!-- タイトル, 日付, マーク -->
           <div class="flex w-full">
