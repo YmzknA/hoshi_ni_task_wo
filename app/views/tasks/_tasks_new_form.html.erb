@@ -1,8 +1,8 @@
 <dialog id="tasks_new_modal" class="modal" <%= @task_new_modal_open ? 'open' : ' ' %> >
   <div class="modal-box">
     <p class="pb-4 text-center">ESC or 下の(X)を押すと閉じます</p>
-    <div class="flex items-center justify-center">
-      <div class="card bg-base-300 w-2xl h-2xl p-5 flex justify-center z-10">
+    <div class="flex w-full items-center justify-center">
+      <div class="card bg-base-300 w-full h-2xl p-3 flex justify-center z-10">
         <div>
 
           <!-- タイトルタブ -->
@@ -32,25 +32,26 @@
                 <span class="floating-label-text">Title</span>
             </label>
 
-          <div class="flex items-center justify-between mt-10">
-            <label class="floating-label">
+            <div class="flex justify-center">
+            <label class="input mt-10 w-47">
+              <span class="label text-base-200">Start Date</span>
               <%= f.date_field :start_date,
                 autocomplete: "Start Date",
                 placeholder: "Start Date",
-                class: "textarea textarea-lg w-full text-base-100 bg-base-200 rounded-lg" %>
-                <span class="floating-label-text">Start Date</span>
+                class: "text-base-200" %>
             </label>
+            </div>
 
-            <p class="text-2xl">~</p>
 
-            <label class="floating-label">
+            <div class="flex justify-center">
+            <label class="input mt-10 w-46">
+              <span class="label text-base-200">End Date  </span>
               <%= f.date_field :end_date,
                 autocomplete: "End Date",
                 placeholder: "End Date",
-                class: "textarea textarea-lg w-full text-base-100 bg-base-200 rounded-lg" %>
-                <span class="floating-label-text">End Date</span>
+                class: "text-base-200" %>
             </label>
-          </div>
+            </div>
 
             <label class="floating-label mt-10">
               <%= f.text_area :description,
