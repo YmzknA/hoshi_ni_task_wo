@@ -21,12 +21,7 @@
 
             <div class="ml-2 w-7/10">
               <p class="text-lg"><%= milestone.title %></p>
-
-              <% if milestone.start_date.present? && milestone.end_date.present? %>
-                <p class="text-sm"><%= to_short_date(milestone.start_date) %> ~ <%= to_short_date(milestone.end_date) %></p>
-              <% else %>
-                <p class="text-sm">未設定</p>
-              <% end %>
+                <p class="text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
             </div>
           </div>
 

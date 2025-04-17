@@ -3,12 +3,19 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
+    @user = current_user
+    @task = Task.new
+    @milestones = @user.milestones
+    @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
+    @not_started_tasks = @tasks.where(progress: :not_started)
+    @in_progress_tasks = @tasks.where(progress: :in_progress)
+    @completed_tasks = @tasks.where(progress: :completed)
+    @not_completed_tasks = @tasks.where.not(progress: :completed)
   end
 
   # GET /tasks/1 or /tasks/1.json
   def show
-    if @task.milestone&.is_public || @task.milestone&.user&.id == current_user.id
+    if @task.milestone&.is_public || current_user?(@task&.user)
       # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合
     else
       flash[:alert] = "このタスクは非公開です"
@@ -18,7 +25,9 @@ class TasksController < ApplicationController
 
   # GET /tasks/new
   def new
+    @user = current_user
     @task = Task.new
+    @milestones = @user.milestones
   end
 
   # GET /tasks/1/edit
@@ -29,19 +38,27 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
-      task_milestone = Milestone.find_by(id: @task.milestone_id)
+      task_milestone = @task.milestone
       task_milestone&.update_progress
 
       flash[:notice] = "タスクを作成しました"
-      redirect_to user_check_path
+      redirect_to tasks_path
     else
+      # タスクの作成に失敗した場合、モーダルを開いた状態でタスク一覧を表示
+      # indexをrenderすることで、@taskがnilにならないようにする
+      # indexに渡すインスタンス変数は、@taskを除いてすべて同じ
       @task_new_modal_open = true
+      @user = current_user
+      @milestones = @user.milestones
+      @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
+      @not_started_tasks = @tasks.where(progress: :not_started)
+      @in_progress_tasks = @tasks.where(progress: :in_progress)
+      @completed_tasks = @tasks.where(progress: :completed)
+      @not_completed_tasks = @tasks.where.not(progress: :completed)
       @milestone = Milestone.new
-      @milestones = Milestone.all
-      @tasks = Task.all
 
       flash.now[:alert] = "タスクの作成に失敗しました"
-      render "static_pages/user_check", status: :unprocessable_entity
+      render "tasks/index", status: :unprocessable_entity
     end
   end
 
@@ -65,6 +82,23 @@ class TasksController < ApplicationController
     respond_to do |format|
       format.html { redirect_to tasks_path, status: :see_other, notice: "Task was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def update_progress
+    @task = Task.find(params[:id])
+    @task.progress = if @task.progress == "not_started"
+                       "in_progress"
+                     elsif @task.progress == "in_progress"
+                       "completed"
+                     else
+                       "not_started"
+                     end
+
+    if @task.save
+      flash.now.notice = "タスクの進捗状況を更新しました"
+    else
+      flash.now.alert = "タスクの進捗状況の更新に失敗しました"
     end
   end
 

@@ -12,7 +12,8 @@ class StaticPagesController < ApplicationController
     @user = current_user if user_signed_in?
     @users = User.all
     @milestone = Milestone.new
-    @milestones = Milestone.all
+    @all_milestones = Milestone.all
+    @milestones = @user.milestones.includes(:tasks).order(created_at: :desc)
     @task = Task.new
     @tasks = Task.all
   end

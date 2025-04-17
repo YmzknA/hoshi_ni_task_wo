@@ -1,0 +1,42 @@
+<!-- 星座 -->
+<div class="mx-auto">
+  <% tasks.each do |task| %>
+    <div class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
+
+      <div class="flex w-full items-center text-left">
+        <%= link_to task_path(task), class: "w-full p-1 rounded-xl hover:bg-base-300/30", data: { turbo_frame: "tasks_show_modal"} do %>
+          <!-- タイトル, 日付, マーク -->
+          <div class="flex w-full">
+              <div class="flex items-center">
+                <%= render "star_icon", color: task.milestone&.color %>
+              </div>
+
+            <div class="ml-2 w-7/10">
+              <p class="text-lg"><%= task.title %></p>
+
+              <p class="text-sm"><%= to_short_date(task.start_date) %> ~ <%= to_short_date(task.end_date) %></p>
+            </div>
+          </div>
+
+          <!-- 詳細 -->
+          <div class="text-left mt-1">
+            <% if task.description.present? %>
+              <p class="text-lg"><%= task.description.truncate(20) %></p>
+            <% else %>
+              <p class="text-lg">詳細はありません</p>
+            <% end %>
+          </div>
+
+
+        <% end %>
+
+        <% if current_user?(task.user) %>
+          <!-- progressボタン -->
+          <%= render "progress_button", task: task %>
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+</div>
+
