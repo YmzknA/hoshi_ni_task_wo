@@ -1,52 +1,52 @@
 <%= turbo_frame_tag "tasks_show_modal" do %>
   <div data-controller="show-modal">
     <div data-show-modal-target="modal_top">
-    <dialog data-show-modal-target="task_modal" id="tasks_show_modal" class="modal" <%= @task_new_modal_open ? 'open' : ' ' %> >
-      <div class="modal-box">
-        <p class="text-center pb-4">ESC or 下の(X)を押すと閉じます</p>
-        <div class="flex w-full items-center justify-center">
-          <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
-            <div>
+      <dialog data-show-modal-target="task_modal" id="tasks_show_modal" class="modal" <%= @task_new_modal_open ? 'open' : ' ' %> >
+        <div class="modal-box">
+          <p class="text-center pb-4">ESC or 画面外を押すと閉じます</p>
+          <div class="flex w-full items-center justify-center">
+            <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
+              <div>
 
-              <!-- エラーメッセージ -->
-              <%= render "error_messages", resource: @task%>
+                <!-- エラーメッセージ -->
+                <%= render "error_messages", resource: @task%>
 
-              <!-- タスク詳細表示 -->
-              <div class="space-y-5">
-                <div class="flex items-center justify-center text-secondary">
-                  <p class="text-xl">詳細</p>
-                </div>
-
-                <!-- マイルストーン -->
-                <% if @task.milestone.present? %>
-                  <div class="flex items-center justify-center text-xl">
-                    <div class="mr-2">
-                      <%= render "stars_icon", { width: 35, height: 35, color: @task.milestone.color } %>
-                    </div>
-                    <%= @task.milestone.title %>
+                <!-- タスク詳細表示 -->
+                <div class="space-y-5">
+                  <div class="flex items-center justify-center text-secondary">
+                    <p class="text-xl">詳細</p>
                   </div>
-                <% else %>
-                  <div class="flex items-center justify-center text-xl">
-                    <div class="mr-2">
-                      <%= render "stars_icon", { width: 35, height: 35 } %>
-                    </div>
-                    星座未設定
-                  </div>
-                <% end %>
 
-                <!-- タイトル -->
-                <div class="flex w-full items-center justify-center">
-                  <div class="card w-full text-neutral">
+                  <!-- マイルストーン -->
+                  <% if @task.milestone.present? %>
+                    <div class="flex items-center justify-center text-xl">
+                      <div class="mr-2">
+                        <%= render "stars_icon", { width: 35, height: 35, color: @task.milestone.color } %>
+                      </div>
+                      <%= @task.milestone.title %>
+                    </div>
+                  <% else %>
+                    <div class="flex items-center justify-center text-xl">
+                      <div class="mr-2">
+                        <%= render "stars_icon", { width: 35, height: 35 } %>
+                      </div>
+                      星座未設定
+                    </div>
+                  <% end %>
+
+                  <!-- タイトル -->
+                  <div class="flex w-full items-center justify-center">
+                    <div class="card w-full text-neutral">
                       <p class="card-title h-5 pl-2 text-sm text-primary">Title</p>
                       <div class="flex w-full items-center justify-center rounded-xl bg-primary p-3">
                         <%= @task.title %>
                       </div>
+                    </div>
                   </div>
-                </div>
 
 
-                <!-- 期間 -->
-                <% if @task.start_date.present? || @task.end_date.present? %>
+                  <!-- 期間 -->
+                  <% if @task.start_date.present? || @task.end_date.present? %>
                     <div class="flex w-full justify-between px-5 text-neutral">
                       <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
                         <div>
@@ -70,48 +70,48 @@
                         </div>
                       </div>
                     </div>
-                <% else %>
-                  <div class="flex w-full justify-center">
-                    <div class="card w-full bg-primary p-10 text-neutral">
-                      日付は設定されていません
+                  <% else %>
+                    <div class="flex w-full justify-center">
+                      <div class="card w-full bg-primary p-10 text-neutral">
+                        日付は設定されていません
+                      </div>
                     </div>
-                  </div>
-                <% end %>
+                  <% end %>
 
-                <!-- 説明 -->
-                <div class="flex w-full items-center justify-center">
-                  <div class="card w-full text-neutral">
+                  <!-- 説明 -->
+                  <div class="flex w-full items-center justify-center">
+                    <div class="card w-full text-neutral">
                       <p class="card-title h-5 pl-2 text-sm text-primary">Description</p>
                       <div class="flex min-h-24 w-full items-center justify-center rounded-xl bg-primary p-3">
-                          <%= @task.description.present? ? @task.description : "説明はありません" %>
+                        <%= @task.description.present? ? @task.description : "説明はありません" %>
                       </div>
+                    </div>
                   </div>
-                </div>
 
-                <!-- 進捗状況 -->
-                <div class="flex w-full items-center justify-center">
-                  <div class="card w-full text-neutral">
+                  <!-- 進捗状況 -->
+                  <div class="flex w-full items-center justify-center">
+                    <div class="card w-full text-neutral">
                       <p class="card-title h-5 pl-2 text-sm text-primary">Progress</p>
                       <div class="flex w-full items-center justify-center rounded-xl bg-primary p-3">
                         <%= @task.progress.humanize %>
                       </div>
+                    </div>
+                  </div>
+
+                  <!-- アクションボタン -->
+                  <div class="flex h-12 w-full mt-10 justify-center text-neutral">
+                    <div class="btn btn-error mr-5 h-12 w-25 md:w-42">
+                      削除
+                    </div>
+                    <div class="btn btn-accent h-12 w-25 md:w-42">
+                      編集
+                    </div>
                   </div>
                 </div>
 
-                <!-- アクションボタン -->
-                <div class="flex h-12 w-full mt-10 justify-center text-neutral">
-                  <div class="btn btn-error mr-5 h-12 w-25 md:w-42">
-                    削除
-                  </div>
-                  <div class="btn btn-accent h-12 w-25 md:w-42">
-                    編集
-                  </div>
-                </div>
               </div>
-
-              </div>
+            </div>
           </div>
-        </div>
         <div class="modal-action flex justify-center">
           <form method="dialog">
             <button class="btn btn-accent px-9">
@@ -121,9 +121,12 @@
             </button>
           </form>
         </div>
-      </div>
+        </div>
 
-    </dialog>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </div>
   </div>
 <% end %>
