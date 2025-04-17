@@ -84,6 +84,23 @@ class TasksController < ApplicationController
     end
   end
 
+  def update_progress
+    @task = Task.find(params[:id])
+    @task.progress = if @task.progress == "not_started"
+                       "in_progress"
+                     elsif @task.progress == "in_progress"
+                       "completed"
+                     else
+                       "not_started"
+                     end
+
+    if @task.save
+      flash.now.notice = "タスクの進捗状況を更新しました"
+    else
+      flash.now.alert = "タスクの進捗状況の更新に失敗しました"
+    end
+  end
+
   private
 
   def set_task

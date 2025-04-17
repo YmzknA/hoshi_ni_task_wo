@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :tasks
+  resources :tasks do
+    patch "update_progress", on: :member
+  end
+
   resources :milestones
   devise_for :users, controllers: {
     registrations: "users/registrations",

@@ -31,15 +31,8 @@
         <% end %>
 
         <% if current_user?(task.user) %>
-          <!-- 完了ボタン -->
-          <div class="flex w-3/10 max-w-20 justify-end">
-            <%= link_to user_check_path, class: "btn btn-base-200 flex w-full h-auto aspect-square flex-col items-center justify-center rounded-xl" do %>
-              <%= render "milestones/complete_stars_icon", color: task.milestone&.color %>
-              <div class="text-xs text-base-100 whitespace-nowrap">
-                完了する
-              </div>
-            <% end %>
-          </div>
+          <!-- progressボタン -->
+          <%= render "progress_button", task: task %>
         <% end %>
       </div>
 
