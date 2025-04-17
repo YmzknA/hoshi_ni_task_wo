@@ -42,7 +42,7 @@
 
         <% end %>
 
-        <% if !completed && milestone.completed_tasks_percentage == 100 %>
+        <% if !completed && milestone.completed_tasks_percentage == 100 && current_user?(milestone.user) %>
           <!-- 完了ボタン -->
           <div class="flex w-3/10 max-w-20 justify-end">
             <%= link_to user_check_path, class: "btn btn-base-200 flex  w-full h-auto aspect-square flex-col items-center justify-center rounded-xl" do %>
