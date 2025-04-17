@@ -17,7 +17,7 @@
 
     <!-- 表示部分 -->
     <div class="flex w-full items-center justify-center mb-10">
-      <div class="tabs tabs-lift tabs-sm w-xl">
+      <div class="tabs tabs-lift w-xl">
         <!-- 未完了のタスク -->
         <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="未完了" checked="checked"/>
         <div class="tab-content border-base-300 bg-base-100 p-3">
@@ -37,20 +37,6 @@
 
         </div>
 
-        <!-- not_start -->
-        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="未着手" />
-        <div class="tab-content border-base-300 bg-base-100 p-3">
-          <!-- タスク -->
-          <%= render "tasks", tasks: @not_started_tasks %>
-        </div>
-
-        <!-- in_progress -->
-        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="進行中" />
-        <div class="tab-content border-base-300 bg-base-100 p-3">
-          <!-- タスク -->
-          <%= render "tasks", tasks: @in_progress_tasks %>
-        </div>
-
         <!-- completed -->
         <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="完了" />
         <div class="tab-content border-base-300 bg-base-100 p-3">
@@ -63,8 +49,6 @@
         <div class="tab-content border-base-300 bg-base-100 p-3">
           <!-- タスク -->
           <%= render "tasks", tasks: @tasks %>
-
-
         </div>
 
       </div>
