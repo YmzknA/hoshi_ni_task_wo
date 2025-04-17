@@ -5,6 +5,7 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
+    @title = "タスク一覧"
     @user = current_user
     @task = Task.new
     @milestones = @user.milestones
