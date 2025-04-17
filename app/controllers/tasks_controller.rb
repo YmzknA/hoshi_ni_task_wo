@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   def index
     @user = current_user
     @task = Task.new
-    @milestones = Milestone.all
+    @milestones = @user.milestones
     @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
     @not_started_tasks = @tasks.where(progress: :not_started)
     @in_progress_tasks = @tasks.where(progress: :in_progress)
@@ -25,8 +25,9 @@ class TasksController < ApplicationController
 
   # GET /tasks/new
   def new
+    @user = current_user
     @task = Task.new
-    @milestones = Milestone.all
+    @milestones = @user.milestones
   end
 
   # GET /tasks/1/edit
@@ -48,7 +49,7 @@ class TasksController < ApplicationController
       # indexに渡すインスタンス変数は、@taskを除いてすべて同じ
       @task_new_modal_open = true
       @user = current_user
-      @milestones = Milestone.all
+      @milestones = @user.milestones
       @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
       @not_started_tasks = @tasks.where(progress: :not_started)
       @in_progress_tasks = @tasks.where(progress: :in_progress)

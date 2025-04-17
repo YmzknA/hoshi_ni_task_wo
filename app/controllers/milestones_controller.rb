@@ -44,7 +44,7 @@ class MilestonesController < ApplicationController
     else
       @milestone_new_modal_open = true
       @task = Task.new
-      @tasks = Task.all
+      @tasks = current_user.tasks.includes(:milestone).order(created_at: :desc)
       @milestones = Milestone.all
       @users = User.all
       flash.now[:alert] = "星座の作成に失敗しました"
