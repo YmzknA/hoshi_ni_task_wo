@@ -58,10 +58,12 @@
       </li>
 
       <li>
-        <div class="flex items-center">
-          <%= render 'tasks_icon' %>
+        <%= link_to tasks_path, class: "flex items-center" do %>
+          <div class="pt-1">
+            <%= render 'tasks_icon' %>
+          </div>
           <p class="whitespace-nowrap"> タスク一覧 </p>
-        </div>
+        <% end %>
       </li>
 
       <li>
@@ -89,19 +91,23 @@
     </ul>
   </div>
 
-  <button class="p-2">
+  <button class="">
     <span class="material-symbols-outlined">
       stacked_bar_chart
     </span>
     <span class="dock-label">Chart</span>
   </button>
 
-  <button class="p-2">
-    <%= render 'tasks_icon' %>
-    <span class="dock-label mt-1">Tasks</span>
+  <button class="<%= "dock-active" if current_page?(tasks_path) %>">
+    <%= link_to tasks_path, class: "w-full flex flex-col items-center" do %>
+      <div class="pt-1">
+        <%= render 'tasks_icon' %>
+      </div>
+      <span class="dock-label">Tasks</span>
+    <% end %>
   </button>
 
-  <button class="p-2 <%= "dock-active" if current_page?(milestones_path) %>">
+  <button class="<%= "dock-active" if current_page?(milestones_path) %>">
     <%= link_to milestones_path, class: "w-full flex flex-col items-center" do %>
         <%= render 'stars_icon' %>
       <span class="dock-label">星座一覧</span>
@@ -110,7 +116,7 @@
 
   <% if user_signed_in? %>
 
-  <button class="p-2 <%= "dock-active" if current_page?(user_path(current_user)) %>">
+  <button class="<%= "dock-active" if current_page?(user_path(current_user)) %>">
     <%= link_to user_path(current_user), class:"w-full flex flex-col items-center" do %>
       <span class="material-symbols-outlined">
         person
@@ -121,7 +127,7 @@
 
   <% else %>
 
-  <button class="p-2">
+  <button class="">
     <%= link_to new_user_session_path, class:"w-full flex flex-col items-center" do %>
       <span class="material-symbols-outlined">
         person
