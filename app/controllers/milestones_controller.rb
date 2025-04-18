@@ -20,11 +20,11 @@ class MilestonesController < ApplicationController
                "#{@milestone.user.name}さんの星座詳細"
              end
 
-    if @milestone.is_public || @milestone.user.id == current_user.id
+    if @milestone.is_public || current_user?(@milestone.user)
       @milestone_tasks = @milestone.tasks
     else
       flash[:alert] = "この星座は非公開です"
-      redirect_to user_path(current_user)
+      redirect_to milestones_path
     end
   end
 
