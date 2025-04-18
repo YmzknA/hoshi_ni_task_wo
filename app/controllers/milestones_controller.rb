@@ -20,11 +20,11 @@ class MilestonesController < ApplicationController
                "#{@milestone.user.name}さんの星座詳細"
              end
 
-    if @milestone.is_public || @milestone.user.id == current_user.id
+    if @milestone.is_public || current_user?(@milestone.user)
       @milestone_tasks = @milestone.tasks
     else
       flash[:alert] = "この星座は非公開です"
-      redirect_to user_path(current_user)
+      redirect_to milestones_path
     end
   end
 
@@ -56,14 +56,14 @@ class MilestonesController < ApplicationController
 
   # PATCH/PUT /milestones/1 or /milestones/1.json
   def update
-    respond_to do |format|
-      if @milestone.update(milestone_params)
-        format.html { redirect_to @milestone, notice: "Milestone was successfully updated." }
-        format.json { render :show, status: :ok, location: @milestone }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @milestone.errors, status: :unprocessable_entity }
-      end
+    if @milestone.update(milestone_params)
+      redirect_to @milestone, notice: "星座を更新しました"
+    else
+      @title = "星座詳細"
+      @milestone_edit_modal_open = true
+      @milestone_tasks = @milestone.tasks
+      flash.now[:alert] = "星座の更新に失敗しました"
+      render "milestones/show", status: :unprocessable_entity
     end
   end
 
