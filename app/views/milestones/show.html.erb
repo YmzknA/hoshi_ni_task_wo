@@ -122,9 +122,27 @@
 
       <!-- タスク -->
       <input type="radio" name="my_tabs" class="tab" aria-label="タスク" />
-      <div class="tab-content border-base-300 bg-base-100 p-3">
-        <%= render "tasks/tasks", tasks: @milestone_tasks %>
-      </div>
+      <% if @milestone_tasks.present? %>
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+          <%= render "tasks/tasks", tasks: @milestone_tasks %>
+
+          <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
+            <button class="size-full p-1 rounded-xl hover:cursor-pointer hover:bg-base-300/30 p-4" onclick="tasks_new_modal.showModal()">
+                <div class="flex items-center justify-center size-full">
+                  <span class="material-symbols-outlined">
+                    add_circle
+                  </span>
+                  追加
+                </div>
+            </button>
+          </div>
+
+        </div>
+      <% else %>
+        <div class="tab-content border-base-300 bg-base-100 px-3 py-10">
+          この星座にタスクは存在しません
+        </div>
+      <% end %>
     </div>
 
   </div>
@@ -137,6 +155,9 @@
 
 <% if current_user?(@milestone.user) %>
   <%= render 'milestones/milestone_edit_form', milestone: @milestone %>
+  <%= render "tasks/tasks_new_form", task: @task, milestones: [@milestone] %>
+  <%= turbo_frame_tag "task_edit_modal" %>
 <% end %>
 
+<%= turbo_frame_tag "tasks_show_modal" %>
 
