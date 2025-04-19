@@ -21,7 +21,6 @@ class MilestonesController < ApplicationController
              end
 
     if @milestone.is_public || current_user?(@milestone.user)
-      @from_milestone_show = true
       @milestone_tasks = @milestone.tasks
       @task = Task.new
     else
