@@ -73,7 +73,7 @@ class TasksController < ApplicationController
 
     if @task.update(task_params)
       # タスクの更新に成功した場合、タスク詳細を表示
-      @task_show_modal_open = true
+      @tasks_show_modal_open = true
       flash.now[:notice] = "タスクを更新しました"
     else
       # タスクの更新に失敗した場合、editモーダルを開いた状態でタスク一覧を表示

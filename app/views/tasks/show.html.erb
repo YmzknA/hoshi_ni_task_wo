@@ -2,7 +2,7 @@
 <%= turbo_frame_tag "tasks_show_modal" do %>
   <div data-controller="show-modal">
     <div data-show-modal-target="modal_top">
-      <dialog data-show-modal-target="task_modal" id="tasks_show_modal" class="modal" <%= @task_show_modal_open ? 'open' : ' ' %> >
+      <dialog data-show-modal-target="task_modal" id="tasks_show_modal" class="modal" <%= @tasks_show_modal_open ? 'open' : ' ' %> >
 
         <!-- _tasks_show_modal.html.erbも同様に編集する -->
         <!-- まずはturbo_frame_tagを使ってtasks/showでモーダルの部分を表示 -->

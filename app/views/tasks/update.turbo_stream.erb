@@ -13,7 +13,7 @@
   <% end %>
 
   <%= turbo_stream.replace "tasks_show_modal" do %>
-    <%= render "tasks_show_modal", task: @task, task_show_modal_open: @task_show_modal_open %>
+    <%= render "tasks_show_modal", task: @task, tasks_show_modal_open: @tasks_show_modal_open %>
   <% end %>
 
   <%= turbo_stream.replace "tasks_update_replace_task_#{@task.id}" do %>
