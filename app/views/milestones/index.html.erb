@@ -18,8 +18,22 @@
     <!-- 表示部分 -->
     <div class="flex w-full items-center justify-center mb-10">
       <div class="tabs tabs-lift w-xl">
+
+        <!-- 作成中の星座 -->
         <input type="radio" name="my_tabs" class="tab" aria-label="作成中の星座" checked="checked"/>
         <div class="tab-content border-base-300 bg-base-100 p-3">
+
+          <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
+            <button class="size-full p-4 rounded-xl hover:cursor-pointer hover:bg-base-300/30" onclick="milestones_new_modal.showModal()">
+              <div class="flex items-center justify-center size-full">
+                <span class="material-symbols-outlined">
+                  add_circle
+                </span>
+                追加
+              </div>
+            </button>
+          </div>
+
           <!-- 星座 -->
           <%= render "milestones", milestones: @not_completed_milestones, completed: false %>
         </div>
@@ -30,6 +44,7 @@
           <!-- 星座 -->
           <%= render "milestones", milestones: @completed_milestones, completed: true %>
         </div>
+
       </div>
     </div>
   </div>
@@ -38,3 +53,5 @@
   <div class="mt-10" >
     <%= render "menu_bar" %>
   </div>
+
+  <%= render "milestones/milestones_new_modal", milestone: @milestone %>

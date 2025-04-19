@@ -7,8 +7,9 @@ class MilestonesController < ApplicationController
   def index
     @user = current_user
     user_milestones = @user.milestones
-    @completed_milestones = user_milestones.where(progress: "completed")
-    @not_completed_milestones = user_milestones.where&.not(progress: "completed")
+    @milestone = Milestone.new
+    @completed_milestones = user_milestones.where(progress: "completed")&.order(created_at: :desc)
+    @not_completed_milestones = user_milestones.where&.not(progress: "completed")&.order(created_at: :desc)
     @title = "星座一覧"
   end
 
@@ -43,15 +44,17 @@ class MilestonesController < ApplicationController
 
     if @milestone.save
       flash[:notice] = "星座を作成しました"
-      redirect_to user_check_path
+      redirect_to milestones_path
     else
+      @user = current_user
+      user_milestones = @user.milestones
+      @completed_milestones = user_milestones.where(progress: "completed")&.order(created_at: :desc)
+      @not_completed_milestones = user_milestones.where&.not(progress: "completed")&.order(created_at: :desc)
+      @title = "星座一覧"
       @milestones_new_modal_open = true
-      @task = Task.new
-      @tasks = current_user.tasks.includes(:milestone).order(created_at: :desc)
-      @milestones = Milestone.all
-      @users = User.all
+
       flash.now[:alert] = "星座の作成に失敗しました"
-      render "static_pages/user_check", status: :unprocessable_entity
+      render :index, status: :unprocessable_entity
     end
   end
 
