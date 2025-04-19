@@ -113,7 +113,8 @@
     <% end %>
 
     <!-- タスクの表示部分 -->
-    <div class="tabs tabs-lift">
+    <div class="flex w-full items-center justify-center mb-10">
+    <div class="tabs tabs-lift w-xl">
       <!-- チャート -->
       <input type="radio" name="my_tabs" class="tab" aria-label="チャート" checked="checked"  />
       <div class="tab-content border-base-300 bg-base-100 p-6">
@@ -124,9 +125,10 @@
 
       <!-- タスク -->
       <input type="radio" name="my_tabs" class="tab" aria-label="タスク" />
-      <% if @milestone_tasks.present? %>
-        <div class="tab-content border-base-300 bg-base-100 p-3">
+      <div class="tab-content border-base-300 bg-base-100 p-3">
 
+        <% if current_user?(@milestone.user) %>
+          <!-- 新規作成ボタン -->
           <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
             <%= link_to new_task_path(milestone_from_milestone_show: @milestone), class: "size-full p-1 rounded-xl hover:cursor-pointer hover:bg-base-300/30 p-4", data: { turbo_frame: "tasks_new_modal"} do %>
               <div class="flex items-center justify-center size-full">
@@ -137,17 +139,15 @@
               </div>
             <% end %>
           </div>
+        <% end %>
 
-          <%= render "tasks/tasks", tasks: @milestone_tasks %>
+        <!-- タスク一覧 -->
+        <%= render "tasks/tasks", tasks: @milestone_tasks %>
 
         </div>
-      <% else %>
-        <div class="tab-content border-base-300 bg-base-100 px-3 py-10">
-          この星座にタスクは存在しません
-        </div>
-      <% end %>
     </div>
 
+  </div>
   </div>
 
   <!-- メニューバー -->
