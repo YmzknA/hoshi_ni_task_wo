@@ -4,7 +4,7 @@
 
   <% if @task_create_success %>
     <%= turbo_stream.replace "tasks_new_modal" do %>
-      <%= render "tasks_new_form", task: Task.new, milestones: @milestones %>
+      <%= render "tasks_new_modal", task: Task.new, milestones: @milestones %>
     <% end %>
 
     <%= turbo_stream.prepend "tasks_content" do %>
@@ -13,6 +13,6 @@
 
   <% else %>
     <%= turbo_stream.replace "tasks_new_modal" do %>
-      <%= render "tasks_new_form", task: @task, milestones: @milestones, task_edit_modal_open: @task_edit_modal_open %>
+      <%= render "tasks_new_modal", task: @task, milestones: @milestones, task_edit_modal_open: @task_edit_modal_open %>
     <% end %>
   <% end %>

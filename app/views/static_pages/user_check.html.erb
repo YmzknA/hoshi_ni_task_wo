@@ -173,5 +173,5 @@
   <%= render "menu_bar" %>
 </div>
 <%= render "milestones/milestone_new_form", milestone: @milestone %>
-<%= render "tasks/tasks_new_form", task: @task, milestones: @milestones %>
+<%= render "tasks/tasks_new_modal", task: @task, milestones: @milestones %>
 <%= turbo_frame_tag "tasks_show_modal" %>
