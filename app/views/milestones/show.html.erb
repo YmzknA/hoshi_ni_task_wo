@@ -158,7 +158,7 @@
 
 <% if current_user?(@milestone.user) %>
   <%= render 'milestones/milestone_edit_form', milestone: @milestone %>
-  <%= turbo_frame_tag "task_edit_modal" %>
+  <%= turbo_frame_tag "tasks_edit_modal" %>
   <%= turbo_frame_tag "tasks_new_modal" %>
 <% end %>
 

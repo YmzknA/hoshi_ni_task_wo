@@ -13,6 +13,6 @@
 
   <% else %>
     <%= turbo_stream.replace "tasks_new_modal" do %>
-      <%= render "tasks_new_modal", task: @task, milestones: @milestones, task_edit_modal_open: @task_edit_modal_open %>
+      <%= render "tasks_new_modal", task: @task, milestones: @milestones, tasks_edit_modal_open: @tasks_edit_modal_open %>
     <% end %>
   <% end %>
