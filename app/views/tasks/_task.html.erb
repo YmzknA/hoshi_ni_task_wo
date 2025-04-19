@@ -29,7 +29,7 @@
 
     <% if current_user?(task.user) %>
       <!-- progressボタン -->
-      <%= render "progress_button", task: task %>
+      <%= render "tasks/progress_button", task: task %>
     <% end %>
   </div>
 

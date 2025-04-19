@@ -112,6 +112,7 @@
 
     <!-- タスクの表示部分 -->
     <div class="tabs tabs-lift">
+      <!-- チャート -->
       <input type="radio" name="my_tabs" class="tab" aria-label="チャート" checked="checked"  />
       <div class="tab-content border-base-300 bg-base-100 p-6">
         <div class="overflow-x-auto">
@@ -119,8 +120,11 @@
         </div>
       </div>
 
+      <!-- タスク -->
       <input type="radio" name="my_tabs" class="tab" aria-label="タスク" />
-      <div class="tab-content border-base-300 bg-base-100 p-6">属するタスク一覧</div>
+      <div class="tab-content border-base-300 bg-base-100 p-3">
+        <%= render "tasks/tasks", tasks: @milestone_tasks %>
+      </div>
     </div>
 
   </div>
@@ -134,3 +138,5 @@
 <% if current_user?(@milestone.user) %>
   <%= render 'milestones/milestone_edit_form', milestone: @milestone %>
 <% end %>
+
+

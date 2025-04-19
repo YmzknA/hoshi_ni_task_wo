@@ -11,7 +11,7 @@
           </div>
 
           <!-- エラーメッセージ -->
-          <%= render "error_messages", resource: @task%>
+          <%= render "error_messages", resource: @task %>
 
           <!-- 編集フォーム -->
           <%= form_for(@task, as: @task, url: tasks_path, html: { method: :post, class: "w-full mt-6 p-2" }) do |f| %>

@@ -2,17 +2,17 @@
   <%= button_to update_progress_task_path(task), method: :patch, form: { data: { turbo: true } }, class: "btn btn-base-200 flex w-full h-auto aspect-square flex-col items-center justify-center rounded-xl" do %>
     <% if task.progress == "not_started" %>
       <div class="text-xs text-base-100 whitespace-nowrap">
-      <%= render "not_started_icon", color: task.milestone&.color %>
+      <%= render "tasks/not_started_icon", color: task.milestone&.color %>
       未着手
       </div>
     <% elsif task.progress == "in_progress" %>
       <div class="text-xs text-base-100 whitespace-nowrap">
-      <%= render "in_progress_icon", color: task.milestone&.color %>
+      <%= render "tasks/in_progress_icon", color: task.milestone&.color %>
       進行中
       </div>
     <% elsif task.progress == "completed" %>
       <div class="text-xs text-base-100 whitespace-nowrap">
-      <%= render "completed_icon", color: task.milestone&.color %>
+      <%= render "tasks/completed_icon", color: task.milestone&.color %>
       完了
       </div>
     <% end %>
