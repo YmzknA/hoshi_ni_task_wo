@@ -1,4 +1,11 @@
+<%= turbo_frame_tag "tasks_new_modal" do %>
 <dialog id="tasks_new_modal" class="modal" <%= @task_new_modal_open ? 'open' : ' ' %> >
+
+  <!-- tasks/new_modal.html.erbから編集する -->
+  <!-- まずはturbo_frame_tagを使ってtasks/newでモーダルの部分を表示 -->
+  <!-- tasks#createでturbo_stremasを使って、モーダルの部分を_tasks_new_modalファイルに置換しています -->
+
+  <!-- ここから貼り付け from "tasks/new.html.erb" -->
   <div class="modal-box max-h-[90vh]">
     <p class="pb-4 text-center">ESC or 下の(X)を押すと閉じます</p>
     <div class="flex w-full items-center justify-center">
@@ -96,6 +103,7 @@
       </form>
     </div>
   </div>
+  <!-- ここまで貼り付け from "tasks/new.html.erb" -->
 
 </dialog>
-
+<% end %>
