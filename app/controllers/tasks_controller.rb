@@ -10,8 +10,6 @@ class TasksController < ApplicationController
     @task = Task.new
     @milestones = @user.milestones
     @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-    @not_started_tasks = @tasks.where(progress: :not_started)
-    @in_progress_tasks = @tasks.where(progress: :in_progress)
     @completed_tasks = @tasks.where(progress: :completed)
     @not_completed_tasks = @tasks.where.not(progress: :completed)
   end
@@ -34,7 +32,10 @@ class TasksController < ApplicationController
   end
 
   # GET /tasks/1/edit
-  def edit; end
+  def edit
+    user = current_user
+    @milestones = user.milestones
+  end
 
   # POST /tasks or /tasks.json
   def create
@@ -54,27 +55,33 @@ class TasksController < ApplicationController
       @user = current_user
       @milestones = @user.milestones
       @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-      @not_started_tasks = @tasks.where(progress: :not_started)
-      @in_progress_tasks = @tasks.where(progress: :in_progress)
       @completed_tasks = @tasks.where(progress: :completed)
       @not_completed_tasks = @tasks.where.not(progress: :completed)
-      @milestone = Milestone.new
 
       flash.now[:alert] = "タスクの作成に失敗しました"
       render "tasks/index", status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /tasks/1 or /tasks/1.json
+  # turbo_streamでモーダルを更新している
   def update
-    respond_to do |format|
-      if @task.update(task_params)
-        format.html { redirect_to @task, notice: "Task was successfully updated." }
-        format.json { render :show, status: :ok, location: @task }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
-      end
+    if @task.update(task_params)
+      # タスクの更新に成功した場合、タスク詳細を表示
+      @task_show_modal_open = true
+      @user = current_user
+      @milestones = @user.milestones
+
+      flash.now[:notice] = "タスクを更新しました"
+    else
+      # タスクの更新に失敗した場合、editモーダルを開いた状態でタスク一覧を表示
+      @task_edit_modal_open = true
+      @user = current_user
+      @milestones = @user.milestones
+      @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
+      @completed_tasks = @tasks.where(progress: :completed)
+      @not_completed_tasks = @tasks.where.not(progress: :completed)
+
+      flash.now[:alert] = "タスクの更新に失敗しました"
     end
   end
 
