@@ -20,7 +20,7 @@ class TasksController < ApplicationController
       # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合
     else
       flash[:alert] = "このタスクは非公開です"
-      redirect_to user_check_path
+      redirect_to tasks_path
     end
   end
 
