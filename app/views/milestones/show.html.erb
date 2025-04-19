@@ -106,7 +106,7 @@
         <div class="btn btn-error mr-5 h-12 w-25 md:w-42">
           削除
         </div>
-        <button class="btn btn-accent h-12 w-25 md:w-42" onclick="milestone_edit_modal.showModal()">
+        <button class="btn btn-accent h-12 w-25 md:w-42" onclick="milestones_edit_modal.showModal()">
           編集
         </button>
       </div>
@@ -157,7 +157,7 @@
 </div>
 
 <% if current_user?(@milestone.user) %>
-  <%= render 'milestones/milestone_edit_form', milestone: @milestone %>
+  <%= render 'milestones/milestones_edit_modal', milestone: @milestone %>
   <%= turbo_frame_tag "tasks_edit_modal" %>
   <%= turbo_frame_tag "tasks_new_modal" %>
 <% end %>

@@ -61,7 +61,7 @@ class MilestonesController < ApplicationController
       redirect_to @milestone, notice: "星座を更新しました"
     else
       @title = "星座詳細"
-      @milestone_edit_modal_open = true
+      @milestones_edit_modal_open = true
       @milestone_tasks = @milestone.tasks
       flash.now[:alert] = "星座の更新に失敗しました"
       render "milestones/show", status: :unprocessable_entity
