@@ -45,7 +45,7 @@ class MilestonesController < ApplicationController
       flash[:notice] = "星座を作成しました"
       redirect_to user_check_path
     else
-      @milestone_new_modal_open = true
+      @milestones_new_modal_open = true
       @task = Task.new
       @tasks = current_user.tasks.includes(:milestone).order(created_at: :desc)
       @milestones = Milestone.all
@@ -61,7 +61,7 @@ class MilestonesController < ApplicationController
       redirect_to @milestone, notice: "星座を更新しました"
     else
       @title = "星座詳細"
-      @milestone_edit_modal_open = true
+      @milestones_edit_modal_open = true
       @milestone_tasks = @milestone.tasks
       flash.now[:alert] = "星座の更新に失敗しました"
       render "milestones/show", status: :unprocessable_entity

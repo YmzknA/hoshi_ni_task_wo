@@ -1,5 +1,5 @@
 <!-- stimulusを使用して、connect時にモーダルを開く -->
-<%= turbo_frame_tag "task_edit_modal" do %>
+<%= turbo_frame_tag "tasks_edit_modal" do %>
   <div data-controller="show-modal">
     <div data-show-modal-target="modal_top">
       <dialog data-show-modal-target="task_modal" class="modal" <%= @task_new_modal_open ? 'open' : ' ' %> >

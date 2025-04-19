@@ -1,11 +1,11 @@
   <!-- update成功時も失敗時も呼ばれる -->
-  <!-- 成功時は@task_edit_modal_openを渡していないのでedit_modalは閉じた状態でreplaceされる -->
-  <!-- 成功時は@task_show_modal_open: trueを渡しているのでshow_modalは開いた状態でreplaceされる -->
-  <!-- 失敗時は@task_edit_modal_open: trueを渡しているのでedit_modalは開いた状態でreplaceされる -->
-  <!-- 失敗時は@task_show_modal_open: 渡していないのでshow_modalは閉じた状態でreplaceされる -->
+  <!-- 成功時は@tasks_edit_modal_openを渡していないのでedit_modalは閉じた状態でreplaceされる -->
+  <!-- 成功時は@tasks_show_modal_open: trueを渡しているのでshow_modalは開いた状態でreplaceされる -->
+  <!-- 失敗時は@tasks_edit_modal_open: trueを渡しているのでedit_modalは開いた状態でreplaceされる -->
+  <!-- 失敗時は@tasks_show_modal_open: 渡していないのでshow_modalは閉じた状態でreplaceされる -->
 
-  <%= turbo_stream.replace "task_edit_modal" do %>
-    <%= render "task_edit_form", task: @task, milestones: @milestones, task_edit_modal_open: @task_edit_modal_open %>
+  <%= turbo_stream.replace "tasks_edit_modal" do %>
+    <%= render "tasks_edit_modal", task: @task, milestones: @milestones, tasks_edit_modal_open: @tasks_edit_modal_open %>
   <% end %>
 
   <%= turbo_stream.replace "flash" do %>
@@ -13,7 +13,7 @@
   <% end %>
 
   <%= turbo_stream.replace "tasks_show_modal" do %>
-    <%= render "tasks_show_modal", task: @task, task_show_modal_open: @task_show_modal_open %>
+    <%= render "tasks_show_modal", task: @task, tasks_show_modal_open: @tasks_show_modal_open %>
   <% end %>
 
   <%= turbo_stream.replace "tasks_update_replace_task_#{@task.id}" do %>
