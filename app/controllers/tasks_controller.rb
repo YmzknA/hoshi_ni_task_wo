@@ -14,7 +14,7 @@ class TasksController < ApplicationController
     @not_completed_tasks = @tasks.where.not(progress: :completed)
   end
 
-  # GET /tasks/1 or /tasks/1.json
+  # GET /tasks/1
   def show
     if @task.milestone&.is_public || current_user?(@task&.user)
       # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合
@@ -37,7 +37,7 @@ class TasksController < ApplicationController
     @milestones = user.milestones
   end
 
-  # POST /tasks or /tasks.json
+  # POST /tasks
   def create
     @task = Task.new(task_params)
 
@@ -49,9 +49,10 @@ class TasksController < ApplicationController
       redirect_to tasks_path
     else
       # タスクの作成に失敗した場合、モーダルを開いた状態でタスク一覧を表示
-      # indexをrenderすることで、@taskがnilにならないようにする
+      # indexをrenderすることで、@taskに編集内容が反映される
       # indexに渡すインスタンス変数は、@taskを除いてすべて同じ
       @task_new_modal_open = true
+      @title = "タスク一覧"
       @user = current_user
       @milestones = @user.milestones
       @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
@@ -65,22 +66,16 @@ class TasksController < ApplicationController
 
   # turbo_streamでモーダルを更新している
   def update
+    user = current_user
+    @milestones = user.milestones
+
     if @task.update(task_params)
       # タスクの更新に成功した場合、タスク詳細を表示
       @task_show_modal_open = true
-      @user = current_user
-      @milestones = @user.milestones
-
       flash.now[:notice] = "タスクを更新しました"
     else
       # タスクの更新に失敗した場合、editモーダルを開いた状態でタスク一覧を表示
       @task_edit_modal_open = true
-      @user = current_user
-      @milestones = @user.milestones
-      @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-      @completed_tasks = @tasks.where(progress: :completed)
-      @not_completed_tasks = @tasks.where.not(progress: :completed)
-
       flash.now[:alert] = "タスクの更新に失敗しました"
     end
   end
