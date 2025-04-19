@@ -5,7 +5,7 @@
   <!-- 失敗時は@task_show_modal_open: 渡していないのでshow_modalは閉じた状態でreplaceされる -->
 
   <%= turbo_stream.replace "task_edit_modal" do %>
-    <%= render "task_edit_form", task: @task, milestones: @milestones, task_edit_modal_open: @task_edit_modal_open %>
+    <%= render "tasks_edit_modal", task: @task, milestones: @milestones, task_edit_modal_open: @task_edit_modal_open %>
   <% end %>
 
   <%= turbo_stream.replace "flash" do %>
