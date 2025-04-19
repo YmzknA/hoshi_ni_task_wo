@@ -6,7 +6,9 @@
   <div class="relative z-10 min-h-screen space-y-5 rounded-t-[4rem] border-x-1 border-t-1 border-base-200 bg-base-300/30 p-8 text-center text-base-200 xl:text-xl">
 
     <!-- フラッシュメッセージ -->
-    <%= render 'flash' %>
+    <div id="flash" class="fixed m-5 top-0 left-0 right-0 z-50">
+      <%= render 'flash' %>
+    </div>
 
     <div class="text-center text-3xl text-base-200">
       <%= @user.name %>
