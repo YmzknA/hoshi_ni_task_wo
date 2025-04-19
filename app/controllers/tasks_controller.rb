@@ -28,7 +28,14 @@ class TasksController < ApplicationController
   def new
     @user = current_user
     @task = Task.new
-    @milestones = @user.milestones
+    if params[:milestone_from_milestone_show].present?
+      # マイルストーン詳細画面から遷移した場合
+      @from_milestone_show = true
+      @milestones = [Milestone.find(params[:milestone_from_milestone_show])]
+    else
+      @from_milestone_show = false
+      @milestones = @user.milestones
+    end
   end
 
   # GET /tasks/1/edit
@@ -45,22 +52,20 @@ class TasksController < ApplicationController
       task_milestone = @task.milestone
       task_milestone&.update_progress
 
+      @task_create_success = true
+      @milestones = current_user.milestones
+
       flash[:notice] = "タスクを作成しました"
-      redirect_to tasks_path
     else
       # タスクの作成に失敗した場合、モーダルを開いた状態でタスク一覧を表示
       # indexをrenderすることで、@taskに編集内容が反映される
       # indexに渡すインスタンス変数は、@taskを除いてすべて同じ
+      user = current_user
+      @task_create_success = false
       @task_new_modal_open = true
-      @title = "タスク一覧"
-      @user = current_user
-      @milestones = @user.milestones
-      @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-      @completed_tasks = @tasks.where(progress: :completed)
-      @not_completed_tasks = @tasks.where.not(progress: :completed)
+      @milestones = user.milestones
 
       flash.now[:alert] = "タスクの作成に失敗しました"
-      render "tasks/index", status: :unprocessable_entity
     end
   end
 
