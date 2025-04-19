@@ -28,10 +28,8 @@
             <div>
               <%= @milestone.start_date&.year %>年
             </div>
-            <div class="w-full text-2xl">
-              <%= @milestone.start_date&.mon %>月
-              <%= @milestone.start_date&.mday %>日
-              (<%= day_of_week(@milestone.start_date) %>)
+            <div class="w-full text-xl">
+              <%= to_short_date(@milestone.start_date) %>
             </div>
           </div>
           <div class="flex w-1/5 items-center justify-center">
@@ -39,10 +37,8 @@
           </div>
           <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
             <%= @milestone.end_date&.year %>年<br>
-            <div class="w-full text-2xl">
-              <%= @milestone.end_date&.mon %>月
-              <%= @milestone.end_date&.mday %>日
-              (<%= day_of_week(@milestone.end_date) %>)
+            <div class="w-full text-xl">
+              <%= to_short_date(@milestone.end_date) %>
             </div>
           </div>
         </div>
@@ -105,10 +101,10 @@
 
     <% if current_user?(@milestone.user) %>
       <div class="flex h-12 w-full justify-center text-neutral">
-        <div class="btn btn-error mr-5 h-12 w-42">
+        <div class="btn btn-error mr-5 h-12 w-25 md:w-42">
           削除
         </div>
-        <button class="btn btn-accent h-12 w-42" onclick="milestone_edit_modal.showModal()">
+        <button class="btn btn-accent h-12 w-25 md:w-42" onclick="milestone_edit_modal.showModal()">
           編集
         </button>
       </div>
