@@ -37,7 +37,7 @@
             <%= link_to "星座一覧", milestones_path, class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
             <%= link_to "タスク一覧", tasks_path, class: "btn btn-outline btn-secondary w-full text-base-200 mt-4" %>
             <div class="divider my-4"></div>
-            <button class="btn btn-accent rounded-lg" onclick="milestone_new_modal.showModal()">星座作製</button>
+            <button class="btn btn-accent rounded-lg" onclick="milestones_new_modal.showModal()">星座作製</button>
             <button class="btn btn-accent rounded-lg" onclick="tasks_new_modal.showModal()">タスク作製</button>
 
             <div class="divider my-4"></div>
@@ -172,6 +172,6 @@
 <div class="mt-20" >
   <%= render "menu_bar" %>
 </div>
-<%= render "milestones/milestone_new_form", milestone: @milestone %>
+<%= render "milestones/milestones_new_modal", milestone: @milestone %>
 <%= render "tasks/tasks_new_modal", task: @task, milestones: @milestones %>
 <%= turbo_frame_tag "tasks_show_modal" %>

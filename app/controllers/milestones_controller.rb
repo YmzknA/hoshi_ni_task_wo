@@ -45,7 +45,7 @@ class MilestonesController < ApplicationController
       flash[:notice] = "星座を作成しました"
       redirect_to user_check_path
     else
-      @milestone_new_modal_open = true
+      @milestones_new_modal_open = true
       @task = Task.new
       @tasks = current_user.tasks.includes(:milestone).order(created_at: :desc)
       @milestones = Milestone.all
