@@ -103,18 +103,20 @@
                   </div>
 
                   <!-- アクションボタン -->
-                  <div class="flex h-12 w-full mt-10 justify-center text-neutral">
-                    <div class="btn btn-error mr-5 h-12 w-25 md:w-42">
-                      削除
+                  <% if current_user?(@task.user) %>
+                    <div class="flex h-12 w-full mt-10 justify-center text-neutral">
+                      <div class="btn btn-error mr-5 h-12 w-25 md:w-42">
+                        削除
+                      </div>
+                      <div class="btn btn-accent h-12 w-25 md:w-42">
+                        <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center", data: { turbo_frame: "task_edit_modal"} do %>
+                          <p>
+                          編集
+                          </p>
+                        <% end %>
+                      </div>
                     </div>
-                    <div class="btn btn-accent h-12 w-25 md:w-42">
-                      <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center", data: { turbo_frame: "task_edit_modal"} do %>
-                        <p>
-                        編集
-                        </p>
-                      <% end %>
-                    </div>
-                  </div>
+                  <% end %>
                 </div>
 
               </div>

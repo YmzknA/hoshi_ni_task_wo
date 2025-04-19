@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
   # GET /tasks or /tasks.json
@@ -25,42 +25,44 @@ class TasksController < ApplicationController
   end
 
   # GET /tasks/new
+  # turbo_frameでモーダルを表示
   def new
-    @user = current_user
     @task = Task.new
-    @milestones = @user.milestones
+    if params[:milestone_from_milestone_show].present?
+      # マイルストーン詳細画面から遷移した場合
+      @from_milestone_show = true
+      @milestones = [Milestone.find(params[:milestone_from_milestone_show])]
+    else
+      # マイルストーン詳細画面から遷移していない場合
+      @from_milestone_show = false
+      @milestones = current_user.milestones
+    end
   end
 
   # GET /tasks/1/edit
   def edit
-    user = current_user
-    @milestones = user.milestones
+    @milestones = current_user.milestones
   end
 
   # POST /tasks
+  # turbo_streamでモーダルを更新
   def create
     @task = Task.new(task_params)
+    user = current_user
+    @milestones = user.milestones
 
     if @task.save
       task_milestone = @task.milestone
       task_milestone&.update_progress
 
+      @task_create_success = true
+
       flash[:notice] = "タスクを作成しました"
-      redirect_to tasks_path
     else
-      # タスクの作成に失敗した場合、モーダルを開いた状態でタスク一覧を表示
-      # indexをrenderすることで、@taskに編集内容が反映される
-      # indexに渡すインスタンス変数は、@taskを除いてすべて同じ
+      @task_create_success = false
       @task_new_modal_open = true
-      @title = "タスク一覧"
-      @user = current_user
-      @milestones = @user.milestones
-      @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-      @completed_tasks = @tasks.where(progress: :completed)
-      @not_completed_tasks = @tasks.where.not(progress: :completed)
 
       flash.now[:alert] = "タスクの作成に失敗しました"
-      render "tasks/index", status: :unprocessable_entity
     end
   end
 
@@ -114,19 +116,14 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title,
-                                 :description,
-                                 :progress,
-                                 :start_date,
-                                 :end_date,
-                                 :milestone_id).merge(user_id: current_user.id)
+    params.require(:task).permit(:title, :description, :progress,
+                                 :start_date, :end_date, :milestone_id).merge(user_id: current_user.id)
   end
 
   def ensure_correct_user
     task = Task.find(params[:id])
-    user = task.user
 
-    return if user.id == current_user.id
+    return if task.user.id == current_user.id
 
     flash[:alert] = "アクセス権限がありません"
     redirect_to user_path(current_user)

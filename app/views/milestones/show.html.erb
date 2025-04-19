@@ -6,7 +6,9 @@
   <div class="relative z-10 min-h-screen space-y-5 rounded-t-[4rem] border-x-1 border-t-1 border-base-200 bg-base-300/30 p-8 text-center text-lg md:text-xl">
 
     <!-- フラッシュメッセージ -->
-    <%= render 'flash' %>
+    <div id="flash" class="fixed m-5 top-0 left-0 right-0 z-50">
+      <%= render 'flash' %>
+    </div>
 
     <div class="flex items-center justify-center text-3xl">
       <div class="mr-2">
@@ -111,7 +113,9 @@
     <% end %>
 
     <!-- タスクの表示部分 -->
-    <div class="tabs tabs-lift">
+    <div class="flex w-full items-center justify-center mb-10">
+    <div class="tabs tabs-lift w-xl">
+      <!-- チャート -->
       <input type="radio" name="my_tabs" class="tab" aria-label="チャート" checked="checked"  />
       <div class="tab-content border-base-300 bg-base-100 p-6">
         <div class="overflow-x-auto">
@@ -119,10 +123,31 @@
         </div>
       </div>
 
+      <!-- タスク -->
       <input type="radio" name="my_tabs" class="tab" aria-label="タスク" />
-      <div class="tab-content border-base-300 bg-base-100 p-6">属するタスク一覧</div>
+      <div class="tab-content border-base-300 bg-base-100 p-3">
+
+        <% if current_user?(@milestone.user) %>
+          <!-- 新規作成ボタン -->
+          <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
+            <%= link_to new_task_path(milestone_from_milestone_show: @milestone), class: "size-full p-1 rounded-xl hover:cursor-pointer hover:bg-base-300/30 p-4", data: { turbo_frame: "tasks_new_modal"} do %>
+              <div class="flex items-center justify-center size-full">
+                <span class="material-symbols-outlined">
+                  add_circle
+                </span>
+                追加
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <!-- タスク一覧 -->
+        <%= render "tasks/tasks", tasks: @milestone_tasks %>
+
+        </div>
     </div>
 
+  </div>
   </div>
 
   <!-- メニューバー -->
@@ -133,4 +158,9 @@
 
 <% if current_user?(@milestone.user) %>
   <%= render 'milestones/milestone_edit_form', milestone: @milestone %>
+  <%= turbo_frame_tag "task_edit_modal" %>
+  <%= turbo_frame_tag "tasks_new_modal" %>
 <% end %>
+
+<%= turbo_frame_tag "tasks_show_modal" %>
+

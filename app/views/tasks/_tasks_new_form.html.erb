@@ -1,4 +1,11 @@
+<%= turbo_frame_tag "tasks_new_modal" do %>
 <dialog id="tasks_new_modal" class="modal" <%= @task_new_modal_open ? 'open' : ' ' %> >
+
+  <!-- tasks/new_modal.html.erbから編集する -->
+  <!-- まずはturbo_frame_tagを使ってtasks/newでモーダルの部分を表示 -->
+  <!-- tasks#createでturbo_stremasを使って、モーダルの部分を_tasks_new_modalファイルに置換しています -->
+
+  <!-- ここから貼り付け from "tasks/new.html.erb" -->
   <div class="modal-box max-h-[90vh]">
     <p class="pb-4 text-center">ESC or 下の(X)を押すと閉じます</p>
     <div class="flex w-full items-center justify-center">
@@ -11,17 +18,26 @@
           </div>
 
           <!-- エラーメッセージ -->
-          <%= render "error_messages", resource: @task%>
+          <%= render "error_messages", resource: task %>
 
           <!-- 編集フォーム -->
-          <%= form_for(@task, as: @task, url: tasks_path, html: { method: :post, class: "w-full mt-6 p-2" }) do |f| %>
+          <%= form_for(task, as: task, url: tasks_path, html: { method: :post, class: "w-full mt-6 p-2" }) do |f| %>
 
-            <label class="floating-label">
-              <%= f.collection_select :milestone_id, @milestones, :id, :title,
-                { include_blank: "Select Milestone" },
-                class: "select select-lg select-primary w-full text-base-100 bg-base-200" %>
-              <span class="floating-label-text">Milestone</span>
-            </label>
+            <% if @from_milestone_show %>
+              <label class="floating-label">
+                <%= f.collection_select :milestone_id, milestones, :id, :title,
+                  {:selected => "#{milestones.first.id}"},
+                  class: "select select-lg select-primary w-full text-base-100 bg-base-200" %>
+                <span class="floating-label-text">Milestone</span>
+              </label>
+            <% else %>
+              <label class="floating-label">
+                <%= f.collection_select :milestone_id, milestones, :id, :title,
+                  { include_blank: "Select Milestone" },
+                  class: "select select-lg select-primary w-full text-base-100 bg-base-200" %>
+                <span class="floating-label-text">Milestone</span>
+              </label>
+            <% end %>
 
             <label class="floating-label mt-10">
               <%= f.text_field :title,
@@ -87,6 +103,7 @@
       </form>
     </div>
   </div>
+  <!-- ここまで貼り付け from "tasks/new.html.erb" -->
 
 </dialog>
-
+<% end %>
