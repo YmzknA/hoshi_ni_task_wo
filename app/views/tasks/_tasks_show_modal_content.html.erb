@@ -93,7 +93,7 @@
           <!-- アクションボタン -->
           <% if current_user?(@task.user) %>
             <div class="flex h-12 w-full mt-10 justify-center text-neutral">
-              <%= button_to "削除", task_path(@task), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-12 w-25 md:w-42" %>
+              <%= button_to "削除", task_path(@task), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-12 w-25 mr-5 md:w-42" %>
 
               <div class="btn btn-accent h-12 w-25 md:w-42">
                 <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center", data: { turbo_frame: "tasks_edit_modal"} do %>
