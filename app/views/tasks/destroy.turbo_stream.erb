@@ -1,0 +1,9 @@
+  <%= turbo_stream.remove @task %>
+
+  <%= turbo_stream.replace "flash" do %>
+    <%= render "flash" %>
+  <% end %>
+
+  <%= turbo_stream.replace "tasks_show_modal" do %>
+    <%= turbo_frame_tag "tasks_show_modal" %>
+  <% end %>

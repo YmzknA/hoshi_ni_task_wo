@@ -85,8 +85,7 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   def destroy
     @task.destroy!
-
-    redirect_to tasks_path, status: :see_other, notice: "Task was successfully destroyed."
+    flash.now[:notice] = "タスクを削除しました"
   end
 
   def update_progress
