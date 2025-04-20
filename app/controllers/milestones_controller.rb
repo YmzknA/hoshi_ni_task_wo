@@ -71,14 +71,19 @@ class MilestonesController < ApplicationController
     end
   end
 
-  # DELETE /milestones/1 or /milestones/1.json
+  # DELETE /milestones/1
   def destroy
+    if params[:with_task]
+      tasks = @milestone.tasks
+      tasks.each { |task| task&.destroy! }
+      flash[:notice] = "星座とそのタスクを削除しました"
+    else
+      flash[:notice] = "星座を削除しました"
+    end
+
     @milestone.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to milestones_path, status: :see_other, notice: "Milestone was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to milestones_path, status: :see_other
   end
 
   private
