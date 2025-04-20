@@ -75,17 +75,22 @@ class MilestonesController < ApplicationController
   def destroy
     with_task = params[:with_task] == "true"
 
-    if with_task
-      tasks = @milestone.tasks
-      tasks.each { |task| task&.destroy! }
-      flash[:notice] = "星座とそのタスクを削除しました"
-    else
-      flash[:notice] = "星座を削除しました"
+    ActiveRecord::Base.transaction do
+      if with_task
+        tasks = @milestone.tasks
+        tasks.each { |task| task&.destroy! }
+        flash[:notice] = "星座とそのタスクを削除しました"
+      else
+        flash[:notice] = "星座を削除しました"
+      end
+
+      @milestone.destroy!
     end
 
-    @milestone.destroy!
-
     redirect_to milestones_path, status: :see_other
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotDestroyed => e
+    flash[:alert] = "削除に失敗しました: #{e.message}"
+    redirect_to @milestone
   end
 
   private
