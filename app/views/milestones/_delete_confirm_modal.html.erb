@@ -18,7 +18,7 @@
   <div class="w-full flex flex-col items-center justify-center md:flex-row">
     <div class="w-full flex flex-col items-center justify-center my-3">
       <p class="text-base-200 text-xl mb-3">タスクも一緒に：</p>
-      <%= button_to "削除", milestone_path(@milestone, with_task: false), method: :delete, data: { turbo_confirm: "本当にタスクも一緒に削除しますか？" }, class: "btn btn-error px-9" %>
+      <%= button_to "削除", milestone_path(@milestone, with_task: true), method: :delete, data: { turbo_confirm: "本当にタスクも一緒に削除しますか？" }, class: "btn btn-error px-9" %>
     </div>
 
     <div class="divider lg:divider-horizontal">OR</div>
@@ -26,7 +26,7 @@
     <!-- 紐づいたタスクも削除するかの確認 -->
     <div class="w-full flex flex-col items-center justify-center my-3">
       <p class="text-base-200 text-xl mb-3">この星座だけを：</p>
-      <%= button_to "削除", milestone_path(@milestone, with_task: true), method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-error px-9" %>
+      <%= button_to "削除", milestone_path(@milestone, with_task: false), method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-error px-9" %>
     </div>
   </div>
 

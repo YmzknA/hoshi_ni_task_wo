@@ -73,7 +73,9 @@ class MilestonesController < ApplicationController
 
   # DELETE /milestones/1
   def destroy
-    if params[:with_task]
+    with_task = params[:with_task] == "true"
+
+    if with_task
       tasks = @milestone.tasks
       tasks.each { |task| task&.destroy! }
       flash[:notice] = "星座とそのタスクを削除しました"
