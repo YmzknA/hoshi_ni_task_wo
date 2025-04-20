@@ -1,0 +1,46 @@
+<dialog id="delete_confirm_modal" class="modal" <%= @milestones_new_modal_open ? 'open' : ' ' %> >
+  <div class="modal-box max-h-[90vh]">
+    <div>
+      <div class="flex items-center justify-center">
+        <%= image_tag 'bomb.png', class: 'h-20 w-20' %>
+      </div>
+      <div class="flex h-12 items-center justify-center">
+        <h3 class="text-lg font-bold">本当に削除しますか？</h3>
+      </div>
+
+      <div class="flex h-full items-center justify-center">
+        <p class="text-sm text-primary">削除したデータは復元できません。</p>
+      </div>
+  </div>
+
+  <div class="divider my-2"></div>
+
+  <div class="w-full flex flex-col items-center justify-center md:flex-row">
+    <div class="w-full flex flex-col items-center justify-center my-3">
+      <p class="text-base-200 text-xl mb-3">タスクも一緒に：</p>
+      <%= button_to "削除", milestone_path(@milestone, with_task: true), method: :delete, data: { turbo_confirm: "本当にタスクも一緒に削除しますか？" }, class: "btn btn-error px-9" %>
+    </div>
+
+    <div class="divider lg:divider-horizontal">OR</div>
+
+    <!-- 紐づいたタスクも削除するかの確認 -->
+    <div class="w-full flex flex-col items-center justify-center my-3">
+      <p class="text-base-200 text-xl mb-3">この星座だけを：</p>
+      <%= button_to "削除", milestone_path(@milestone, with_task: false), method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-error px-9" %>
+    </div>
+  </div>
+
+  <div class="divider my-4"></div>
+
+  <div class="modal-action flex justify-center">
+    <form method="dialog">
+      <button class="btn btn-accent px-9">
+        キャンセル
+      </button>
+    </form>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
