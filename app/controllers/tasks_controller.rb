@@ -82,14 +82,11 @@ class TasksController < ApplicationController
     end
   end
 
-  # DELETE /tasks/1 or /tasks/1.json
+  # DELETE /tasks/1
   def destroy
     @task.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to tasks_path, status: :see_other, notice: "Task was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to tasks_path, status: :see_other, notice: "Task was successfully destroyed."
   end
 
   def update_progress
