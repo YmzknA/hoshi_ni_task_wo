@@ -1,4 +1,4 @@
-<div id="tasks_update_replace_task_<%=task.id%>" class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
+<div id="task_<%=task.id%>" class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
 
   <div class="flex w-full items-center text-left">
     <%= link_to task_path(task), class: "w-full p-1 rounded-xl hover:bg-base-300/30", data: { turbo_frame: "tasks_show_modal"} do %>
