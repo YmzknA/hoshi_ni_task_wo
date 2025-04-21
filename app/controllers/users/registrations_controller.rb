@@ -72,11 +72,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # The path used after sign up.
-  # rubocop:disable Lint/UnusedMethodArgument
   def after_sign_up_path_for(resource)
     user_path(resource)
   end
-  # rubocop:enable Lint/UnusedMethodArgument
 
   def after_update_path_for(resource)
     user_path(resource)
