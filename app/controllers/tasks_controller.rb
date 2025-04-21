@@ -10,7 +10,7 @@ class TasksController < ApplicationController
     @task = Task.new
     @milestones = @user.milestones
     @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-    @completed_tasks = @tasks.where(progress: :completed)
+    @completed_tasks = @tasks.where(progress: :completed).reject { |task| task.milestone&.progress == "completed" }
     @not_completed_tasks = @tasks.where.not(progress: :completed)
   end
 
@@ -99,6 +99,8 @@ class TasksController < ApplicationController
                      end
 
     if @task.save
+      task_milestone = @task.milestone
+      task_milestone&.update_progress
       flash.now.notice = "タスクの進捗状況を更新しました"
     else
       flash.now.alert = "タスクの進捗状況の更新に失敗しました"
