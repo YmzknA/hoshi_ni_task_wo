@@ -10,49 +10,80 @@
       <%= render 'flash' %>
     </div>
 
-    <div class="flex items-center justify-center text-3xl">
-      <div class="mr-2">
-        <%= render "stars_icon", { width: 35, height: 35, color: @milestone.color } %>
+    <!-- 完成状態は星座アイコンと完成コメント -->
+    <!-- 星座のアイコン -->
+    <% if @is_completed %>
+      <!-- title -->
+      <div class="text-3xl">
+        <%= "#{@milestone.title} 座" %>
       </div>
-      <%= @milestone.title %>
-    </div>
-
-    <div class="flex items-center justify-center text-2xl">
-      <div class="my-10 h-12 w-xl rounded-full bg-primary px-5 text-xl text-neutral">
-        <%= render "milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
+      <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
+        <%= image_tag @milestone.constellation.image_name, class: "h-50 w-50 mask mask-circle" %>
       </div>
-    </div>
-
-    <% if @milestone.start_date.present? || @milestone.end_date.present? %>
-      <div class="flex h-35 w-full justify-center text-neutral">
-        <div class="flex w-xl justify-between p-3">
-          <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-            <div>
-              <%= @milestone.start_date&.year %>年
+      <!-- 完了コメント -->
+      <div class="flex w-full items-center justify-center">
+        <div class="card w-xl text-neutral">
+          <% unless @milestone.completed_comment == "" || @milestone.completed_comment.blank? %>
+            <p class="card-title h-5 pl-2 text-primary">完成コメント</p>
+            <div class="flex min-h-[100px] w-full items-center justify-center rounded-xl bg-primary p-3">
+              <%= @milestone.completed_comment %>
             </div>
-            <div class="w-full text-xl">
-              <%= to_short_date(@milestone.start_date) %>
-            </div>
-          </div>
-          <div class="flex w-1/5 items-center justify-center">
-            <p class="w-full text-5xl text-primary">~</p>
-          </div>
-          <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-            <%= @milestone.end_date&.year %>年<br>
-            <div class="w-full text-xl">
-              <%= to_short_date(@milestone.end_date) %>
-            </div>
-          </div>
+          <% end %>
         </div>
       </div>
+
     <% else %>
-      <div class="flex w-full justify-center">
-        <div class="card w-xl bg-primary p-10 text-neutral">
-          日付は設定されていません
+      <!-- 未完了状態は進捗バーと期間 -->
+      <div class="flex items-center justify-center text-3xl">
+        <!-- title -->
+        <%= @milestone.title %>
+        <div class="mr-2">
+          <%= render "stars_icon", { width: 35, height: 35, color: @milestone.color } %>
         </div>
       </div>
+      <!-- 進捗バー -->
+      <div class="flex items-center justify-center text-2xl">
+        <div class="my-10 h-12 w-xl rounded-full bg-primary px-5 text-xl text-neutral">
+          <%= render "milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
+        </div>
+      </div>
+
+      <!-- 期間 -->
+      <% if @milestone.start_date.present? || @milestone.end_date.present? %>
+        <!-- 開始日と終了日が設定されている場合 -->
+        <div class="flex h-35 w-full justify-center text-neutral">
+          <div class="flex w-xl justify-between p-3">
+            <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
+              <div>
+                <%= @milestone.start_date&.year %>年
+              </div>
+              <div class="w-full text-xl">
+                <%= to_short_date(@milestone.start_date) %>
+              </div>
+            </div>
+            <div class="flex w-1/5 items-center justify-center">
+              <p class="w-full text-5xl text-primary">~</p>
+            </div>
+            <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
+              <%= @milestone.end_date&.year %>年<br>
+              <div class="w-full text-xl">
+                <%= to_short_date(@milestone.end_date) %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <% else %>
+        <!-- 期間が設定されていない場合 -->
+        <div class="flex w-full justify-center">
+          <div class="card w-xl bg-primary p-10 text-neutral">
+            日付は設定されていません
+          </div>
+        </div>
+      <% end %>
     <% end %>
 
+    <!-- 詳細 -->
     <div class="flex w-full items-center justify-center">
       <div class="card w-xl text-neutral">
         <% unless @milestone.description == "" || @milestone.description.blank? %>
@@ -64,6 +95,7 @@
       </div>
     </div>
 
+    <!-- 公開・表示設定 -->
     <div class="mb-8 flex h-[100px] items-center justify-center">
       <div class="flex h-full w-xl">
         <div class="flex w-3/4 items-center justify-center rounded-xl md:bg-base-300/40 text-base-200">
@@ -79,16 +111,27 @@
               <% end %>
             </div>
 
-            <div class="flex items-center">
-              <div class="mr-2 text-center">
-                チャートに表示する：
+            <%if @is_completed %>
+              <div class="flex items-center">
+                <div class="mr-2 text-center">
+                  チャートに表示する：
+                </div>
+                <p class="text-primary">
+                星座完成済み
+                </p>
               </div>
-              <% if @milestone.is_on_chart %>
-                <span class="badge badge-md badge-primary md:badge-lg">ON</span>
-              <% else %>
-                <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
-              <% end %>
-            </div>
+            <% else %>
+              <div class="flex items-center">
+                <div class="mr-2 text-center">
+                  チャートに表示する：
+                </div>
+                <% if @milestone.is_on_chart %>
+                  <span class="badge badge-md badge-primary md:badge-lg">ON</span>
+                <% else %>
+                  <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
+                <% end %>
+              </div>
+            <% end %>
           </div>
         </div>
 
@@ -100,7 +143,7 @@
       </div>
     </div>
 
-
+    <!-- button -->
     <% if current_user?(@milestone.user) %>
       <div class="flex h-12 w-full justify-center text-neutral">
         <div class="btn btn-error mr-5 h-12 w-25 md:w-42" onclick="delete_confirm_modal.showModal()">
@@ -114,40 +157,47 @@
 
     <!-- タスクの表示部分 -->
     <div class="flex w-full items-center justify-center mb-10">
-    <div class="tabs tabs-lift w-xl">
-      <!-- チャート -->
-      <input type="radio" name="my_tabs" class="tab" aria-label="チャート" checked="checked"  />
-      <div class="tab-content border-base-300 bg-base-100 p-6">
-        <div class="overflow-x-auto">
-          test
+      <div class="tabs tabs-lift w-xl">
+
+        <!-- タスク -->
+        <input type="radio" name="my_tabs" class="tab" aria-label="タスク" checked="checked"/>
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+
+          <% if current_user?(@milestone.user) %>
+            <!-- 新規作成ボタン -->
+            <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
+              <%= link_to new_task_path(milestone_from_milestone_show: @milestone), class: "size-full p-1 rounded-xl hover:cursor-pointer hover:bg-base-300/30 p-4", data: { turbo_frame: "tasks_new_modal"} do %>
+                <div class="flex items-center justify-center size-full">
+                  <span class="material-symbols-outlined">
+                    add_circle
+                  </span>
+                  追加
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+          <!-- タスク一覧 -->
+          <%= render "tasks/tasks", tasks: @milestone_tasks %>
+
         </div>
-      </div>
 
-      <!-- タスク -->
-      <input type="radio" name="my_tabs" class="tab" aria-label="タスク" />
-      <div class="tab-content border-base-300 bg-base-100 p-3">
 
-        <% if current_user?(@milestone.user) %>
-          <!-- 新規作成ボタン -->
-          <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
-            <%= link_to new_task_path(milestone_from_milestone_show: @milestone), class: "size-full p-1 rounded-xl hover:cursor-pointer hover:bg-base-300/30 p-4", data: { turbo_frame: "tasks_new_modal"} do %>
-              <div class="flex items-center justify-center size-full">
-                <span class="material-symbols-outlined">
-                  add_circle
-                </span>
-                追加
-              </div>
-            <% end %>
+        <% if @is_completed %>
+          <!-- 完成状態の場合チャートは表示しない -->
+        <% else %>
+          <!-- チャート -->
+          <input type="radio" name="my_tabs" class="tab" aria-label="チャート"  />
+          <div class="tab-content border-base-300 bg-base-100 p-6">
+            <div class="overflow-x-auto">
+              test
+            </div>
           </div>
         <% end %>
 
-        <!-- タスク一覧 -->
-        <%= render "tasks/tasks", tasks: @milestone_tasks %>
+      </div>
 
-        </div>
     </div>
-
-  </div>
   </div>
 
   <!-- メニューバー -->
