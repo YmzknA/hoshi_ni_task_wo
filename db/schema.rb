@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_13_153508) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_21_060919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "constellations", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "number_of_stars", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "milestones", force: :cascade do |t|
     t.string "title", null: false
@@ -27,6 +34,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_13_153508) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "color", default: "#FFDF5E", null: false
+    t.bigint "constellation_id"
+    t.index ["constellation_id"], name: "index_milestones_on_constellation_id"
     t.index ["user_id"], name: "index_milestones_on_user_id"
   end
 
@@ -65,6 +74,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_13_153508) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "milestones", "constellations"
   add_foreign_key "milestones", "users"
   add_foreign_key "tasks", "milestones"
   add_foreign_key "tasks", "users"
