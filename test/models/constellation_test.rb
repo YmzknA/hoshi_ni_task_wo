@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ConstallationTest < ActiveSupport::TestCase
+class ConstellationTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -1,0 +1,2 @@
+class Constellation < ApplicationRecord
+end
