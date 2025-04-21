@@ -2,7 +2,7 @@ class CreateConstallations < ActiveRecord::Migration[7.2]
   def change
     create_table :constallations do |t|
       t.string :name, null: false
-      num_of_stars :integer, null: false
+      t.integer :number_of_stars, null: false
 
       t.timestamps
     end
