@@ -4,8 +4,11 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  name: ウミヘビ座
+  number_of_stars: 20
+
+two:
+  name: おうし座
+  number_of_stars: 22
+

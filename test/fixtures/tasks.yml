@@ -1,11 +1,11 @@
 one:
   title: First Task
-  progress: 0
+  progress: not_started
   user: one
   milestone: one
 
 two:
   title: Second Task
-  progress: 1
+  progress: in_progress
   user: two
   milestone: two
