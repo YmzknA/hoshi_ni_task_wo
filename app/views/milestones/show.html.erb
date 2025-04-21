@@ -23,7 +23,7 @@
       <!-- 完了コメント -->
       <div class="flex w-full items-center justify-center">
         <div class="card w-xl text-neutral">
-          <% unless @milestone.completed_comment == "" || @milestone.completed_comment.blank? %>
+          <% unless @milestone.completed_comment.blank? %>
             <p class="card-title h-5 pl-2 text-primary">完成コメント</p>
             <div class="flex min-h-[100px] w-full items-center justify-center rounded-xl bg-primary p-3">
               <%= @milestone.completed_comment %>
