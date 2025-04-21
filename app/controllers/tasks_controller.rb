@@ -7,11 +7,9 @@ class TasksController < ApplicationController
   def index
     @title = "タスク一覧"
     @user = current_user
-    @task = Task.new
-    @milestones = @user.milestones
-    @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-    @completed_tasks = @tasks.where(progress: :completed).reject { |task| task.milestone&.progress == "completed" }
-    @not_completed_tasks = @tasks.where.not(progress: :completed)
+    tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
+    @completed_tasks = tasks.where(progress: :completed).reject { |task| task.milestone&.progress == "completed" }
+    @not_completed_tasks = tasks.where.not(progress: :completed)
   end
 
   # GET /tasks/1
@@ -35,13 +33,13 @@ class TasksController < ApplicationController
     else
       # マイルストーン詳細画面から遷移していない場合
       @from_milestone_show = false
-      @milestones = current_user.milestones
+      @milestones = current_user.milestones.reject { |m| m.progress == "completed" }
     end
   end
 
   # GET /tasks/1/edit
   def edit
-    @milestones = current_user.milestones
+    @milestones = current_user.milestones.reject { |m| m.progress == "completed" }
   end
 
   # POST /tasks
