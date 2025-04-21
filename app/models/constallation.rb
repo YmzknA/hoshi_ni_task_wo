@@ -1,0 +1,2 @@
+class Constallation < ApplicationRecord
+end
