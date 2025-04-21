@@ -21,7 +21,7 @@ class MilestonesController < ApplicationController
                "#{@milestone.user.name}さんの星座詳細"
              end
 
-    @is_completed = (@milestone.progress == "completed")
+    @is_milestone_completed = (@milestone.progress == "completed")
 
     if @milestone.is_public || current_user?(@milestone.user)
       @milestone_tasks = @milestone.tasks

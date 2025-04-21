@@ -1,7 +1,7 @@
 <!-- 星座 -->
 <div id="tasks_content" class="mx-auto">
   <% tasks.each do |task| %>
-    <%= render "tasks/task", task: task %>
+    <%= render "tasks/task", task: task, is_milestone_completed: @is_milestone_completed %>
   <% end %>
 </div>
 

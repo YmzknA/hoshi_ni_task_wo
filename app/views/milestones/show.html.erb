@@ -163,7 +163,7 @@
         <input type="radio" name="my_tabs" class="tab" aria-label="タスク" checked="checked"/>
         <div class="tab-content border-base-300 bg-base-100 p-3">
 
-          <% if current_user?(@milestone.user) %>
+          <% if !@is_completed && current_user?(@milestone.user) %>
             <!-- 新規作成ボタン -->
             <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
               <%= link_to new_task_path(milestone_from_milestone_show: @milestone), class: "size-full p-1 rounded-xl hover:cursor-pointer hover:bg-base-300/30 p-4", data: { turbo_frame: "tasks_new_modal"} do %>
@@ -178,7 +178,7 @@
           <% end %>
 
           <!-- タスク一覧 -->
-          <%= render "tasks/tasks", tasks: @milestone_tasks %>
+          <%= render "tasks/tasks", tasks: @milestone_tasks, is_milestone_completed: @is_milestone_completed %>
 
         </div>
 

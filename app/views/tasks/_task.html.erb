@@ -28,7 +28,9 @@
     <% end %>
 
       <!-- progressボタン -->
-      <%= render "tasks/progress_button", task: task %>
+      <% if @is_milestone_completed.nil? || @is_milestone_completed == false %>
+        <%= render "tasks/progress_button", task: task %>
+      <% end %>
   </div>
 
 </div>
