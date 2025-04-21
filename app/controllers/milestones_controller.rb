@@ -40,7 +40,7 @@ class MilestonesController < ApplicationController
   # GET /milestones/1/edit
   def edit; end
 
-  # POST /milestones or /milestones.json
+  # POST /milestones
   def create
     @milestone = Milestone.new(milestone_params)
 
@@ -60,7 +60,7 @@ class MilestonesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /milestones/1 or /milestones/1.json
+  # PATCH/PUT /milestones/1
   def update
     if @milestone.update(milestone_params)
       redirect_to @milestone, notice: "星座を更新しました"
