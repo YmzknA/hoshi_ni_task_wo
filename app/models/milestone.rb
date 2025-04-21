@@ -1,7 +1,7 @@
 class Milestone < ApplicationRecord
   has_many :tasks, dependent: :nullify
   belongs_to :user
-  belongs_to :constellations, optional: true
+  belongs_to :constellation, optional: true
 
   validates :title, presence: true
   validates :start_date, presence: true, if: -> { is_on_chart }
