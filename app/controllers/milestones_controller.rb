@@ -13,13 +13,15 @@ class MilestonesController < ApplicationController
     @title = "星座一覧"
   end
 
-  # GET /milestones/1 or /milestones/1.json
+  # GET /milestones/1
   def show
     @title = if current_user?(@milestone.user)
                "星座詳細"
              else
                "#{@milestone.user.name}さんの星座詳細"
              end
+
+    @is_milestone_completed = (@milestone.progress == "completed")
 
     if @milestone.is_public || current_user?(@milestone.user)
       @milestone_tasks = @milestone.tasks
@@ -38,7 +40,7 @@ class MilestonesController < ApplicationController
   # GET /milestones/1/edit
   def edit; end
 
-  # POST /milestones or /milestones.json
+  # POST /milestones
   def create
     @milestone = Milestone.new(milestone_params)
 
@@ -58,7 +60,7 @@ class MilestonesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /milestones/1 or /milestones/1.json
+  # PATCH/PUT /milestones/1
   def update
     if @milestone.update(milestone_params)
       redirect_to @milestone, notice: "星座を更新しました"

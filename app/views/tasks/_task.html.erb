@@ -28,7 +28,9 @@
     <% end %>
 
       <!-- progressボタン -->
-      <%= render "tasks/progress_button", task: task %>
+      <% unless task.milestone_completed? %>
+        <%= render "tasks/progress_button", task: task %>
+      <% end %>
   </div>
 
 </div>

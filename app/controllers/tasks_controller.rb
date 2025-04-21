@@ -7,11 +7,9 @@ class TasksController < ApplicationController
   def index
     @title = "タスク一覧"
     @user = current_user
-    @task = Task.new
-    @milestones = @user.milestones
-    @tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-    @completed_tasks = @tasks.where(progress: :completed)
-    @not_completed_tasks = @tasks.where.not(progress: :completed)
+    tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
+    @completed_tasks = tasks.where(progress: :completed).reject(&:milestone_completed?)
+    @not_completed_tasks = tasks.where.not(progress: :completed)
   end
 
   # GET /tasks/1
@@ -35,13 +33,13 @@ class TasksController < ApplicationController
     else
       # マイルストーン詳細画面から遷移していない場合
       @from_milestone_show = false
-      @milestones = current_user.milestones
+      @milestones = current_user.milestones.reject { |m| m.progress == "completed" }
     end
   end
 
   # GET /tasks/1/edit
   def edit
-    @milestones = current_user.milestones
+    @milestones = current_user.milestones.reject { |m| m.progress == "completed" }
   end
 
   # POST /tasks
@@ -90,15 +88,17 @@ class TasksController < ApplicationController
 
   def update_progress
     @task = Task.find(params[:id])
-    @task.progress = if @task.progress == "not_started"
-                       "in_progress"
-                     elsif @task.progress == "in_progress"
-                       "completed"
-                     else
-                       "not_started"
-                     end
+
+    if @task.milestone_completed?
+      flash.now.alert = "このタスクは完成した星座に関連付けられています"
+      redirect_back fallback_location: tasks_path and return
+    end
+
+    @task.progress = @task.next_progress
 
     if @task.save
+      task_milestone = @task.milestone
+      task_milestone&.update_progress
       flash.now.notice = "タスクの進捗状況を更新しました"
     else
       flash.now.alert = "タスクの進捗状況の更新に失敗しました"
