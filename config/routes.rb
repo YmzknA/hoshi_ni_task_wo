@@ -29,4 +29,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  get "*path" => redirect("/") if Rails.env.production?
 end
