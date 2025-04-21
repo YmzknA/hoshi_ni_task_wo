@@ -8,7 +8,7 @@ class TasksController < ApplicationController
     @title = "タスク一覧"
     @user = current_user
     tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-    @completed_tasks = tasks.where(progress: :completed).reject { |task| task.milestone&.progress == "completed" }
+    @completed_tasks = tasks.where(progress: :completed).reject(&:milestone_completed?)
     @not_completed_tasks = tasks.where.not(progress: :completed)
   end
 
@@ -88,13 +88,13 @@ class TasksController < ApplicationController
 
   def update_progress
     @task = Task.find(params[:id])
-    @task.progress = if @task.progress == "not_started"
-                       "in_progress"
-                     elsif @task.progress == "in_progress"
-                       "completed"
-                     else
-                       "not_started"
-                     end
+
+    if @task.milestone_completed?
+      flash.now.alert = "このタスクは完成した星座に関連付けられています"
+      redirect_back fallback_location: tasks_path and return
+    end
+
+    @task.progress = @task.next_progress
 
     if @task.save
       task_milestone = @task.milestone
