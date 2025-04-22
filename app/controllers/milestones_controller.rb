@@ -101,15 +101,19 @@ class MilestonesController < ApplicationController
 
   def complete
     @milestone = Milestone.find(params[:id])
-    logger.swim(@milestone.progress)
-    flash[:notice] = "星座が完成しました"
-    @milestone_complete_success = true
+    @milestone.constellation = Constellation.all.sample
+    @milestone.progress = "completed"
+    @milestone.completed_comment = params[:milestone][:completed_comment]
 
-    # if @milestone.update(progress: "completed", completed_comment: params[:milestone][:completed_comment])
-    #   flash[:notice] = "星座を完了しました"
-    # else
-    #   flash[:alert] = "星座の完了に失敗しました"
-    # end
+    if @milestone.save
+      @milestone_complete_success = true
+      @completed_page_modal_open = true
+      flash.now[:notice] = "星座が完成しました"
+    else
+      @milestone_complete_success = false
+      @show_complete_page_modal_open = true
+      flash[:alert] = "星座の完成に失敗しました"
+    end
   end
 
   private
