@@ -1,5 +1,5 @@
 class MilestonesController < ApplicationController
-  before_action :set_milestone, only: [:show, :edit, :update, :destroy]
+  before_action :set_milestone, only: [:show, :edit, :update, :destroy, :complete, :show_complete_page]
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
@@ -95,12 +95,9 @@ class MilestonesController < ApplicationController
     redirect_to @milestone
   end
 
-  def show_complete_page
-    @milestone = Milestone.find(params[:id])
-  end
+  def show_complete_page; end
 
   def complete
-    @milestone = Milestone.find(params[:id])
     @milestone.constellation = Constellation.all.sample
     @milestone.progress = "completed"
     @milestone.completed_comment = params[:milestone][:completed_comment]
