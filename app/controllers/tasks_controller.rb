@@ -102,6 +102,7 @@ class TasksController < ApplicationController
     @task.progress = @task.next_progress
 
     if @task.save
+      prepare_for_chart
       task_milestone = @task.milestone
       task_milestone&.update_progress
       flash.now.notice = "タスクの進捗状況を更新しました"
