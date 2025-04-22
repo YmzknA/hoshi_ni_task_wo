@@ -3,7 +3,11 @@ Rails.application.routes.draw do
     patch "update_progress", on: :member
   end
 
-  resources :milestones
+  resources :milestones do
+    get "show_complete_page", on: :member
+    patch "complete", on: :member
+  end
+
   devise_for :users, controllers: {
     registrations: "users/registrations",
     sessions: "users/sessions",

@@ -1,0 +1,60 @@
+  <dialog id="complete_page_modal" class="modal" <%= @completed_page_modal_open ? 'open' : ' ' %> >
+    <div class="modal-box max-h-[90vh]">
+      <p class="text-center pb-4">ESC or 下の(X)を押すと閉じます</p>
+      <div class="flex w-full items-center justify-center">
+        <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
+          <div>
+
+            <!-- タスク詳細表示 -->
+            <div class="space-y-5">
+              <div class="flex items-center justify-center text-secondary">
+                <p class="text-xl">星座が完成しました</p>
+              </div>
+
+              <!-- 星座名 -->
+              <div class="flex items-center justify-center text-xl">
+                <div class="mr-2">
+                  <%= render "complete_stars_icon", { width: 35, height: 35, color: @milestone.color } %>
+                </div>
+                <%= "#{@milestone.title} 座" %>
+              </div>
+
+              <div class="text-3xl">
+              </div>
+              <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
+                <%= image_tag @milestone.constellation.image_name, class: "h-50 w-50 mask mask-circle" %>
+              </div>
+              <p><%= @milestone.constellation.name %>のアイコンが<br>付与されました</p>
+
+
+              <!-- 一言コメント -->
+              <div class="flex w-full items-center justify-center">
+                <div class="card w-full text-neutral">
+                  <p class="card-title h-5 pl-2 text-sm text-primary">一言コメント</p>
+                  <div class="flex min-h-24 w-full items-center justify-center rounded-xl bg-primary p-3">
+                    <%= @milestone.completed_comment.present? ? @milestone.completed_comment : "コメントはありません" %>
+                  </div>
+                </div>
+              </div>
+
+              <button class="btn btn-neutral rounded-lg px-3">
+                <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+                <p class=" text-xs">完成をシェアする</p>
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-action flex justify-center">
+        <form method="dialog">
+          <button class="btn btn-accent px-9">
+            <span class="material-symbols-outlined">
+              close
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </dialog>

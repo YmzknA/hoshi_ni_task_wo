@@ -1,62 +1,7 @@
 
 <!-- 星座 -->
-<div class="mx-auto">
+<div id="milestones_content" class="mx-auto">
   <% milestones.each do |milestone| %>
-    <div class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
-
-      <div class="mb-4 flex w-full items-center text-left">
-        <%= link_to milestone_path(milestone), class: "w-full p-1 rounded-xl hover:bg-base-300/30" do %>
-          <!-- タイトル, 日付, マーク -->
-          <div class="flex w-full">
-            <% if completed %>
-              <%= render "milestones/complete_stars_icon", color: milestone.color, width: 40, height: 40 %>
-            <% else %>
-              <div class="hidden sm:flex sm:items-center">
-            <%= render "stars_icon", color: milestone.color, width: 40, height: 40 %>
-              </div>
-              <div class="flex items-center sm:hidden">
-                <%= render "stars_icon", color: milestone.color %>
-              </div>
-            <% end %>
-
-            <div class="ml-2 w-7/10">
-              <p class="text-lg"><%= milestone.title %></p>
-                <p class="text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
-            </div>
-          </div>
-
-          <!-- 詳細 -->
-          <div class="text-left mt-1">
-            <% if milestone.description.present? %>
-              <p class="text-lg"><%= milestone.description.truncate(20) %></p>
-            <% else %>
-              <p class="text-lg">詳細はありません</p>
-            <% end %>
-          </div>
-
-
-        <% end %>
-
-        <% if !completed && milestone.completed_tasks_percentage == 100 && current_user?(milestone.user) %>
-          <!-- 完了ボタン -->
-          <div class="flex w-3/10 max-w-20 justify-end">
-            <%= link_to user_check_path, class: "btn btn-base-200 flex  w-full h-auto aspect-square flex-col items-center justify-center rounded-xl" do %>
-              <%= render "milestones/complete_stars_icon", color: milestone.color %>
-              <div class="text-xs text-base-100 whitespace-nowrap">
-                完了する
-              </div>
-            <% end %>
-          </div>
-
-        <% end %>
-      </div>
-
-
-      <% if !completed %>
-        <!-- 進捗 -->
-          <%= render "milestones/milestone_completed_percent_bar", milestone: milestone, milestone_tasks: milestone.tasks.all %>
-      <% end %>
-
-    </div>
+    <%= render "milestones/milestone", milestone: milestone, completed: completed %>
   <% end %>
 </div>

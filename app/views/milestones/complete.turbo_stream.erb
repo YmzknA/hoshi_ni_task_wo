@@ -1,0 +1,18 @@
+<%= turbo_stream.replace "flash" do %>
+  <%= render "flash" %>
+<% end %>
+
+<% if @milestone_complete_success == true %>
+  <%= turbo_stream.replace "show_complete_page_modal" do %>
+    <%= render "milestones/completed_page", milestone: @milestone, completed_page_modal_open: @completed_page_modal_open %>
+  <% end %>
+
+  <%= turbo_stream.replace "milestone_#{@milestone.id}" do %>
+    <%= render "milestones/milestone", milestone: @milestone, completed: true %>
+  <% end %>
+
+<% else %>
+  <%= turbo_stream.replace "show_complete_page_modal" do %>
+    <%= render "milestones/show_complete_page_modal", milestone: @milestone, show_complete_page_modal_open: @show_complete_page_modal_open %>
+  <% end %>
+<% end %>

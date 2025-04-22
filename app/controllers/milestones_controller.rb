@@ -1,5 +1,5 @@
 class MilestonesController < ApplicationController
-  before_action :set_milestone, only: [:show, :edit, :update, :destroy]
+  before_action :set_milestone, only: [:show, :edit, :update, :destroy, :complete, :show_complete_page]
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
@@ -95,6 +95,24 @@ class MilestonesController < ApplicationController
     redirect_to @milestone
   end
 
+  def show_complete_page; end
+
+  def complete
+    @milestone.constellation = Constellation.all.sample
+    @milestone.progress = "completed"
+    @milestone.completed_comment = params[:milestone][:completed_comment]
+
+    if @milestone.save
+      @milestone_complete_success = true
+      @completed_page_modal_open = true
+      flash.now[:notice] = "星座が完成しました"
+    else
+      @milestone_complete_success = false
+      @show_complete_page_modal_open = true
+      flash[:alert] = "星座の完成に失敗しました"
+    end
+  end
+
   private
 
   def set_milestone
@@ -109,7 +127,8 @@ class MilestonesController < ApplicationController
       :is_public,
       :is_on_chart,
       :start_date,
-      :end_date
+      :end_date,
+      :completed_comment
     ).merge(user_id: current_user.id)
   end
 

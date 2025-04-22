@@ -1,0 +1,65 @@
+<div class="modal-box max-h-[90vh]">
+  <p class="text-center pb-4">ESC or 下の(X)を押すと閉じます</p>
+  <div class="flex w-full items-center justify-center">
+    <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
+      <div>
+
+        <!-- タスク詳細表示 -->
+        <div class="space-y-5">
+          <div class="flex items-center justify-center text-secondary">
+            <p class="text-xl">星座を完成させる</p>
+          </div>
+
+          <!-- 星座名 -->
+          <div class="flex items-center justify-center text-xl">
+            <div class="mr-2">
+              <%= render "stars_icon", { width: 35, height: 35, color: @milestone.color } %>
+            </div>
+            <%= @milestone.title %>
+          </div>
+
+          <!-- エラーメッセージ -->
+          <%= render "error_messages", resource: @milestone %>
+
+          <!-- 編集フォーム -->
+          <%= form_for(@milestone, as: @milestone, url: complete_milestone_path(@milestone), data: { turbo_confirm: "これで完成させますか？" }, html: { method: :patch, class: "w-full mt-10 p-2" }) do |f| %>
+
+            <label class="floating-label">
+              <%= f.text_area :completed_comment,
+                autofocus: true,
+                autocomplete: "completed_comment",
+                placeholder: "一言コメント(50文字まで)",
+                maxlength: 50,
+                class: "input input-lg h-30 md:h-20 rounded-xl input-primary w-full text-base-100 bg-base-200 whitespace-normal" %>
+                <span class="floating-label-text">一言コメント(50文字まで)</span>
+            </label>
+
+            <div class="relative size-full flex justify-center items-center mt-10">
+              <%= f.submit "", class:"z-10 size-20 rounded-xl hover:cursor-pointer hover:bg-base-100/20" %>
+              <div class="absolute size-20 bg-base-200 flex flex-col justify-center items-center rounded-xl">
+                <div class="flex items-center justify-center">
+                  <%= render "milestones/complete_stars_icon", color: milestone.color %>
+                </div>
+                <div class="text-xs text-base-100 whitespace-nowrap">
+                  完成
+                </div>
+              </div>
+            </div>
+
+            <% end %>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-action flex justify-center">
+    <form method="dialog">
+      <button class="btn btn-accent px-9">
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+    </form>
+  </div>
+</div>
