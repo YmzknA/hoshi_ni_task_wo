@@ -100,8 +100,17 @@ class MilestonesController < ApplicationController
   end
 
   def complete
-  end
+    @milestone = Milestone.find(params[:id])
+    logger.swim(@milestone.progress)
+    flash[:notice] = "星座が完成しました"
+    @milestone_complete_success = true
 
+    # if @milestone.update(progress: "completed", completed_comment: params[:milestone][:completed_comment])
+    #   flash[:notice] = "星座を完了しました"
+    # else
+    #   flash[:alert] = "星座の完了に失敗しました"
+    # end
+  end
 
   private
 
@@ -117,7 +126,8 @@ class MilestonesController < ApplicationController
       :is_public,
       :is_on_chart,
       :start_date,
-      :end_date
+      :end_date,
+      :completed_comment
     ).merge(user_id: current_user.id)
   end
 
