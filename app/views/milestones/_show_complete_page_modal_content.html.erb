@@ -1,0 +1,109 @@
+<div class="modal-box max-h-[90vh]">
+  <p class="text-center pb-4">ESC or 下の(X)を押すと閉じます</p>
+  <div class="flex w-full items-center justify-center">
+    <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
+      <div>
+
+        <!-- タスク詳細表示 -->
+        <div class="space-y-5">
+          <div class="flex items-center justify-center text-secondary">
+            <p class="text-xl">星座を完成させる</p>
+          </div>
+
+          <!-- マイルストーン -->
+          <div class="flex items-center justify-center text-xl">
+            <div class="mr-2">
+              <%= render "stars_icon", { width: 35, height: 35, color: @milestone.color } %>
+            </div>
+            <%= @milestone.title %>
+          </div>
+
+          <!-- タイトル -->
+          <div class="flex w-full items-center justify-center">
+            <div class="card w-full text-neutral">
+              <p class="card-title h-5 pl-2 text-sm text-primary">Title</p>
+              <div class="flex w-full items-center justify-center rounded-xl bg-primary p-3">
+                <%= @milestone.title %>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- 期間 -->
+          <% if @milestone.start_date.present? || @milestone.end_date.present? %>
+            <div class="flex w-full justify-between px-5 text-neutral">
+              <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
+                <div>
+                  <%= @milestone.start_date&.year %>年
+                </div>
+                <div class="w-full font-bold md:text-2xl">
+                  <%= to_short_date(@milestone.start_date) %>
+                </div>
+              </div>
+              <div class="flex w-1/5 items-center justify-center">
+                <p class="w-full text-5xl text-primary">~</p>
+              </div>
+              <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
+                <%= @milestone.end_date&.year %>年<br>
+                <div class="w-full font-bold md:text-2xl">
+                  <%= to_short_date(@milestone.end_date) %>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <div class="flex w-full justify-center">
+              <div class="card w-full bg-primary p-10 text-neutral">
+                日付は設定されていません
+              </div>
+            </div>
+          <% end %>
+
+          <!-- 説明 -->
+          <div class="flex w-full items-center justify-center">
+            <div class="card w-full text-neutral">
+              <p class="card-title h-5 pl-2 text-sm text-primary">Description</p>
+              <div class="flex min-h-24 w-full items-center justify-center rounded-xl bg-primary p-3">
+                <%= @milestone.description.present? ? @milestone.description : "説明はありません" %>
+              </div>
+            </div>
+          </div>
+
+          <!-- 進捗状況 -->
+          <div class="flex w-full items-center justify-center">
+            <div class="card w-full text-neutral">
+              <p class="card-title h-5 pl-2 text-sm text-primary">Progress</p>
+              <div class="flex w-full items-center justify-center rounded-xl bg-primary p-3">
+                <%= @milestone.progress %>
+              </div>
+            </div>
+          </div>
+
+          <!-- アクションボタン -->
+          <% if current_user?(@milestone.user) %>
+            <div class="flex h-12 w-full mt-10 justify-center text-neutral">
+              <%= button_to "削除", milestone_path(@milestone), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-12 w-25 mr-5 md:w-42" %>
+
+              <div class="btn btn-accent h-12 w-25 md:w-42">
+                <%= link_to edit_milestone_path(@milestone), class: "w-full h-full flex justify-center items-center", data: { turbo_frame: "milestones_edit_modal"} do %>
+                  <p>
+                  編集
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-action flex justify-center">
+    <form method="dialog">
+      <button class="btn btn-accent px-9">
+        <span class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+    </form>
+  </div>
+</div>

@@ -95,6 +95,14 @@ class MilestonesController < ApplicationController
     redirect_to @milestone
   end
 
+  def show_complete_page
+    @milestone = Milestone.find(params[:id])
+  end
+
+  def complete
+  end
+
+
   private
 
   def set_milestone
