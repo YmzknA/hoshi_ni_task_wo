@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     patch "complete", on: :member
   end
 
+  get "gantt_chart" => "gantt_chart#show", as: :gantt_chart
+
   devise_for :users, controllers: {
     registrations: "users/registrations",
     sessions: "users/sessions",
