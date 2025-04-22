@@ -22,7 +22,7 @@
           <%= render "error_messages", resource: @milestone %>
 
           <!-- 編集フォーム -->
-          <%= form_for(@milestone, as: @milestone, url: complete_milestone_path(@milestone), html: { method: :patch, class: "w-full mt-10 p-2" }) do |f| %>
+          <%= form_for(@milestone, as: @milestone, url: complete_milestone_path(@milestone), data: { turbo_confirm: "これで完成させますか？" }, html: { method: :patch, class: "w-full mt-10 p-2" }) do |f| %>
 
             <label class="floating-label">
               <%= f.text_area :completed_comment,
@@ -46,12 +46,7 @@
               </div>
             </div>
 
-
             <% end %>
-
-
-
-
 
         </div>
 
