@@ -67,12 +67,12 @@
       </li>
 
       <li>
-        <div class="flex items-center">
+        <%= link_to gantt_chart_path, class: "flex items-center" do %>
           <span class="material-symbols-outlined">
             stacked_bar_chart
           </span>
           <p class="whitespace-nowrap"> ガントチャート </p>
-        </div>
+        <% end %>
       </li>
 
       <div class="divider"></div>
@@ -91,11 +91,13 @@
     </ul>
   </div>
 
-  <button class="">
-    <span class="material-symbols-outlined">
-      stacked_bar_chart
-    </span>
-    <span class="dock-label">Chart</span>
+  <button class="<%= "dock-active" if current_page?(gantt_chart_path) %>">
+    <%= link_to gantt_chart_path, class: "w-full flex flex-col items-center" do %>
+      <span class="material-symbols-outlined">
+        stacked_bar_chart
+      </span>
+      <span class="dock-label">Chart</span>
+    <% end %>
   </button>
 
   <button class="<%= "dock-active" if current_page?(tasks_path) %>">
@@ -116,14 +118,14 @@
 
   <% if user_signed_in? %>
 
-  <button class="<%= "dock-active" if current_page?(user_path(current_user)) %>">
-    <%= link_to user_path(current_user), class:"w-full flex flex-col items-center" do %>
-      <span class="material-symbols-outlined">
-        person
-      </span>
+    <button class="<%= "dock-active" if current_page?(user_path(current_user)) %>">
+      <%= link_to user_path(current_user), class:"w-full flex flex-col items-center" do %>
+        <span class="material-symbols-outlined">
+          person
+        </span>
         <span class="dock-label"><%= current_user.name %></span>
-    <% end %>
-  </button>
+      <% end %>
+    </button>
 
   <% else %>
 
