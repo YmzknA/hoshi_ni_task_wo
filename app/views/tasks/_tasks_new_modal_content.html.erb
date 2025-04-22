@@ -46,6 +46,8 @@
               <%= f.date_field :start_date,
                         autocomplete: "Start Date",
                         placeholder: "Start Date",
+                        max: Date.today + 6.months,
+                        min: Date.today - 3.months,
                         class: "text-base-200 bg-base-100 rounded-full p-3 w-full" %>
             </label>
           </div>
@@ -57,6 +59,8 @@
               <%= f.date_field :end_date,
                         autocomplete: "End Date",
                         placeholder: "End Date",
+                        max: Date.today + 6.months,
+                        min: Date.today,
                         class: "text-base-200 bg-base-100 rounded-full p-3 w-full" %>
             </label>
           </div>
