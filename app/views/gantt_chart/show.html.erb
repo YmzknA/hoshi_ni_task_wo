@@ -62,83 +62,7 @@
 
           <!-- milestone（長方形） -->
         <% @milestones.each do |milestone| %>
-          <% 
-            start_index = @date_range.index { |d| d.to_date == milestone.start_date.to_date }
-            end_index = @date_range.index { |d| d.to_date == milestone.end_date.to_date }
-            milestone_height = (end_index - start_index + 1) * 40
-            milestone_top = start_index * 40
-            
-            # milestoneチャートの幅と位置
-            milestone_width = @milestone_widths[milestone.id]
-            milestone_left = @milestone_lefts[milestone.id]
-            
-            # 色の設定(taskもこの色を使う)
-            milestone_color = milestone.color
-          %>
-
-          <!-- milestone名前 -->
-          <div class="absolute border-3 rounded-md flex flex-col items-center cursor-pointer z-30" 
-            style="top: <%= milestone_top - 30 %>px; 
-            height: 35px; 
-            width: <%= milestone_width.to_i - 20 %>px; 
-            left: <%= milestone_left.to_i + 10 %>px;
-            background-color: <%= milestone_color %>cc;
-            border-color: <%= milestone_color %>cc;
-            ">
-
-            <%= milestone.title %>
-          </div>
-
-          <!-- milestone本体（長方形） -->
-          <div class="absolute border-3 rounded-md flex flex-col items-center"
-               style="top: <%= milestone_top %>px; 
-                      height: <%= milestone_height %>px; 
-                      width: <%= milestone_width %>px; 
-                      left: <%= milestone_left.to_i %>px;
-                      background-color: <%= milestone_color %>50;
-                      border-color: <%= milestone_color %>cc;
-                      ">
-            
-            <!-- Task（丸と線） -->
-            <!-- valid_datesでstart_dateかend_dateが無いtaskを弾く -->
-            <% milestone.tasks.valid_dates.each_with_index do |task, task_index| %>
-              <%
-                # taskがmilestoneの期間内にあるか確認
-                # 無ければ表示しない
-                if task.start_date >= milestone.start_date && task.end_date <= milestone.end_date
-
-                  # task_xxx_index：taskの表示はmilestoneの四角の上辺を始点に始まっているため、start_indexを引く
-                  task_start_index = @date_range.index { |d| d.to_date == task.start_date.to_date } - start_index
-                  task_end_index = @date_range.index { |d| d.to_date == task.end_date.to_date } - start_index
-                  task_height = (task_end_index - task_start_index + 1) * 40
-                  task_top = task_start_index * 40
-                  margin_top = 8
-                  
-                  # taskの水平位置を計算
-                  # section_wdthでtask一つあたりの占有割合を出す
-                  # task_leftで現在のtaskがこのmilestoneの何%の位置か設定
-                  section_width = 100.0 / (milestone.tasks.count + 1)
-                  task_left = "calc(#{section_width * (task_index + 1)}%)"
-                %>
-
-              <!-- heightの-5は上下につける〇の要素のサイズ分 -->
-                <div class="absolute flex flex-col items-center task-container cursor-pointer"
-                     style="top: <%= task_top + margin_top %>px; 
-                            height: <%= task_height - (margin_top * 2) - 5 %>px; 
-                            left: <%= task_left %>;">
-                  
-                  <!-- 開始点の円 -->
-                  <div class="w-4 h-4 rounded-full z-40" style="background-color: <%= milestone_color %>;"></div>
-                  
-                  <!-- 線 -->
-                  <div class="w-1 flex-grow z-40" style="background-color: <%= milestone_color %>;"></div>
-                  
-                  <!-- 終了点の円 -->
-                  <div class="w-4 h-4 rounded-full z-40" style="background-color: <%= milestone_color %>;"></div>
-                </div>
-              <% end %>
-            <% end %>
-          </div>
+          <%= render "gantt_chart/milestone_chart", milestone: milestone, milestone_widths: @milestone_widths, milestone_lefts: @milestone_lefts, date_range: @date_range %>
         <% end %>
       </div>
     </div>
@@ -146,3 +70,5 @@
 </div>
 
 
+<%= turbo_frame_tag "tasks_show_modal" %>
+<%= turbo_frame_tag "tasks_edit_modal" %>

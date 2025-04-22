@@ -1,4 +1,6 @@
 class TasksController < ApplicationController
+  include GanttChartHelper
+
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
@@ -70,8 +72,10 @@ class TasksController < ApplicationController
     @milestones = user.milestones
 
     if @task.update(task_params)
+      prepare_for_chart
       # タスクの更新に成功した場合、タスク詳細を表示
       @tasks_show_modal_open = true
+      @tasks_update_success = true
       flash.now[:notice] = "タスクを更新しました"
     else
       # タスクの更新に失敗した場合、editモーダルを開いた状態でタスク一覧を表示
@@ -123,5 +127,12 @@ class TasksController < ApplicationController
 
     flash[:alert] = "アクセス権限がありません"
     redirect_to user_path(current_user)
+  end
+
+  def prepare_for_chart
+    # milestone_chartの幅と位置情報を計算
+    on_chart_milestones = current_user.milestones.includes(:tasks).on_chart.not_completed.start_date_asc
+    @milestone_widths, @milestone_lefts = milestone_widths_lefts_hash(on_chart_milestones)
+    @date_range = date_range(on_chart_milestones)
   end
 end
