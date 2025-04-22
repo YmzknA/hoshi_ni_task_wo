@@ -41,7 +41,7 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
-    @milestones = current_user.milestones.reject { |m| m.progress == "completed" }
+    @milestones = current_user.milestones.not_completed
   end
 
   # POST /tasks
@@ -87,6 +87,7 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   def destroy
     @task.destroy!
+    prepare_for_chart
     flash.now[:notice] = "タスクを削除しました"
   end
 
