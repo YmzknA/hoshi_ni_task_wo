@@ -34,7 +34,7 @@ class Task < ApplicationRecord
       errors.add(:start_date, "start_dateは6ヶ月以上先の日付であってはなりません") if start_date > 6.months.from_now
     end
     start_before_end = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:start_date, "start_dateはend_dateより前か同じ日付でなければなりません") if start_before_end
+    errors.add(:start_date, "start_dateはend_dateより前でなければなりません") if start_before_end
   end
 
   def end_date_check
@@ -43,6 +43,6 @@ class Task < ApplicationRecord
       errors.add(:end_date, "end_dateは6ヶ月以上先の日付であってはなりません") if end_date > 6.months.from_now
     end
     start_before_end = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:end_date, "end_dateはstart_dateより前か同じ日付でなければなりません") if start_before_end
+    errors.add(:end_date, "end_dateはstart_dateより前でなければなりません") if start_before_end
   end
 end
