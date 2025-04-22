@@ -13,6 +13,10 @@ class Task < ApplicationRecord
 
   enum progress: [:not_started, :in_progress, :completed]
 
+  # start_dateとend_dateのどちらかがnilのものを弾くscope
+  scope :valid_dates, -> { where.not(start_date: nil, end_date: nil) }
+  scope :order_desc, -> { order(created_at: :desc) }
+
   def next_progress
     case progress
     when "not_started"

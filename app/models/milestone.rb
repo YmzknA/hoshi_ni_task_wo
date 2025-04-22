@@ -28,6 +28,10 @@ class Milestone < ApplicationRecord
   # :completed = 2
   enum progress: [:not_started, :in_progress, :completed]
 
+  scope :on_chart, -> { where(is_on_chart: true) }
+  scope :not_completed, -> { where(progress: [:not_started, :in_progress]) }
+  scope :start_date_asc, -> { order(start_date: :asc) }
+
   def completed_tasks_percentage
     tasks = self.tasks
     return 0 if tasks.empty?
