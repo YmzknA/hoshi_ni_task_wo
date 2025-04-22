@@ -52,7 +52,7 @@ class Milestone < ApplicationRecord
 
   def start_date_check
     if start_date.present?
-      errors.add(:start_date, "start_dateは3ヶ月以上前の日付であってはなりません") if start_date < 3.months.ago
+      errors.add(:start_date, "start_dateは1ヶ月以上前の日付であってはなりません") if start_date < 1.months.ago
       errors.add(:start_date, "start_dateは6ヶ月以上先の日付であってはなりません") if start_date > 6.months.from_now
     end
     start_before_end = start_date.present? && end_date.present? && start_date >= end_date
