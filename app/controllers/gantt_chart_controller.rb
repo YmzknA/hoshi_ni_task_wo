@@ -1,0 +1,2 @@
+class GanttChartController < ApplicationController
+end
