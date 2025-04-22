@@ -15,7 +15,8 @@ class Task < ApplicationRecord
 
   # start_dateとend_dateのどちらかがnilのものを弾くscope
   scope :valid_dates, -> { where.not(start_date: nil, end_date: nil) }
-  scope :order_desc, -> { order(created_at: :desc) }
+  scope :start_order_asc, -> { order(start_date: :asc) }
+  scope :completed, -> { where(progress: :completed) }
 
   def next_progress
     case progress
@@ -30,6 +31,10 @@ class Task < ApplicationRecord
 
   def milestone_completed?
     milestone&.progress == "completed"
+  end
+
+  def completed?
+    progress == "completed"
   end
 
   private

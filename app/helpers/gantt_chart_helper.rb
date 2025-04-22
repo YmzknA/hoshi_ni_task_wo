@@ -41,4 +41,14 @@ module GanttChartHelper
     # 表示する日付の配列
     (0...day_diff).map { |i| min_date + i.days }
   end
+
+  def sort_completed_milestones(milestones)
+    milestones.sort_by do |milestone|
+      if milestone.completed?
+        1
+      else
+        0
+      end
+    end
+  end
 end
