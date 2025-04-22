@@ -6,7 +6,16 @@ class Milestone < ApplicationRecord
   validates :title, presence: true
   validates :start_date, presence: true, if: -> { is_on_chart }
   validates :end_date, presence: true, if: -> { is_on_chart }
+  validates :progress, presence: true
+  validates :color, presence: true
+  validates :completed_comment, length: { maximum: 50 }, allow_blank: true
+  validates :is_public, inclusion: { in: [true, false] }
+  validates :is_on_chart, inclusion: { in: [true, false] }
 
+  # Enum for progress status
+  # :not_started = 0
+  # :in_progress = 1
+  # :completed = 2
   enum progress: [:not_started, :in_progress, :completed]
 
   def completed_tasks_percentage
