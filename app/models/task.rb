@@ -52,12 +52,6 @@ class Task < ApplicationRecord
     return unless milestone
     return if milestone.is_on_chart == false
 
-    if start_date.blank? || end_date.blank?
-      errors.add(:start_date, "チャートに表示する：ONの星座に紐づける際は、Start Dateが必要です")
-      errors.add(:end_date, "チャートに表示する：ONの星座に紐づける際は、End Dateが必要です")
-      return
-    end
-
     errors.add(:start_date, "マイルストーンの開始日はタスクの開始日と同じか前でなければなりません") if milestone.start_date > start_date
 
     errors.add(:end_date, "マイルストーンの終了日はタスクの終了日と同じか、後でなければなりません") if milestone.end_date < end_date

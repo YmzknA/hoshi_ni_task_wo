@@ -12,6 +12,8 @@ class Milestone < ApplicationRecord
   validates :end_date, presence: true, if: -> { is_on_chart }
   validate :end_date_check
 
+  validate :tasks_date_check, if: -> { is_on_chart }
+
   validates :progress, presence: true
   validates :color, presence: true
 
@@ -66,5 +68,23 @@ class Milestone < ApplicationRecord
     end
     end_after_start = start_date.present? && end_date.present? && start_date >= end_date
     errors.add(:end_date, "end_dateはstart_dateより後でなければなりません") if end_after_start
+  end
+
+  def tasks_date_check
+    return unless tasks.any?
+
+    tasks.each do |task|
+      validate_task_start_date(task) unless task.start_date.blank?
+
+      validate_task_end_date(task) unless task.end_date.blank?
+    end
+  end
+
+  def validate_task_start_date(task)
+    errors.add(:start_date, "チャートに表示するには、星座の開始日は紐づくタスクの開始日と同じか、前でなければなりません") if task.start_date < start_date
+  end
+
+  def validate_task_end_date(task)
+    errors.add(:end_date, "チャートに表示するには、星座の終了日は紐づくタスクの終了日同じか、後でなければなりません") if task.end_date > end_date
   end
 end
