@@ -19,4 +19,9 @@ class GanttChartController < ApplicationController
     # ガントチャート全体の幅を計算（最後のマイルストーンの右端 + 余白）
     @chart_total_width = @milestone_lefts[@milestones.last.id].to_i + @milestone_widths[@milestones.last.id].to_i + 20
   end
+
+  def milestone_show
+    @milestone = current_user.milestones.find(params[:id])
+    @milestone_tasks = @milestone.tasks
+  end
 end

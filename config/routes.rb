@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   get "gantt_chart" => "gantt_chart#show", as: :gantt_chart
+  get "gantt_chart_milestone/:id" => "gantt_chart#milestone_show", as: :gantt_chart_milestone_show
 
   devise_for :users, controllers: {
     registrations: "users/registrations",
