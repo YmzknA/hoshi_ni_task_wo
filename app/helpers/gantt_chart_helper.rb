@@ -1,19 +1,19 @@
 module GanttChartHelper
   def milestone_widths_lefts_hash(milestones)
-    current_position = 10
+    current_position = 15
     milestone_widths = {}
     milestone_lefts = {}
     milestones.each do |milestone|
       task_count = [milestone.tasks.count, 3].max
 
-      width_size = (task_count * 50)
+      width_size = (task_count * 60)
 
       # 幅と左位置を保存
       milestone_widths[milestone.id] = width_size.to_s
       milestone_lefts[milestone.id] = current_position.to_s
 
       # 次の星座の位置を更新
-      current_position += width_size + 10
+      current_position += width_size + 15
     end
 
     [milestone_widths, milestone_lefts]
