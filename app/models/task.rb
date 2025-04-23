@@ -15,8 +15,10 @@ class Task < ApplicationRecord
 
   # start_dateとend_dateのどちらかがnilのものを弾くscope
   scope :valid_dates, -> { where.not(start_date: nil, end_date: nil) }
-  scope :start_order_asc, -> { order(start_date: :asc) }
   scope :completed, -> { where(progress: :completed) }
+  scope :in_progress, -> { where(progress: :in_progress) }
+  scope :not_started, -> { where(progress: :not_started) }
+  scope :created_at_desc, -> { order(created_at: :desc) }
 
   def next_progress
     case progress
@@ -37,16 +39,24 @@ class Task < ApplicationRecord
     progress == "completed"
   end
 
+  def in_progress?
+    progress == "in_progress"
+  end
+
+  def not_started?
+    progress == "not_started"
+  end
+
   private
 
   def start_date_check
-    start_before_end = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:start_date, "start_dateはend_dateより前でなければなりません") if start_before_end
+    start_before_end = start_date.present? && end_date.present? && start_date > end_date
+    errors.add(:start_date, "start_dateはend_date以前か、同じでなければなりません") if start_before_end
   end
 
   def end_date_check
-    start_before_end = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:end_date, "end_dateはstart_dateより前でなければなりません") if start_before_end
+    start_before_end = start_date.present? && end_date.present? && start_date > end_date
+    errors.add(:end_date, "end_dateはstart_date以前か、同じでなければなりません") if start_before_end
   end
 
   def milestone_date_check
