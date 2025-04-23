@@ -6,7 +6,7 @@ module GanttChartHelper
     milestones.each do |milestone|
       task_count = [milestone.tasks.count, 3].max
 
-      width_size = (task_count * 60)
+      width_size = (task_count * 80)
 
       # 幅と左位置を保存
       milestone_widths[milestone.id] = width_size.to_s

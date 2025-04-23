@@ -36,7 +36,9 @@
               background-color: <%= milestone_color %>b3;
               border-color: <%= milestone_color %>cc;
               ">
-              <%= milestone.title %>
+              <%= link_to gantt_chart_milestone_show_path(milestone), class: "hover:cursor-pointer", data: { turbo_frame: "milestone_show_modal" } do %>
+                <%= milestone.title %>
+              <% end %>
             </div>
           <% end %>
         </div>
@@ -63,7 +65,7 @@
 
           <!-- milestone（長方形） -->
         <% @milestones.each do |milestone| %>
-          <%= render "gantt_chart/milestone_chart", milestone: milestone, milestone_widths: @milestone_widths, milestone_lefts: @milestone_lefts, date_range: @date_range %>
+          <%= render "gantt_chart/chart", milestone: milestone, milestone_widths: @milestone_widths, milestone_lefts: @milestone_lefts, date_range: @date_range %>
         <% end %>
       </div>
     </div>
@@ -76,6 +78,7 @@
 </div>
 <%= turbo_frame_tag "tasks_show_modal" %>
 <%= turbo_frame_tag "tasks_edit_modal" %>
+<%= turbo_frame_tag "milestone_show_modal" %>
 
 <script>
   // ページ遷移時にidがtodayの要素をスクロールして表示
