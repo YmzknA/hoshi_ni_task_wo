@@ -7,7 +7,8 @@ class Task < ApplicationRecord
   validate :start_date_check
   validate :end_date_check
   # milestoneがis_on_chartがtrueの場合、マイルストーンの開始日と終了日はタスクの開始日と終了日の中でなければならない
-  validate :milestone_date_check
+  validate :milestone_start_date_check
+  validate :milestone_end_date_check
 
   validates :progress, presence: true
 
@@ -51,26 +52,29 @@ class Task < ApplicationRecord
 
   def start_date_check
     start_before_end = start_date.present? && end_date.present? && start_date > end_date
-    errors.add(:start_date, "start_dateはend_date以前か、同じでなければなりません") if start_before_end
+    errors.add(:start_date, "はEnd date以前か、同じでなければなりません") if start_before_end
   end
 
   def end_date_check
     start_before_end = start_date.present? && end_date.present? && start_date > end_date
-    errors.add(:end_date, "end_dateはstart_date以前か、同じでなければなりません") if start_before_end
+    errors.add(:end_date, "はStart date以前か、同じでなければなりません") if start_before_end
   end
 
-  def milestone_date_check
+  def milestone_start_date_check
     return unless milestone
     return if milestone.is_on_chart == false
 
-    if start_date.blank? || end_date.blank?
-      errors.add(:start_date, "紐づける星座がチャートに表示されているとき、Start Dateが存在しなければなりません。")
-      errors.add(:end_date, "紐づける星座がチャートに表示されているとき、End Dateが存在しなければなりません。")
-      return
-    end
+    errors.add(:start_date, "または End dateは、紐づける星座がチャートに表示されているとき、存在しなければなりません。") if start_date.blank? && end_date.blank?
 
-    errors.add(:start_date, "星座の開始日はタスクの開始日と同じか前でなければなりません") if milestone.start_date > start_date
+    errors.add(:start_date, "は星座の開始日と同じか前でなければなりません") if start_date.present? && milestone.start_date > start_date
+  end
 
-    errors.add(:end_date, "星座の終了日はタスクの終了日と同じか、後でなければなりません") if milestone.end_date < end_date
+  def milestone_end_date_check
+    return unless milestone
+    return if milestone.is_on_chart == false
+
+    errors.add(:end_date, "または Start dateは、紐づける星座がチャートに表示されているとき、存在しなければなりません。") if start_date.blank? && end_date.blank?
+
+    errors.add(:end_date, "は星座の終了日と同じか、後でなければなりません") if end_date.present? && milestone.end_date < end_date
   end
 end
