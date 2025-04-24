@@ -44,8 +44,8 @@
           data: {turbo_frame: "tasks_show_modal"} do %>
 
             <!-- タスク名 -->
-            <div class="absolute left-7 top-2 text-start [writing-mode:vertical-rl] ">
-              <div class="absolute -left-3 w-4 h-4 bg-base-200" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+            <div class="absolute left-8 top-2 text-start [writing-mode:vertical-rl] ">
+              <div class="absolute left-[-14px] w-4 h-4 bg-base-200" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
               <div style="height: <%= task_title_height %>px">
                 <%= task.title.truncate(15, omission: '...') %>
               </div>
