@@ -20,6 +20,7 @@ class Task < ApplicationRecord
   scope :in_progress, -> { where(progress: :in_progress) }
   scope :not_started, -> { where(progress: :not_started) }
   scope :created_at_desc, -> { order(created_at: :desc) }
+  scope :start_date_asc, -> { order(start_date: :asc) }
 
   def next_progress
     case progress
