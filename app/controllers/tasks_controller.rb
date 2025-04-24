@@ -56,6 +56,7 @@ class TasksController < ApplicationController
       task_milestone&.update_progress
 
       @task_create_success = true
+      prepare_for_chart
 
       flash[:notice] = "タスクを作成しました"
     else
