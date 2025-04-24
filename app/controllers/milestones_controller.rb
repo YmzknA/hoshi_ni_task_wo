@@ -150,5 +150,6 @@ class MilestonesController < ApplicationController
     # milestone_chartの幅と位置情報を計算
     @milestone_widths, @milestone_lefts = milestone_widths_lefts_hash([milestone])
     @date_range = date_range([milestone])
+    @chart_total_width = @milestone_widths[milestone.id].to_i + 40
   end
 end
