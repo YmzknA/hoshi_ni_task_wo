@@ -68,14 +68,14 @@
               %>
 
               <!-- heightの-5は上下につける〇の要素のサイズ分 -->
-              <%= link_to task_path(task), class: "absolute flex flex-col items-center task-container cursor-pointer",
+              <%= link_to task_path(task), class: "absolute flex flex-col items-center cursor-pointer",
                 style: "top: #{task_top + margin_top}px;
                 height: #{task_height - (margin_top * 2) - 5}px;
                 left: #{task_left}px",
                 data: {turbo_frame: "tasks_show_modal"} do %>
 
                   <!-- タスク名 -->
-                  <div class="absolute left-7 top-2 [writing-mode:vertical-rl] ">
+                  <div class="absolute left-7 top-2 text-start [writing-mode:vertical-rl] ">
                     <div class="absolute -left-3 w-4 h-4 bg-base-200" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
                     <div style="height: <%= task_title_height %>px">
                       <%= task.title.truncate(15, omission: '...') %>
