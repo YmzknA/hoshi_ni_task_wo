@@ -3,7 +3,7 @@ class GanttChartController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @milestones = current_user.milestones.on_chart.not_completed.start_date_asc
+    @milestones = current_user.milestones.includes(:tasks).on_chart.not_completed.start_date_asc
 
     if @milestones.empty?
       flash[:alert] = "チャートに表示する星座がひとつもありません"
