@@ -7,6 +7,8 @@ module GanttChartHelper
     task_counts = Task.where(milestone_id: milestones.map(&:id)).group(:milestone_id).count
 
     milestones.each do |milestone|
+      task_counts[milestone.id] = 0 if task_counts[milestone.id].nil?
+
       task_count = [task_counts[milestone.id], 3].max
 
       width_size = (task_count * 80)
