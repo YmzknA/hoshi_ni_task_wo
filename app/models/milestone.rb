@@ -58,12 +58,12 @@ class Milestone < ApplicationRecord
 
   def start_date_check
     start_before_end = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:start_date, "start_dateはend_dateより前でなければなりません") if start_before_end
+    errors.add(:start_date, "は終了日より前の日付を設定してください") if start_before_end
   end
 
   def end_date_check
     end_after_start = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:end_date, "end_dateはstart_dateより後でなければなりません") if end_after_start
+    errors.add(:end_date, "は開始日より後の日付を設定してください") if end_after_start
   end
 
   def tasks_date_check
@@ -77,10 +77,10 @@ class Milestone < ApplicationRecord
   end
 
   def validate_task_start_date(task)
-    errors.add(:start_date, "チャートに表示するには、星座の開始日は紐づくタスクの開始日と同じか、前でなければなりません") if task.start_date < start_date
+    errors.add(:start_date, "は紐づくタスクの開始日以前に設定してください。タスクは星座の期間内に収まる必要があります") if task.start_date < start_date
   end
 
   def validate_task_end_date(task)
-    errors.add(:end_date, "チャートに表示するには、星座の終了日は紐づくタスクの終了日同じか、後でなければなりません") if task.end_date > end_date
+    errors.add(:end_date, "は紐づくタスクの終了日以降に設定してください。タスクは星座の期間内に収まる必要があります") if task.end_date > end_date
   end
 end

@@ -52,29 +52,29 @@ class Task < ApplicationRecord
 
   def start_date_check
     start_before_end = start_date.present? && end_date.present? && start_date > end_date
-    errors.add(:start_date, "はEnd date以前か、同じでなければなりません") if start_before_end
+    errors.add(:start_date, "は終了日と同じか、それより前の日付にしてください") if start_before_end
   end
 
   def end_date_check
     start_before_end = start_date.present? && end_date.present? && start_date > end_date
-    errors.add(:end_date, "はStart date以前か、同じでなければなりません") if start_before_end
+    errors.add(:end_date, "は開始日と同じか、それより後の日付にしてください") if start_before_end
   end
 
   def milestone_start_date_check
     return unless milestone
     return if milestone.is_on_chart == false
 
-    errors.add(:start_date, "または End dateは、紐づける星座がチャートに表示されているとき、存在しなければなりません。") if start_date.blank? && end_date.blank?
+    errors.add(:start_date, "または終了日のいずれかを設定してください。チャートに表示される星座のタスクには日付が必要です") if start_date.blank? && end_date.blank?
 
-    errors.add(:start_date, "は星座の開始日と同じか前でなければなりません") if start_date.present? && milestone.start_date > start_date
+    errors.add(:start_date, "は星座の開始日以降の日付にしてください") if start_date.present? && milestone.start_date > start_date
   end
 
   def milestone_end_date_check
     return unless milestone
     return if milestone.is_on_chart == false
 
-    errors.add(:end_date, "または Start dateは、紐づける星座がチャートに表示されているとき、存在しなければなりません。") if start_date.blank? && end_date.blank?
+    errors.add(:end_date, "または開始日のいずれかを設定してください。チャートに表示される星座のタスクには日付が必要です") if start_date.blank? && end_date.blank?
 
-    errors.add(:end_date, "は星座の終了日と同じか、後でなければなりません") if end_date.present? && milestone.end_date < end_date
+    errors.add(:end_date, "は星座の終了日以前の日付にしてください") if end_date.present? && milestone.end_date < end_date
   end
 end
