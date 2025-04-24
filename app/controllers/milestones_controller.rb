@@ -69,6 +69,7 @@ class MilestonesController < ApplicationController
     if @milestone.update(milestone_params)
       redirect_to @milestone, notice: "星座を更新しました"
     else
+      prepare_for_chart(@milestone)
       @title = "星座詳細"
       @milestones_edit_modal_open = true
       @milestone_tasks = @milestone.tasks
