@@ -1,0 +1,91 @@
+<!-- app/views/gantt_chart/show.html.erb -->
+<div class="container mx-auto p-4 text-gray-100">
+  <div id="gantt_chart" class="h-[85vh] overflow-auto border rounded-lg shadow-sm border-gray-700 bg-gray-800/90">
+    <div class="flex min-w-full w-max">
+
+      <!-- 日付列 -->
+      <div class="sticky left-0 w-[60px] border-r border-gray-700 bg-gray-800 relative z-60">
+
+        <!-- 日付ヘッダー - 固定 -->
+        <div class="sticky top-0 h-14 flex items-center justify-center font-medium border-b border-gray-700 bg-gray-900/70 z-60">
+          日付
+        </div>
+        <div class="flex flex-col z-60">
+          <% @date_range.each_with_index do |date, index| %>
+            <div id="<%= (date == Date.today) ? 'today' : '' %>" class="h-[40px] flex items-center justify-center text-sm border-b border-gray-700/70 <%= (date.wday == 0) || (date.wday == 6) ? 'bg-error/70' : '' %> <%= (date == Date.today) ? 'bg-accent/70' : '' %> <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>">
+              <%= date.strftime("%m/%d") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- ガントチャート本体 -->
+      <div class="flex-grow relative">
+        <!-- ヘッダー行 - 星座名 (固定) -->
+        <div class="sticky top-0 h-14 flex z-50 w-full">
+          <% @milestones.each do |milestone| %>
+            <%
+              # 色の設定
+              milestone_color = milestone.color
+            %>
+          <div class="border border-3 rounded-md text-base-200 text-xl absolute flex items-center justify-center font-medium px-2 text-center"
+              style="
+              width: <%= @milestone_widths[milestone.id] %>px;
+              left: <%= @milestone_lefts[milestone.id].to_i %>px;
+              top: 0; height: 100%;
+              background-color: <%= milestone_color %>b3;
+              border-color: <%= milestone_color %>cc;
+              ">
+              <%= link_to gantt_chart_milestone_show_path(milestone), class: "hover:cursor-pointer", data: { turbo_frame: "milestone_show_modal" } do %>
+                <%= milestone.title %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="relative">
+          <!-- 日付ごとの行 -->
+          <div>
+          <% @date_range.each_with_index do |date, index| %>
+            <div
+              class="h-[40px] border-b border-base-100 z-30
+              <%= (index == 0) ? 'border-t' : '' %>
+              <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>
+              <%= (date.wday == 0) || (date.wday == 6) ? 'bg-error/20' : '' %>
+              <%= (date == Date.today) ? 'bg-accent/20' : '' %>
+              "
+              style="width: max(<%= @chart_total_width %>px, 100%);"
+            >
+            <!-- @chart_total_width：日付の横線のサイズを指定している -->
+            <!-- 100%にすると、画面幅以上のチャートになった際に日付線が画面幅で切れてしまう -->
+            <!-- この行には何も表示しない（背景色のみ） -->
+            </div>
+          <% end %>
+          </div>
+
+          <!-- milestone（長方形） -->
+        <% @milestones.each do |milestone| %>
+          <%= render "gantt_chart/chart", milestone: milestone, milestone_widths: @milestone_widths, milestone_lefts: @milestone_lefts, date_range: @date_range %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="mt-20">
+  <%= render "menu_bar" %>
+</div>
+<%= turbo_frame_tag "tasks_show_modal" %>
+<%= turbo_frame_tag "tasks_edit_modal" %>
+<%= turbo_frame_tag "milestone_show_modal" %>
+
+<script>
+  // ページ遷移時にidがtodayの要素をスクロールして表示
+  document.addEventListener("turbo:load", function() {
+    const todayElement = document.getElementById("today");
+    if (todayElement) {
+      todayElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  });
+</script>

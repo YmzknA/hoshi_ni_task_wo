@@ -6,10 +6,20 @@ class Task < ApplicationRecord
 
   validate :start_date_check
   validate :end_date_check
+  # milestoneがis_on_chartがtrueの場合、マイルストーンの開始日と終了日はタスクの開始日と終了日の中でなければならない
+  validate :milestone_start_date_check
+  validate :milestone_end_date_check
 
   validates :progress, presence: true
 
   enum progress: [:not_started, :in_progress, :completed]
+
+  # start_dateとend_dateのどちらかがnilのものを弾くscope
+  scope :valid_dates, -> { where.not(start_date: nil, end_date: nil) }
+  scope :completed, -> { where(progress: :completed) }
+  scope :in_progress, -> { where(progress: :in_progress) }
+  scope :not_started, -> { where(progress: :not_started) }
+  scope :created_at_desc, -> { order(created_at: :desc) }
 
   def next_progress
     case progress
@@ -26,23 +36,45 @@ class Task < ApplicationRecord
     milestone&.progress == "completed"
   end
 
+  def completed?
+    progress == "completed"
+  end
+
+  def in_progress?
+    progress == "in_progress"
+  end
+
+  def not_started?
+    progress == "not_started"
+  end
+
   private
 
   def start_date_check
-    if start_date.present?
-      errors.add(:start_date, "start_dateは1ヶ月以上前の日付であってはなりません") if start_date < 1.months.ago
-      errors.add(:start_date, "start_dateは6ヶ月以上先の日付であってはなりません") if start_date > 6.months.from_now
-    end
-    start_before_end = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:start_date, "start_dateはend_dateより前でなければなりません") if start_before_end
+    start_before_end = start_date.present? && end_date.present? && start_date > end_date
+    errors.add(:start_date, "は終了日と同じか、それより前の日付にしてください") if start_before_end
   end
 
   def end_date_check
-    if end_date.present?
-      errors.add(:end_date, "end_dateは過去の日付であってはなりません") if end_date < Date.today
-      errors.add(:end_date, "end_dateは6ヶ月以上先の日付であってはなりません") if end_date > 6.months.from_now
-    end
-    start_before_end = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:end_date, "end_dateはstart_dateより前でなければなりません") if start_before_end
+    start_before_end = start_date.present? && end_date.present? && start_date > end_date
+    errors.add(:end_date, "は開始日と同じか、それより後の日付にしてください") if start_before_end
+  end
+
+  def milestone_start_date_check
+    return unless milestone
+    return if milestone.is_on_chart == false
+
+    errors.add(:start_date, "または終了日のいずれかを設定してください。チャートに表示される星座のタスクには日付が必要です") if start_date.blank? && end_date.blank?
+
+    errors.add(:start_date, "は星座の開始日以降の日付にしてください") if start_date.present? && milestone.start_date > start_date
+  end
+
+  def milestone_end_date_check
+    return unless milestone
+    return if milestone.is_on_chart == false
+
+    errors.add(:end_date, "または開始日のいずれかを設定してください。チャートに表示される星座のタスクには日付が必要です") if start_date.blank? && end_date.blank?
+
+    errors.add(:end_date, "は星座の終了日以前の日付にしてください") if end_date.present? && milestone.end_date < end_date
   end
 end

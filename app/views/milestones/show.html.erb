@@ -36,10 +36,10 @@
       <!-- 未完了状態は進捗バーと期間 -->
       <div class="flex items-center justify-center text-3xl">
         <!-- title -->
-        <%= @milestone.title %>
         <div class="mr-2">
           <%= render "stars_icon", { width: 35, height: 35, color: @milestone.color } %>
         </div>
+        <%= @milestone.title %>
       </div>
       <!-- 進捗バー -->
       <div class="flex items-center justify-center text-2xl">

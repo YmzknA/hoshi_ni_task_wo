@@ -1,0 +1,119 @@
+<%= turbo_frame_tag "milestone_show_modal" do %>
+  <div data-controller="show-modal">
+    <div data-show-modal-target="modal_top">
+      <dialog data-show-modal-target="task_modal" id="milestone_show_modal" class="modal" <%= @tasks_show_modal_open ? 'open' : ' ' %> >
+        <div class="modal-box max-h-[90vh]">
+          <p class="text-center pb-4">ESC or 画面外を押すと閉じます</p>
+          <div class="flex w-full items-center justify-center">
+            <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
+              <div>
+
+                <!-- タスク詳細表示 -->
+                <div class="space-y-5">
+                  <div class="flex items-center justify-center text-secondary">
+                    <p class="text-xl">詳細</p>
+                  </div>
+
+                  <!-- タイトル -->
+                  <div class="flex text-2xl w-full items-center justify-center gap-x-2">
+                    <%= render "stars_icon", { width: 35, height: 35, color: @milestone.color } %>
+                    <%= @milestone.title %>
+                  </div>
+
+                  <!-- 進捗バー -->
+                  <div class="my-10 h-12 rounded-full bg-primary px-5 text-xl text-neutral">
+                    <%= render "milestones/milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
+                  </div>
+
+                  <!-- 期間 -->
+                  <% if @milestone.start_date.present? || @milestone.end_date.present? %>
+                    <div class="flex w-full justify-between px-5 text-neutral">
+                      <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
+                        <div>
+                          <%= @milestone.start_date&.year %>
+                        </div>
+                        <div class="w-full font-bold md:text-2xl">
+                          <%= to_short_date(@milestone.start_date) %>
+                        </div>
+                      </div>
+                      <div class="flex w-1/5 items-center justify-center">
+                        <p class="w-full text-5xl text-primary">~</p>
+                      </div>
+                      <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
+                        <%= @milestone.end_date&.year %><br>
+                        <div class="w-full font-bold md:text-2xl">
+                          <%= to_short_date(@milestone.end_date) %>
+                        </div>
+                      </div>
+                    </div>
+                  <% else %>
+                    <div class="flex w-full justify-center">
+                      <div class="card w-full bg-primary p-10 text-neutral">
+                        日付は設定されていません
+                      </div>
+                    </div>
+                  <% end %>
+
+                  <!-- 説明 -->
+                  <div class="flex w-full items-center justify-center">
+                    <div class="card w-full text-neutral">
+                      <p class="card-title h-5 pl-2 text-sm text-primary">Description</p>
+                      <div class="flex min-h-24 w-full items-center justify-center rounded-xl bg-primary p-3">
+                        <%= @milestone.description.present? ? @task.description : "説明はありません" %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-center my-10 text-base-200">
+                    <div>
+                      <div class="mb-3 flex items-center justify-end">
+                        <div class="mr-2 text-center">
+                          全体に公開する：
+                        </div>
+                        <% if @milestone.is_public %>
+                          <span class="badge badge-md badge-primary md:badge-lg">ON</span>
+                        <% else %>
+                          <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
+                        <% end %>
+                      </div>
+
+                      <div class="flex items-center">
+                        <div class="mr-2 text-center">
+                          チャートに表示する：
+                        </div>
+                        <% if @milestone.is_on_chart %>
+                          <span class="badge badge-md badge-primary md:badge-lg">ON</span>
+                        <% else %>
+                          <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!-- アクションボタン -->
+                  <div class="flex h-12 w-full my-5 justify-center text-neutral">
+                    <%= link_to "詳細", milestone_path(@milestone), data: { turbo: false }, class: "btn btn-accent h-12 w-25 md:w-42" %>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="modal-action flex justify-center">
+            <form method="dialog">
+              <button class="btn btn-accent px-9">
+                <span class="material-symbols-outlined">
+                  close
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+    </div>
+  </div>
+<% end %>

@@ -81,14 +81,11 @@
           </div>
 
           <!-- 進捗状況 -->
-          <div class="flex w-full items-center justify-center">
-            <div class="card w-full text-neutral">
-              <p class="card-title h-5 pl-2 text-sm text-primary">Progress</p>
-              <div class="flex w-full items-center justify-center rounded-xl bg-primary p-3">
-                <%= @task.progress %>
-              </div>
+          <% unless task.milestone_completed? %>
+            <div class="flex w-full items-center justify-center">
+              <%= render "tasks/progress_button", task: @task %>
             </div>
-          </div>
+          <% end %>
 
           <!-- アクションボタン -->
           <% if current_user?(@task.user) %>

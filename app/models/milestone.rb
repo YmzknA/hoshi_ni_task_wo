@@ -12,6 +12,8 @@ class Milestone < ApplicationRecord
   validates :end_date, presence: true, if: -> { is_on_chart }
   validate :end_date_check
 
+  validate :tasks_date_check, if: -> { is_on_chart }
+
   validates :progress, presence: true
   validates :color, presence: true
 
@@ -25,6 +27,10 @@ class Milestone < ApplicationRecord
   # :in_progress = 1
   # :completed = 2
   enum progress: [:not_started, :in_progress, :completed]
+
+  scope :on_chart, -> { where(is_on_chart: true) }
+  scope :not_completed, -> { where(progress: [:not_started, :in_progress]) }
+  scope :start_date_asc, -> { order(start_date: :asc) }
 
   def completed_tasks_percentage
     tasks = self.tasks
@@ -51,20 +57,30 @@ class Milestone < ApplicationRecord
   private
 
   def start_date_check
-    if start_date.present?
-      errors.add(:start_date, "start_dateは1ヶ月以上前の日付であってはなりません") if start_date < 1.months.ago
-      errors.add(:start_date, "start_dateは6ヶ月以上先の日付であってはなりません") if start_date > 6.months.from_now
-    end
     start_before_end = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:start_date, "start_dateはend_dateより前でなければなりません") if start_before_end
+    errors.add(:start_date, "は終了日より前の日付を設定してください") if start_before_end
   end
 
   def end_date_check
-    if end_date.present?
-      errors.add(:end_date, "end_dateは過去の日付であってはなりません") if end_date < Date.today
-      errors.add(:end_date, "end_dateは6ヶ月以上先の日付であってはなりません") if end_date > 6.months.from_now
-    end
     end_after_start = start_date.present? && end_date.present? && start_date >= end_date
-    errors.add(:end_date, "end_dateはstart_dateより後でなければなりません") if end_after_start
+    errors.add(:end_date, "は開始日より後の日付を設定してください") if end_after_start
+  end
+
+  def tasks_date_check
+    return unless tasks.any?
+
+    tasks.each do |task|
+      validate_task_start_date(task) unless task.start_date.blank?
+
+      validate_task_end_date(task) unless task.end_date.blank?
+    end
+  end
+
+  def validate_task_start_date(task)
+    errors.add(:start_date, "は紐づくタスクの開始日以前に設定してください。タスクは星座の期間内に収まる必要があります") if task.start_date < start_date
+  end
+
+  def validate_task_end_date(task)
+    errors.add(:end_date, "は紐づくタスクの終了日以降に設定してください。タスクは星座の期間内に収まる必要があります") if task.end_date > end_date
   end
 end
