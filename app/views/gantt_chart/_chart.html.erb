@@ -10,13 +10,15 @@
 
             # 色の設定(taskもこの色を使う)
             milestone_color = milestone.color
+            # すでにソートされたTasksをメモリ内で取得する
+            tasks = milestone.tasks.valid_dates.start_date_asc.to_a
           %>
 
           <!-- milestone名前 -->
-          <div class="absolute border-3 rounded-md flex flex-col items-center z-30" 
-            style="top: <%= milestone_top - 30 %>px; 
-            height: 35px; 
-            width: <%= milestone_width.to_i - 20 %>px; 
+          <div class="absolute border-3 rounded-md flex flex-col items-center z-30"
+            style="top: <%= milestone_top - 30 %>px;
+            height: 35px;
+            width: <%= milestone_width.to_i - 20 %>px;
             left: <%= milestone_left.to_i + 10 %>px;
             background-color: <%= milestone_color %>cc;
             border-color: <%= milestone_color %>cc;
@@ -26,7 +28,7 @@
           </div>
 
           <!-- milestone本体、内部にtask -->
-          <div id="chart_<%=milestone.id%>" class="absolute border-3 rounded-md"
+          <div class="absolute border-3 rounded-md"
             style="top: <%= milestone_top %>px; 
             height: <%= milestone_height %>px; 
             width: <%= milestone_width %>px; 
@@ -37,61 +39,9 @@
 
             <!-- Task（丸と線） -->
             <!-- valid_datesでstart_dateかend_dateが無いtaskを弾く -->
-            <% sort_completed_milestones(milestone.tasks.valid_dates.created_at_desc).each_with_index do |task, task_index| %>
-              <%
-                  if task.start_date && task.end_date
-                    # task_xxx_index：taskの表示はmilestoneの四角の上辺を始点に始まっているため、start_indexを引く
-                    task_start_index = @date_range.index { |d| d.to_date == task.start_date.to_date } - start_index
-                    task_end_index = @date_range.index { |d| d.to_date == task.end_date.to_date } - start_index
-                    task_height = (task_end_index - task_start_index + 1) * 40
-                    task_top = task_start_index * 40
-                  elsif task.start_date && !task.end_date
-                    task_start_index = @date_range.index { |d| d.to_date == task.start_date.to_date } - start_index
-                    task_height = 40
-                    task_top = task_start_index * 40
-                  elsif !task.start_date && task.end_date
-                    task_end_index = @date_range.index { |d| d.to_date == task.end_date.to_date } - start_index
-                    task_height = 40
-                    task_top = task_end_index * 40
-                  else
-                    next
-                  end
-                margin_top = 8
-                task_title_height = ([task.title.length, 14].min + 1) * 15
-
-                # taskの水平位置を計算
-                # section_widthでtask一つあたりの占有割合を出す
-                # task_leftで現在のtaskがこのmilestoneの何%の位置かで計算し、task要素の幅分右にずれているので、左にずらす
-                # 9.5はボーダーの幅の半分の1.5とtaskの幅の半分の8を足したもの
-                section_width = 1.000 / (milestone.tasks.count + 1)
-                task_left = "#{milestone_width.to_i * section_width * (task_index + 1) - 9.5}"
-              %>
-
-              <!-- heightの-5は上下につける〇の要素のサイズ分 -->
-              <%= link_to task_path(task), class: "absolute flex flex-col items-center task-container cursor-pointer",
-                style: "top: #{task_top + margin_top}px;
-                height: #{task_height - (margin_top * 2) - 5}px;
-                left: #{task_left}px",
-                data: {turbo_frame: "tasks_show_modal"} do %>
-
-                  <!-- タスク名 -->
-                  <div class="absolute left-7 top-2 [writing-mode:vertical-rl] ">
-                    <div class="absolute -left-3 w-4 h-4 bg-base-200" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
-                    <div style="height: <%= task_title_height %>px">
-                      <%= task.title.truncate(15, omission: '...') %>
-                    </div>
-                  </div>
-
-                  <!-- 開始点の円 -->
-                  <div class="z-40 <%= task.in_progress? ? "size-4 relative top-1 mask mask-triangle-2" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
-
-                  <% if task.start_date && task.end_date %>
-                    <!-- 線 -->
-                    <div class="w-1 flex-grow z-40" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
-
-                    <!-- 終了点の円 -->
-                    <div class="z-40 <%= task.in_progress? ? "size-4 relative -top-1 mask mask-triangle" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
-                  <% end %>
-                <% end %>
+            <div id="chart_<%=milestone.id%>">
+              <% tasks.each do |task| %>
+                <%= render "gantt_chart/task_chart", task: task, tasks: tasks %>
               <% end %>
+            </div>
           </div>

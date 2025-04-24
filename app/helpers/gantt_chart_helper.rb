@@ -3,8 +3,13 @@ module GanttChartHelper
     current_position = 15
     milestone_widths = {}
     milestone_lefts = {}
+
+    task_counts = Task.where(milestone_id: milestones.map(&:id)).group(:milestone_id).count
+
     milestones.each do |milestone|
-      task_count = [milestone.tasks.count, 3].max
+      task_counts[milestone.id] = 0 if task_counts[milestone.id].nil?
+
+      task_count = [task_counts[milestone.id], 3].max
 
       width_size = (task_count * 80)
 
@@ -42,9 +47,9 @@ module GanttChartHelper
     (0...day_diff).map { |i| min_date + i.days }
   end
 
-  def sort_completed_milestones(milestones)
-    milestones.sort_by do |milestone|
-      if milestone.completed?
+  def sort_completed(sources)
+    sources.sort_by do |source|
+      if source.completed?
         1
       else
         0

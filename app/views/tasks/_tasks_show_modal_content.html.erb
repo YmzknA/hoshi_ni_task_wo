@@ -82,7 +82,7 @@
 
           <!-- 進捗状況 -->
           <% unless task.milestone_completed? %>
-            <div class="flex w-full items-center justify-center">
+            <div id="task_show_progress_button_id_<%= task.id %>" class="flex w-full items-center justify-center">
               <%= render "tasks/progress_button", task: @task %>
             </div>
           <% end %>

@@ -1,9 +1,8 @@
 class TasksController < ApplicationController
-  include GanttChartHelper
-
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :update_progress, :destroy]
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  before_action :set_task_milestone, only: [:update_progress, :update, :destroy]
 
   # GET /tasks or /tasks.json
   def index
@@ -52,8 +51,8 @@ class TasksController < ApplicationController
     @milestones = user.milestones
 
     if @task.save
-      task_milestone = @task.milestone
-      task_milestone&.update_progress
+      @task_milestone = @task.milestone
+      @task_milestone&.update_progress
 
       @task_create_success = true
 
@@ -72,7 +71,6 @@ class TasksController < ApplicationController
     @milestones = user.milestones
 
     if @task.update(task_params)
-      prepare_for_chart
       # タスクの更新に成功した場合、タスク詳細を表示
       @tasks_show_modal_open = true
       @tasks_update_success = true
@@ -87,13 +85,10 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   def destroy
     @task.destroy!
-    prepare_for_chart
     flash.now[:notice] = "タスクを削除しました"
   end
 
   def update_progress
-    @task = Task.find(params[:id])
-
     if @task.milestone_completed?
       flash.now.alert = "このタスクは完成した星座に関連付けられています"
       redirect_back fallback_location: tasks_path and return
@@ -102,9 +97,7 @@ class TasksController < ApplicationController
     @task.progress = @task.next_progress
 
     if @task.save
-      prepare_for_chart
-      task_milestone = @task.milestone
-      task_milestone&.update_progress
+      @task_milestone&.update_progress
       flash.now.notice = "タスクの進捗状況を更新しました"
     else
       flash.now.alert = "タスクの進捗状況の更新に失敗しました"
@@ -131,10 +124,7 @@ class TasksController < ApplicationController
     redirect_to user_path(current_user)
   end
 
-  def prepare_for_chart
-    # milestone_chartの幅と位置情報を計算
-    on_chart_milestones = current_user.milestones.includes(:tasks).on_chart.not_completed.start_date_asc
-    @milestone_widths, @milestone_lefts = milestone_widths_lefts_hash(on_chart_milestones)
-    @date_range = date_range(on_chart_milestones)
+  def set_task_milestone
+    @task_milestone = @task.milestone if @task.milestone.present?
   end
 end

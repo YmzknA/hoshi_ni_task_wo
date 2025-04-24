@@ -6,8 +6,18 @@
   <%= render "progress_button", task: @task %>
 <% end %>
 
-<% if @task.milestone && @task.milestone.is_on_chart == true %>
-  <%= turbo_stream.replace "chart_#{@task.milestone.id}" do %>
-    <%= render "gantt_chart/chart", milestone:@task.milestone, milestone_widths: @milestone_widths, milestone_lefts: @milestone_lefts, date_range: @date_range %>
+<%= turbo_stream.replace "task_show_progress_button_id_#{@task.id}" do %>
+  <div id="task_show_progress_button_id_<%= @task.id %>" class="flex w-full items-center justify-center">
+  <%= render "progress_button", task: @task %>
+  </div>
+<% end %>
+
+<% if @task_milestone && @task_milestone.is_on_chart == true %>
+  <%= turbo_stream.replace "chart_#{@task_milestone.id}" do %>
+    <div id="chart_<%=@task_milestone.id%>">
+    <% @task_milestone.tasks.valid_dates.each do |task| %>
+      <%= render "gantt_chart/task_chart", task: task, tasks: @task_milestone.tasks.start_date_asc.to_a %>
+    <% end %>
+    </div>
   <% end %>
 <% end %>

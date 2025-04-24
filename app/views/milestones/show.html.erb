@@ -6,9 +6,7 @@
   <div class="relative z-10 min-h-screen space-y-5 rounded-t-[4rem] border-x-1 border-t-1 border-base-200 bg-base-300/30 p-8 text-center text-lg md:text-xl">
 
     <!-- フラッシュメッセージ -->
-    <div id="flash" class="fixed m-5 top-0 left-0 right-0 z-50">
-      <%= render 'flash' %>
-    </div>
+    <%= render 'flash' %>
 
     <!-- 完成状態は星座アイコンと完成コメント -->
     <!-- 星座のアイコン -->
@@ -54,9 +52,7 @@
         <div class="flex h-35 w-full justify-center text-neutral">
           <div class="flex w-xl justify-between p-3">
             <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-              <div>
-                <%= @milestone.start_date&.year %>年
-              </div>
+                <%= @milestone.start_date&.year %>
               <div class="w-full text-xl">
                 <%= to_short_date(@milestone.start_date) %>
               </div>
@@ -65,7 +61,7 @@
               <p class="w-full text-5xl text-primary">~</p>
             </div>
             <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-              <%= @milestone.end_date&.year %>年<br>
+              <%= @milestone.end_date&.year %><br>
               <div class="w-full text-xl">
                 <%= to_short_date(@milestone.end_date) %>
               </div>
@@ -161,7 +157,7 @@
 
         <!-- タスク -->
         <input type="radio" name="my_tabs" class="tab" aria-label="タスク" checked="checked"/>
-        <div class="tab-content border-base-300 bg-base-100 p-3">
+        <div class="tab-content bg-base-100 p-3">
 
           <% if !@is_milestone_completed && current_user?(@milestone.user) %>
             <!-- 新規作成ボタン -->
@@ -181,17 +177,26 @@
           <%= render "tasks/tasks", tasks: @milestone_tasks %>
 
         </div>
-
-
-        <% if @is_milestone_completed %>
+        <% if @is_not_milestone_on_chart || @is_milestone_completed %>
           <!-- 完成状態の場合チャートは表示しない -->
         <% else %>
           <!-- チャート -->
           <input type="radio" name="my_tabs" class="tab" aria-label="チャート"  />
-          <div class="tab-content border-base-300 bg-base-100 p-6">
-            <div class="overflow-x-auto">
-              test
+          <div class="tab-content border-base-300 bg-base-100 p-1 w-[90vw] md:p-4">
+            <div class="flex justify-center items-center">
+              <div id="today_button" class="btn btn-secondary mb-2">
+                Go Today
+              </div>
             </div>
+
+            <div class="overflow-x-auto text-sm">
+              <%= render "gantt_chart/chart_layout", 
+                date_range: @date_range, 
+                milestones: [@milestone], 
+                milestone_widths: @milestone_widths, 
+                milestone_lefts: @milestone_lefts, 
+                chart_total_width: @chart_total_width %>
+          </div>
           </div>
         <% end %>
 
@@ -201,7 +206,7 @@
   </div>
 
   <!-- メニューバー -->
-  <div class="mt-10">
+  <div class="mt-3">
     <%= render 'menu_bar' %>
   </div>
 </div>
@@ -214,4 +219,19 @@
 <% end %>
 
 <%= turbo_frame_tag "tasks_show_modal" %>
+<%= turbo_frame_tag "milestone_show_modal" %>
+
+<script>
+  document.addEventListener("turbo:load", function() {
+    const today_button = document.getElementById("today_button");
+    const todayElement = document.getElementById("today");
+
+    today_button.addEventListener("click" , function() {
+      if (todayElement) {
+        todayElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  });
+</script>
+
 
