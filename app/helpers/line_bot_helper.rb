@@ -1,0 +1,2 @@
+module LineBotHelper
+end
