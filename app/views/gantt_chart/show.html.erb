@@ -12,7 +12,7 @@
         </div>
         <div class="flex flex-col z-60">
           <% @date_range.each_with_index do |date, index| %>
-            <div id="<%= (date == Date.today) ? 'today' : '' %>" class="h-[40px] flex items-center justify-center text-sm border-b border-gray-700/70 <%= (date.wday == 0) || (date.wday == 1) ? 'bg-error/70' : '' %> <%= (date == Date.today) ? 'bg-accent/70' : '' %> <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>">
+            <div id="<%= (date == Date.today) ? 'today' : '' %>" class="h-[40px] flex items-center justify-center text-sm border-b border-gray-700/70 <%= (date.wday == 0) || (date.wday == 6) ? 'bg-error/70' : '' %> <%= (date == Date.today) ? 'bg-accent/70' : '' %> <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>">
               <%= date.strftime("%m/%d") %>
             </div>
           <% end %>
@@ -28,7 +28,7 @@
               # 色の設定
               milestone_color = milestone.color
             %>
-          <div class="border border-3 rounded-md text-gray-100 text-xl absolute flex items-center justify-center font-medium px-2 text-center bg-opacity-50"
+          <div class="border border-3 rounded-md text-base-200 text-xl absolute flex items-center justify-center font-medium px-2 text-center"
               style="
               width: <%= @milestone_widths[milestone.id] %>px;
               left: <%= @milestone_lefts[milestone.id].to_i %>px;
@@ -48,10 +48,10 @@
           <div>
           <% @date_range.each_with_index do |date, index| %>
             <div
-              class="h-[40px] border-b border-gray-700 z-30
+              class="h-[40px] border-b border-base-100 z-30
               <%= (index == 0) ? 'border-t' : '' %>
               <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>
-              <%= (date.wday == 0) || (date.wday == 1) ? 'bg-error/20' : '' %>
+              <%= (date.wday == 0) || (date.wday == 6) ? 'bg-error/20' : '' %>
               <%= (date == Date.today) ? 'bg-accent/20' : '' %>
               "
               style="width: max(<%= @chart_total_width %>px, 100%);"
