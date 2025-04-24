@@ -20,6 +20,6 @@
 
   <% if @task.milestone && @tasks_update_success == true && @task.milestone.is_on_chart == true %>
     <%= turbo_stream.replace "chart_#{@task.milestone.id}" do %>
-      <%= render "gantt_chart/milestone_chart", milestone:@task.milestone, milestone_widths: @milestone_widths, milestone_lefts: @milestone_lefts, date_range: @date_range %>
+      <%= render "gantt_chart/chart", milestone:@task.milestone, milestone_widths: @milestone_widths, milestone_lefts: @milestone_lefts, date_range: @date_range %>
     <% end %>
   <% end %>
