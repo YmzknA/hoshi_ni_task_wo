@@ -3,6 +3,12 @@ class GanttChartController < ApplicationController
   before_action :authenticate_user!
 
   def show
+    if current_user.milestones.empty?
+      flash[:alert] = "星座がひとつもありません"
+      redirect_to user_path(current_user)
+      return
+    end
+
     @milestones = current_user.milestones.includes(:tasks).on_chart.not_completed.start_date_asc
 
     # 全てのマイルストーンの開始日と終了日から表示する日付範囲を決定
