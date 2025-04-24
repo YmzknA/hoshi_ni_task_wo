@@ -59,7 +59,7 @@
                     <div class="card w-full text-neutral">
                       <p class="card-title h-5 pl-2 text-sm text-primary">Description</p>
                       <div class="flex min-h-24 w-full items-center justify-center rounded-xl bg-primary p-3">
-                        <%= @milestone.description.present? ? @task.description : "説明はありません" %>
+                        <%= @milestone.description.present? ? @milestone.description : "説明はありません" %>
                       </div>
                     </div>
                   </div>
