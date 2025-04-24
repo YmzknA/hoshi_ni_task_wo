@@ -183,15 +183,20 @@
         </div>
 
 
-        <% if @is_milestone_completed %>
+        <% if @is_not_milestone_on_chart || @is_milestone_completed %>
           <!-- 完成状態の場合チャートは表示しない -->
         <% else %>
           <!-- チャート -->
           <input type="radio" name="my_tabs" class="tab" aria-label="チャート"  />
           <div class="tab-content border-base-300 bg-base-100 p-6">
-            <div class="overflow-x-auto">
-              test
-            </div>
+            <div class="overflow-x-auto text-sm">
+              <%= render "gantt_chart/chart_layout", 
+                date_range: @date_range, 
+                milestones: [@milestone], 
+                milestone_widths: @milestone_widths, 
+                milestone_lefts: @milestone_lefts, 
+                chart_total_width: @chart_total_width %>
+          </div>
           </div>
         <% end %>
 

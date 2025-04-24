@@ -1,4 +1,6 @@
 class MilestonesController < ApplicationController
+  include GanttChartHelper
+
   before_action :set_milestone, only: [:show, :edit, :update, :destroy, :complete, :show_complete_page]
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
@@ -22,8 +24,10 @@ class MilestonesController < ApplicationController
              end
 
     @is_milestone_completed = (@milestone.progress == "completed")
+    @is_not_milestone_on_chart = @milestone.is_on_chart == false
 
     if @milestone.is_public || current_user?(@milestone.user)
+      prepare_for_chart(@milestone) if @milestone.is_on_chart
       @milestone_tasks = @milestone.tasks
       @task = Task.new
     else
@@ -140,5 +144,11 @@ class MilestonesController < ApplicationController
 
     flash[:alert] = "アクセス権限がありません"
     redirect_to user_path(current_user)
+  end
+
+  def prepare_for_chart(milestone)
+    # milestone_chartの幅と位置情報を計算
+    @milestone_widths, @milestone_lefts = milestone_widths_lefts_hash([milestone])
+    @date_range = date_range([milestone])
   end
 end
