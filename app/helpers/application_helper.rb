@@ -18,4 +18,18 @@ module ApplicationHelper
 
     "#{date.mon}/#{date.mday} (#{day_of_week(date)})"
   end
+
+  # タスクの進捗を取得するメソッド
+  def get_progress_message(task)
+    case task.progress
+    when "not_started"
+      "🍵 未着手"
+    when "in_progress"
+      "👉 進行中"
+    when "completed"
+      "✅ 完了"
+    else
+      "❓不明な進捗"
+    end
+  end
 end
