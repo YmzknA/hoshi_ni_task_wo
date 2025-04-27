@@ -44,15 +44,18 @@ class User < ApplicationRecord
 
   # ゲストユーザー
   def self.guest
-    email = "guest@example.com"
-
-    find_or_create_by(email: email) do |user|
-      user.password = SecureRandom.urlsafe_base64
+    create do |user|
+      user.email = "guest_#{SecureRandom.urlsafe_base64}@example.com"
+      user.password = "password"
       user.name = "ゲストユーザー"
       user.is_guest = true
       user.bio = "ゲストユーザーです。
       星座やタスクの作成や編集、削除は出来ませんが、一部の機能を体験できます。
       ぜひ、アカウントを作成して、全ての機能を体験してみてください！"
     end
+  end
+
+  def guest?
+    is_guest == true
   end
 end

@@ -40,7 +40,7 @@ module UserRegistration
         title: "日付が片方だけ設定されているタスク",
         description: "日付が片方だけ設定されているタスクはチャートに一点で表示されます",
         progress: "not_started",
-        start_date: Date.today + 1.day,
+        start_date: Date.today,
         milestone_id: on_chart_milestone.id
       )
 
@@ -49,6 +49,7 @@ module UserRegistration
         description: "紐づくタスクが全て完了している星座です。
         タスク一覧から完成ボタンを押して、星座を完成させてみてください",
         progress: "in_progress",
+        color: "#5E6BFF",
         start_date: Date.today - 1.week,
         end_date: Date.today + 3.week
       )
