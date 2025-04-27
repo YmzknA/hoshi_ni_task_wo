@@ -19,6 +19,10 @@ Rails.application.routes.draw do
     omniauth_callbacks: "users/omniauth_callbacks"
   }
 
+  devise_scope :user do
+    post "users/guest_sign_in" => "users/registrations#guest_sign_in"
+  end
+
   root "static_pages#home"
   get "user_check" => "static_pages#user_check"
   get "privacy_policy" => "static_pages#privacy_policy"
