@@ -20,7 +20,7 @@ module LineBot
       tasks = milestone.tasks.order(:start_date)
       tasks_info = tasks.present? ? tasks_message(tasks, is_show_milestone: false) : "タスクはありません"
 
-      "#{milestone_info}\n\n   #{tasks_info}"
+      "#{milestone_info}\n\n#{tasks_info}"
     end
 
     # taskの情報表示部分を生成する
