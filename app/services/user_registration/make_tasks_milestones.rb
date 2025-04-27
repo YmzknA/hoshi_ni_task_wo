@@ -47,7 +47,7 @@ module UserRegistration
       complete_milestone = user.milestones.create!(
         title: "完成できる星座",
         description: "紐づくタスクが全て完了している星座です。
-        タスク一覧から完成ボタンを推して、星座を完成させてみてください",
+        タスク一覧から完成ボタンを押して、星座を完成させてみてください",
         progress: "in_progress",
         start_date: Date.today - 1.week,
         end_date: Date.today + 3.week
