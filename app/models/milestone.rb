@@ -5,6 +5,7 @@ class Milestone < ApplicationRecord
 
   # Validations
   validates :title, presence: true
+  validates :description, length: { maximum: 150 }, allow_blank: true
 
   validates :start_date, presence: true, if: -> { is_on_chart }
   validate :start_date_check

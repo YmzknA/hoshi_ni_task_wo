@@ -85,7 +85,7 @@
         <% unless @milestone.description == "" || @milestone.description.blank? %>
           <p class="card-title h-5 pl-2 text-primary">詳細</p>
           <div class="flex min-h-[100px] w-full items-center justify-center rounded-xl bg-primary p-3">
-            <%= @milestone.description %>
+            <%= safe_join(@milestone.description.split("\n"),tag(:br)) %>
           </div>
         <% end %>
       </div>

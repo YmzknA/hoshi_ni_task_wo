@@ -3,6 +3,7 @@ class Task < ApplicationRecord
   belongs_to :user
 
   validates :title, presence: true, length: { maximum: 25 }
+  validates :description, length: { maximum: 150 }, allow_blank: true
 
   validate :start_date_check
   validate :end_date_check
