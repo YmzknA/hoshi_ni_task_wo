@@ -91,7 +91,7 @@ module LineBot
       when "completed"
         "✅ 完了"
       else
-        "状態不明"
+        "❓状態不明"
       end
     end
 

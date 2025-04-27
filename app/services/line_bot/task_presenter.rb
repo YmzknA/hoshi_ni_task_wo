@@ -5,11 +5,11 @@ module LineBot
     end
 
     def tasks_list
-      tasks = @user.tasks.order(:start_date).reject { |t| t&.milestone_completed? }
+      return "ユーザーIDが取得できませんでした。" if @user.nil?
 
-      if @user.nil?
-        "ユーザーIDが取得できませんでした。"
-      elsif tasks.empty?
+      tasks = @user.tasks.order(:start_date).reject { |t| t.milestone.present? && t.milestone.completed? }
+
+      if tasks.empty?
         "タスクはありません！"
       else
         MessageBuilder.tasks_message(tasks)
