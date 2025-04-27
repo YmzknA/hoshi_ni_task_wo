@@ -27,7 +27,7 @@
         <% if @user.bio.blank? %>
           <p class="text-center">ここに自己紹介等が入ります</p>
         <% else %>
-          <%= @user.bio %>
+          <%= safe_join(@user.bio.split("\n"),tag(:br)) %>
         <% end %>
       </div>
 

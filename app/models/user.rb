@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :tasks, dependent: :destroy
   has_many :milestones, dependent: :destroy
 
+  # Lineログイン用の設定
   def social_profile(provider)
     social_profiles.select { |sp| sp.provider == provider.to_s }.first
   end
@@ -39,4 +40,22 @@ class User < ApplicationRecord
   end
   # rubocop:enable Naming/AccessorMethodName
   # rubocop:enable Style/RedundantSelf
+  #
+
+  # ゲストユーザー
+  def self.guest
+    create do |user|
+      user.email = "guest_#{SecureRandom.urlsafe_base64}@example.com"
+      user.password = "password"
+      user.name = "ゲストユーザー"
+      user.is_guest = true
+      user.bio = "ゲストユーザーです。
+      星座やタスクの作成や編集、削除は出来ませんが、一部の機能を体験できます。
+      ぜひ、アカウントを作成して、全ての機能を体験してみてください！"
+    end
+  end
+
+  def guest?
+    is_guest == true
+  end
 end

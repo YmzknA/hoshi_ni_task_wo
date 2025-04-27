@@ -72,6 +72,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def destroy
   #   super
   # end
+  #
+  def guest_sign_in
+    user = User.guest
+    if user.tasks.empty? && user.milestones.empty?
+      UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user)
+    end
+    sign_in user
+    redirect_to user_path(user), notice: "ゲストユーザーでログインしました。"
+  end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
