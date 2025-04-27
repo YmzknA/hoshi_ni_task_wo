@@ -46,7 +46,7 @@ class LineBotController < ApplicationController
         "#{@milestone_presenter.milestones_list}\n\n----------\n\n#{@task_presenter.tasks_list}"
       )
     when "星座の名前で確認"
-      Rails.cache.write("user_#{@user_id}_step", "tasks_for_milestone", expires_in: 10.minutes)
+      Rails.cache.write("user_#{@user_id}_step", "tasks_for_milestone", expires_in: 1.minutes)
 
       LineBot::MessageBuilder.text(
         "続いて、星座のタイトルを送信してください。\n\n↓星座のタイトル一覧↓\n#{@milestone_presenter.milestones_title_list}"
@@ -65,7 +65,6 @@ class LineBotController < ApplicationController
   end
 
   def handle_milestone_selection
-    Rails.cache.delete("user_#{@user_id}_step")
     milestone_title = @event.message["text"]
     LineBot::MessageBuilder.text(@task_presenter.tasks_for_milestone(milestone_title))
   end
