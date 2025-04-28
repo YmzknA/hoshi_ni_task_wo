@@ -142,9 +142,17 @@
     <!-- button -->
     <% if current_user?(@milestone.user) %>
       <div class="flex h-12 w-full justify-center text-neutral">
-        <div class="btn btn-error mr-5 h-12 w-25 md:w-42" onclick="delete_confirm_modal.showModal()">
-          削除
-        </div>
+        <% if current_user.guest? %>
+          <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+            <div class="btn btn-disabled mr-5 h-12 w-25 md:w-42">
+              削除
+            </div>
+          </div>
+        <% else %>
+          <div class="btn btn-error mr-5 h-12 w-25 md:w-42" onclick="delete_confirm_modal.showModal()">
+            削除
+          </div>
+        <% end %>
         <button class="btn btn-accent h-12 w-25 md:w-42" onclick="milestones_edit_modal.showModal()">
           編集
         </button>
