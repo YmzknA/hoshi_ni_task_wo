@@ -22,7 +22,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
     # ログイン後のflash messageとリダイレクト先を設定
     flash[:notice] = "ログインしました"
-    redirect_to user_check_path
+    redirect_to user_path(current_user)
   end
   # rubocop:enable Style/RedundantCondition
   # rubocop:enable Layout/LineLength
