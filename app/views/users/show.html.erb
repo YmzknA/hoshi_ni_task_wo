@@ -58,7 +58,7 @@
         <div class="bg-base-100 w-full max-w-xl p-5 rounded-xl flex justify-center">
           <div class="text-center space-y-5">
             <p>ゲストユーザーを終了して、新規登録を行う</p>
-            <%= link_to '終了', user_registration_path, data:{ turbo_method: :delete }, class: "btn btn-accent rounded-lg w-42" %>
+            <%= link_to '終了', destroy_user_session_path, data: { turbo_method: :delete }, class: 'btn btn-accent rounded-lg w-50' %>
           </div>
         </div>
       </div>
