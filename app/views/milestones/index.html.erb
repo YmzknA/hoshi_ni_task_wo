@@ -23,16 +23,29 @@
         <input type="radio" name="my_tabs" class="tab" aria-label="作成中の星座" checked="checked"/>
         <div class="tab-content border-base-300 bg-base-100 p-3">
 
-          <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
-            <button class="size-full p-4 rounded-xl hover:cursor-pointer hover:bg-base-300/30" onclick="milestones_new_modal.showModal()">
-              <div class="flex items-center justify-center size-full">
-                <span class="material-symbols-outlined">
-                  add_circle
-                </span>
-                追加
-              </div>
-            </button>
-          </div>
+          <% if current_user.guest? %>
+            <div data-tip="ゲストユーザーは使用できません" class="tooltip rounded-xl flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
+              <button class="size-full p-4 rounded-xl">
+                <div class="flex items-center justify-center size-full line-through text-base-200/50">
+                  <span class="material-symbols-outlined">
+                    add_circle
+                  </span>
+                  追加
+                </div>
+              </button>
+            </div>
+          <% else %>
+            <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
+              <button class="size-full p-4 rounded-xl hover:cursor-pointer hover:bg-base-300/30" onclick="milestones_new_modal.showModal()">
+                <div class="flex items-center justify-center size-full">
+                  <span class="material-symbols-outlined">
+                    add_circle
+                  </span>
+                  追加
+                </div>
+              </button>
+            </div>
+          <% end %>
 
           <!-- 星座 -->
           <%= render "milestones", milestones: @not_completed_milestones, completed: false %>

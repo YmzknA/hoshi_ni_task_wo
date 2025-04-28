@@ -2,7 +2,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(id: params[:id])
 
-    if @user.nil?
+    # @userがnilであるか、またはゲストユーザかつ現在のユーザと異なる場合はリダイレクト
+    # ゲストユーザーはノイズになるのを避けるために、他者に詳細画面を表示しない
+    if @user.nil? || (@user.guest? && !current_user?(@user))
       redirect_to root_path, alert: "ユーザが見つかりません"
     else
       @title = "ユーザーページ"

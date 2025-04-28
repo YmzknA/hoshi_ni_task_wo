@@ -3,6 +3,7 @@ class TasksController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   before_action :set_task_milestone, only: [:update_progress, :update, :destroy]
+  before_action :valid_guest_user, only: [:new, :create]
 
   # GET /tasks or /tasks.json
   def index
@@ -15,8 +16,15 @@ class TasksController < ApplicationController
 
   # GET /tasks/1
   def show
+    # タスク詳細画面に遷移する際、タスクのユーザーがゲストユーザーで、
+    # 現在のユーザーがそのタスクのユーザーでない場合は、タスク詳細画面を表示しない
+    if @task.user.guest? && !current_user?(@task.user)
+      flash[:alert] = "指定されたタスクが見つかりません"
+      redirect_to tasks_path
+    end
+
     if @task.milestone&.is_public || current_user?(@task&.user)
-      # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合
+      # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合のみ表示
     else
       flash[:alert] = "このタスクは非公開です"
       redirect_to tasks_path
@@ -126,5 +134,12 @@ class TasksController < ApplicationController
 
   def set_task_milestone
     @task_milestone = @task.milestone if @task.milestone.present?
+  end
+
+  def valid_guest_user
+    return unless current_user.guest?
+
+    flash[:alert] = "ゲストユーザーはタスクを作成できません"
+    redirect_to tasks_path
   end
 end
