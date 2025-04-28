@@ -1,0 +1,26 @@
+<% if current_user.guest? %>
+  <div >
+    <div data-tip="ゲストユーザーは使用できません" class="tooltip rounded-xl flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
+      <div class="size-full p-1 rounded-xl p-4">
+        <div class="flex items-center justify-center size-full line-through text-base-200/50">
+          <span class="material-symbols-outlined">
+            add_circle
+          </span>
+    追加
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
+    <%= link_to new_task_path, class: "size-full p-1 rounded-xl hover:cursor-pointer hover:bg-base-300/30 p-4", data: { turbo_frame: "tasks_new_modal"} do %>
+      <div class="flex items-center justify-center size-full">
+        <span class="material-symbols-outlined">
+          add_circle
+        </span>
+        追加
+      </div>
+    <% end %>
+  </div>
+<% end %>
+

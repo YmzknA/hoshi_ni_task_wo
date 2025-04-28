@@ -161,16 +161,7 @@
 
           <% if !@is_milestone_completed && current_user?(@milestone.user) %>
             <!-- 新規作成ボタン -->
-            <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
-              <%= link_to new_task_path(milestone_from_milestone_show: @milestone), class: "size-full p-1 rounded-xl hover:cursor-pointer hover:bg-base-300/30 p-4", data: { turbo_frame: "tasks_new_modal"} do %>
-                <div class="flex items-center justify-center size-full">
-                  <span class="material-symbols-outlined">
-                    add_circle
-                  </span>
-                  追加
-                </div>
-              <% end %>
-            </div>
+            <%= render "tasks/add_task_button" %>
           <% end %>
 
           <!-- タスク一覧 -->
