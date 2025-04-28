@@ -4,6 +4,7 @@ class MilestonesController < ApplicationController
   before_action :set_milestone, only: [:show, :edit, :update, :destroy, :complete, :show_complete_page]
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  before_action :valid_guest_user, only: [:new, :create]
 
   # GET /milestones or /milestones.json
   def index
@@ -17,6 +18,8 @@ class MilestonesController < ApplicationController
 
   # GET /milestones/1
   def show
+    valid_show_milestone_guest_user(@milestone)
+
     @title = if current_user?(@milestone.user)
                "星座詳細"
              else
@@ -121,7 +124,11 @@ class MilestonesController < ApplicationController
   private
 
   def set_milestone
-    @milestone = Milestone.find(params[:id])
+    @milestone = Milestone.find_by(id: params[:id])
+    return if @milestone
+
+    flash[:alert] = "指定された星座が見つかりません"
+    redirect_to milestones_path
   end
 
   def milestone_params
@@ -152,5 +159,21 @@ class MilestonesController < ApplicationController
     @milestone_widths, @milestone_lefts = milestone_widths_lefts_hash([milestone])
     @date_range = date_range([milestone])
     @chart_total_width = @milestone_widths[milestone.id].to_i + 40
+  end
+
+  def valid_guest_user
+    return unless current_user.guest?
+
+    flash[:alert] = "ゲストユーザーは星座を作成できません"
+    redirect_to tasks_path
+  end
+
+  def valid_show_milestone_guest_user(milestone)
+    # ゲストユーザーの星座は非公開
+    # 他のユーザーがゲストユーザーの星座を見ようとした場合、弾く
+    return if !milestone.user.guest? || current_user?(milestone.user)
+
+    flash[:alert] = "指定された星座が見つかりません"
+    redirect_to milestones_path
   end
 end

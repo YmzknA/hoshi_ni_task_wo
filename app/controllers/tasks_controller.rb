@@ -16,8 +16,14 @@ class TasksController < ApplicationController
 
   # GET /tasks/1
   def show
-    if !@task.user.guest? || @task.milestone&.is_public || current_user?(@task&.user)
-      # taskの所有者がゲストユーザーでない場合、または、
+    # タスク詳細画面に遷移する際、タスクのユーザーがゲストユーザーで、
+    # 現在のユーザーがそのタスクのユーザーでない場合は、タスク詳細画面を表示しない
+    if @task.user.guest? && !current_user?(@task.user)
+      flash[:alert] = "指定されたタスクが見つかりません"
+      redirect_to tasks_path
+    end
+
+    if @task.milestone&.is_public || current_user?(@task&.user)
       # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合のみ表示
     else
       flash[:alert] = "このタスクは非公開です"
