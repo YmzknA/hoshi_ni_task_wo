@@ -3,6 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+  before_action :check_guest_user, only: [:update, :edit]
 
   # GET /resource/sign_up
   # def new
@@ -20,7 +21,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
 
-        # sign_in後に紐づくtasksを作成
+        # sign_up後に紐づくtasksを作成
         user = resource
         UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user)
 
@@ -110,6 +111,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def after_update_path_for(resource)
     user_path(resource)
+  end
+
+  def check_guest_user
+    redirect_to user_path(current_user), alert: "ゲストユーザーは編集できません。" if current_user.guest?
   end
 
   # The path used after sign up for inactive accounts.
