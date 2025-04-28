@@ -3,7 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  before_action :check_guest_user, only: [:update, :edit]
+  before_action :valid_guest_user, only: [:update, :edit]
 
   # GET /resource/sign_up
   # def new
@@ -113,8 +113,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     user_path(resource)
   end
 
-  def check_guest_user
-    redirect_to user_path(current_user), alert: "ゲストユーザーは編集できません。" if current_user.guest?
+  def valid_guest_user
+    return unless current_usera.guest?
+
+    flash[:alert] = "ゲストユーザーはプロフィールの編集ができません"
+    redirect_to user_path(current_user)
   end
 
   # The path used after sign up for inactive accounts.
