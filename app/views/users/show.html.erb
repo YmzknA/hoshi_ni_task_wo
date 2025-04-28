@@ -35,6 +35,7 @@
         </div>
       </div>
 
+      <!-- ゲストユーザーの時は、ユーザー編集ボタンを無効化 -->
       <div class="flex justify-center items-center">
         <div class="flex w-xl <%= current_user?(@user) ? 'justify-between' : 'justify-end' %>">
           <% if current_user.guest? && current_user?(@user) %>
