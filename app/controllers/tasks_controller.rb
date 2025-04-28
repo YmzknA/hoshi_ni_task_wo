@@ -80,6 +80,7 @@ class TasksController < ApplicationController
 
     if @task.update(task_params)
       # タスクの更新に成功した場合、タスク詳細を表示
+      @task_milestone = @task.milestone
       @tasks_show_modal_open = true
       @tasks_update_success = true
       flash.now[:notice] = "タスクを更新しました"
