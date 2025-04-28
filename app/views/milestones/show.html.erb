@@ -169,7 +169,7 @@
 
           <% if !@is_milestone_completed && current_user?(@milestone.user) %>
             <!-- 新規作成ボタン -->
-            <%= render "tasks/add_task_button" %>
+            <%= render "tasks/add_task_button", milestone: @milestone %>
           <% end %>
 
           <!-- タスク一覧 -->
