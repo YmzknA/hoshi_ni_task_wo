@@ -114,7 +114,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def valid_guest_user
-    return unless current_usera.guest?
+    return unless current_user.guest?
 
     flash[:alert] = "ゲストユーザーはプロフィールの編集ができません"
     redirect_to user_path(current_user)
