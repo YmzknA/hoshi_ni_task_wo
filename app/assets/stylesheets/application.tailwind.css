@@ -18,8 +18,6 @@
   font-style: normal;
 }
 
-
-
 @plugin "daisyui/theme" {
   name: "hoshi";
   default: false;
