@@ -11,6 +11,13 @@
   font-style: normal;
 }
 
+.playwrite-au-sa {
+  font-family: "Playwrite AU SA", cursive;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
 @plugin "daisyui/theme" {
   name: "hoshi";
   default: false;

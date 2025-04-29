@@ -4,7 +4,7 @@ function generateBoxShadows(count) {
   const shadows = [];
   for (let i = 0; i < count; i++) {
     const x = Math.floor(Math.random() * 2000);
-    const y = Math.floor(Math.random() * 2000);
+    const y = Math.floor(Math.random() * 4000);
     // 白い星を生成
     shadows.push(`${x}px ${y}px rgba(255, 255, 255, 50%)`);
   }
@@ -12,9 +12,9 @@ function generateBoxShadows(count) {
 }
 
 // 各星要素に対するランダムな box-shadow を生成
-const star1Shadows = generateBoxShadows(500);
-const star2Shadows = generateBoxShadows(100);
-const star3Shadows = generateBoxShadows(50);
+const star1Shadows = generateBoxShadows(1000);
+const star2Shadows = generateBoxShadows(200);
+const star3Shadows = generateBoxShadows(100);
 
 // 要素取得
 const stars1 = document.getElementById('stars1');

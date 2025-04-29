@@ -1,22 +1,24 @@
 <%= render "flash" %>
-<div class="w-full h-full">
-  <%= image_tag 'mikaduki.png', class: 'absolute top-5 left-5 z-0 h-[50px] w-[50px]' %>
+<div class="h-full w-full">
+  <%= image_tag 'mikaduki.png', class: 'absolute left-5 top-5 z-0 h-[50px] w-[50px]' %>
 
-  <div class="flex flex-col items-center stats intersect:motion-preset-slide-down intersect:motion-ease-spring-bouncier max-sm:w-full">
-  <div class="text-6xl pt-15 mb-8 xl:text-8xl">
-      <%= image_tag 'mikaduki.png', class: ' h-[200px] w-[200px] inline-block' %>
-    <p class="text-center">星にタスクを</p>
-  </div>
+  <div class="pt-50 flex max-sm:w-full flex-col items-center stats intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once">
+    <div class="mb-20 text-6xl xl:text-8xl">
+      <%= image_tag 'mikaduki.png', class: 'inline-block h-[200px] w-[200px]' %>
+      <p class="text-center">星にタスクを</p>
+    </div>
   </div>
 
-  <div class="text-center text-xl xl:text-2xl mb-8 animate-fade-in">
+  <div class="mb-20 animate-fade-in text-center text-xl xl:text-2xl">
     今日したことを星で繋いで、<br>
     終わったタスクを星座にかえて。
 
   </div>
 
   <!-- ボタン -->
-  <%= render 'auth_buttons' %>
+  <div class="intersect:animate-fade-in intersect-once">
+    <%= render 'auth_buttons' %>
+  </div>
 
   <!-- スクロールの矢印 -->
   <div class="flex justify-center">
@@ -26,46 +28,170 @@
     <%= image_tag 'bar.png', class: 'h-[30px] w-[1px] animate-scroll' %>
   </div>
 
-
-
   <!-- 説明部分 -->
-  <div class="flex flex-col items-center mb-4 mt-8">
-    <div class="text-center text-2xl">
-      星にタスクを<br>
-      とは
-    </div>
-    <div class="px-4 md:px-8 py-6 mb-8 text-base md:text-lg">
-      <p class="mb-4">このアプリは、縦型ガントチャートで管理する新しいカタチのタスク管理ツールです。<br>
-      日々のタスクを「星」として、集まったタスクは「星座」となります。</p>
-
-      <p class="mb-4">タスクは個別に作成でき、「星座」にまとめることも可能です。</p>
-
-      <p class="mb-4">進捗は3段階で管理され、「星座」は属するタスクの進み具合に応じて自動で更新。</p>
-
-      <p class="mb-4">すべてのタスクが完了すると「星座」も完成し、88星座の中からアイコンが付きます。<br>
-      さらに、完成した「星座」にはコメントも追加できます。</p>
-
-      <div class="mb-4">
-        <p class="font-medium">「星座」だけの作成もOK！</p>
-        <p>あとからタスクを紐づけたり、その場で作成もできます。<br>
-        表示スタイル（ガントチャート or リスト）や、公開・非公開の設定も自由。<br>
-        公開用に複製して、限定URLで共有することも可能です。</p>
+  <div class="relative mb-20 z-10 flex w-full items-center justify-center p-6">
+    <div class="mb-12 flex w-full flex-col items-center justify-center">
+      <div class="mb-3 flex w-full items-center justify-center md:justify-start">
+        <p class="playwrite-au-sa relative mb-10 text-4xl intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once md:mb-0 md:ml-10 md:text-7xl">About</p>
+      </div>
+      <div class="flex w-full flex-col-reverse items-center text-center md:flex-row md:items-center md:justify-end md:text-start">
+        <div class="mb-5 px-5 md:text-xl intersect:animate-fade-in intersect-once">
+          <p class="mb-8 text-xl font-bold md:text-3xl">タスクを星に、<br>まとめて星座に。</p>
+          <p class="mb-4">複雑なタスク管理を、<br>わかりやすく管理できる、<br>タスク管理アプリ「星にタスクを」</p>
+          <p>このアプリで面倒なタスク管理を、<br>少し楽しく。</p>
+        </div>
+        <%= image_tag "tasks_index_todo.png", class: "mb-5 w-5/10 intersect:animate-fade-in intersect-once" %>
       </div>
 
-      <p class="mb-4">また、LINE認証に対応！<br>
-      連携すると、LINEでタスクや「星座」の進捗を手軽に確認できます。</p>
-
-      <p class="mb-4">ユーザーページでは、公開設定された「星座」を誰でも見ることができます。<br>
-      自分のがんばりを、ちょっとした物語として世界にシェアしてみませんか？</p>
+      <div class="flex w-full flex-col items-center md:flex-row md:items-center md:justify-start">
+        <%= image_tag "chart_show.png", class: "mb-5 w-5/10 intersect:animate-fade-in intersect-once"  %>
+        <div class="px-5 text-center md:text-start md:text-xl intersect:animate-fade-in intersect-once">
+          <p class="mb-8 text-xl font-bold md:text-3xl">ひと目で分かる<br>チャート式</p>
+          <p class="mb-4">チャート式の表示で、<br>長期間のタスクもひと目で管理。</p>
+          <p>星座としてまとめて、<br>グループ化したものを表示できちゃいます。</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="z-10 relative p-8 mb-8 bg-base-100 text-center rounded-[4rem] xl:text-xl ">
-    ここに操作画面など
+  <div class="relative z-10 flex w-full items-center justify-end">
+    <div class="mb-40 ml-8 w-4xl rounded-l-xl bg-base-100 p-8 intersect:animate-fade-in intersect-once">
+      <p class="playwrite-au-sa mb-10 mt-8 text-center text-4xl intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once md:text-7xl">Use Image</p>
+      <div class="flex w-full flex-col items-center justify-between p-5 text-center text-xl md:flex-row">
+
+        <div class="mx-auto mb-5 md:w-2/5 md:mb-0">
+          <div class="mb-3 flex items-center justify-center intersect:animate-fade-in intersect-once">
+            <%= image_tag "sun.png", class: "w-10" %>
+            <p class="ml-2">朝</p>
+          </div>
+          <p class="mb-5 intersect:animate-fade-in intersect-once">LINEでパパっと<br>タスクを確認</p>
+          <div class="mb-5 flex items-center justify-center intersect:animate-fade-in intersect-once">
+            <%= image_tag "smartphone.png", class: "w-30" %>
+            <%= image_tag "chat.png", class: "w-30" %>
+          </div>
+        </div>
+
+        <div>
+          <%= image_tag "double_arrow.png", class: "mb-5 w-10 rotate-90 md:rotate-0 intersect:animate-fade-in intersect-once" %>
+        </div>
+
+        <div class="mx-auto md:w-2/5">
+          <div class="mb-3 flex items-center justify-center intersect:animate-fade-in intersect-once">
+            <%= image_tag "moon.png", class: "w-10" %>
+            <p class="ml-2">夜</p>
+          </div>
+          <p class="mb-5 intersect:animate-fade-in intersect-once">おうちでのんびり<br>今日を振り返る</p>
+          <div class="mb-5 flex items-center justify-center intersect:animate-fade-in intersect-once">
+            <%= image_tag "chair.png", class: "w-30" %>
+            <%= image_tag "check_box.png", class: "w-30" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative z-10 mb-40 w-full p-10">
+    <div class="w-full rounded-xl bg-base-100 p-8 intersect:animate-fade-in intersect-once">
+      <div class="playwrite-au-sa flex flex-col mb-20 items-center text-4xl intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once md:text-7xl">
+        Steps
+      </div>
+
+      <div class="flex w-full flex-col items-center justify-center text-center text-xl">
+        <div class="flex flex-col items-start justify-center">
+        <div class="mb-5 flex items-center justify-start intersect:animate-fade-in intersect-once">
+          <div class="w-23 hidden md:block">
+            <%= render "star_icon", width: 30, height: 30 %>
+          </div>
+          <div class="w-15 md:hidden">
+            <%= render "star_icon", width: 20, height: 20 %>
+          </div>
+          <p class="ml-5 md:text-2xl">タスクを登録</p>
+        </div>
+        <div class="mb-5 flex items-center justify-start intersect:animate-fade-in intersect-once">
+          <div class="w-23 flex hidden md:flex">
+            <%= render "star_icon", width: 30, height: 30 %>
+            <%= render "star_icon", width: 30, height: 30 %>
+          </div>
+          <div class="w-15 flex md:hidden">
+            <%= render "star_icon", width: 20, height: 20 %>
+            <%= render "star_icon", width: 20, height: 20 %>
+          </div>
+          <p class="ml-5 hidden md:text-2xl md:block">タスクをまとめる</p>
+          <p class="ml-5 md:text-2xl md:hidden">タスクを<br>まとめる</p>
+        </div>
+        <div class="mb-5 flex items-center justify-start intersect:animate-fade-in intersect-once">
+          <div class="w-23 flex hidden md:flex">
+            <%= render "star_icon", width: 30, height: 30 %>
+            <%= render "star_icon", width: 30, height: 30 %>
+            <%= render "star_icon", width: 30, height: 30 %>
+          </div>
+          <div class="w-15 flex md:hidden">
+            <%= render "star_icon", width: 20, height: 20 %>
+            <%= render "star_icon", width: 20, height: 20 %>
+            <%= render "star_icon", width: 20, height: 20 %>
+          </div>
+          <p class="ml-5 md:text-2xl">完了させる</p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative z-10 mb-10 flex w-full items-center justify-start">
+    <div class="w-4xl flex justify-center rounded-r-xl bg-base-100 px-5 py-12 mr-8 md:p-12 md:text-lg intersect:animate-fade-in intersect-once">
+
+      <div>
+      <div class="flex w-full flex-col items-center md:items-start justify-center">
+        <div class="flex flex-col items-center intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once">
+          <p class="playwrite-au-sa mb-3 text-4xl md:text-7xl">Feature</p>
+          <p class="mb-8 text-xs md:text-sm"> 少し長いので読み飛ばしても大丈夫です</p>
+        </div>
+      </div>
+
+      <p class="mb-4">このアプリは、縦型チャートで管理する新しいカタチのタスク管理ツールです。<br>
+      日々のタスクを「星」としてとらえて、ひとつにまとめたタスクは「星座」となります。</p>
+
+      <p class="mb-4">タスクは個別に管理してもよし、「星座」にまとめて管理することも可能です。</p>
+
+      <p class="mb-4">進捗は"未着手", "進行中", "完了"の3段階で管理できます。</p>
+
+      <p class="mb-4">すべてのタスクが完了すると「星座」を完成とすることができ、<br>88星座の中からアイコンが付きます。<br>
+      さらに、完成した「星座」にはコメントも追加できます。</p>
+
+      <p class="mb-4">タスクや「星座」を、LINEから確認することもできます。<br>
+      LINE連携して、手軽に管理しちゃいましょう。</p>
+
+      <p class="mb-4">自分のユーザーページはだれでも訪れることができ、<br>
+      全体公開設定になっている「星座」と、そのタスクを誰でも見ることができます。<br>
+      自分のがんばりを、友人や家族にシェアしてみませんか？</p>
+
+      <p class="mb-4">長い文章をここまで読んでいただき、ありがとうございます。<br>
+      最初にサンプルタスクが登録されているので、<br>
+      まずは一度試しに触ってみてください。</p>
+
+      <p class="mb-4">それでは、<br>
+      このアプリで、みなさんが楽しくタスク管理できますように...</p>
+
+      </div>
+    </div>
   </div>
 
   <!-- ボタン -->
-  <%= render 'auth_buttons' %>
-
+  <div class="pt-10 px-8 md:text-lg intersect:animate-fade-in intersect-once">
+    <p class="mb-8 text-center text-xl md:hidden">まずは、<br>"ログインせずに使ってみる"<br>から始めてみてください</p>
+    <p class="mb-8 text-center text-xl hidden md:block">まずは、"ログインせずに使ってみる"から始めてみてください</p>
+    <%= render 'auth_buttons' %>
+  </div>
 
 </div>
+
+<footer class="footer footer-center footer-horizontal rounded bg-base-300 p-10 text-base-content">
+  <nav class="grid grid-flow-col gap-4">
+    <a class="link link-hover" href="https://docs.google.com/forms/d/e/1FAIpQLScH-P7JBj_jwoFrQuMeJI_eQJwutS7p57h8nEbdWGgK30sXZQ/viewform">お問い合わせ</a>
+    <a class="link link-hover" href="/terms_of_service">利用規約</a>
+    <a class="link link-hover" href="/privacy_policy">プライバシーポリシー</a>
+  </nav>
+  <aside>
+    <p>Copyright © 2025 - All right reserved by Hoshi ni task wo</p>
+  </aside>
+</footer>
