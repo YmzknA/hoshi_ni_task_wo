@@ -22,7 +22,7 @@
               <div class="text-3xl">
               </div>
               <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
-                <%= image_tag @milestone.constellation.image_name, class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+                <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
               </div>
               <p><%= @milestone.constellation.name %>のアイコンが<br>付与されました</p>
 
