@@ -16,8 +16,13 @@
         <%= "#{@milestone.title} 座" %>
       </div>
       <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
+      <%= link_to "https://www.study-style.com/seiza/#{@milestone.constellation.image_name}.html" do %>
         <%= image_tag @milestone.constellation.image_name, class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+      <% end %>
       </div>
+      <%= link_to "https://www.study-style.com/seiza/#{@milestone.constellation.image_name}.html" do %>
+        <p class="text-xs text-base-200 link">画像：<%= @milestone.constellation.name %></p>
+      <% end %>
       <!-- 完了コメント -->
       <div class="flex w-full items-center justify-center">
         <div class="card w-xl text-neutral">
