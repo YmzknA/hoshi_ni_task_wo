@@ -2,10 +2,8 @@ class Constellation < ApplicationRecord
   has_many :milestones
 
   def self.range_of_stars_from_num_of_tasks(num_of_tasks)
-    return 2 if num_of_tasks.zero?
-
     case num_of_tasks
-    when 1..2
+    when 0..2
       2..10
     when 3..4
       5..15
