@@ -106,7 +106,11 @@ class MilestonesController < ApplicationController
   def show_complete_page; end
 
   def complete
-    @milestone.constellation = Constellation.all.sample
+    # 星座をランダムに決定するクラスメソッドに使用する
+    num_of_tasks = @milestone.tasks.count
+    range_of_stars = Constellation.range_of_stars_from_num_of_tasks(num_of_tasks)
+
+    @milestone.constellation = Constellation.random_constellation_from_num_of_stars(range_of_stars)
     @milestone.progress = "completed"
     @milestone.completed_comment = params[:milestone][:completed_comment]
 

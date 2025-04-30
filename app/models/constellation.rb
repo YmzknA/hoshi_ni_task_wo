@@ -1,6 +1,26 @@
 class Constellation < ApplicationRecord
   has_many :milestones
 
+  def self.range_of_stars_from_num_of_tasks(num_of_tasks)
+    return 2 if num_of_tasks.zero?
+
+    case num_of_tasks
+    when 1..2
+      2..10
+    when 3..4
+      5..15
+    when 5
+      10..20
+    else
+      15..28
+    end
+  end
+
+  def self.random_constellation_from_num_of_stars(range_of_stars)
+    constellations = Constellation.where(number_of_stars: range_of_stars)
+    constellations.sample
+  end
+
   def image_name
     name_hash = {
       "アンドロメダ座" => "And.webp", "やぎ座" => "Cap.webp", "みずがめ座" => "Aqr.webp",
