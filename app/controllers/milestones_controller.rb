@@ -17,7 +17,7 @@ class MilestonesController < ApplicationController
 
   # GET /milestones/1
   def show
-    if valid_show_milestone_guest_user(@milestone)
+    if other_guest_milestone?(@milestone)
       flash[:alert] = "星座が見つかりませんでした"
       redirect_to tasks_path
       return
