@@ -4,7 +4,6 @@ class MilestonesController < ApplicationController
   before_action :set_milestone, only: [:show, :edit, :update, :destroy, :complete, :show_complete_page]
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
-  before_action :valid_guest_user, only: [:new, :create]
 
   # GET /milestones or /milestones.json
   def index
@@ -18,7 +17,11 @@ class MilestonesController < ApplicationController
 
   # GET /milestones/1
   def show
-    valid_show_milestone_guest_user(@milestone)
+    if valid_show_milestone_guest_user(@milestone)
+      flash[:alert] = "星座が見つかりませんでした"
+      redirect_to tasks_path
+      return
+    end
 
     @title = if current_user?(@milestone.user)
                "星座詳細"
@@ -41,6 +44,12 @@ class MilestonesController < ApplicationController
 
   # GET /milestones/new
   def new
+    if current_user.guest?
+      flash[:alert] = "ゲストユーザーは星座を作成できません"
+      redirect_to tasks_path
+      return
+    end
+
     @milestone = Milestone.new
   end
 
@@ -49,6 +58,12 @@ class MilestonesController < ApplicationController
 
   # POST /milestones
   def create
+    if current_user.guest?
+      flash[:alert] = "ゲストユーザーは星座を作成できません"
+      redirect_to tasks_path
+      return
+    end
+
     @milestone = Milestone.new(milestone_params)
 
     if @milestone.save
@@ -165,19 +180,11 @@ class MilestonesController < ApplicationController
     @chart_total_width = @milestone_widths[milestone.id].to_i + 40
   end
 
-  def valid_guest_user
-    return unless current_user.guest?
-
-    flash[:alert] = "ゲストユーザーは星座を作成できません"
-    redirect_to tasks_path
-  end
-
-  def valid_show_milestone_guest_user(milestone)
+  def other_guest_milestone?(milestone)
     # ゲストユーザーの星座は非公開
-    # 他のユーザーがゲストユーザーの星座を見ようとした場合、弾く
-    return if !milestone.user.guest? || current_user?(milestone.user)
+    # 他のユーザーがゲストユーザーの星座を見ようとした場合、制限する
+    return false if !milestone.user.guest? || current_user?(milestone.user)
 
-    flash[:alert] = "指定された星座が見つかりません"
-    redirect_to milestones_path
+    true
   end
 end
