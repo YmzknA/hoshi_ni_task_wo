@@ -17,7 +17,7 @@
       </div>
       <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
       <%= link_to  milestone_constellation_url(@milestone) do %>
-        <%= image_tag @milestone.constellation.image_name, class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+        <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
       <% end %>
       </div>
       <%= link_to  milestone_constellation_url(@milestone) do %>
