@@ -25,6 +25,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       end
       @profile.set_values(@omniauth)
       sign_in(:user, @profile)
+      UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile) if @profile.tasks.empty? && @profile.milestones.empty?
     end
     # ログイン後のflash messageとリダイレクト先を設定
     flash[:notice] = "ログインしました"

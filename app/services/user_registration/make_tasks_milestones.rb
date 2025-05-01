@@ -50,7 +50,7 @@ module UserRegistration
         星座一覧から完成ボタンを押して、星座を完成させてみてください",
         progress: "in_progress",
         color: "#5E6BFF",
-        start_date: Date.today - 1.week,
+        start_date: Date.today - 3.day,
         end_date: Date.today + 3.week
       )
       user.tasks.create!(
