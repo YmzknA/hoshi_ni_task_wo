@@ -1,11 +1,19 @@
-<div class="relative z-10">
-  <div class="flex justify-center items-center mb-4">
-    <%= link_to "新規登録", new_user_registration_path, class: "btn btn-neutral text-accent w-42 h-12" %>
-    <%= button_to users_guest_sign_in_path, class: "btn btn-secondary ml-4 w-42 h-12" do %>
-      ログインせずに<br>使ってみる
-    <% end %>
+<% if user_signed_in? %>
+  <div class="relative z-10">
+    <div class="flex justify-center items-center">
+      <%= link_to "ユーザーページへ", user_path(current_user), class: "btn btn-primary w-42 h-12" %>
+    </div>
   </div>
-  <div class="flex justify-center">
-    <%= link_to "ログイン", new_user_session_path, class: "btn btn-accent mb-15 w-42 h-12" %>
+<% else %>
+  <div class="relative z-10">
+    <div class="flex justify-center items-center mb-4">
+      <%= link_to "新規登録", new_user_registration_path, class: "btn btn-neutral text-accent w-42 h-12" %>
+      <%= button_to users_guest_sign_in_path, class: "btn btn-secondary ml-4 w-42 h-12" do %>
+        ログインせずに<br>使ってみる
+      <% end %>
+    </div>
+    <div class="flex justify-center">
+      <%= link_to "ログイン", new_user_session_path, class: "btn btn-accent mb-15 w-42 h-12" %>
+    </div>
   </div>
-</div>
+<% end %>

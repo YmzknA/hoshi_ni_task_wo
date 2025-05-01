@@ -16,16 +16,8 @@
   </div>
 
   <!-- ボタン -->
-  <div class="intersect:animate-fade-in intersect-once">
-    <% if user_signed_in? %>
-      <div class="relative z-10 mb-8">
-        <div class="flex justify-center items-center">
-          <%= link_to "ユーザーページへ", user_path(current_user), class: "btn btn-primary w-42 h-12" %>
-        </div>
-      </div>
-    <% else %>
-      <%= render 'auth_buttons' %>
-    <% end %>
+  <div class="intersect:animate-fade-in intersect-once mb-8">
+    <%= render 'auth_buttons' %>
   </div>
 
   <!-- スクロールの矢印 -->
@@ -186,17 +178,11 @@
 
   <!-- ボタン -->
   <div class="pt-10 px-8 md:text-lg intersect:animate-fade-in intersect-once">
-    <% if user_signed_in? %>
-      <div class="relative z-10">
-        <div class="flex justify-center items-center">
-          <%= link_to "ユーザーページへ", user_path(current_user), class: "btn btn-primary w-42 h-12" %>
-        </div>
-      </div>
-    <% else %>
+    <% unless user_signed_in? %>
       <p class="mb-8 text-center text-xl md:hidden">まずは、<br>"ログインせずに使ってみる"<br>から始めてみてください</p>
       <p class="mb-8 text-center text-xl hidden md:block">まずは、"ログインせずに使ってみる"から始めてみてください</p>
-      <%= render 'auth_buttons' %>
     <% end %>
+      <%= render 'auth_buttons' %>
   </div>
 
 </div>
