@@ -1,5 +1,5 @@
-<!-- @modal_openはregistrations_controller.rbで定義 -->
-<!-- update失敗時にrender users/showを行う際にモーダルが閉じてしまうことを回避 -->
+<%# @modal_openはregistrations_controller.rbで定義 %>
+<%# update失敗時にrender users/showを行う際にモーダルが閉じてしまうことを回避 %>
 <dialog id="edit_modal" class="modal" <%= @modal_open ? 'open' : ' ' %> >
   <div class="modal-box max-h-[90vh]">
     <p class="pb-4 text-center">ESC or 下の(X)を押すと閉じます</p>
@@ -44,43 +44,6 @@
                 class: "textarea textarea-lg input-primary w-full text-base-100 bg-base-200 rounded-lg" %>
                 <span class="floating-label-text">Bio</span>
             </label>
-
-            <div class="divider mb-4 mt-10">パスワード変更時のみ入力</div>
-
-            <label class="floating-label mt-5">
-              <%= f.password_field :password,
-                autocomplete: "new-password",
-                placeholder: "New Password",
-                class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-                <span class="floating-label-text">New Password</span>
-            </label>
-
-            <label class="floating-label mt-5">
-              <%= f.password_field :password_confirmation,
-                autocomplete: "new-password",
-                placeholder: "Confirm New Password",
-                class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-                <span class="floating-label-text">Confirm New Password</span>
-            </label>
-
-            <% if @minimum_password_length %>
-              <p class="mt-2 text-xs text-base-200">
-              <em><%= @minimum_password_length %> characters minimum</em>
-              </p>
-            <% end %>
-
-            <div class="divider mb-4 mt-10">パスワード</div>
-
-            <label class="floating-label mt-5">
-              <%= f.password_field :current_password,
-                autocomplete: "current-password",
-                placeholder: "Current Password (required)",
-                class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-                <span class="floating-label-text">Current Password</span>
-            </label>
-            <p class="mt-1 text-xs text-base-200">
-            <em>※変更を確定するには現在のパスワードが必要です</em>
-            </p>
 
             <div class="mt-8">
               <%= f.submit "保存",
