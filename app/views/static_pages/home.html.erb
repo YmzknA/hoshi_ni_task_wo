@@ -16,7 +16,7 @@
   </div>
 
   <!-- ボタン -->
-  <div class="intersect:animate-fade-in intersect-once">
+  <div class="intersect:animate-fade-in intersect-once mb-8">
     <%= render 'auth_buttons' %>
   </div>
 
@@ -178,9 +178,11 @@
 
   <!-- ボタン -->
   <div class="pt-10 px-8 md:text-lg intersect:animate-fade-in intersect-once">
-    <p class="mb-8 text-center text-xl md:hidden">まずは、<br>"ログインせずに使ってみる"<br>から始めてみてください</p>
-    <p class="mb-8 text-center text-xl hidden md:block">まずは、"ログインせずに使ってみる"から始めてみてください</p>
-    <%= render 'auth_buttons' %>
+    <% unless user_signed_in? %>
+      <p class="mb-8 text-center text-xl md:hidden">まずは、<br>"ログインせずに使ってみる"<br>から始めてみてください</p>
+      <p class="mb-8 text-center text-xl hidden md:block">まずは、"ログインせずに使ってみる"から始めてみてください</p>
+    <% end %>
+      <%= render 'auth_buttons' %>
   </div>
 
 </div>
