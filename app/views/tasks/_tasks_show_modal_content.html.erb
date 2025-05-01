@@ -88,7 +88,7 @@
           <% end %>
 
           <!-- アクションボタン -->
-          <% if current_user.guest? && current_user?(@task.user) %>
+          <% if current_user&.guest? && current_user?(@task.user) %>
             <div class="flex h-12 w-full mt-10 justify-center text-neutral">
               <div class="tooltip" data-tip="ゲストユーザーは使用できません">
                 <button class="btn btn-disabled h-12 w-25 mr-5 md:w-42">削除</button>
