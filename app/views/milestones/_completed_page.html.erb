@@ -37,10 +37,13 @@
                 </div>
               </div>
 
-              <button class="btn btn-neutral rounded-lg px-3">
-                <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
-                <p class=" text-xs">完成をシェアする</p>
-              </button>
+              <%# publicな星座の時だけシェアボタンを表示 %>
+              <% if @milestone.public? %>
+                <%= link_to "https://twitter.com/intent/tweet?text=星座が完成しました%0A%0A%23星にタスクを%0A&url=http://localhost:3000/milestones/#{@milestone.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
+                  <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+                  <p class=" text-xs">完成をシェアする</p>
+                <% end %>
+              <% end %>
 
             </div>
 

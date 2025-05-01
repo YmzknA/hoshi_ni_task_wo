@@ -45,9 +45,9 @@
           <% elsif current_user?(@user) %>
             <button class="btn btn-accent rounded-lg" onclick="edit_modal.showModal()">ユーザー編集</button>
           <% end %>
-          <button class="btn btn-neutral rounded-lg px-3">
-            <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
-          </button>
+            <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=http://localhost:3000/users/#{@user.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
+              <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+            <% end %>
         </div>
       </div>
     </div>
