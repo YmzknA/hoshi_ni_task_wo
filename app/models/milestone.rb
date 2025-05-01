@@ -55,6 +55,10 @@ class Milestone < ApplicationRecord
     save
   end
 
+  def public?
+    is_public == true
+  end
+
   private
 
   def start_date_check
