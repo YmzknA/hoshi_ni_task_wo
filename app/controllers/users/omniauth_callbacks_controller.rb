@@ -41,6 +41,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def link_line_account
     @omniauth = request.env["omniauth.auth"]
 
+    # omniauthの情報が正しいか確認
+    unless @omniauth && @omniauth["provider"].present? && @omniauth["uid"].present?
+      flash[:alert] = "LINE連携に失敗しました"
+      return redirect_to user_path(current_user)
+    end
+
     # 既に他のユーザーがこのLINEアカウントを紐付けていないか確認
     if User.exists?(provider: @omniauth["provider"], uid: @omniauth["uid"])
       flash[:alert] = "このLINEアカウントは既に登録されています"

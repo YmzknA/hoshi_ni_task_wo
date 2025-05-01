@@ -9,6 +9,8 @@ class User < ApplicationRecord
   validates :bio, length: { maximum: 200 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, if: :password_required?
+  # providerが空でない場合はuidの一意性を検証する
+  validates :uid, uniqueness: { scope: :provider }, if: :uid_required?
 
   has_many :tasks, dependent: :destroy
   has_many :milestones, dependent: :destroy
@@ -57,5 +59,9 @@ class User < ApplicationRecord
 
   def guest?
     is_guest == true
+  end
+
+  def uid_required?
+    provider.present?
   end
 end
