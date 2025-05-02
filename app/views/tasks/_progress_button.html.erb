@@ -19,7 +19,7 @@
     <% end %>
   <% end %>
   <% else %>
-    <div class= "bg-base-200 flex w-full h-auto aspect-square flex-col items-center justify-center rounded-xl">
+    <div class= "bg-base-200 flex w-full h-auto aspect-square flex-col items-center text-center justify-center rounded-xl">
       <% if task.progress == "not_started" %>
         <div class="text-xs text-base-100 whitespace-nowrap">
           <%= render "tasks/not_started_icon", color: task.milestone&.color %>
