@@ -3,7 +3,7 @@
 class OgpCreator
   require "mini_magick"
 
-  BASE_IMAGE_PATH = image_url("ogp_bg.png")
+  BASE_IMAGE_PATH = "./app/assets/images/ogp_bg.png"
   GRAVITY = "center"
   TEXT_POSITION = "0,0"
   FONT = "./app/assets/fonts/PlaywriteAUSA-Regular.ttf"

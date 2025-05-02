@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "images/ogp.png", to: "images#ogp", as: "images_ogp"
+
   resources :tasks do
     patch "update_progress", on: :member
   end
