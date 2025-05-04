@@ -86,7 +86,6 @@ class OgpCreator
 
     result = MiniMagick::Image.open(rounded_path).resize "250x250"
 
-    Fish.swim(output_tempfile.path)
     # 一時ファイルを閉じて削除
     output_tempfile.close
     output_tempfile.unlink
