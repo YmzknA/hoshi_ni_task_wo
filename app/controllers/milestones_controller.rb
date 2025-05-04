@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class MilestonesController < ApplicationController
   include GanttChartHelper
 
@@ -191,24 +192,26 @@ class MilestonesController < ApplicationController
 
   def prepare_meta_tags(milestone)
     # このimage_urlにMiniMagickで設定したOGPの生成した合成画像を代入する
+
+    title = milestone.title
     if milestone.constellation.present?
       image_name = milestone.constellation.image_name
-      image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(milestone.title)}&image_name=#{CGI.escape(image_name)}"
+      image_url = "
+                    #{request.base_url}/images/ogp.png?text=#{CGI.escape(title)}&image_name=#{CGI.escape(image_name)}
+                  "
     else
-      image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(milestone.title)}"
+      image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(title)}"
     end
+
     set_meta_tags og: {
-                    site_name: "星にタスクを",
                     title: milestone.title,
                     description: milestone.description,
-                    type: "website",
                     url: request.original_url,
-                    image: image_url,
-                    locale: "ja-JP"
+                    image: image_url
                   },
                   twitter: {
-                    card: "summary_large_image",
                     image: image_url
                   }
   end
 end
+# rubocop:enable Metrics/ClassLength
