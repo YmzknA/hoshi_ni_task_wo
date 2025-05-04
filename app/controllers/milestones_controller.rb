@@ -196,9 +196,7 @@ class MilestonesController < ApplicationController
     title = milestone.title
     if milestone.constellation.present?
       image_name = milestone.constellation.image_name
-      image_url = "
-                    #{request.base_url}/images/ogp.png?text=#{CGI.escape(title)}&image_name=#{CGI.escape(image_name)}
-                  "
+      image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(title)}&image_name=#{CGI.escape(image_name)}"
     else
       image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(title)}"
     end
