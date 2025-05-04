@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class MilestonesController < ApplicationController
   include GanttChartHelper
 
@@ -33,6 +34,7 @@ class MilestonesController < ApplicationController
     @is_not_milestone_on_chart = @milestone.is_on_chart == false
 
     if @milestone.is_public || current_user?(@milestone.user)
+      prepare_meta_tags(@milestone)
       prepare_for_chart(@milestone) if @milestone.is_on_chart
       @milestone_tasks = @milestone.tasks
       @task = Task.new
@@ -187,4 +189,27 @@ class MilestonesController < ApplicationController
 
     true
   end
+
+  def prepare_meta_tags(milestone)
+    # このimage_urlにMiniMagickで設定したOGPの生成した合成画像を代入する
+
+    title = milestone.title
+    if milestone.constellation.present?
+      image_name = milestone.constellation.image_name
+      image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(title)}&image_name=#{CGI.escape(image_name)}"
+    else
+      image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(title)}"
+    end
+
+    set_meta_tags og: {
+                    title: milestone.title,
+                    description: milestone.description,
+                    url: request.original_url,
+                    image: image_url
+                  },
+                  twitter: {
+                    image: image_url
+                  }
+  end
 end
+# rubocop:enable Metrics/ClassLength
