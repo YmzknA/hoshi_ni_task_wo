@@ -32,4 +32,28 @@ module ApplicationHelper
       "❓不明な進捗"
     end
   end
+
+  def default_meta_tags
+    {
+      site: "星にタスクを",
+      title: "星にタスクを",
+      reverse: true,
+      charset: "utf-8",
+      description: "星にタスクをは、縦軸チャートでタスクを可視化する新しいタスク管理アプリです。",
+      canonical: request.original_url,
+      og: {
+        site_name: "星にタスクを",
+        title: "星にタスクを",
+        description: "星にタスクをは、縦軸チャートでタスクを可視化する新しいタスク管理アプリです。",
+        type: "website",
+        url: request.original_url,
+        image: image_url("default_ogp.png"),
+        locale: "ja-JP"
+      },
+      twitter: {
+        card: "summary_large_image",
+        image: image_url("default_ogp.png")
+      }
+    }
+  end
 end
