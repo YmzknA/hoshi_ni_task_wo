@@ -10,10 +10,9 @@
     <%= yield :head %>
 
     <%= display_meta_tags(default_meta_tags) %>
-    <%= favicon_link_tag "favicon_32.ico", sizes: "32x32", rel: "icon" %>
-    <%= favicon_link_tag "favicon_48.ico", sizes: "48x48", rel: "icon" %>
-    <%= favicon_link_tag "favicon_64.ico", sizes: "64x64", rel: "icon" %>
-    <%= favicon_link_tag "favicon_128.ico", sizes: "128x128", rel: "icon" %>
+    <%= favicon_link_tag "favicon.ico", rel: "icon" %>
+    <%= favicon_link_tag "icon-48x48.png", rel: "icon", type: "image/png", sizes: "48x48" %>
+    <%= favicon_link_tag "icon-196x196.png", rel: "icon", type: "image/png", sizes: "196x196" %>
 
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
