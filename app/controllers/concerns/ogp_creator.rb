@@ -28,8 +28,6 @@ class OgpCreator
       base_image = base_image.composite(rounded_thumb) do |c|
         c.compose "Over"
         c.geometry ROUND_IMAGE_POSITION
-        c.border "5"
-        c.bordercolor "transparent"
       end
     end
 
