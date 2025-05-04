@@ -48,8 +48,13 @@ class OgpCreator
   end
 
   def self.rounded_thumb(image_name)
+    require "tempfile"
     thumb_path = "./app/assets/images/#{image_name}.webp"
     thumb_image = MiniMagick::Image.open(thumb_path)
+
+    # 一時ファイルを作成
+    output_tempfile = Tempfile.new(["output", ".png"])
+    output_path = output_tempfile.path
 
     # 画像を丸く切り抜き、画像の周りは白色で塗りつぶす
     MiniMagick::Tool::Convert.new do |img|
@@ -60,23 +65,35 @@ class OgpCreator
       img.trim
       img.border "20x20"
       img.bordercolor COLOR
-      img << "out_put.png"
+      img << output_path
     end
 
-    out_put_image = MiniMagick::Image.open("out_put.png")
+    out_put_image = MiniMagick::Image.open(output_path)
+
+    # 一時ファイルを作成
+    rounded_tempfile = Tempfile.new(["rounded", ".png"])
+    rounded_path = rounded_tempfile.path
 
     # 上記で作成した画像を一回り大きく円形にくりぬくことで、白いボーダーを付与
     MiniMagick::Tool::Convert.new do |img|
       img.size "#{out_put_image.height}x#{out_put_image.width}"
       img << "xc:transparent"
-      img.fill "out_put.png"
+      img.fill output_path
       img.draw "translate 600, 600 circle 0,0 600,0"
       img.trim
-      img << "rounded_thumb.png"
+      img << rounded_path
     end
 
-    # くりぬいた画像をbase_imageに合成するために、サイズを250x250にリサイズ
-    MiniMagick::Image.open("rounded_thumb.png").resize "250x250"
+    result = MiniMagick::Image.open(rounded_path).resize "250x250"
+
+    Fish.swim(output_tempfile.path)
+    # 一時ファイルを閉じて削除
+    output_tempfile.close
+    output_tempfile.unlink
+    rounded_tempfile.close
+    rounded_tempfile.unlink
+
+    result
   end
 
   private_class_method :prepare_text, :rounded_thumb
