@@ -65,6 +65,7 @@ class OgpCreator
       img.trim
       img.border "20x20"
       img.bordercolor COLOR
+      img.resize "250x250"
       img << output_path
     end
 
@@ -79,12 +80,12 @@ class OgpCreator
       img.size "#{out_put_image.height}x#{out_put_image.width}"
       img << "xc:transparent"
       img.fill output_path
-      img.draw "translate 600, 600 circle 0,0 600,0"
+      img.draw "translate 125, 125 circle 0,0 125,0"
       img.trim
       img << rounded_path
     end
 
-    result = MiniMagick::Image.open(rounded_path).resize "250x250"
+    result = MiniMagick::Image.open(rounded_path)
 
     # 一時ファイルを閉じて削除
     output_tempfile.close
