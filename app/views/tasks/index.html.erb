@@ -55,5 +55,3 @@
   <% @completed_tasks.each do |task| %>
     <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
   <% end %>
-
-  <% Fish.swim %>
