@@ -1,8 +1,8 @@
-<%= turbo_frame_tag "tasks_show_modal" do %>
-      <dialog id="tasks_show_modal" class="modal" <%= tasks_show_modal_open ? 'open' : ' ' %> >
+<%= turbo_frame_tag "tasks_show_modal_#{@task.id}" do %>
+  <dialog id="tasks_show_modal_<%= @task.id %>_target" class="modal" <%= tasks_show_modal_open ? 'open' : ' ' %> >
 
-        <!-- まずはturbo_frame_tagを使ってtasks/showでモーダルの部分を表示 -->
-        <!-- tasks#updateでturbo_stremasを使って、モーダルの部分をこのファイルに更新しています -->
+        <%# まずはturbo_frame_tagを使ってtasks/showでモーダルの部分を表示 %>
+        <%# tasks#updateでturbo_stremasを使って、モーダルの部分をこのファイルに更新しています %>
         <%= render "tasks/tasks_show_modal_content", task: @task %>
 
         <form method="dialog" class="modal-backdrop">

@@ -12,9 +12,13 @@
 <div class="mt-10">
   <%= render "menu_bar" %>
 </div>
-<%= turbo_frame_tag "tasks_show_modal" %>
 <%= turbo_frame_tag "tasks_edit_modal" %>
 <%= turbo_frame_tag "milestone_show_modal" %>
+<%= @milestones.map do |milestone| %>
+  <%= milestone.tasks.map do |task| %>
+    <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task) %>
+  <% end %>
+<% end %>
 
 <script>
   // ページ遷移時にidがtodayの要素をスクロールして表示

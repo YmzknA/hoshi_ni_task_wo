@@ -4,8 +4,8 @@
 
     <button 
       class="w-full p-1 rounded-xl hover:bg-base-300/30 hover:cursor-pointer text-start"
-      onclick="tasks_show_modal_<%=task.id%>_target.showModal()
-      ">
+      onclick="tasks_show_modal_<%=task.id%>_target.showModal()"
+      >
       <!-- タイトル, 日付, マーク -->
       <div class="flex w-full">
         <div class="flex items-center">
@@ -37,5 +37,3 @@
   </div>
 
 </div>
-
-<%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>

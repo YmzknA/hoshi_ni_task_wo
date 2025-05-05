@@ -47,6 +47,13 @@
     <%= render "menu_bar" %>
   </div>
   <%= turbo_frame_tag "tasks_edit_modal" %>
-  <%= turbo_frame_tag "tasks_show_modal" %>
   <%= turbo_frame_tag "tasks_new_modal" %>
 
+  <% @not_completed_tasks.each do |task| %>
+    <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
+  <% end %>
+  <% @completed_tasks.each do |task| %>
+    <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
+  <% end %>
+
+  <% Fish.swim %>

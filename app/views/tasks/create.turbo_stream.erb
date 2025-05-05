@@ -11,6 +11,10 @@
       <%= render "tasks/task", task: @task %>
     <% end %>
 
+    <%= turbo_stream.append "tasks_content" do %>
+      <%= turbo_frame_tag "tasks_show_modal_#{@task.id}", src: task_path(@task)%>
+    <% end %>
+
   <% else %>
     <%= turbo_stream.replace "tasks_new_modal" do %>
       <%= render "tasks_new_modal", task: @task, milestones: @milestones, tasks_edit_modal_open: @tasks_edit_modal_open %>

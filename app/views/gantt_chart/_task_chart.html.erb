@@ -37,28 +37,30 @@
         %>
 
         <!-- heightの-5は上下につける〇の要素のサイズ分 -->
-        <%= link_to task_path(task), id: "task_chart_#{task.id}", class: "absolute flex flex-col items-center cursor-pointer",
-          style: "top: #{task_top + margin_top}px;
-          height: #{task_height - (margin_top * 2) - 5}px;
-          left: #{task_left}px",
-          data: {turbo_frame: "tasks_show_modal"} do %>
-
-            <!-- タスク名 -->
-            <div class="absolute left-8 top-2 text-start [writing-mode:vertical-rl] ">
-              <div class="absolute left-[-14px] w-4 h-4 bg-base-200" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
-              <div style="height: <%= task_title_height %>px">
-                <%= task.title.truncate(15, omission: '...') %>
-              </div>
+        <button 
+          id="task_chart_<%= task.id %>"
+          class="absolute flex flex-col items-center cursor-pointer"
+          onclick="tasks_show_modal_<%=task.id%>_target.showModal()"
+          style="top: <%= task_top + margin_top %>px;
+          height: <%= task_height - (margin_top * 2) - 5 %>px;
+          left: <%= task_left %>px"
+          >
+          <!-- タスク名 -->
+          <div class="absolute left-8 top-2 text-start [writing-mode:vertical-rl] ">
+            <div class="absolute left-[-14px] w-4 h-4 bg-base-200" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+            <div style="height: <%= task_title_height %>px">
+              <%= task.title.truncate(15, omission: '...') %>
             </div>
+          </div>
 
-            <!-- 開始点の円 -->
-            <div class="z-40 <%= task.in_progress? ? "size-4 relative top-1 mask mask-triangle-2" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
+          <!-- 開始点の円 -->
+          <div class="z-40 <%= task.in_progress? ? "size-4 relative top-1 mask mask-triangle-2" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
 
-            <% if task.start_date && task.end_date %>
-              <!-- 線 -->
-              <div class="w-1 flex-grow z-40" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
+          <% if task.start_date && task.end_date %>
+            <!-- 線 -->
+            <div class="w-1 flex-grow z-40" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
 
-              <!-- 終了点の円 -->
-              <div class="z-40 <%= task.in_progress? ? "size-4 relative -top-1 mask mask-triangle" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
-            <% end %>
+            <!-- 終了点の円 -->
+            <div class="z-40 <%= task.in_progress? ? "size-4 relative -top-1 mask mask-triangle" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
           <% end %>
+        </button>
