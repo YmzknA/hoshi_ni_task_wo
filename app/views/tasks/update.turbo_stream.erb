@@ -12,7 +12,7 @@
     <%= render "flash" %>
   <% end %>
 
-  <%= turbo_stream.replace "tasks_show_modal" do %>
+  <%= turbo_stream.replace "tasks_show_modal_#{@task.id}" do %>
     <%= render "tasks_show_modal", task: @task, tasks_show_modal_open: @tasks_show_modal_open %>
   <% end %>
 

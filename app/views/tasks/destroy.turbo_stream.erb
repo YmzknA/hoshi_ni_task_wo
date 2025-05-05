@@ -4,9 +4,7 @@
     <%= render "flash" %>
   <% end %>
 
-  <%= turbo_stream.replace "tasks_show_modal" do %>
-    <%= turbo_frame_tag "tasks_show_modal" %>
-  <% end %>
+  <%= turbo_stream.remove "tasks_show_modal_#{@task.id}" %>
 
   <% if @task_milestone && @task.milestone.is_on_chart == true %>
     <%= turbo_stream.replace "chart_#{@task_milestone.id}" do %>
