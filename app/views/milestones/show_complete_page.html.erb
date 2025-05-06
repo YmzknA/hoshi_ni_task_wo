@@ -3,8 +3,8 @@
     <div data-show-modal-target="modal_top">
       <dialog data-show-modal-target="task_modal" id="milestone_complete_modal" class="modal" <%= @milestone_complete_modal_open ? 'open' : ' ' %> >
 
-        <!-- まずはturbo_frame_tagを使ってmilestones/show_complete_pageでモーダルの部分を表示 -->
-        <!-- milestones#completeでturbo_streamsを使って、モーダルの部分を更新しています -->
+        <%# まずはturbo_frame_tagを使ってmilestones/show_complete_pageでモーダルの部分を表示 %>
+        <%# milestones#completeでturbo_streamsを使って、モーダルの部分を更新しています %>
         <%= render "milestones/show_complete_page_modal_content", milestone: @milestone %>
 
       </dialog>

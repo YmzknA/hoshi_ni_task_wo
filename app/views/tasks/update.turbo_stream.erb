@@ -1,8 +1,8 @@
-  <!-- update成功時も失敗時も呼ばれる -->
-  <!-- 成功時は@tasks_edit_modal_openを渡していないのでedit_modalは閉じた状態でreplaceされる -->
-  <!-- 成功時は@tasks_show_modal_open: trueを渡しているのでshow_modalは開いた状態でreplaceされる -->
-  <!-- 失敗時は@tasks_edit_modal_open: trueを渡しているのでedit_modalは開いた状態でreplaceされる -->
-  <!-- 失敗時は@tasks_show_modal_open: 渡していないのでshow_modalは閉じた状態でreplaceされる -->
+  <%# update成功時も失敗時も呼ばれる %>
+  <%# 成功時は@tasks_edit_modal_openを渡していないのでedit_modalは閉じた状態でreplaceされる %>
+  <%# 成功時は@tasks_show_modal_open: trueを渡しているのでshow_modalは開いた状態でreplaceされる %>
+  <%# 失敗時は@tasks_edit_modal_open: trueを渡しているのでedit_modalは開いた状態でreplaceされる %>
+  <%# 失敗時は@tasks_show_modal_open: 渡していないのでshow_modalは閉じた状態でreplaceされる %>
 
   <%= turbo_stream.replace "tasks_edit_modal" do %>
     <%= render "tasks_edit_modal", task: @task, milestones: @milestones, tasks_edit_modal_open: @tasks_edit_modal_open %>

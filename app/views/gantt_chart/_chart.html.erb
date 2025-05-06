@@ -38,7 +38,7 @@
             ">
 
             <!-- Task（丸と線） -->
-            <!-- valid_datesでstart_dateかend_dateが無いtaskを弾く -->
+            <%# valid_datesでstart_dateかend_dateが無いtaskを弾く %>
             <div id="chart_<%=milestone.id%>">
               <% tasks.each do |task| %>
                 <%= render "gantt_chart/task_chart", task: task, tasks: tasks %>

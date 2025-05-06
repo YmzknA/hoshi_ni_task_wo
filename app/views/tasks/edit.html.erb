@@ -1,12 +1,12 @@
-<!-- stimulusを使用して、connect時にモーダルを開く -->
+<%# stimulusを使用して、connect時にモーダルを開く %>
 <%= turbo_frame_tag "tasks_edit_modal" do %>
   <div data-controller="show-modal">
     <div data-show-modal-target="modal_top">
       <dialog data-show-modal-target="task_modal" class="modal" <%= @task_new_modal_open ? 'open' : ' ' %> >
 
 
-        <!-- まずはturbo_frame_tagを使ってtasks/editでモーダルの部分を表示 -->
-        <!-- tasks#updateでturbo_stremasを使って、モーダルの部分を_tasks_editファイルに置換しています -->
+        <%# まずはturbo_frame_tagを使ってtasks/editでモーダルの部分を表示 %>
+        <%# tasks#updateでturbo_stremasを使って、モーダルの部分を_tasks_editファイルに置換しています %>
         <%= render "tasks/tasks_edit_modal_content", task: @task, milestones: @milestones %>
 
       </dialog>

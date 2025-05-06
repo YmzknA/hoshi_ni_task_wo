@@ -1,8 +1,8 @@
 <%= turbo_frame_tag "show_complete_page_modal" do %>
   <dialog id="milestones_complete_page_modal" class="modal" <%= @show_complete_page_modal_open ? 'open' : ' ' %> >
 
-    <!-- まずはturbo_frame_tagを使ってmilestones/show_complete_pageでモーダルの部分を表示 -->
-    <!-- milestones#completeでturbo_streamsを使って、モーダルの部分をこのファイルに更新しています -->
+    <%# まずはturbo_frame_tagを使ってmilestones/show_complete_pageでモーダルの部分を表示 %>
+    <%# milestones#completeでturbo_streamsを使って、モーダルの部分をこのファイルに更新しています %>
     <%= render "milestones/show_complete_page_modal_content", milestone: @milestone %>
 
   </dialog>
