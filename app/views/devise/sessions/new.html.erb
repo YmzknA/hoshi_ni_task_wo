@@ -28,27 +28,27 @@
           <%= f.text_field :email,
                 autofocus: true,
                 autocomplete: "email",
-                placeholder: "Email address",
+                placeholder: "メールアドレス",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Email</span>
+          <span class="floating-label-text">メールアドレス</span>
         </label>
 
         <label class="floating-label mt-5">
           <%= f.password_field :password,
             autocomplete: "current-password",
-            placeholder: "Password",
+            placeholder: "パスワード",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Email</span>
+          <span class="floating-label-text">パスワード</span>
         </label>
 
-        <%= f.submit "ログイン", class: "btn btn-secondary text-base-200 w-full mt-5" %>
+        <%= f.submit "ログイン", class: "btn btn-secondary text-base-200 w-full mt-8" %>
       <% end %>
 
-      <div class="mt-4 text-center space-y-2">
+      <div class="my-8 text-center space-y-2">
         <%= link_to "アカウント作成はこちら", new_registration_path(resource_name), class: "text-sm hover:underline" %>
       </div>
 
-      <div class="divider">または</div>
+      <div class="divider mb-8">または</div>
 
       <div class="flex justify-center items-center">
         <%= button_to user_line_omniauth_authorize_path, data: { turbo: false } do %>

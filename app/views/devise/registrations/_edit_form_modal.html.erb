@@ -24,25 +24,27 @@
               <%= f.text_field :name,
                 autofocus: true,
                 autocomplete: "name",
-                placeholder: "User name",
+                placeholder: "ユーザーネーム*",
+                required: true,
                 class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-                <span class="floating-label-text">Name</span>
+                <span class="floating-label-text">ユーザーネーム*</span>
             </label>
 
             <label class="floating-label mt-5">
               <%= f.text_field :email,
                 autocomplete: "email",
-                placeholder: "Email address",
+                placeholder: "メールアドレス*",
+                required: true,
                 class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-                <span class="floating-label-text">Email</span>
+                <span class="floating-label-text">メールアドレス*</span>
             </label>
 
             <label class="floating-label mt-5">
               <%= f.text_area :bio,
                 autocomplete: "bio",
-                placeholder: "Bio (optional)",
+                placeholder: "自己紹介",
                 class: "textarea textarea-lg input-primary w-full text-base-100 bg-base-200 rounded-lg" %>
-                <span class="floating-label-text">Bio</span>
+                <span class="floating-label-text">自己紹介</span>
             </label>
 
             <div class="mt-8">
