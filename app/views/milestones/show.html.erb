@@ -136,12 +136,12 @@
           </div>
         </div>
 
-        <% if @milestone.public? %>
-        <div class="flex h-full items-center justify-center md:w-1/4">
-          <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/milestones/#{@milestone.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
-            <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
-          <% end %>
-        </div>
+        <%# ゲストユーザーまたは、公開milestoneの場合に、shareボタン表示 %>
+        <%# ゲストの場合は無効化されたshareボタンになる %>
+        <% if @milestone.user.guest? || @milestone.public? %>
+          <div class="flex h-full items-center justify-center md:w-1/4">
+            <%= render "x_share_button", instance: @milestone %>
+          </div>
         <% end %>
 
       </div>

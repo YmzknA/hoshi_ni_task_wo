@@ -1,0 +1,30 @@
+<%# instance: Milestone or User %>
+
+<% if instance.class == Milestone && instance.user.guest? %>
+  <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+    <div class="btn btn-disabled rounded-lg px-3">
+      <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+    </div>
+  </div>
+<% elsif instance.class == Milestone %>
+  <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/milestones/#{instance.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
+    <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+  <% end %>
+<% elsif instance.class == User && instance.guest? %>
+  <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+    <div class="btn btn-disabled rounded-lg px-3">
+      <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+    </div>
+  </div>
+<% elsif instance.class == User %>
+  <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/users/#{instance.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
+    <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+  <% end %>
+<% else %>
+  <div class="tooltip" data-tip="なんらかの原因で使用できません">
+    <div class="btn btn-disabled rounded-lg px-3">
+      <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+    </div>
+  </div>
+<% end %>
+

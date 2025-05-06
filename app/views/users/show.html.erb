@@ -38,6 +38,7 @@
       <!-- ゲストユーザーの時は、ユーザー編集ボタンを無効化 -->
       <div class="flex justify-center items-center">
         <div class="flex w-xl <%= current_user?(@user) ? 'justify-between' : 'justify-end' %>">
+
           <% if current_user&.guest? && current_user?(@user) %>
             <div class="tooltip" data-tip="ゲストユーザーは使用できません">
               <button class="btn btn-disabled rounded-lg">ユーザー編集</button>
@@ -45,9 +46,9 @@
           <% elsif current_user?(@user) %>
             <button class="btn btn-accent rounded-lg" onclick="edit_modal.showModal()">ユーザー編集</button>
           <% end %>
-            <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/users/#{@user.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
-              <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
-            <% end %>
+
+          <%= render "x_share_button", instance: @user %>
+
         </div>
       </div>
     </div>
