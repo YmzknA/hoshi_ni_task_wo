@@ -96,3 +96,6 @@
 .btn {
   --btn-noise: none;
 }
+.btn:active {
+  opacity: 0.5;
+}

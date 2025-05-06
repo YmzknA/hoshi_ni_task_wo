@@ -1,7 +1,7 @@
 <div id="milestone_<%=milestone.id%>" class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
 
   <div class="mb-4 flex w-full items-center text-left">
-    <%= link_to milestone_path(milestone), class: "w-full p-1 rounded-xl hover:bg-base-300/30" do %>
+    <%= link_to milestone_path(milestone), class: "w-full p-1 rounded-xl hover:bg-base-300/30 active:bg-base-300/30" do %>
       <!-- タイトル, 日付, マーク -->
       <div class="flex w-full">
         <% if completed %>
