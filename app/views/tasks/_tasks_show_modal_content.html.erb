@@ -33,7 +33,7 @@
           <!-- タイトル -->
           <div class="flex w-full items-center justify-center">
             <div class="card w-full text-neutral">
-              <p class="card-title h-5 pl-2 text-sm text-primary">Title</p>
+              <p class="card-title h-5 pl-2 text-sm text-primary">タイトル</p>
               <div class="flex w-full items-center justify-center rounded-xl text-xl bg-primary p-3">
                 <%= @task.title %>
               </div>
@@ -42,25 +42,32 @@
 
 
           <!-- 期間 -->
+          <% start_date_and_end_date_present = @task.start_date.present? && @task.end_date.present? %>
+
           <% if @task.start_date.present? || @task.end_date.present? %>
-            <div class="flex w-full justify-between px-5 text-neutral">
-              <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-                <div>
-                  <%= @task.start_date&.year %>年
+            <div class="flex w-full px-5 text-neutral <%= start_date_and_end_date_present ? "justify-between" : "justify-center" %>">
+
+              <% if @task.start_date.present? %>
+                <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
+                  <div>
+                    <%= @task.start_date&.year %>
+                  </div>
+                  <div class="w-full font-bold md:text-2xl">
+                    <%= to_short_date(@task.start_date) %>
+                  </div>
                 </div>
-                <div class="w-full font-bold md:text-2xl">
-                  <%= to_short_date(@task.start_date) %>
-                </div>
-              </div>
+              <% end %>
               <div class="flex w-1/5 items-center justify-center">
-                <p class="w-full text-5xl text-primary">~</p>
-              </div>
+              <p class="w-full text-5xl text-primary">~</p>
+            </div>
+            <% if @task.end_date.present? %>
               <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-                <%= @task.end_date&.year %>年<br>
+                <%= @task.end_date&.year %><br>
                 <div class="w-full font-bold md:text-2xl">
                   <%= to_short_date(@task.end_date) %>
                 </div>
               </div>
+            <% end %>
             </div>
           <% else %>
             <div class="flex w-full justify-center">
@@ -73,9 +80,9 @@
           <!-- 説明 -->
           <div class="flex w-full items-center justify-center">
             <div class="card w-full text-neutral">
-              <p class="card-title h-5 pl-2 text-sm text-primary">Description</p>
+              <p class="card-title h-5 pl-2 text-sm text-primary">詳細</p>
               <div class="flex min-h-24 w-full items-center justify-center rounded-xl bg-primary p-3">
-                <%= @task.description.present? ? safe_join(@task.description.split("\n"),tag(:br)) : "説明はありません" %>
+                <%= @task.description.present? ? safe_join(@task.description.split("\n"),tag(:br)) : "詳細はありません" %>
               </div>
             </div>
           </div>

@@ -30,38 +30,38 @@
           <%= f.text_field :name,
             autofocus: true,
             autocomplete: "name",
-            placeholder: "User name",
+            placeholder: "ユーザーネーム",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Name</span>
+          <span class="floating-label-text">ユーザーネーム</span>
         </label>
 
         <label class="floating-label mt-5">
           <%= f.text_field :email,
             autocomplete: "email",
-            placeholder: "Email address",
+            placeholder: "メールアドレス",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Email</span>
+          <span class="floating-label-text">メールアドレス</span>
         </label>
 
-        <label class="floating-label mt-5">
+        <label class="floating-label mt-9">
           <%= f.password_field :password,
             autocomplete: "new-password",
-            placeholder: "Password",
+            placeholder: "パスワード",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Password</span>
+          <span class="floating-label-text">パスワード</span>
         </label>
 
         <label class="floating-label mt-5">
           <%= f.password_field :password_confirmation,
             autocomplete: "new-password",
-            placeholder: "Confirm Password",
+            placeholder: "パスワード(確認)",
             class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-          <span class="floating-label-text">Confirm Password</span>
+          <span class="floating-label-text">パスワード(確認)</span>
         </label>
 
         <% if @minimum_password_length %>
           <p class="mt-2 text-xs">
-          <em><%= @minimum_password_length %> characters minimum</em>
+          <em><%= @minimum_password_length %> 文字以上にしてください</em>
           </p>
         <% end %>
 
@@ -70,11 +70,11 @@
         </div>
       <% end %>
 
-      <div class="mt-6 text-center">
+      <div class="mt-8 text-center">
         <%= link_to "アカウントをお持ちの方はこちら", new_session_path(resource_name), class: "text-sm text-base-200 hover:underline" %>
       </div>
 
-      <div class="divider my-5">
+      <div class="divider my-8">
         または
       </div>
       <div class="flex justify-center items-center">

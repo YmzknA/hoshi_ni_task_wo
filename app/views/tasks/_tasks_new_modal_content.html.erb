@@ -20,14 +20,15 @@
               <%= f.collection_select :milestone_id, @milestones, :id, :title,
                         {:selected => "#{@milestones.first.id}"},
                         class: "select select-lg select-primary w-full text-base-100 bg-base-200" %>
-                        <span class="floating-label-text">Milestone</span>
+                        <span class="floating-label-text">星座</span>
             </label>
           <% else %>
             <label class="floating-label">
               <%= f.collection_select :milestone_id, @milestones, :id, :title,
-                        { include_blank: "Select Milestone" },
+                        { include_blank: "星座を選択してください" },
                         class: "select select-lg select-primary w-full text-base-100 bg-base-200" %>
-                        <span class="floating-label-text">Milestone</span>
+                        <span class="floating-label-text">星座
+                        </span>
             </label>
           <% end %>
 
@@ -35,18 +36,20 @@
             <%= f.text_field :title,
                       autofocus: true,
                       autocomplete: "title",
-                      placeholder: "Title",
+                      placeholder: "タイトル* (~25文字)",
+                      required: true,
+                      maxlength: 25,
                       class: "input input-lg input-primary w-full text-base-100 bg-base-200" %>
-                      <span class="floating-label-text">Title</span>
+                      <span class="floating-label-text">タイトル* (~25文字)</span>
           </label>
 
           <% if @from_milestone_show == true %>
             <div class="flex justify-center">
               <label class="mt-5 w-50">
-                <span class="text-base-200 text-sm">Start Date</span>
+                <span class="text-base-200 text-sm">開始日</span>
                 <%= f.date_field :start_date,
                   autocomplete: "Start Date",
-                  placeholder: "Start Date",
+                  placeholder: "開始日",
                   min: @milestones.first&.start_date,
                   max: @milestones.first&.end_date,
                   class: "text-base-200 bg-base-100 rounded-full p-3 w-full" %>
@@ -56,10 +59,10 @@
 
             <div class="flex justify-center">
               <label class="mt-5 w-50">
-                <span class="text-base-200 text-sm">End Date</span>
+                <span class="text-base-200 text-sm">終了日</span>
                 <%= f.date_field :end_date,
                   autocomplete: "End Date",
-                  placeholder: "End Date",
+                  placeholder: "終了日",
                   min: @milestones.first&.start_date,
                   max: @milestones.first&.end_date,
                   class: "text-base-200 bg-base-100 rounded-full p-3 w-full" %>
@@ -69,7 +72,7 @@
 
             <div class="flex justify-center">
               <label class="mt-5 w-50">
-                <span class="text-base-200 text-sm">Start Date</span>
+                <span class="text-base-200 text-sm">開始日</span>
                 <%= f.date_field :start_date,
                   autocomplete: "Start Date",
                   placeholder: "Start Date",
@@ -81,7 +84,7 @@
 
             <div class="flex justify-center">
               <label class="mt-5 w-50">
-                <span class="text-base-200 text-sm">End Date</span>
+                <span class="text-base-200 text-sm">終了日</span>
                 <%= f.date_field :end_date,
                   autocomplete: "End Date",
                   placeholder: "End Date",
@@ -96,16 +99,16 @@
           <label class="floating-label mt-5">
             <%= f.text_area :description,
                       autocomplete: "description",
-                      placeholder: "Description",
+                      placeholder: "詳細 (~100文字)",
                       class: "textarea textarea-lg input-primary w-full text-base-100 bg-base-200 rounded-lg" %>
-                      <span class="floating-label-text">Description</span>
+                      <span class="floating-label-text">詳細 (~100文字)</span>
           </label>
 
           <label class="floating-label mt-5">
             <%= f.collection_select :progress, Task.progresses.keys, :to_s, :humanize,
                       { include_blank: "Select Progress" },
                       class: "select select-lg select-primary w-full text-base-100 bg-base-200" %>
-                      <span class="floating-label-text">Progress</span>
+                      <span class="floating-label-text">進捗*</span>
           </label>
 
 
