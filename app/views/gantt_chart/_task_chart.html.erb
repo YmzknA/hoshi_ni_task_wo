@@ -36,7 +36,7 @@
           task_left = "#{milestone_width_size * section_width * (task_index + 1) - 9.5}"
         %>
 
-        <!-- heightの-5は上下につける〇の要素のサイズ分 -->
+        <%# heightの-5は上下につける〇の要素のサイズ分 %>
         <button 
           id="task_chart_<%= task.id %>"
           class="absolute flex flex-col items-center cursor-pointer"

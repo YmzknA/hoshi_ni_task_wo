@@ -1,8 +1,8 @@
 <%= turbo_frame_tag "tasks_new_modal" do %>
 <dialog id="tasks_new_modal" class="modal" <%= @task_new_modal_open ? 'open' : ' ' %> >
 
-  <!-- まずはturbo_frame_tagを使ってtasks/newでモーダルの部分を表示 -->
-  <!-- tasks#createでturbo_stremasを使って、モーダルの部分を_tasks_new_modalファイルに置換しています -->
+  <%# まずはturbo_frame_tagを使ってtasks/newでモーダルの部分を表示 %>
+  <%# tasks#createでturbo_stremasを使って、モーダルの部分を_tasks_new_modalファイルに置換しています %>
   <%= render "tasks/tasks_new_modal_content", task: @task, milestones: @milestones, from_milestone_show: @from_milestone_show %>
 
 </dialog>
