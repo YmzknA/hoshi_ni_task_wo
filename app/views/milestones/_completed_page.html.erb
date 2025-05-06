@@ -38,7 +38,15 @@
               </div>
 
               <%# publicな星座の時だけシェアボタンを表示 %>
-              <% if @milestone.public? %>
+
+              <% if @milestone.user.guest? %>
+                <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+                  <button class="btn btn-disabled rounded-lg">
+                    <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+                    完成をシェアする
+                  </button>
+                </div>
+              <% elsif @milestone.public? %>
                 <%= link_to "https://twitter.com/intent/tweet?text=星座が完成しました%0A%0A%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/milestones/#{@milestone.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
                   <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
                   <p class=" text-xs">完成をシェアする</p>

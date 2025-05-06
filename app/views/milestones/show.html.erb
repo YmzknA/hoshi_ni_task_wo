@@ -136,13 +136,19 @@
           </div>
         </div>
 
-        <% if @milestone.public? %>
         <div class="flex h-full items-center justify-center md:w-1/4">
-          <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/milestones/#{@milestone.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
-            <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+          <% if @milestone.user.guest? %>
+            <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+              <div class="btn btn-disabled rounded-lg px-3">
+                <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+              </div>
+            </div>
+          <% elsif @milestone.public? %>
+            <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/milestones/#{@milestone.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
+              <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
+            <% end %>
           <% end %>
         </div>
-        <% end %>
 
       </div>
     </div>
