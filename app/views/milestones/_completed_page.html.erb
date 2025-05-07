@@ -47,7 +47,7 @@
                   </button>
                 </div>
               <% elsif @milestone.public? %>
-                <%= link_to "https://twitter.com/intent/tweet?text=星座が完成しました%0A%0A%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/milestones/#{@milestone.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
+                <%= link_to "https://twitter.com/intent/tweet?text=星座が完成しました%0A%0A%23星にタスクを%0A&url=#{request.base_url}/milestones/#{@milestone.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
                   <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
                   <p class=" text-xs">完成をシェアする</p>
                 <% end %>
