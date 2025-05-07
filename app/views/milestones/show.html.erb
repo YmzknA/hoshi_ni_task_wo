@@ -165,6 +165,45 @@
           編集
         </button>
       </div>
+
+      <%= link_to milestones_copy_path(@milestone), data: { turbo_frame: "milestones_copy_modal"}, class: "relative left-4 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
+        <div class="tooltip" data-tip="タスクをコピーする">
+          <span id="copy_icon_<%=@milestone.id%>" class="material-symbols-outlined">
+            content_copy
+          </span>
+        </div>
+      <% end %>
+      <div class="dropdown dropdown-top dropdown-center relative left-4">
+        <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+          <span class="material-symbols-outlined text-base-200">
+            help
+          </span>
+        </div>
+        <div
+          tabindex="0"
+          class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-10 shadow-xl border-1">
+          <div tabindex="0" class="card-body text-sm px-1">
+            <div class="text-center">
+              <p class="mb-2">始点を指定した場合、</p>
+              <p class="mb-2">・開始日または終了日を始点の日に<br>
+              設定してコピーします。</p>
+              <div class="divider"></div>
+              <p class="mb-4">開始日も終了日も無い場合は<br>
+              日付を設定せずにコピーします。
+              </p>
+              <div class="divider"></div>
+              <p class="mb-2">紐づくタスクは<br>
+              <p class="mb-2">・チャートに表示ONの場合<br>
+              始点に基づいてコピーします。</p>
+              <p class="mb-2">・チャートに表示OFFの場合<br>
+              日付はそのままコピーします。</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     <% end %>
 
     <!-- タスクの表示部分 -->
@@ -224,6 +263,7 @@
   <%= turbo_frame_tag "tasks_edit_modal" %>
   <%= turbo_frame_tag "tasks_new_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
+  <%= turbo_frame_tag "milestones_copy_modal" %>
 <% end %>
 
 <%= turbo_frame_tag "milestone_show_modal" %>
