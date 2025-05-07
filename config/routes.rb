@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :tasks do
     patch "update_progress", on: :member
   end
+  namespace :tasks do
+    resources :copies, only: [:show, :create]
+  end
 
   resources :milestones do
     get "show_complete_page", on: :member

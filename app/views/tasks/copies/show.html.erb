@@ -1,0 +1,18 @@
+<%= turbo_frame_tag "tasks_copy_modal" do %>
+  <div data-controller="show-modal">
+    <div data-show-modal-target="modal_top">
+      <dialog data-show-modal-target="task_modal" class="modal">
+
+        <%# まずはturbo_frame_tagを使ってtasks/showでモーダルの部分を表示 %>
+        <%# tasks#updateでturbo_stremasを使って、モーダルの部分を_tasks_showファイルに置換しています %>
+
+        <%= render "tasks/copies/tasks_copy_modal_content", task: @task %>
+
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+    </div>
+  </div>
+<% end %>
+

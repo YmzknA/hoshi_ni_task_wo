@@ -1,0 +1,24 @@
+  <%= turbo_stream.replace "flash" do %>
+    <%= render "flash" %>
+  <% end %>
+
+  <% if @copy_success %>
+    <%= turbo_stream.prepend "tasks_content" do %>
+      <%= render "tasks/task", task: @copy %>
+    <% end %>
+
+    <%= turbo_stream.append "tasks_content" do %>
+      <%= turbo_frame_tag "tasks_show_modal_#{@copy.id}", src: task_path(@copy)%>
+    <% end %>
+
+    <%= turbo_stream.replace "copy_icon_#{@task.id}" do %>
+      <span id="copy_icon_<%=@task.id%>" class="material-symbols-outlined">
+      task_alt
+      </span>
+    <% end %>
+
+  <% end %>
+
+  <%= turbo_stream.replace "tasks_copy_modal" do %>
+    <%= turbo_frame_tag "tasks_copy_modal" %>
+  <% end %>
