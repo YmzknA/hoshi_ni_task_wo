@@ -3,8 +3,8 @@
     <div data-show-modal-target="modal_top">
       <dialog data-show-modal-target="task_modal" class="modal">
 
-        <%# まずはturbo_frame_tagを使ってtasks/showでモーダルの部分を表示 %>
-        <%# tasks#updateでturbo_stremasを使って、モーダルの部分を_tasks_showファイルに置換しています %>
+        <%# まずはturbo_frame_tagを使ってtasks/copies/showでモーダルの部分を表示 %>
+        <%# tasks/copies#createでturbo_stremasを使って、モーダルの部分を_tasks_copy_modal_contentファイルに置換しています %>
 
         <%= render "tasks/copies/tasks_copy_modal_content", task: @task %>
 
