@@ -7,7 +7,7 @@
     </div>
   </div>
 <% elsif instance.class == Milestone %>
-  <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/milestones/#{instance.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
+  <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=#{request.base_url}/milestones/#{instance.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
     <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
   <% end %>
 <% elsif instance.class == User && instance.guest? %>
@@ -17,7 +17,7 @@
     </div>
   </div>
 <% elsif instance.class == User %>
-  <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=https://hoshi-ni-task-wo.onrender.com/users/#{instance.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
+  <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=#{request.base_url}/users/#{instance.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
     <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
   <% end %>
 <% else %>
