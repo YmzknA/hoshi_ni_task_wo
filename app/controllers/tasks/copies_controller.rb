@@ -9,7 +9,7 @@ module Tasks
       set_date = copy_params[:start_date]
       set_date = @task.start_date || @task.end_date if set_date.blank?
 
-      @copy = @task.copie(set_date)
+      @copy = @task.copy(set_date)
 
       if @copy.save
         flash.now[:notice] = "タスクをコピーしました"

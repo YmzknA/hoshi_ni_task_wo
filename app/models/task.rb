@@ -50,7 +50,7 @@ class Task < ApplicationRecord
     progress == "not_started"
   end
 
-  def copie(set_date)
+  def copy(set_date)
     copy = dup
 
     if copy.start_date.present? && copy.end_date.present?
