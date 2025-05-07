@@ -1,12 +1,12 @@
-<div class="modal-box max-h-[90vh]">
+<div class="modal-box max-h-[90vh] px-2 md:px-4">
   <p class="text-center pb-4">ESC or 画面外を押すと閉じます</p>
   <div class="flex w-full items-center justify-center">
-    <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
+    <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 px-0 md:px-5 text-center md:w-2xl">
       <div class="flex items-center justify-center text-secondary mb-3">
         <p class="text-xl">タスクをコピーする</p>
       </div>
         <div class="flex h-full items-center justify-center mb-8">
-          <p class="text-sm text-base-200">チャートからコピーする場合は、<br>再読み込みするまで表示されません</p>
+          <p class="text-sm text-base-200">チャートからコピーする場合は、<br>再読み込みするまで表示されません。</p>
         </div>
 
     <%= form_with model: @task, url:tasks_copies_path(id:@task.id) , method: :post, local: true do |f| %>
