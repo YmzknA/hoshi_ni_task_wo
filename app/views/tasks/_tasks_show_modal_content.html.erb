@@ -9,6 +9,7 @@
 
         <!-- タスク詳細表示 -->
         <div class="space-y-5">
+
           <div class="flex items-center justify-center text-secondary">
             <p class="text-xl">詳細</p>
           </div>
@@ -108,6 +109,15 @@
                 <% end %>
               </div>
             </div>
+
+            <div class="btn bg-transparent text-base-200">
+              <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+              <span class="material-symbols-outlined">
+                content_copy
+              </span>
+              </div>
+            </div>
+
           <% elsif current_user?(@task.user) %>
             <div class="flex h-12 w-full mt-10 justify-center text-neutral">
               <%= button_to "削除", task_path(@task), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-12 w-25 mr-5 md:w-42" %>
@@ -120,6 +130,15 @@
                 <% end %>
               </div>
             </div>
+
+            <%= link_to tasks_copy_path(@task), data: { turbo_frame: "tasks_copy_modal"}, class: "btn bg-transparent text-base-200" do %>
+              <div class="tooltip" data-tip="タスクをコピーする">
+                <span id="copy_icon_<%=@task.id%>" class="material-symbols-outlined">
+                  content_copy
+                </span>
+              </div>
+            <% end %>
+
           <% end %>
         </div>
 
@@ -135,4 +154,5 @@
       </button>
     </form>
   </div>
+
 </div>

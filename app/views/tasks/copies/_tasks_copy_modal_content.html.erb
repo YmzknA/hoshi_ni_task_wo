@@ -1,0 +1,38 @@
+<div class="modal-box max-h-[90vh]">
+  <p class="text-center pb-4">ESC or 画面外を押すと閉じます</p>
+  <div class="flex w-full items-center justify-center">
+    <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
+      <div class="flex items-center justify-center text-secondary mb-8">
+        <p class="text-xl">タスクをコピーする</p>
+      </div>
+
+    <%= form_with model: @task, url:tasks_copies_path(id:@task.id) , method: :post, local: true do |f| %>
+      <div class="flex justify-center">
+        <label class="mb-8 w-50">
+          <span class="text-base-200 text-sm">始点となる日付</span>
+
+          <%= f.date_field :start_date,
+            autocomplete: "Start Date",
+            placeholder: "開始日",
+            min: @task.milestone&.start_date,
+            max: @task.milestone&.end_date,
+            class: "text-base-200 bg-base-100 rounded-full p-3 w-full" %>
+      </label>
+      </div>
+
+      <%= f.submit "コピー", class: "btn btn-primary px-9" %>
+    <% end %>
+    </div>
+
+  </div>
+      <div class="modal-action flex justify-center">
+      <form method="dialog">
+        <button class="btn btn-accent px-9">
+          <span class="material-symbols-outlined">
+            close
+          </span>
+        </button>
+      </form>
+    </div>
+
+</div>
