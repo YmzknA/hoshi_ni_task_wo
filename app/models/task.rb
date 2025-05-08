@@ -15,6 +15,9 @@ class Task < ApplicationRecord
 
   enum progress: [:not_started, :in_progress, :completed]
 
+  # ######################################
+  # スコープ
+  # ######################################
   # start_dateとend_dateのどちらかがnilのものを弾くscope
   scope :valid_dates, -> { where.not(start_date: nil, end_date: nil) }
   scope :completed, -> { where(progress: :completed) }
@@ -23,6 +26,9 @@ class Task < ApplicationRecord
   scope :created_at_desc, -> { order(created_at: :desc) }
   scope :start_date_asc, -> { order(start_date: :asc) }
 
+  # ######################################
+  # メソッド
+  # ######################################
   def next_progress
     case progress
     when "not_started"
@@ -52,6 +58,7 @@ class Task < ApplicationRecord
 
   def copy(set_date)
     copy = dup
+    copy.title = "#{title}_copy"
 
     if copy.start_date.present? && copy.end_date.present?
       date_diff = (copy.end_date - copy.start_date).to_i
@@ -68,6 +75,9 @@ class Task < ApplicationRecord
     copy
   end
 
+  # ######################################
+  # privateメソッド
+  # ######################################
   private
 
   def start_date_check
