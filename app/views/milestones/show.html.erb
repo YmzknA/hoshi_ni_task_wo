@@ -166,12 +166,22 @@
         </button>
       </div>
 
-      <%= link_to milestones_copy_path(@milestone), data: { turbo_frame: "milestones_copy_modal"}, class: "relative left-4 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
-        <div class="tooltip" data-tip="タスクをコピーする">
-          <span id="copy_icon_<%=@milestone.id%>" class="material-symbols-outlined">
-            content_copy
-          </span>
+      <% if @milestone.user.guest? %>
+        <div class="relative left-4 btn bg-transparent text-base-200 hover:cursor-default">
+          <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+            <span class="material-symbols-outlined">
+              content_copy
+            </span>
+          </div>
         </div>
+      <% else %>
+        <%= link_to milestones_copy_path(@milestone), data: { turbo_frame: "milestones_copy_modal"}, class: "relative left-4 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
+          <div class="tooltip" data-tip="タスクをコピーする">
+            <span id="copy_icon_<%=@milestone.id%>" class="material-symbols-outlined">
+              content_copy
+            </span>
+          </div>
+        <% end %>
       <% end %>
       <div class="dropdown dropdown-top dropdown-center relative left-4">
         <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">

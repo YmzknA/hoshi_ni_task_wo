@@ -110,7 +110,7 @@
               </div>
             </div>
 
-            <div class="btn bg-transparent text-base-200">
+            <div class="relative left-4 btn bg-transparent text-base-200">
               <div class="tooltip" data-tip="ゲストユーザーは使用できません">
               <span class="material-symbols-outlined">
                 content_copy
@@ -118,6 +118,28 @@
               </div>
             </div>
 
+            <div class="dropdown dropdown-top dropdown-center relative left-4">
+              <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+                <span class="material-symbols-outlined text-base-200">
+                  help
+                </span>
+              </div>
+              <div
+                tabindex="0"
+                class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-10 shadow-xl border-1">
+                <div tabindex="0" class="card-body text-sm px-1">
+                  <div class="text-center">
+                    <p class="mb-2">始点を指定した場合、</p>
+                    <p class="mb-2">・開始日または終了日を始点の日に<br>
+                    設定してコピーします。</p>
+                    <div class="divider"></div>
+                    <p>・開始日も終了日も無い場合は<br>
+                    日付を設定せずにコピーします。
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           <% elsif current_user?(@task.user) %>
             <div class="flex h-12 w-full mt-10 justify-center text-neutral">
               <%= button_to "削除", task_path(@task), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-12 w-25 mr-5 md:w-42" %>
