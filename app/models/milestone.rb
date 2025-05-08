@@ -29,10 +29,16 @@ class Milestone < ApplicationRecord
   # :completed = 2
   enum progress: [:not_started, :in_progress, :completed]
 
+  # ######################################
+  # スコープ
+  # ######################################
   scope :on_chart, -> { where(is_on_chart: true) }
   scope :not_completed, -> { where(progress: [:not_started, :in_progress]) }
   scope :start_date_asc, -> { order(start_date: :asc) }
 
+  # ######################################
+  # メソッド
+  # ######################################
   def completed_tasks_percentage
     tasks = self.tasks
     return 0 if tasks.empty?
@@ -59,6 +65,32 @@ class Milestone < ApplicationRecord
     is_public == true
   end
 
+  def copy(set_date)
+    copy = dup
+    copy.title = "#{title}_copy"
+    copy.progress = "not_started"
+    copy.completed_comment = nil
+    copy.constellation = nil
+    copy.created_at = Time.current
+
+    if copy.start_date.present? && copy.end_date.present?
+      date_diff = (copy.end_date - copy.start_date).to_i
+
+      copy.start_date = set_date
+      copy.end_date = set_date.to_date + date_diff.days
+    elsif copy.start_date.present?
+      copy.start_date = set_date
+    elsif copy.end_date.present?
+      copy.end_date = set_date
+    end
+    # 両方nilの場合は何もしない
+
+    copy
+  end
+
+  # ######################################
+  # privateメソッド
+  # ######################################
   private
 
   def start_date_check

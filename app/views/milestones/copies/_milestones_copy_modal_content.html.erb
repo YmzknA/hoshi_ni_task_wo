@@ -1,0 +1,37 @@
+<div class="modal-box max-h-[90vh] px-2 md:px-4">
+  <p class="text-center pb-4 text-sm">ESC or 画面外を押すと閉じます</p>
+  <div class="flex w-full items-center justify-center">
+    <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 px-0 md:px-5 text-center md:w-2xl">
+      <div class="flex items-center justify-center text-secondary mb-3">
+        <p class="text-xl">星座をコピーする</p>
+      </div>
+
+    <%= form_with model: @milestone, url:milestones_copies_path(id: @milestone.id), method: :post, local: true do |f| %>
+      <div class="flex justify-center">
+        <label class="mb-8 w-50">
+          <span class="text-base-200 text-sm">始点となる日付</span>
+
+          <%= f.date_field :start_date,
+            autocomplete: "Start Date",
+            placeholder: "開始日",
+            class: "text-base-200 bg-base-100 rounded-full p-3 w-full" %>
+      </label>
+      </div>
+
+      <%= f.submit "コピー", class: "btn btn-primary px-9" %>
+    <% end %>
+    </div>
+
+  </div>
+      <div class="modal-action flex justify-center">
+      <form method="dialog">
+        <button class="btn btn-accent px-9">
+          <span class="material-symbols-outlined">
+            close
+          </span>
+        </button>
+      </form>
+    </div>
+
+</div>
+

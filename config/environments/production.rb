@@ -3,7 +3,7 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   config.hosts << 'hoshi-ni-task-wo.net'
   config.hosts << 'hoshi-ni-task-wo.onrender.com'
-  config.hosts << 'hoshi-ni-task-wo-pr-173.onrender.com'
+  config.hosts << 'hoshi-ni-task-wo-pr-175.onrender.com'
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

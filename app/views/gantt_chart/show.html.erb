@@ -14,6 +14,8 @@
 </div>
 <%= turbo_frame_tag "tasks_edit_modal" %>
 <%= turbo_frame_tag "milestone_show_modal" %>
+<%= turbo_frame_tag "tasks_copy_modal" %>
+
 <% @milestones.each do |milestone| %>
   <% milestone.tasks.each do |task| %>
     <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task) %>

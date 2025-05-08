@@ -1,0 +1,15 @@
+  <%= turbo_stream.replace "flash" do %>
+    <%= render "flash" %>
+  <% end %>
+
+  <% if @copy_success %>
+    <%= turbo_stream.replace "copy_icon_#{@milestone.id}" do %>
+      <span id="copy_icon_<%=@milestone.id%>" class="material-symbols-outlined">
+      task_alt
+      </span>
+    <% end %>
+  <% end %>
+
+  <%= turbo_stream.replace "milestones_copy_modal" do %>
+    <%= turbo_frame_tag "milestones_copy_modal" %>
+  <% end %>

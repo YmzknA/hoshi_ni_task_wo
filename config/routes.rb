@@ -4,10 +4,16 @@ Rails.application.routes.draw do
   resources :tasks do
     patch "update_progress", on: :member
   end
+  namespace :tasks do
+    resources :copies, only: [:show, :create]
+  end
 
   resources :milestones do
     get "show_complete_page", on: :member
     patch "complete", on: :member
+  end
+  namespace :milestones do
+    resources :copies, only: [:show, :create]
   end
 
   get "gantt_chart" => "gantt_chart#show", as: :gantt_chart
