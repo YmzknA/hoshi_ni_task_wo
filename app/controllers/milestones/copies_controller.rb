@@ -7,7 +7,8 @@ module Milestones
 
     def create
       # いずれも無い場合はnilでもかまわない。
-      @set_date = copy_params[:start_date] || @milestone.start_date || @milestone.end_date
+      @set_date = copy_params[:start_date]
+      @set_date = @milestone.start_date || @milestone.end_date if @set_date.blank?
 
       # @milestoneをset_dateを基準にコピーする
       # @set_dateは、start_dateとend_dateの両方がnilの場合はそもそも参照しないのでそのまま渡す
@@ -105,7 +106,7 @@ module Milestones
       first_date = Date.new(9999, 1, 1)
       @milestone.tasks.each do |task|
         # startもendもnilの場合は、first_dateを更新しない
-        first_date = [first_date, task.start_date || first_date, task.end_date || first_date].min
+        first_date = [first_date, task.start_date, task.end_date].compact.min
       end
 
       # 9999年1月1日の場合はnilにする
