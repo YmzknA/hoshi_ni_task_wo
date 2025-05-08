@@ -65,10 +65,6 @@ class Milestone < ApplicationRecord
     is_public == true
   end
 
-  def on_chart?
-    is_on_chart == true
-  end
-
   def copy(set_date)
     copy = dup
     copy.title = "#{title}_copy"
