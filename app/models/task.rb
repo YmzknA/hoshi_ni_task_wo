@@ -58,7 +58,6 @@ class Task < ApplicationRecord
 
   def copy(set_date)
     copy = dup
-    copy.title = "#{title}_copy"
 
     if copy.start_date.present? && copy.end_date.present?
       date_diff = (copy.end_date - copy.start_date).to_i

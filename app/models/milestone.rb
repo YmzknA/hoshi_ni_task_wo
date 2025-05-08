@@ -72,6 +72,10 @@ class Milestone < ApplicationRecord
   def copy(set_date)
     copy = dup
     copy.title = "#{title}_copy"
+    copy.progress = "not_started"
+    copy.completed_comment = nil
+    copy.constellation = nil
+    copy.created_at = Time.current
 
     if copy.start_date.present? && copy.end_date.present?
       date_diff = (copy.end_date - copy.start_date).to_i
