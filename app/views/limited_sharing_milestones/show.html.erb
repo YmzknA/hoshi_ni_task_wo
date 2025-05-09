@@ -189,7 +189,7 @@
 
 <%= turbo_frame_tag "milestone_show_modal" %>
 <% @milestone_tasks.each do |task| %>
-  <%= turbo_frame_tag "tasks_show_modal_#{task.id}" %>
+  <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: share_task_path(task) %>
 <% end %>
 
 

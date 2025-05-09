@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :tasks do
     patch "update_progress", on: :member
+    get "share" => "limited_sharing_tasks#show", on: :member
   end
   namespace :tasks do
     resources :copies, only: [:show, :create]
