@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_08_232217) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_09_014703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_08_232217) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "limited_sharing_milestones", id: { type: :string, limit: 12 }, force: :cascade do |t|
+  create_table "limited_sharing_milestones", id: { type: :string, limit: 21 }, force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
     t.integer "progress", default: 0, null: false
@@ -35,6 +35,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_08_232217) do
     t.datetime "updated_at", null: false
     t.index ["constellation_id"], name: "index_limited_sharing_milestones_on_constellation_id"
     t.index ["user_id"], name: "index_limited_sharing_milestones_on_user_id"
+  end
+
+  create_table "limited_sharing_tasks", id: { type: :string, limit: 21 }, force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.integer "progress", default: 0, null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.string "limited_sharing_milestone_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["limited_sharing_milestone_id"], name: "index_limited_sharing_tasks_on_limited_sharing_milestone_id"
   end
 
   create_table "milestones", force: :cascade do |t|
@@ -92,6 +104,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_08_232217) do
 
   add_foreign_key "limited_sharing_milestones", "constellations"
   add_foreign_key "limited_sharing_milestones", "users"
+  add_foreign_key "limited_sharing_tasks", "limited_sharing_milestones"
   add_foreign_key "milestones", "constellations"
   add_foreign_key "milestones", "users"
   add_foreign_key "tasks", "milestones"
