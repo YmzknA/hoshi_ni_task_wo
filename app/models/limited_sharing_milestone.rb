@@ -1,4 +1,4 @@
-class LimitedSharingMilestone < ActiveRecord::Base
+class LimitedSharingMilestone < ApplicationRecord
   include NanoIdGenerator
 
   belongs_to :user

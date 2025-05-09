@@ -1,4 +1,4 @@
-class LimitedSharingTask < ActiveRecord::Base
+class LimitedSharingTask < ApplicationRecord
   include NanoIdGenerator
 
   belongs_to :limited_sharing_milestone
