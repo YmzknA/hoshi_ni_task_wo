@@ -3,7 +3,6 @@
 module NanoidGenerator
   extend ActiveSupport::Concern
 
-
   ID_ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   ID_LENGTH = 21
   MAX_RETRY = 1000

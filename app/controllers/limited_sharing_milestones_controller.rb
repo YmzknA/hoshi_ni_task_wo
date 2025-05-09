@@ -14,23 +14,27 @@ class LimitedSharingMilestonesController < ApplicationController
   end
 
   def create
-    milestone = Milestone.find(params[:id])
-    return redirect_to root_path unless current_user?(milestone.user)
+    base_milestone = Milestone.find(params[:id])
 
-    @sharing_milestone = LimitedSharingMilestone.new(
-      user: milestone.user,
-      title: milestone.title,
-      description: milestone.description,
-      progress: milestone.progress,
-      color: milestone.color,
-      start_date: milestone.start_date,
-      end_date: milestone.end_date,
-      completed_comment: milestone.completed_comment,
-      is_on_chart: milestone.is_on_chart,
-      constellation: milestone.constellation
+    # base_milestoneのユーザーが現在のユーザーと異なる場合は、root_pathにリダイレクト
+    return redirect_to root_path unless current_user?(base_milestone.user)
+
+    # base_milestoneのデータで、share_milestoneを作成
+    @milestone = LimitedSharingMilestone.new(
+      user: base_milestone.user,
+      title: base_milestone.title,
+      description: base_milestone.description,
+      progress: base_milestone.progress,
+      color: base_milestone.color,
+      start_date: base_milestone.start_date,
+      end_date: base_milestone.end_date,
+      completed_comment: base_milestone.completed_comment,
+      is_on_chart: base_milestone.is_on_chart,
+      constellation: base_milestone.constellation
     )
 
-    milestone.tasks.each do |task|
+    # base_milestoneのtasksをsharing_milestoneにコピー
+    base_milestone.tasks.each do |task|
       sharing_task = LimitedSharingTask.new(
         title: task.title,
         description: task.description,
@@ -39,21 +43,15 @@ class LimitedSharingMilestonesController < ApplicationController
         end_date: task.end_date,
         user: task.user
       )
-      sharing_task.milestone = @sharing_milestone
-      @sharing_milestone.tasks << sharing_task
-      logger.swim("#{task.id} => #{sharing_task.inspect}")
+      sharing_task.milestone = @milestone
+      @milestone.tasks << sharing_task
     end
 
-    if @sharing_milestone.save
+    if @milestone.save
       flash.now[:notice] = "共有用の星座が作成されました"
     else
-      @sharing_milestone.tasks.each do |task|
-        task.errors.full_messages.each do |message|
-          logger.swim(message)
-        end
-      end
       flash[:alert] = "共有用の星座の作成に失敗しました"
-      redirect_to milestone_path(milestone) and return
+      redirect_to milestone_path(base_milestone) and return
     end
   end
 
