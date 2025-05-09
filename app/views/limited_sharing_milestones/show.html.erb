@@ -47,7 +47,7 @@
       <!-- 進捗バー -->
       <div class="flex items-center justify-center text-2xl">
         <div class="my-10 h-12 w-xl rounded-full bg-primary px-5 text-xl text-neutral">
-          <%= render "milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
+          <%= render "milestones/milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
         </div>
       </div>
 
@@ -98,20 +98,8 @@
 
     <!-- 公開・表示設定 -->
     <div class="mb-8 flex h-full md:h-[100px] items-center justify-center">
-      <div class="flex flex-col h-full w-xl md:flex-row <%= @milestone.public? ? "" : "justify-center" %>">
         <div class="flex mb-8 items-center justify-center rounded-xl text-base-200 md:w-3/4 md:mb-0">
           <div>
-            <div class="mb-3 flex items-center md:justify-end">
-              <div class="mr-2 text-center">
-                全体に公開する：
-              </div>
-              <% if @milestone.is_public %>
-                <span class="badge badge-md badge-primary md:badge-lg">ON</span>
-              <% else %>
-                <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
-              <% end %>
-            </div>
-
             <%if @is_milestone_completed %>
               <div class="flex items-center">
                 <div class="mr-2 text-center">
@@ -135,102 +123,15 @@
             <% end %>
           </div>
         </div>
-
-        <%# ゲストユーザーまたは、公開milestoneの場合に、shareボタン表示 %>
-        <%# ゲストの場合は無効化されたshareボタンになる %>
-        <% if @milestone.user.guest? || @milestone.public? %>
-          <div class="flex h-full items-center justify-center md:w-1/4">
-            <%= render "x_share_button", instance: @milestone %>
-          </div>
-        <% end %>
-
       </div>
-    </div>
 
     <!-- button -->
     <% if current_user?(@milestone.user) %>
       <div class="flex h-12 w-full justify-center text-neutral">
-        <% if current_user.guest? %>
-          <div class="tooltip" data-tip="ゲストユーザーは使用できません">
-            <div class="btn btn-disabled mr-5 h-12 w-25 md:w-42">
-              削除
-            </div>
-          </div>
-        <% else %>
-          <div class="btn btn-error mr-5 h-12 w-25 md:w-42" onclick="delete_confirm_modal.showModal()">
-            削除
-          </div>
+        <%= button_to limited_sharing_milestone_path(@milestone), method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-error mr-5 h-12 w-25 md:w-42" do %>
+          削除
         <% end %>
-        <button class="btn btn-accent h-12 w-25 md:w-42" onclick="milestones_edit_modal.showModal()">
-          編集
-        </button>
       </div>
-
-      <% if @milestone.user.guest? %>
-        <div class="relative left-4 btn bg-transparent text-base-200 hover:cursor-default">
-          <div class="tooltip" data-tip="ゲストユーザーは使用できません">
-            <span class="material-symbols-outlined">
-              content_copy
-            </span>
-          </div>
-        </div>
-      <% else %>
-        <%= link_to milestones_copy_path(@milestone), data: { turbo_frame: "milestones_copy_modal"}, class: "relative left-4 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
-          <div class="tooltip" data-tip="タスクをコピーする">
-            <span id="copy_icon_<%=@milestone.id%>" class="material-symbols-outlined">
-              content_copy
-            </span>
-          </div>
-        <% end %>
-      <% end %>
-      <div class="dropdown dropdown-top dropdown-center relative left-4">
-        <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
-          <span class="material-symbols-outlined text-base-200">
-            help
-          </span>
-        </div>
-        <div
-          tabindex="0"
-          class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-10 shadow-xl border-1">
-          <div tabindex="0" class="card-body text-sm px-1">
-            <div class="text-center">
-              <p class="mb-2">始点を設定しない場合は、<br>
-              そのままコピーします。</p>
-
-              <div class="divider"></div>
-
-              <p class="mb-2">始点を指定した場合、</p>
-              <p class="mb-2">・開始日または終了日を始点の日に<br>
-              設定してコピーします。</p>
-
-              <div class="divider"></div>
-              <p class="mb-4">開始日も終了日も無い星座の場合は<br>
-              日付を設定せずにコピーします。
-              </p>
-
-              <div class="divider"></div>
-              <p class="mb-2">紐づくタスクは<br>
-              <p class="mb-2">・星座に日付がある場合は<br>
-              それを基準としてコピーします。</p>
-              <p class="mb-2">・星座に日付が無い場合は、<br>
-              タスクの内の一番早い日付を基準に
-              <br>コピーします。</p>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <%= button_to limited_sharing_milestones_path(id: @milestone.id),
-        method: :post,
-        class: "relative left-4 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
-        <div class="tooltip" data-tip="他のユーザーと共有する">
-          <span class="material-symbols-outlined">
-            share
-          </span>
-        </div>
-      <% end %>
-
     <% end %>
 
     <!-- タスクの表示部分 -->
@@ -240,11 +141,6 @@
         <!-- タスク -->
         <input type="radio" name="my_tabs" class="tab" aria-label="タスク" checked="checked"/>
         <div class="tab-content bg-base-100 p-3">
-
-          <% if !@is_milestone_completed && current_user?(@milestone.user) %>
-            <!-- 新規作成ボタン -->
-            <%= render "tasks/add_task_button", milestone: @milestone %>
-          <% end %>
 
           <!-- タスク一覧 -->
           <%= render "tasks/tasks", tasks: @milestone_tasks %>
@@ -285,17 +181,15 @@
 </div>
 
 <% if current_user?(@milestone.user) %>
-  <%= render 'milestones/milestones_edit_modal', milestone: @milestone %>
   <%= render 'milestones/delete_confirm_modal' %>
   <%= turbo_frame_tag "tasks_edit_modal" %>
   <%= turbo_frame_tag "tasks_new_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
-  <%= turbo_frame_tag "milestones_copy_modal" %>
 <% end %>
 
 <%= turbo_frame_tag "milestone_show_modal" %>
 <% @milestone_tasks.each do |task| %>
-  <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
+  <%= turbo_frame_tag "tasks_show_modal_#{task.id}" %>
 <% end %>
 
 

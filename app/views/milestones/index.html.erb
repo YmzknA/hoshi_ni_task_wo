@@ -58,6 +58,22 @@
           <%= render "milestones", milestones: @completed_milestones, completed: true %>
         </div>
 
+        <input type="radio" name="my_tabs" class="tab" aria-label="限定公開中の星座" checked="checked"/>
+        <div class="tab-content border-base-300 bg-base-100 p-3">
+
+
+          <!-- 星座 -->
+          <% @sharing_milestones.each do |milestone| %>
+            <%= link_to share_milestone_path(milestone), class: "card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10" do %>
+              <div class="mb-4 flex w-full items-center text-left">
+                <%= milestone.title %>
+                <%= milestone.created_at.to_date %>
+              </div>
+            <% end %>
+          <% end %>
+
+        </div>
+
       </div>
     </div>
   </div>
