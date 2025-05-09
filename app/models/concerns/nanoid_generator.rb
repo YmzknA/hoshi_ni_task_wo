@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
-module NanoIdGenerator
+module NanoidGenerator
   extend ActiveSupport::Concern
 
-  included do
-    before_create :set_id
-  end
 
   ID_ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   ID_LENGTH = 21
