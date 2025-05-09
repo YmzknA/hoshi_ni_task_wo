@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_09_014703) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_09_033937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,6 +33,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_09_014703) do
     t.bigint "constellation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_on_chart", default: false, null: false
     t.index ["constellation_id"], name: "index_limited_sharing_milestones_on_constellation_id"
     t.index ["user_id"], name: "index_limited_sharing_milestones_on_user_id"
   end
