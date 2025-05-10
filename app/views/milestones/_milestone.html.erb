@@ -22,9 +22,10 @@
       </div>
 
       <!-- 詳細 -->
-      <div class="text-left mt-1">
+      <div class="text-left mt-2">
         <% if milestone.description.present? %>
-          <p class="text-lg"><%= milestone.description.truncate(20) %></p>
+          <p class="text-sm hidden sm:block"><%= milestone.description.truncate(30) %></p>
+          <p class="text-sm sm:hidden"><%= milestone.description.truncate(15) %></p>
         <% else %>
           <p class="text-lg">詳細はありません</p>
         <% end %>
