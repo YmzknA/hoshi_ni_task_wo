@@ -20,7 +20,7 @@
       <div class="tabs tabs-lift w-xl">
 
         <!-- 作成中の星座 -->
-        <input type="radio" name="my_tabs" class="tab" aria-label="作成中の星座" checked="checked"/>
+        <input type="radio" name="my_tabs" class="tab" aria-label="作成中" checked="checked"/>
         <div class="tab-content border-base-300 bg-base-100 p-3">
 
           <% if current_user.guest? %>
@@ -52,25 +52,20 @@
         </div>
 
         <!-- 完成済みの星座 -->
-        <input type="radio" name="my_tabs" class="tab" aria-label="完成した星座" />
+        <input type="radio" name="my_tabs" class="tab" aria-label="完成済" />
         <div class="tab-content border-base-300 bg-base-100 p-3">
           <!-- 星座 -->
           <%= render "milestones", milestones: @completed_milestones, completed: true %>
         </div>
 
         <!-- 限定公開中の星座 -->
-        <input type="radio" name="my_tabs" class="tab" aria-label="限定公開中の星座"/>
+        <input type="radio" name="my_tabs" class="tab" aria-label="限定公開"/>
         <div class="tab-content border-base-300 bg-base-100 p-3">
 
 
           <!-- 星座 -->
           <% @sharing_milestones.each do |milestone| %>
-            <%= link_to share_milestone_path(milestone), class: "card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10" do %>
-              <div class="mb-4 flex w-full items-center text-left">
-                <%= milestone.title %>
-                <%= milestone.created_at.to_date %>
-              </div>
-            <% end %>
+            <%= render "limited_sharing_milestones/milestone", milestone: milestone %>
           <% end %>
 
         </div>
