@@ -98,7 +98,7 @@
 
     <!-- 公開・表示設定 -->
     <div class="mb-8 flex h-full md:h-[100px] items-center justify-center">
-        <div class="flex mb-8 items-center justify-center rounded-xl text-base-200 md:w-3/4 md:mb-0">
+        <div class="flex items-center justify-center rounded-xl text-base-200 md:w-3/4 md:mb-0">
           <div>
             <%if @is_milestone_completed %>
               <div class="flex items-center">
@@ -127,7 +127,7 @@
 
     <!-- button -->
     <% if current_user?(@milestone.user) %>
-      <div class="flex h-12 w-full justify-center text-neutral">
+      <div class="flex h-12 w-full justify-center text-neutral mb-8">
         <%= button_to limited_sharing_milestone_path(@milestone), method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-error mr-5 h-12 w-25 md:w-42" do %>
           削除
         <% end %>

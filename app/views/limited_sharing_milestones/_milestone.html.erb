@@ -1,10 +1,9 @@
 <div id="milestone_<%=milestone.id%>" class="mb-4 card w-full p-4 bg-base-300/40 shadow-xl/10">
 
-  <div class="flex w-full items-center text-left">
-    <%= link_to share_milestone_path(milestone), class: "w-full p-1 rounded-xl hover:bg-base-300/30 active:bg-base-300/30" do %>
+    <%= link_to share_milestone_path(milestone), class: "w-full mb-2 rounded-xl hover:bg-base-300/30 active:bg-base-300/30" do %>
 
       <!-- タイトル, 日付, マーク -->
-      <div class="flex w-full mb-2">
+      <div class="flex w-full">
         <% if milestone.completed? %>
           <%= render "milestones/complete_stars_icon", color: milestone.color, width: 40, height: 40 %>
         <% else %>
@@ -16,11 +15,16 @@
           </div>
         <% end %>
 
-        <div class="ml-2 w-7/10">
+        <div class="ml-2">
           <p class="text-lg"><%= milestone.title %></p>
-          <p class="text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
         </div>
       </div>
+    <% end %>
+
+
+  <div class="flex w-full items-center text-left">
+    <%= link_to share_milestone_path(milestone), class: "w-full px-1 rounded-xl hover:bg-base-300/30 active:bg-base-300/30" do %>
+      <p class="text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
 
 
       <!-- 詳細 -->
