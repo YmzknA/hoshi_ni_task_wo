@@ -1,9 +1,8 @@
 <div id="task_<%=task.id%>" class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
 
-  <div class="flex w-full items-center text-left">
 
     <button 
-      class="w-full p-1 rounded-xl hover:bg-base-300/30 active:bg-base-300/30 hover:cursor-pointer text-start"
+      class="w-full pb-2 rounded-xl hover:bg-base-300/30 active:bg-base-300/30 hover:cursor-pointer text-start"
       onclick="tasks_show_modal_<%=task.id%>_target.showModal()"
       >
       <!-- タイトル, 日付, マーク -->
@@ -14,26 +13,35 @@
 
         <div class="ml-2 w-7/10">
           <p class="text-lg"><%= task.title %></p>
-
-          <p class="text-sm"><%= to_short_date(task.start_date) %> ~ <%= to_short_date(task.end_date) %></p>
         </div>
+      </div>
+    </button>
+
+  <div class="flex w-full items-center text-left">
+    <button 
+      class="w-full p-1 rounded-xl hover:bg-base-300/30 active:bg-base-300/30 hover:cursor-pointer text-start"
+      onclick="tasks_show_modal_<%=task.id%>_target.showModal()"
+      >
+      <div>
+        <p class="text-xs sm:text-sm"><%= to_short_date(task.start_date) %> ~ <%= to_short_date(task.end_date) %></p>
       </div>
 
       <!-- 詳細 -->
-      <div class="text-left mt-1">
+      <div class="text-left mt-2">
         <% if task.description.present? %>
-          <p class="text-lg"><%= task.description.truncate(20) %></p>
+          <p class="text-sm hidden sm:block"><%= task.description.truncate(30) %></p>
+          <p class="text-sm sm:hidden"><%= task.description.truncate(12) %></p>
         <% else %>
           <p class="text-lg">詳細はありません</p>
         <% end %>
       </div>
-
     </button>
 
-      <!-- progressボタン -->
-      <% unless task.milestone_completed? %>
-        <%= render "tasks/progress_button", task: task %>
-      <% end %>
+    <!-- progressボタン -->
+    <% unless task.milestone_completed? %>
+      <%= render "tasks/progress_button", task: task %>
+    <% end %>
   </div>
+
 
 </div>
