@@ -16,9 +16,9 @@
         <%= "#{@milestone.title} 座" %>
       </div>
       <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
-      <%= link_to  milestone_constellation_url(@milestone) do %>
-        <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
-      <% end %>
+        <%= link_to  milestone_constellation_url(@milestone) do %>
+          <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+        <% end %>
       </div>
       <%= link_to  milestone_constellation_url(@milestone) do %>
         <p class="text-xs text-base-200 link">画像：<%= @milestone.constellation.name %></p>
@@ -57,7 +57,7 @@
         <div class="flex h-35 w-full justify-center text-neutral">
           <div class="flex w-xl justify-between p-3">
             <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-                <%= @milestone.start_date&.year %>
+              <%= @milestone.start_date&.year %>
               <div class="w-full text-xl">
                 <%= to_short_date(@milestone.start_date) %>
               </div>
@@ -98,38 +98,38 @@
 
     <!-- 公開・表示設定 -->
     <div class="mb-8 flex h-full md:h-[100px] items-center justify-center">
-        <div class="flex items-center justify-center rounded-xl text-base-200 md:w-3/4 md:mb-0">
-          <div>
-            <%if @is_milestone_completed %>
-              <div class="flex items-center">
-                <div class="mr-2 text-center">
-                  チャートに表示する：
-                </div>
-                <p class="text-primary">
-                星座完成済み
-                </p>
+      <div class="flex items-center justify-center rounded-xl text-base-200 md:w-3/4 md:mb-0">
+        <div>
+          <%if @is_milestone_completed %>
+            <div class="flex items-center">
+              <div class="mr-2 text-center">
+                チャートに表示する：
               </div>
-            <% else %>
-              <div class="flex items-center">
-                <div class="mr-2 text-center">
-                  チャートに表示する：
-                </div>
-                <% if @milestone.is_on_chart %>
-                  <span class="badge badge-md badge-primary md:badge-lg">ON</span>
-                <% else %>
-                  <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
-                <% end %>
+              <p class="text-primary">
+              星座完成済み
+              </p>
+            </div>
+          <% else %>
+            <div class="flex items-center">
+              <div class="mr-2 text-center">
+                チャートに表示する：
               </div>
-            <% end %>
-          </div>
+              <% if @milestone.is_on_chart %>
+                <span class="badge badge-md badge-primary md:badge-lg">ON</span>
+              <% else %>
+                <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
+    </div>
 
     <!-- button -->
     <% if current_user?(@milestone.user) %>
       <div class="flex h-12 w-full justify-center text-neutral mb-8">
-        <%= button_to limited_sharing_milestone_path(@milestone), method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-error mr-5 h-12 w-25 md:w-42" do %>
-          削除
+        <%= button_to limited_sharing_milestone_path(@milestone), method: :delete, data: { turbo_confirm: "本当に取り消しますか？" }, class: "btn btn-error mr-5 h-12 w-30" do %>
+          共有取り消し
         <% end %>
       </div>
     <% end %>
