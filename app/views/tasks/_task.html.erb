@@ -1,8 +1,10 @@
-<div id="task_<%=task.id%>" class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
+<div id="task_<%= task.id %>" class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
 
-
+  <%# groupにhoverするとbgが変わる %>
+  <%# remove_hover_btn要素にhoverするとjsによってlink_card要素のgroup-hover:bg-base-300/30が取り除かれる %>
+  <div class="group">
     <button 
-      class="w-full pb-2 rounded-xl hover:bg-base-300/30 active:bg-base-300/30 hover:cursor-pointer text-start"
+      class="link_card w-full pb-2 rounded-t-xl group-hover:bg-base-300/30 group-active:bg-base-300/30 hover:cursor-pointer text-start"
       onclick="tasks_show_modal_<%=task.id%>_target.showModal()"
       >
       <!-- タイトル, 日付, マーク -->
@@ -17,9 +19,9 @@
       </div>
     </button>
 
-  <div class="flex w-full items-center text-left">
+  <div class="flex w-full items-center">
     <button 
-      class="w-full px-1 rounded-xl hover:bg-base-300/30 active:bg-base-300/30 hover:cursor-pointer text-start"
+      class="link_card w-full h-20 pt-2 px-1 rounded-b-xl group-hover:bg-base-300/30 group-active:bg-base-300/30 hover:cursor-pointer text-start"
       onclick="tasks_show_modal_<%=task.id%>_target.showModal()"
       >
       <div>
@@ -27,7 +29,7 @@
       </div>
 
       <!-- 詳細 -->
-      <div class="text-left mt-2">
+      <div class="mt-2">
         <% if task.description.present? %>
           <p class="text-sm hidden sm:block"><%= task.description.truncate(30) %></p>
           <p class="text-sm sm:hidden"><%= task.description.truncate(12) %></p>
@@ -39,8 +41,11 @@
 
     <!-- progressボタン -->
     <% unless task.milestone_completed? %>
+      <div class="remove_hover_btn flex w-3/10 max-w-20 justify-end">
       <%= render "tasks/progress_button", task: task %>
+      </div>
     <% end %>
+  </div>
   </div>
 
 
