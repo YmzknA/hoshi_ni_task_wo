@@ -9,9 +9,14 @@ class TasksController < ApplicationController
   def index
     @title = "タスク一覧"
     @user = current_user
-    tasks = @user.tasks.includes(:milestone).order(created_at: :desc)
-    @completed_tasks = tasks.where(progress: :completed).reject(&:milestone_completed?)
-    @not_completed_tasks = tasks.where.not(progress: :completed)
+    base_tasks = @user.tasks.includes(:milestone)
+
+    # 完了したタスク - 作成日の降順
+    completed_tasks_set = base_tasks.where(progress: :completed).index_order
+    @completed_tasks = completed_tasks_set.reject(&:milestone_completed?)
+
+    # 未完了のタスク - 締切日の昇順（nilを最後に表示）、同じ締切日なら開始日の昇順
+    @not_completed_tasks = base_tasks.where.not(progress: :completed).index_order
   end
 
   # GET /tasks/1
