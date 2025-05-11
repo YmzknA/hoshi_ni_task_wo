@@ -35,7 +35,7 @@ class Milestone < ApplicationRecord
   scope :on_chart, -> { where(is_on_chart: true) }
   scope :not_completed, -> { where(progress: [:not_started, :in_progress]) }
   scope :start_date_asc, -> { order(start_date: :asc) }
-  scope :index_order, -> { order(Arel.sql("end_date IS NULL ASC, end_date ASC, start_date ASC")) }
+  scope :index_order, -> { order(Arel.sql("start_date IS NULL ASC, start_date ASC, end_date ASC")) }
 
   # ######################################
   # メソッド
