@@ -166,6 +166,7 @@ GEM
     msgpack (1.8.0)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
+    nanoid (2.0.0)
     net-http (0.6.0)
       uri
     net-imap (0.5.6)
@@ -411,6 +412,7 @@ DEPENDENCIES
   line-bot-api
   meta-tags
   mini_magick
+  nanoid
   omniauth-line
   omniauth-rails_csrf_protection
   pg (~> 1.1)

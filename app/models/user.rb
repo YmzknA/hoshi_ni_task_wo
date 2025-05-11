@@ -14,6 +14,8 @@ class User < ApplicationRecord
 
   has_many :tasks, dependent: :destroy
   has_many :milestones, dependent: :destroy
+  has_many :limited_sharing_milestones, dependent: :destroy
+  has_many :limited_sharing_tasks, dependent: :destroy
 
   # Lineログイン用の設定
   def social_profile(provider)

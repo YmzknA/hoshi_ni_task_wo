@@ -34,7 +34,11 @@
               background-color: <%= milestone_color %>b3;
               border-color: <%= milestone_color %>cc;
               ">
-              <%= link_to gantt_chart_milestone_show_path(milestone), class: "hover:cursor-pointer", data: { turbo_frame: "milestone_show_modal" } do %>
+              <% if milestone.is_a?(Milestone) %>
+                <%= link_to gantt_chart_milestone_show_path(milestone), class: "hover:cursor-pointer", data: { turbo_frame: "milestone_show_modal" } do %>
+                  <%= milestone.title %>
+                <% end %>
+              <% else %>
                 <%= milestone.title %>
               <% end %>
             </div>

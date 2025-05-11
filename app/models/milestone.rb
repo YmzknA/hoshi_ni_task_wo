@@ -39,6 +39,11 @@ class Milestone < ApplicationRecord
   # ######################################
   # メソッド
   # ######################################
+
+  def tasks_completed?
+    tasks.all? { |task| task.progress == "completed" }
+  end
+
   def completed_tasks_percentage
     tasks = self.tasks
     return 0 if tasks.empty?

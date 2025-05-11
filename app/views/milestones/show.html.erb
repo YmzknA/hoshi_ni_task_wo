@@ -16,9 +16,9 @@
         <%= "#{@milestone.title} 座" %>
       </div>
       <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
-      <%= link_to  milestone_constellation_url(@milestone) do %>
-        <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
-      <% end %>
+        <%= link_to  milestone_constellation_url(@milestone) do %>
+          <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+        <% end %>
       </div>
       <%= link_to  milestone_constellation_url(@milestone) do %>
         <p class="text-xs text-base-200 link">画像：<%= @milestone.constellation.name %></p>
@@ -57,7 +57,7 @@
         <div class="flex h-35 w-full justify-center text-neutral">
           <div class="flex w-xl justify-between p-3">
             <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-                <%= @milestone.start_date&.year %>
+              <%= @milestone.start_date&.year %>
               <div class="w-full text-xl">
                 <%= to_short_date(@milestone.start_date) %>
               </div>
@@ -149,7 +149,9 @@
 
     <!-- button -->
     <% if current_user?(@milestone.user) %>
-      <div class="flex h-12 w-full justify-center text-neutral">
+
+      <!-- 編集・削除ボタン -->
+      <div class="flex h-12 w-full justify-center text-neutral mb-8">
         <% if current_user.guest? %>
           <div class="tooltip" data-tip="ゲストユーザーは使用できません">
             <div class="btn btn-disabled mr-5 h-12 w-25 md:w-42">
@@ -166,62 +168,126 @@
         </button>
       </div>
 
-      <% if @milestone.user.guest? %>
-        <div class="relative left-4 btn bg-transparent text-base-200 hover:cursor-default">
-          <div class="tooltip" data-tip="ゲストユーザーは使用できません">
-            <span class="material-symbols-outlined">
-              content_copy
-            </span>
+      <!-- タスクのコピー・共有ボタン -->
+      <div class="flex justify-center items-center">
+        <!-- shareボタン -->
+        <div class="mr-20 relative">
+          <% if @milestone.user.guest? %>
+            <div class="btn bg-transparent text-base-200 hover:cursor-default">
+              <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+                <span class="material-symbols-outlined">
+                  share
+                </span>
+              </div>
+            </div>
+          <% else %>
+            <button
+              class="btn bg-base-300 hover:bg-base-200/10 text-base-200"
+              onclick="share_confirm_modal.showModal()"
+              >
+              <div class="tooltip" data-tip="限定公開URLを発行する">
+                <span class="material-symbols-outlined">
+                  add_link
+                </span>
+              </div>
+            </button>
+          <% end %>
+
+          <div class="dropdown dropdown-top dropdown-center top-4 absolute left-30">
+            <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+              <span class="material-symbols-outlined text-base-200">
+                help
+              </span>
+            </div>
+            <div
+              tabindex="0"
+              class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-10 shadow-xl border-1">
+              <div tabindex="0" class="card-body text-sm px-1">
+                <div class="text-center">
+
+                  <p class="mb-2">URLを知っている人だけが<br>
+                  閲覧できる星座の共有ページを<br>
+                  作成します。</p>
+                  <p class="">URLをコピーして共有してください。<br>
+
+                  <div class="divider"></div>
+                  <p class="">作成時点での状況を保持します。</p>
+
+                  <div class="divider"></div>
+
+                  <p class="mb-2">共有取り消しボタンを推すまで、<br>公開され続けます。</p>
+                  <p class="">共有取り消しボタンは、<br>公開ページ内に、星座の所有者のみに表示されます。</p>
+
+                </div>
+              </div>
+            </div>
           </div>
+
         </div>
-      <% else %>
-        <%= link_to milestones_copy_path(@milestone), data: { turbo_frame: "milestones_copy_modal"}, class: "relative left-4 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
-          <div class="tooltip" data-tip="タスクをコピーする">
-            <span id="copy_icon_<%=@milestone.id%>" class="material-symbols-outlined">
-              content_copy
-            </span>
-          </div>
-        <% end %>
-      <% end %>
-      <div class="dropdown dropdown-top dropdown-center relative left-4">
-        <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
-          <span class="material-symbols-outlined text-base-200">
-            help
-          </span>
-        </div>
-        <div
-          tabindex="0"
-          class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-10 shadow-xl border-1">
-          <div tabindex="0" class="card-body text-sm px-1">
-            <div class="text-center">
-              <p class="mb-2">始点を設定しない場合は、<br>
-              そのままコピーします。</p>
 
-              <div class="divider"></div>
+        <div class="relative">
+          <!-- copyボタン -->
+          <% if @milestone.user.guest? %>
+            <div class="btn bg-transparent text-base-200 hover:cursor-default">
+              <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+                <span class="material-symbols-outlined">
+                  content_copy
+                </span>
+              </div>
+            </div>
+          <% else %>
+            <%= link_to milestones_copy_path(@milestone), data: { turbo_frame: "milestones_copy_modal"}, class: "btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
+              <div class="tooltip" data-tip="タスクをコピーする">
+                <span id="copy_icon_<%=@milestone.id%>" class="material-symbols-outlined">
+                  content_copy
+                </span>
+              </div>
+            <% end %>
+          <% end %>
 
-              <p class="mb-2">始点を指定した場合、</p>
-              <p class="mb-2">・開始日または終了日を始点の日に<br>
-              設定してコピーします。</p>
+          <div class="dropdown dropdown-top dropdown-center top-4 absolute left-30">
+            <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+              <span class="material-symbols-outlined text-base-200">
+                help
+              </span>
+            </div>
+            <div
+              tabindex="0"
+              class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-10 shadow-xl border-1">
+              <div tabindex="0" class="card-body text-sm px-1">
+                <div class="text-center">
+                  <p class="mb-2">始点となる日を設定して、<br>
+                  星座をコピーします。</p>
+                  <p class="mb-2">始点を設定しない場合は、<br>
+                  そのままコピーします。</p>
 
-              <div class="divider"></div>
-              <p class="mb-4">開始日も終了日も無い星座の場合は<br>
-              日付を設定せずにコピーします。
-              </p>
+                  <div class="divider"></div>
 
-              <div class="divider"></div>
-              <p class="mb-2">紐づくタスクは<br>
-              <p class="mb-2">・星座に日付がある場合は<br>
-              それを基準としてコピーします。</p>
-              <p class="mb-2">・星座に日付が無い場合は、<br>
-              タスクの内の一番早い日付を基準に
-              <br>コピーします。</p>
+                  <p class="mb-2">始点を設定した場合、</p>
+                  <p class="mb-2">・開始日または終了日を始点の日に<br>
+                  設定してコピーします。</p>
 
+                  <div class="divider"></div>
+                  <p class="mb-4">開始日も終了日も無い星座の場合は<br>
+                  日付を設定せずにコピーします。
+                  </p>
+
+                  <div class="divider"></div>
+                  <p class="mb-2">紐づくタスクは<br>
+                  <p class="mb-2">・星座に日付がある場合は<br>
+                  それを基準としてコピーします。</p>
+                  <p class="mb-2">・星座に日付が無い場合は、<br>
+                  タスクの中で一番早い日付を基準に
+                  <br>コピーします。</p>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+
       </div>
-
-
     <% end %>
 
     <!-- タスクの表示部分 -->
@@ -260,7 +326,7 @@
                 milestone_widths: @milestone_widths, 
                 milestone_lefts: @milestone_lefts, 
                 chart_total_width: @chart_total_width %>
-          </div>
+            </div>
           </div>
         <% end %>
 
@@ -282,6 +348,7 @@
   <%= turbo_frame_tag "tasks_new_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
   <%= turbo_frame_tag "milestones_copy_modal" %>
+  <%= render 'limited_sharing_milestones/share_confirm_modal' %>
 <% end %>
 
 <%= turbo_frame_tag "milestone_show_modal" %>

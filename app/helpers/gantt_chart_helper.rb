@@ -4,7 +4,15 @@ module GanttChartHelper
     milestone_widths = {}
     milestone_lefts = {}
 
-    task_counts = Task.where(milestone_id: milestones.map(&:id)).group(:milestone_id).count
+    # マイルストーンのタスク数を取得
+    if milestones.first.instance_of?(Milestone)
+      task_counts = Task.where(milestone_id: milestones.map(&:id)).group(:milestone_id).count
+    elsif milestones.first.instance_of?(LimitedSharingMilestone)
+      # 渡されたmilestonesがLimitedSharingMilestoneの場合
+      # rubocop:disable Layout/LineLength
+      task_counts = LimitedSharingTask.where(limited_sharing_milestone_id: milestones.map(&:id)).group(:limited_sharing_milestone_id).count
+      # rubocop:enable Layout/LineLength
+    end
 
     milestones.each do |milestone|
       task_counts[milestone.id] = 0 if task_counts[milestone.id].nil?
