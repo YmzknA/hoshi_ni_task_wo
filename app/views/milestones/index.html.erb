@@ -48,14 +48,14 @@
           <% end %>
 
           <!-- 星座 -->
-          <%= render "milestones", milestones: @not_completed_milestones, completed: false %>
+          <%= render "milestones", milestones: @not_completed_milestones %>
         </div>
 
         <!-- 完成済みの星座 -->
         <input type="radio" name="my_tabs" class="tab" aria-label="完成済" />
         <div class="tab-content border-base-300 bg-base-100 p-3">
           <!-- 星座 -->
-          <%= render "milestones", milestones: @completed_milestones, completed: true %>
+          <%= render "milestones", milestones: @completed_milestones %>
         </div>
 
         <!-- 限定公開中の星座 -->
