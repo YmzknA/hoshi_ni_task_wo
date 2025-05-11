@@ -96,7 +96,7 @@
           <% end %>
 
           <!-- アクションボタン -->
-          <% if @task.class == LimitedSharingTask %>
+          <% if @task.is_a?(LimitedSharingTask) %>
             <!-- not content -->
           <% elsif current_user&.guest? && current_user?(@task.user) %>
             <div class="flex h-12 w-full mt-10 justify-center text-neutral">
