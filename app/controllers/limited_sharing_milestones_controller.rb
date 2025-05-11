@@ -9,6 +9,7 @@ class LimitedSharingMilestonesController < ApplicationController
     @is_milestone_completed = (@milestone.progress == "completed")
     @is_not_milestone_on_chart = @milestone.is_on_chart == false
 
+    prepare_meta_tags(@milestone)
     prepare_for_chart(@milestone) if @milestone.is_on_chart
     @milestone_tasks = @milestone.tasks
   end
@@ -93,5 +94,13 @@ class LimitedSharingMilestonesController < ApplicationController
     @milestone_widths, @milestone_lefts = milestone_widths_lefts_hash([milestone])
     @date_range = date_range([milestone])
     @chart_total_width = @milestone_widths[milestone.id].to_i + 40
+  end
+
+  def prepare_meta_tags(milestone)
+    set_meta_tags og: {
+      title: milestone.title,
+      description: "#{milestone.title}の限定公開ページです。",
+      url: share_milestone_url(milestone)
+    }
   end
 end
