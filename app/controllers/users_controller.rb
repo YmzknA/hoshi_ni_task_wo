@@ -11,11 +11,11 @@ class UsersController < ApplicationController
       prepare_meta_tags(@user)
 
       if current_user?(@user)
-        @not_completed_milestones = @user.milestones.where.not(progress: "completed")
-        @completed_milestones = @user.milestones.where(progress: "completed")
+        @not_completed_milestones = not_completed_milestones(public: false)
+        @completed_milestones = completed_milestones(public: false)
       else
-        @not_completed_milestones = @user.milestones.where(is_public: true).where.not(progress: "completed")
-        @completed_milestones = @user.milestones.where(is_public: true).where(progress: "completed")
+        @not_completed_milestones = not_completed_milestones(public: true)
+        @completed_milestones = completed_milestones(public: true)
       end
     end
   end
@@ -28,5 +28,31 @@ class UsersController < ApplicationController
       description: "#{user.name}さんのユーザーページです。",
       url: user_url(user)
     }
+  end
+
+  def not_completed_milestones(public: false)
+    if public
+      @user.milestones
+           .where(is_public: true)
+           .where.not(progress: "completed")
+           .index_order
+    else
+      @user.milestones
+           .where.not(progress: "completed")
+           .index_order
+    end
+  end
+
+  def completed_milestones(public: false)
+    if public
+      @user.milestones
+           .where(is_public: true)
+           .where(progress: "completed")
+           .index_order
+    else
+      @user.milestones
+           .where(progress: "completed")
+           .index_order
+    end
   end
 end
