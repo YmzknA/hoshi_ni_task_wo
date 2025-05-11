@@ -20,35 +20,18 @@ class LimitedSharingMilestonesController < ApplicationController
     return redirect_to root_path unless current_user?(base_milestone.user)
 
     # base_milestoneのデータで、share_milestoneを作成
-    @milestone = LimitedSharingMilestone.new(
-      user: base_milestone.user,
-      title: base_milestone.title,
-      description: base_milestone.description,
-      progress: base_milestone.progress,
-      color: base_milestone.color,
-      start_date: base_milestone.start_date,
-      end_date: base_milestone.end_date,
-      completed_comment: base_milestone.completed_comment,
-      is_on_chart: base_milestone.is_on_chart,
-      constellation: base_milestone.constellation
-    )
+    @milestone = generate_limited_sharing_milestone(base_milestone)
 
     # base_milestoneのtasksをsharing_milestoneにコピー
-    base_milestone.tasks.each do |task|
-      sharing_task = LimitedSharingTask.new(
-        title: task.title,
-        description: task.description,
-        progress: task.progress,
-        start_date: task.start_date,
-        end_date: task.end_date,
-        user: task.user
-      )
-      sharing_task.milestone = @milestone
-      @milestone.tasks << sharing_task
+    base_milestone.tasks.each do |base_task|
+      task = generate_limited_sharing_task(base_task)
+      task.milestone = @milestone
+      @milestone.tasks << task
     end
 
     if @milestone.save
-      flash.now[:notice] = "共有用の星座が作成されました"
+      flash[:notice] = "共有用の星座が作成されました"
+      redirect_to share_milestone_path(@milestone) and return
     else
       flash[:alert] = "共有用の星座の作成に失敗しました"
       redirect_to milestone_path(base_milestone) and return
@@ -77,6 +60,32 @@ class LimitedSharingMilestonesController < ApplicationController
 
     flash[:alert] = "この星座にはアクセスできません"
     redirect_to root_path
+  end
+
+  def generate_limited_sharing_milestone(base_milestone)
+    LimitedSharingMilestone.new(
+      user: base_milestone.user,
+      title: base_milestone.title,
+      description: base_milestone.description,
+      progress: base_milestone.progress,
+      color: base_milestone.color,
+      start_date: base_milestone.start_date,
+      end_date: base_milestone.end_date,
+      completed_comment: base_milestone.completed_comment,
+      is_on_chart: base_milestone.is_on_chart,
+      constellation: base_milestone.constellation
+    )
+  end
+
+  def generate_limited_sharing_task(base_task)
+    LimitedSharingTask.new(
+      title: base_task.title,
+      description: base_task.description,
+      progress: base_task.progress,
+      start_date: base_task.start_date,
+      end_date: base_task.end_date,
+      user: base_task.user
+    )
   end
 
   def prepare_for_chart(milestone)
