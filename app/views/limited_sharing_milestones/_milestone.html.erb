@@ -1,9 +1,10 @@
-<div id="milestone_<%=milestone.id%>" class="mb-4 card w-full p-4 bg-base-300/40 shadow-xl/10">
+<div class="mb-4 card w-full p-4 bg-base-300/40 shadow-xl/10">
 
-    <%= link_to share_milestone_path(milestone), class: "w-full mb-2 rounded-xl hover:bg-base-300/30 active:bg-base-300/30" do %>
+  <div class="group">
+    <%= link_to share_milestone_path(milestone) do %>
 
       <!-- タイトル, 日付, マーク -->
-      <div class="flex w-full">
+      <div class="flex w-full items-center group-hover:bg-base-300/30 group-active:bg-base-300/30 rounded-t-xl">
         <% if milestone.completed? %>
           <%= render "milestones/complete_stars_icon", color: milestone.color, width: 40, height: 40 %>
         <% else %>
@@ -22,22 +23,23 @@
     <% end %>
 
 
-  <div class="flex w-full items-center text-left">
-    <%= link_to share_milestone_path(milestone), class: "w-full px-1 rounded-xl hover:bg-base-300/30 active:bg-base-300/30" do %>
-      <p class="text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
+    <div class="flex w-full items-center text-left">
+      <%= link_to share_milestone_path(milestone), class: "pt-2 w-full px-1 rounded-b-xl group-hover:bg-base-300/30 active:bg-base-300/30" do %>
+        <p class="text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
 
 
-      <!-- 詳細 -->
-      <div class="text-left mb-4">
-        <% if milestone.description.present? %>
-          <p class="text-sm hidden sm:block"><%= milestone.description.truncate(30) %></p>
-          <p class="text-sm sm:hidden"><%= milestone.description.truncate(15) %></p>
-        <% else %>
-          <p class="text-lg">詳細はありません</p>
-        <% end %>
-      </div>
+        <!-- 詳細 -->
+        <div class="text-left mb-4">
+          <% if milestone.description.present? %>
+            <p class="text-sm hidden sm:block"><%= milestone.description.truncate(30) %></p>
+            <p class="text-sm sm:hidden"><%= milestone.description.truncate(15) %></p>
+          <% else %>
+            <p class="text-lg">詳細はありません</p>
+          <% end %>
+        </div>
 
-    <% end %>
+      <% end %>
+    </div>
   </div>
 
   <% if !milestone.completed? %>
