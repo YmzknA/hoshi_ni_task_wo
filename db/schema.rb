@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_09_033937) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_09_110953) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,7 +47,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_09_033937) do
     t.string "limited_sharing_milestone_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["limited_sharing_milestone_id"], name: "index_limited_sharing_tasks_on_limited_sharing_milestone_id"
+    t.index ["user_id"], name: "index_limited_sharing_tasks_on_user_id"
   end
 
   create_table "milestones", force: :cascade do |t|
@@ -106,6 +108,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_09_033937) do
   add_foreign_key "limited_sharing_milestones", "constellations"
   add_foreign_key "limited_sharing_milestones", "users"
   add_foreign_key "limited_sharing_tasks", "limited_sharing_milestones"
+  add_foreign_key "limited_sharing_tasks", "users"
   add_foreign_key "milestones", "constellations"
   add_foreign_key "milestones", "users"
   add_foreign_key "tasks", "milestones"

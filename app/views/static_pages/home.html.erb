@@ -3,7 +3,7 @@
 
   <div class="h-[94dvh] flex items-center justify-center max-sm:w-full intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once">
     <div class="flex flex-col items-center">
-      <%= image_tag 'icon-512x512.png', class: 'mb-5 h-20 w-20 md:h-30 md:w-30' %>
+      <%= image_tag 'icon-512x512.png', class: 'relative z-10 mb-5 h-20 w-20 md:h-30 md:w-30' %>
       <p class="text-5xl md:text-6xl text-center [writing-mode:vertical-rl] [text-orientation:upright]">星にタスクを</p>
     </div>
   </div>
@@ -186,7 +186,7 @@
 
 </div>
 
-<footer class="footer footer-center footer-horizontal rounded bg-base-300 p-10 text-base-content">
+<footer class="footer footer-center relative z-10 footer-horizontal rounded bg-base-300 p-10 text-base-content">
   <nav class="grid grid-flow-col gap-4">
     <a class="link link-hover" href="https://docs.google.com/forms/d/e/1FAIpQLScH-P7JBj_jwoFrQuMeJI_eQJwutS7p57h8nEbdWGgK30sXZQ/viewform">お問い合わせ</a>
     <a class="link link-hover" href="/terms_of_service">利用規約</a>

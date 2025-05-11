@@ -1,0 +1,54 @@
+<div class="mb-4 card w-full p-4 bg-base-300/40 shadow-xl/10">
+
+  <div class="group">
+    <%= link_to share_milestone_path(milestone) do %>
+
+      <!-- タイトル, 日付, マーク -->
+      <div class="flex w-full items-center group-hover:bg-base-300/30 group-active:bg-base-300/30 rounded-t-xl">
+        <% if milestone.completed? %>
+          <%= render "milestones/complete_stars_icon", color: milestone.color, width: 40, height: 40 %>
+        <% else %>
+          <div class="hidden sm:flex sm:items-center">
+            <%= render "stars_icon", color: milestone.color, width: 40, height: 40 %>
+          </div>
+          <div class="flex items-center sm:hidden">
+            <%= render "stars_icon", color: milestone.color %>
+          </div>
+        <% end %>
+
+        <div class="ml-2">
+          <p class="text-lg"><%= milestone.title %></p>
+        </div>
+      </div>
+    <% end %>
+
+
+    <div class="flex w-full items-center text-left">
+      <%= link_to share_milestone_path(milestone), class: "pt-2 w-full px-1 rounded-b-xl group-hover:bg-base-300/30 active:bg-base-300/30" do %>
+        <p class="text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
+
+
+        <!-- 詳細 -->
+        <div class="text-left mb-4">
+          <% if milestone.description.present? %>
+            <p class="text-sm hidden sm:block"><%= milestone.description.truncate(30) %></p>
+            <p class="text-sm sm:hidden"><%= milestone.description.truncate(15) %></p>
+          <% else %>
+            <p class="text-lg">詳細はありません</p>
+          <% end %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+
+  <% if !milestone.completed? %>
+    <!-- 進捗 -->
+    <div class="flex w-full mb-2">
+    <%= render "milestones/milestone_completed_percent_bar", milestone: milestone, milestone_tasks: milestone.tasks.all %>
+    </div>
+  <% end %>
+      <div class="flex justify-end w-full">
+        <p class="">作成日 : <%= to_short_date(milestone.created_at) %></p>
+      </div>
+</div>

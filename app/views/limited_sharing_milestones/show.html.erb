@@ -1,0 +1,209 @@
+<div class="h-full w-full">
+  <!-- 月の画像 -->
+  <%= render 'title_header', title: @title %>
+
+  <!-- 内容表示部分 -->
+  <div class="relative z-10 min-h-screen space-y-5 rounded-t-[4rem] border-x-1 border-t-1 border-base-200 bg-base-300/30 p-8 text-center text-lg md:text-xl">
+
+    <!-- フラッシュメッセージ -->
+    <%= render 'flash' %>
+
+    <!-- 完成状態は星座アイコンと完成コメント -->
+    <!-- 星座のアイコン -->
+    <% if @is_milestone_completed %>
+      <!-- title -->
+      <div class="text-3xl">
+        <%= "#{@milestone.title} 座" %>
+      </div>
+      <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
+        <%= link_to  milestone_constellation_url(@milestone) do %>
+          <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+        <% end %>
+      </div>
+      <%= link_to  milestone_constellation_url(@milestone) do %>
+        <p class="text-xs text-base-200 link">画像：<%= @milestone.constellation.name %></p>
+      <% end %>
+      <!-- 完了コメント -->
+      <div class="flex w-full items-center justify-center">
+        <div class="card w-xl text-neutral">
+          <% unless @milestone.completed_comment.blank? %>
+            <p class="card-title h-5 pl-2 text-primary">完成コメント</p>
+            <div class="flex min-h-[100px] w-full items-center justify-center rounded-xl bg-primary p-3">
+              <%= @milestone.completed_comment %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+    <% else %>
+      <!-- 未完了状態は進捗バーと期間 -->
+      <div class="flex items-center justify-center text-3xl">
+        <!-- title -->
+        <div class="mr-2">
+          <%= render "stars_icon", { width: 35, height: 35, color: @milestone.color } %>
+        </div>
+        <%= @milestone.title %>
+      </div>
+      <!-- 進捗バー -->
+      <div class="flex items-center justify-center text-2xl">
+        <div class="my-10 h-12 w-xl rounded-full bg-primary px-5 text-xl text-neutral">
+          <%= render "milestones/milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
+        </div>
+      </div>
+
+      <!-- 期間 -->
+      <% if @milestone.start_date.present? || @milestone.end_date.present? %>
+        <!-- 開始日と終了日が設定されている場合 -->
+        <div class="flex h-35 w-full justify-center text-neutral">
+          <div class="flex w-xl justify-between p-3">
+            <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
+              <%= @milestone.start_date&.year %>
+              <div class="w-full text-xl">
+                <%= to_short_date(@milestone.start_date) %>
+              </div>
+            </div>
+            <div class="flex w-1/5 items-center justify-center">
+              <p class="w-full text-5xl text-primary">~</p>
+            </div>
+            <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
+              <%= @milestone.end_date&.year %><br>
+              <div class="w-full text-xl">
+                <%= to_short_date(@milestone.end_date) %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <% else %>
+        <!-- 期間が設定されていない場合 -->
+        <div class="flex w-full justify-center">
+          <div class="card w-xl bg-primary p-10 text-neutral">
+            日付は設定されていません
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <!-- 詳細 -->
+    <div class="flex w-full items-center justify-center">
+      <div class="card w-xl text-neutral">
+        <% unless @milestone.description == "" || @milestone.description.blank? %>
+          <p class="card-title h-5 pl-2 text-primary">詳細</p>
+          <div class="flex min-h-[100px] w-full items-center justify-center rounded-xl bg-primary p-3">
+            <%= safe_join(@milestone.description.split("\n"),tag(:br)) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- 公開・表示設定 -->
+    <div class="mb-8 flex h-full md:h-[100px] items-center justify-center">
+      <div class="flex items-center justify-center rounded-xl text-base-200 md:w-3/4 md:mb-0">
+        <div>
+          <%if @is_milestone_completed %>
+            <div class="flex items-center">
+              <div class="mr-2 text-center">
+                チャートに表示する：
+              </div>
+              <p class="text-primary">
+              星座完成済み
+              </p>
+            </div>
+          <% else %>
+            <div class="flex items-center">
+              <div class="mr-2 text-center">
+                チャートに表示する：
+              </div>
+              <% if @milestone.is_on_chart %>
+                <span class="badge badge-md badge-primary md:badge-lg">ON</span>
+              <% else %>
+                <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- button -->
+    <% if current_user?(@milestone.user) %>
+      <div class="flex h-12 w-full justify-center text-neutral mb-8">
+        <%= button_to limited_sharing_milestone_path(@milestone), method: :delete, data: { turbo_confirm: "本当に取り消しますか？" }, class: "btn btn-error mr-5 h-12 w-30" do %>
+          共有取り消し
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- タスクの表示部分 -->
+    <div class="flex w-full items-center justify-center mb-10">
+      <div class="tabs tabs-lift w-xl">
+
+        <!-- タスク -->
+        <input type="radio" name="my_tabs" class="tab" aria-label="タスク" checked="checked"/>
+        <div class="tab-content bg-base-100 p-3">
+
+          <!-- タスク一覧 -->
+          <%= render "tasks/tasks", tasks: @milestone_tasks %>
+
+        </div>
+        <% if @is_not_milestone_on_chart || @is_milestone_completed %>
+          <!-- 完成状態の場合チャートは表示しない -->
+        <% else %>
+          <!-- チャート -->
+          <input type="radio" name="my_tabs" class="tab" aria-label="チャート"  />
+          <div class="tab-content border-base-300 bg-base-100 p-1 w-[90vw] md:p-4">
+            <div class="flex justify-center items-center">
+              <div id="today_button" class="btn btn-secondary mb-2">
+                Go Today
+              </div>
+            </div>
+
+            <div class="overflow-x-auto text-sm">
+              <%= render "gantt_chart/chart_layout", 
+                date_range: @date_range, 
+                milestones: [@milestone], 
+                milestone_widths: @milestone_widths, 
+                milestone_lefts: @milestone_lefts, 
+                chart_total_width: @chart_total_width %>
+          </div>
+          </div>
+        <% end %>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- メニューバー -->
+  <div class="mt-3">
+    <%= render 'menu_bar' %>
+  </div>
+</div>
+
+<% if current_user?(@milestone.user) %>
+  <%= render 'milestones/delete_confirm_modal' %>
+  <%= turbo_frame_tag "tasks_edit_modal" %>
+  <%= turbo_frame_tag "tasks_new_modal" %>
+  <%= turbo_frame_tag "tasks_copy_modal" %>
+<% end %>
+
+<%= turbo_frame_tag "milestone_show_modal" %>
+<% @milestone_tasks.each do |task| %>
+  <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: share_task_path(task) %>
+<% end %>
+
+
+<script>
+  document.addEventListener("turbo:load", function() {
+    const today_button = document.getElementById("today_button");
+    const todayElement = document.getElementById("today");
+
+    today_button.addEventListener("click" , function() {
+      if (todayElement) {
+        todayElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  });
+</script>
+
+

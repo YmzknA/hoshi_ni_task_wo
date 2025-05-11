@@ -11,6 +11,7 @@ class MilestonesController < ApplicationController
     @user = current_user
     user_milestones = @user.milestones
     @milestone = Milestone.new
+    @sharing_milestones = @user.limited_sharing_milestones
     @completed_milestones = user_milestones.where(progress: "completed")&.order(created_at: :desc)
     @not_completed_milestones = user_milestones.where&.not(progress: "completed")&.order(created_at: :desc)
     @title = "星座一覧"

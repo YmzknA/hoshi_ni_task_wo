@@ -1,10 +1,12 @@
 <div id="milestone_<%=milestone.id%>" class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
 
-  <div class="mb-4 flex w-full items-center text-left">
-    <%= link_to milestone_path(milestone), class: "w-full p-1 rounded-xl hover:bg-base-300/30 active:bg-base-300/30" do %>
+  <%# groupにhoverするとbgが変わる %>
+  <%# remove_hover_btn要素にhoverするとjsによってlink_card要素のgroup-hover:bg-base-300/30が取り除かれる %>
+  <div class="group">
+    <%= link_to milestone_path(milestone), class: "link_card flex w-full items-center group-hover:bg-base-300/30 group-active:bg-base-300/30 rounded-t-xl" do %>
       <!-- タイトル, 日付, マーク -->
-      <div class="flex w-full">
-        <% if completed %>
+      <div class="flex w-full items-center">
+        <% if milestone.completed? %>
           <%= render "milestones/complete_stars_icon", color: milestone.color, width: 40, height: 40 %>
         <% else %>
           <div class="hidden sm:flex sm:items-center">
@@ -15,27 +17,35 @@
           </div>
         <% end %>
 
-        <div class="ml-2 w-7/10">
+        <div class="ml-2">
           <p class="text-lg"><%= milestone.title %></p>
-          <p class="text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
         </div>
       </div>
+    <% end %>
+
+  <div class="flex w-full items-center text-left">
+    <%= link_to milestone_path(milestone), class: "link_card pt-2 w-full h-20 px-1 rounded-b-xl group-hover:bg-base-300/30 group-active:bg-base-300/30" do %>
+      <p class="text-xs sm:text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
 
       <!-- 詳細 -->
-      <div class="text-left mt-1">
+      <div class="text-left mt-2">
         <% if milestone.description.present? %>
-          <p class="text-lg"><%= milestone.description.truncate(20) %></p>
+          <% if milestone.tasks_completed? %>
+            <p class="text-sm"><%= milestone.description.truncate(10) %></p>
+          <% else %>
+            <p class="text-sm hidden sm:block"><%= milestone.description.truncate(30) %></p>
+            <p class="text-sm sm:hidden"><%= milestone.description.truncate(15) %></p>
+          <% end %>
         <% else %>
           <p class="text-lg">詳細はありません</p>
         <% end %>
       </div>
 
-
     <% end %>
 
-    <% if !completed && milestone.completed_tasks_percentage == 100 && current_user?(milestone.user) %>
+    <% if !milestone.completed? && milestone.completed_tasks_percentage == 100 && current_user?(milestone.user) %>
       <!-- 完了ボタン -->
-      <div class="flex w-3/10 max-w-20 justify-end">
+      <div class="remove_hover_btn flex w-3/10 max-w-20 justify-end">
         <%= link_to show_complete_page_milestone_path(milestone), data: { turbo_frame: "show_complete_page_modal" }, class: "btn btn-base-200 flex  w-full h-auto aspect-square flex-col items-center justify-center rounded-xl" do %>
           <%= render "milestones/complete_stars_icon", color: milestone.color %>
           <div class="text-xs text-base-100 whitespace-nowrap">
@@ -43,14 +53,18 @@
           </div>
         <% end %>
       </div>
-
     <% end %>
+
+  </div>
   </div>
 
 
-  <% if !completed %>
+  <% if !milestone.completed? %>
     <!-- 進捗 -->
+    <div class="mt-4">
     <%= render "milestones/milestone_completed_percent_bar", milestone: milestone, milestone_tasks: milestone.tasks.all %>
+    </div>
   <% end %>
 
 </div>
+

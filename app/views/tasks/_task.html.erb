@@ -1,9 +1,10 @@
-<div id="task_<%=task.id%>" class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
+<div id="task_<%= task.id %>" class="card mb-4 w-full p-4 bg-base-300/40 shadow-xl/10">
 
-  <div class="flex w-full items-center text-left">
-
+  <%# groupにhoverするとbgが変わる %>
+  <%# remove_hover_btn要素にhoverするとjsによってlink_card要素のgroup-hover:bg-base-300/30が取り除かれる %>
+  <div class="group">
     <button 
-      class="w-full p-1 rounded-xl hover:bg-base-300/30 active:bg-base-300/30 hover:cursor-pointer text-start"
+      class="link_card w-full pb-2 rounded-t-xl group-hover:bg-base-300/30 group-active:bg-base-300/30 hover:cursor-pointer text-start"
       onclick="tasks_show_modal_<%=task.id%>_target.showModal()"
       >
       <!-- タイトル, 日付, マーク -->
@@ -14,26 +15,38 @@
 
         <div class="ml-2 w-7/10">
           <p class="text-lg"><%= task.title %></p>
-
-          <p class="text-sm"><%= to_short_date(task.start_date) %> ~ <%= to_short_date(task.end_date) %></p>
         </div>
+      </div>
+    </button>
+
+  <div class="flex w-full items-center">
+    <button 
+      class="link_card w-full h-20 pt-2 px-1 rounded-b-xl group-hover:bg-base-300/30 group-active:bg-base-300/30 hover:cursor-pointer text-start"
+      onclick="tasks_show_modal_<%=task.id%>_target.showModal()"
+      >
+      <div>
+        <p class="text-xs sm:text-sm"><%= to_short_date(task.start_date) %> ~ <%= to_short_date(task.end_date) %></p>
       </div>
 
       <!-- 詳細 -->
-      <div class="text-left mt-1">
+      <div class="mt-2">
         <% if task.description.present? %>
-          <p class="text-lg"><%= task.description.truncate(20) %></p>
+          <p class="text-sm hidden sm:block"><%= task.description.truncate(30) %></p>
+          <p class="text-sm sm:hidden"><%= task.description.truncate(12) %></p>
         <% else %>
-          <p class="text-lg">詳細はありません</p>
+          <p class="text-sm">詳細はありません</p>
         <% end %>
       </div>
-
     </button>
 
-      <!-- progressボタン -->
-      <% unless task.milestone_completed? %>
-        <%= render "tasks/progress_button", task: task %>
-      <% end %>
+    <!-- progressボタン -->
+    <% unless task.milestone_completed? %>
+      <div class="remove_hover_btn flex w-3/10 max-w-20 justify-end">
+      <%= render "tasks/progress_button", task: task %>
+      </div>
+    <% end %>
   </div>
+  </div>
+
 
 </div>
