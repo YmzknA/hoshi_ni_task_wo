@@ -9,7 +9,8 @@ class TasksController < ApplicationController
   def index
     @title = "タスク一覧"
     @user = current_user
-    base_tasks = @user.tasks.includes(:milestone)
+    @q = @user.tasks.ransack(params[:q])
+    base_tasks = @q.result(distinct: true)
 
     # 完了したタスク - 作成日の降順
     completed_tasks_set = base_tasks.where(progress: :completed).index_order
