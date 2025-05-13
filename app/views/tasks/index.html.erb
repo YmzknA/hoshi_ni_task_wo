@@ -24,7 +24,7 @@
 
           <!-- ソートの切り替えセレクト -->
           <div class="mb-3">
-            <%= render "tasks/sort_select", q: @q %>
+            <%= render "search_or_sort_select", q: @q, path: tasks_path %>
           </div>
 
           <!-- タスクの追加ボタン -->
@@ -32,7 +32,9 @@
           <%= render "tasks/add_task_button" %>
 
           <!-- タスク -->
-          <%= render "tasks", tasks: @not_completed_tasks %>
+          <%= turbo_frame_tag "search_sort_content_frame" do %>
+            <%= render "tasks", tasks: @not_completed_tasks %>
+          <% end %>
 
         </div>
 
@@ -42,11 +44,13 @@
 
           <!-- ソートの切り替えセレクト -->
           <div class="mb-3">
-            <%= render "tasks/sort_select", q: @q %>
+            <%= render "search_or_sort_select", q: @q, path: tasks_path, _frame_target: "secondary" %>
           </div>
 
           <!-- タスク -->
-          <%= render "tasks", tasks: @completed_tasks %>
+          <%= turbo_frame_tag "secondary_search_sort_content_frame" do %>
+            <%= render "tasks", tasks: @completed_tasks %>
+          <% end %>
         </div>
 
       </div>
@@ -61,9 +65,11 @@
   <%= turbo_frame_tag "tasks_new_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
 
+  <div id="tasks_show_modals">
   <% @not_completed_tasks.each do |task| %>
     <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
   <% end %>
   <% @completed_tasks.each do |task| %>
     <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
   <% end %>
+  </div>

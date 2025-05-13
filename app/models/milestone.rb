@@ -94,6 +94,14 @@ class Milestone < ApplicationRecord
     copy
   end
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[title description start_date end_date]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[tasks]
+  end
+
   # ######################################
   # privateメソッド
   # ######################################
