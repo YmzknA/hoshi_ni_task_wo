@@ -1,4 +1,7 @@
-<select class="select select-xs md:select-sm bg-base-300/40 text-base-200 shadow max-w-[80%]" onChange="location.href=value;">
+<select class="select select-xs md:select-sm bg-base-300/40 text-base-200 shadow max-w-[80%]" 
+  onChange="const frame = document.getElementById('tasks_content');
+            frame.src=event.target.value;
+            frame.reload();">
   <option disabled selected>並び替えメニュー</option>
   <option value="<%= sort_url(@q, :start_date , ["start_date asc", "end_date asc"]) %>">開始日昇順</option>
   <option value="<%= sort_url(@q, :start_date, ["start_date desc", "end_date desc"]) %>">開始日降順</option>
@@ -10,4 +13,3 @@
   <option value="<%= sort_url(@q, :progress, ["progress asc", "start_date asc"]) %>">進捗昇順</option>
   <option value="<%= sort_url(@q, :progress, ["progress desc", "start_date desc"]) %>">進捗降順</option>
 </select>
-
