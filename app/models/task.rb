@@ -75,6 +75,10 @@ class Task < ApplicationRecord
     copy
   end
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[created_at description end_date id milestone_id progress start_date title updated_at user_id]
+  end
+
   # ######################################
   # privateメソッド
   # ######################################

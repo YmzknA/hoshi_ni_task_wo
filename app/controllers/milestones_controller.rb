@@ -32,12 +32,13 @@ class MilestonesController < ApplicationController
              end
 
     @is_milestone_completed = (@milestone.progress == "completed")
-    @is_not_milestone_on_chart = @milestone.is_on_chart == false
+    @is_not_milestone_on_chart = (@milestone.is_on_chart == false)
 
     if @milestone.is_public || current_user?(@milestone.user)
       prepare_meta_tags(@milestone)
       prepare_for_chart(@milestone) if @milestone.is_on_chart
-      @milestone_tasks = @milestone.tasks
+
+      @milestone_tasks = ransack_result
       @task = Task.new
     else
       flash[:alert] = "この星座は非公開です"
@@ -211,6 +212,12 @@ class MilestonesController < ApplicationController
                   twitter: {
                     image: image_url
                   }
+  end
+
+  def ransack_result
+    @q = @milestone.tasks.ransack(params[:q])
+    @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
+    @q.result(distinct: true)
   end
 end
 # rubocop:enable Metrics/ClassLength
