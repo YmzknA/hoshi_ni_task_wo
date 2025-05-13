@@ -1,11 +1,17 @@
-<select class="select select-xs md:select-sm bg-base-300/40 text-base-200 shadow max-w-[80%]" 
-  onChange="const frame = document.getElementById('tasks_content_frame');
-            const completed_frame = document.getElementById('completed_tasks_content_frame');
-            frame.src=event.target.value;
-            completed_frame.src=event.target.value;
-            frame.reload();
-            completed_frame.reload();
-            ">
+<% if defined? secondary %>
+  <select class="select select-xs md:select-sm bg-base-300/40 text-base-200 shadow max-w-[80%]" 
+    onChange="
+              const secondary_frame = document.getElementById('secondary_tasks_content_frame');
+              secondary_frame.src=event.target.value;
+              secondary_frame.reload();
+              ">
+<% else %>
+  <select class="select select-xs md:select-sm bg-base-300/40 text-base-200 shadow max-w-[80%]" 
+    onChange="const frame = document.getElementById('tasks_content_frame');
+              frame.src=event.target.value;
+              frame.reload();
+              ">
+<% end %>
   <option disabled selected>並び替えメニュー</option>
   <option value="<%= sort_url(@q, :start_date , ["start_date asc", "end_date asc"]) %>">開始日昇順</option>
   <option value="<%= sort_url(@q, :start_date, ["start_date desc", "end_date desc"]) %>">開始日降順</option>

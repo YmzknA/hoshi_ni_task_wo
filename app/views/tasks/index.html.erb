@@ -14,6 +14,29 @@
       <%= @user.name %>
     </div>
 
+    <%= search_form_for @q, url: tasks_path, html: { data: { turbo_frame: "tasks_content" } } do |f| %>
+      <label class="input">
+        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          stroke-width="2.5"
+          fill="none"
+          stroke="currentColor"
+          >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+          </g>
+        </svg>
+        <input class="grow" placeholder="タイトルまたは詳細から検索" type="search" name="q[title_or_description_cont]" id="q_title_or_description_cont">
+      </label>
+      <%= button_tag type: 'submit', class: 'btn bg-base-300' do %>
+        <span class="material-symbols-outlined">search</span>
+      <% end %>
+      <%= link_to  tasks_path, class: 'btn bg-primary', data: { turbo_frame: "tasks_content" } do %>
+        <span class="material-symbols-outlined">refresh</span>
+      <% end %>
+    <% end %>
 
     <!-- 表示部分 -->
     <div class="flex w-full items-center justify-center mb-10">
@@ -32,7 +55,9 @@
           <%= render "tasks/add_task_button" %>
 
           <!-- タスク -->
-          <%= render "tasks", tasks: @not_completed_tasks %>
+          <%= turbo_frame_tag "tasks_content_frame" do %>
+            <%= render "tasks", tasks: @not_completed_tasks %>
+          <% end %>
 
         </div>
 
@@ -42,11 +67,13 @@
 
           <!-- ソートの切り替えセレクト -->
           <div class="mb-3">
-            <%= render "tasks/sort_select", q: @q %>
+            <%= render "tasks/sort_select", q: @q, secondary: true %>
           </div>
 
           <!-- タスク -->
-          <%= render "tasks", tasks: @completed_tasks %>
+          <%= turbo_frame_tag "secondary_tasks_content_frame" do %>
+            <%= render "tasks", tasks: @completed_tasks %>
+          <% end %>
         </div>
 
       </div>
@@ -61,9 +88,11 @@
   <%= turbo_frame_tag "tasks_new_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
 
+  <div id="tasks_show_modals">
   <% @not_completed_tasks.each do |task| %>
     <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
   <% end %>
   <% @completed_tasks.each do |task| %>
     <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
   <% end %>
+  </div>

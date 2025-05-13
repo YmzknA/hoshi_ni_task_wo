@@ -309,7 +309,9 @@
           <% end %>
 
           <!-- タスク一覧 -->
-          <%= render "tasks/tasks", tasks: @milestone_tasks %>
+          <%= turbo_frame_tag "tasks_content_frame" do %>
+            <%= render "tasks/tasks", tasks: @milestone_tasks %>
+          <% end %>
 
         </div>
         <% if @is_not_milestone_on_chart || @is_milestone_completed %>
