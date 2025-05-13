@@ -79,6 +79,10 @@ class Task < ApplicationRecord
     %w[created_at description end_date id milestone_id progress start_date title updated_at user_id]
   end
 
+  def self.ransackable_associations(_auth_object = nil)
+    %w[milestone user]
+  end
+
   # ######################################
   # privateメソッド
   # ######################################
