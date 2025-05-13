@@ -20,10 +20,15 @@
       <div class="tabs tabs-lift w-xl">
         <!-- 未完了のタスク -->
         <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="未完了" checked="checked"/>
-        <div class="tab-content border-base-300 bg-base-100 p-3">
+        <div class="tab-content bg-base-100 p-3">
+
+          <!-- ソートの切り替えセレクト -->
+          <div class="mb-3">
+            <%= render "tasks/sort_select", q: @q %>
+          </div>
 
           <!-- タスクの追加ボタン -->
-          <%# ゲストユーザーの時は、追加ボタン無効化 %>
+          <%# ゲストユーザーの時は、追加ボタン無効化されます %>
           <%= render "tasks/add_task_button" %>
 
           <!-- タスク -->
@@ -33,7 +38,11 @@
 
         <!-- completed -->
         <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="完了" />
-        <div class="tab-content border-base-300 bg-base-100 p-3">
+        <div class="tab-content bg-base-100 p-3">
+
+          <!-- ソートの切り替えセレクト -->
+          <%= render "tasks/sort_select", q: @q %>
+
           <!-- タスク -->
           <%= render "tasks", tasks: @completed_tasks %>
         </div>

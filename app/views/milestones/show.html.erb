@@ -298,6 +298,11 @@
         <input type="radio" name="my_tabs" class="tab" aria-label="タスク" checked="checked"/>
         <div class="tab-content bg-base-100 p-3">
 
+          <!-- ソートの切り替えセレクト -->
+          <div class="mb-3">
+            <%= render "tasks/sort_select", q: @q %>
+          </div>
+
           <% if !@is_milestone_completed && current_user?(@milestone.user) %>
             <!-- 新規作成ボタン -->
             <%= render "tasks/add_task_button", milestone: @milestone %>
