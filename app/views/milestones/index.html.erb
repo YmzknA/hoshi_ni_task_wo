@@ -23,6 +23,11 @@
         <input type="radio" name="my_tabs" class="tab" aria-label="作成中" checked="checked"/>
         <div class="tab-content border-base-300 bg-base-100 p-3">
 
+          <!-- 検索欄、ソートの切り替えセレクト -->
+          <div class="mb-3">
+            <%= render "search_or_sort_select", q: @q, path: milestones_path %>
+          </div>
+
           <% if current_user.guest? %>
             <div data-tip="ゲストユーザーは使用できません" class="tooltip rounded-xl flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
               <button class="size-full p-4 rounded-xl">
@@ -48,25 +53,33 @@
           <% end %>
 
           <!-- 星座 -->
-          <%= render "milestones", milestones: @not_completed_milestones %>
+          <%= turbo_frame_tag "search_sort_content_frame" do %>
+            <%= render "milestones", milestones: @not_completed_milestones %>
+          <% end %>
         </div>
 
         <!-- 完成済みの星座 -->
         <input type="radio" name="my_tabs" class="tab" aria-label="完成済" />
         <div class="tab-content border-base-300 bg-base-100 p-3">
+          <!-- ソートの切り替えセレクト -->
+          <div class="mb-3">
+            <%= render "search_or_sort_select", q: @q, path: milestones_path, _frame_target: "secondary" %>
+          </div>
+
           <!-- 星座 -->
-          <%= render "milestones", milestones: @completed_milestones %>
+          <%= turbo_frame_tag "secondary_search_sort_content_frame" do %>
+            <%= render "milestones", milestones: @completed_milestones %>
+          <% end %>
         </div>
 
         <!-- 限定公開中の星座 -->
         <input type="radio" name="my_tabs" class="tab" aria-label="限定公開"/>
         <div class="tab-content border-base-300 bg-base-100 p-3">
 
-
           <!-- 星座 -->
-          <% @sharing_milestones.each do |milestone| %>
-            <%= render "limited_sharing_milestones/milestone", milestone: milestone %>
-          <% end %>
+            <% @sharing_milestones.each do |milestone| %>
+              <%= render "limited_sharing_milestones/milestone", milestone: milestone %>
+            <% end %>
 
         </div>
 

@@ -9,11 +9,13 @@ class MilestonesController < ApplicationController
   # GET /milestones or /milestones.json
   def index
     @user = current_user
-    user_milestones = @user.milestones
+    user_milestones = milestones_ransack_result
     @milestone = Milestone.new
+
     @sharing_milestones = @user.limited_sharing_milestones&.order(created_at: :desc)
-    @completed_milestones = user_milestones.where(progress: "completed")&.order(created_at: :desc)
-    @not_completed_milestones = user_milestones.where&.not(progress: "completed")&.index_order
+
+    @completed_milestones = user_milestones.where(progress: "completed")
+    @not_completed_milestones = user_milestones.where&.not(progress: "completed")
     @title = "星座一覧"
   end
 
@@ -38,7 +40,7 @@ class MilestonesController < ApplicationController
       prepare_meta_tags(@milestone)
       prepare_for_chart(@milestone) if @milestone.is_on_chart
 
-      @milestone_tasks = ransack_result
+      @milestone_tasks = tasks_ransack_result
       @task = Task.new
     else
       flash[:alert] = "この星座は非公開です"
@@ -214,8 +216,14 @@ class MilestonesController < ApplicationController
                   }
   end
 
-  def ransack_result
+  def tasks_ransack_result
     @q = @milestone.tasks.ransack(params[:q])
+    @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
+    @q.result(distinct: true)
+  end
+
+  def milestones_ransack_result
+    @q = current_user.milestones.ransack(params[:q])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
     @q.result(distinct: true)
   end

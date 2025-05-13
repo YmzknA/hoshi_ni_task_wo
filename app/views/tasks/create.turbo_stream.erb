@@ -11,7 +11,7 @@
       <%= render "tasks/task", task: @task %>
     <% end %>
 
-    <%= turbo_stream.append "tasks_content" do %>
+    <%= turbo_stream.append "tasks_show_modals" do %>
       <%= turbo_frame_tag "tasks_show_modal_#{@task.id}", src: task_path(@task)%>
     <% end %>
 
