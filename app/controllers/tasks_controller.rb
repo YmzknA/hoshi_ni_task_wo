@@ -9,8 +9,6 @@ class TasksController < ApplicationController
   def index
     @title = "タスク一覧"
     @user = current_user
-    @q = @user.tasks.ransack(params[:q])
-    @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
     base_tasks = ransack_result
 
     # 完了したタスク - 作成日の降順
