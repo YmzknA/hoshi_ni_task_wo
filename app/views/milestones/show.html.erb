@@ -300,7 +300,7 @@
 
           <!-- ソートの切り替えセレクト -->
           <div class="mb-3">
-            <%= render "tasks/sort_select", q: @q %>
+            <%= render "search_or_sort_select", q: @q, path: tasks_path %>
           </div>
 
           <% if !@is_milestone_completed && current_user?(@milestone.user) %>
@@ -309,7 +309,7 @@
           <% end %>
 
           <!-- タスク一覧 -->
-          <%= turbo_frame_tag "tasks_content_frame" do %>
+          <%= turbo_frame_tag "search_sort_content_frame" do %>
             <%= render "tasks/tasks", tasks: @milestone_tasks %>
           <% end %>
 

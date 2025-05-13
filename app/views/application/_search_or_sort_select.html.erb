@@ -1,0 +1,49 @@
+<%# q:とpath:は必須、frame_target:はオプション %>
+<%# frame_targetが渡されている場合は、そのframe_target + "_tasks_content_frame"を使用 %>
+<div class="flex justify-center h-10 items-center mt-2 mb-5">
+  <%= search_form_for @q, url: path, class: "w-[60%]", html: { data: { turbo_frame: "#{(defined? _frame_target) ? "#{_frame_target}_search_sort_content_frame" : "search_sort_content_frame"}", controller: "form", action: "input->form#submit" } } do |f| %>
+    <label class="input input-sm md:input-md bg-base-300/40 shadow">
+      <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <g
+        stroke-linejoin="round"
+        stroke-linecap="round"
+        stroke-width="2.5"
+        fill="none"
+        stroke="currentColor"
+        >
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.3-4.3"></path>
+        </g>
+      </svg>
+      <input class="grow" placeholder="タイトル or 詳細" type="search" name="q[title_or_description_cont]" id="q_title_or_description_cont">
+    </label>
+  <% end %>
+
+  <div class="divider divider-horizontal text-xs">OR</div>
+
+<% if defined? _frame_target %>
+  <select class="select select-sm md:select-md bg-base-300/40 text-base-200 shadow w-[30%]" 
+    onChange="
+              const frame = document.getElementById('<%= _frame_target %>_search_sort_content_frame');
+              frame.src=event.target.value;
+              frame.reload();
+              ">
+<% else %>
+  <select class="select select-sm md:select-md bg-base-300/40 text-base-200 shadow w-[30%]" 
+    onChange="const frame = document.getElementById('search_sort_content_frame');
+              frame.src=event.target.value;
+              frame.reload();
+              ">
+<% end %>
+  <option disabled selected>Sort</option>
+  <option value="<%= sort_url(@q, :start_date , ["start_date asc", "end_date asc"]) %>">開始日昇順</option>
+  <option value="<%= sort_url(@q, :start_date, ["start_date desc", "end_date desc"]) %>">開始日降順</option>
+  <option value="<%= sort_url(@q, :end_date, ["end_date asc", "start_date asc"]) %>">終了日昇順</option>
+  <option value="<%= sort_url(@q, :end_date, ["end_date desc", "start_date desc"]) %>">終了日降順</option>
+  <option value="<%= sort_url(@q, :milestone_id, ["milestone_id asc", "start_date asc"]) %>">星座で纏める</option>
+  <option value="<%= sort_url(@q, :title, ["title asc", "start_date asc"]) %>">タイトル昇順</option>
+  <option value="<%= sort_url(@q, :title, ["title desc", "start_date desc"]) %>">タイトル降順</option>
+  <option value="<%= sort_url(@q, :progress, ["progress asc", "start_date asc"]) %>">進捗昇順</option>
+  <option value="<%= sort_url(@q, :progress, ["progress desc", "start_date desc"]) %>">進捗降順</option>
+</select>
+</div>
