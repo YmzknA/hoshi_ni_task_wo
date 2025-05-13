@@ -41,7 +41,9 @@
         <div class="tab-content bg-base-100 p-3">
 
           <!-- ソートの切り替えセレクト -->
-          <%= render "tasks/sort_select", q: @q %>
+          <div class="mb-3">
+            <%= render "tasks/sort_select", q: @q %>
+          </div>
 
           <!-- タスク -->
           <%= render "tasks", tasks: @completed_tasks %>
