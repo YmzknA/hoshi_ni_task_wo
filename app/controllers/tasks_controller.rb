@@ -9,14 +9,16 @@ class TasksController < ApplicationController
   def index
     @title = "タスク一覧"
     @user = current_user
-    base_tasks = @user.tasks.includes(:milestone)
+    @q = @user.tasks.ransack(params[:q])
+    @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
+    base_tasks = ransack_result
 
     # 完了したタスク - 作成日の降順
-    completed_tasks_set = base_tasks.where(progress: :completed).index_order
+    completed_tasks_set = base_tasks.where(progress: :completed)
     @completed_tasks = completed_tasks_set.reject(&:milestone_completed?)
 
     # 未完了のタスク - 締切日の昇順（nilを最後に表示）、同じ締切日なら開始日の昇順
-    @not_completed_tasks = base_tasks.where.not(progress: :completed).index_order
+    @not_completed_tasks = base_tasks.where.not(progress: :completed)
   end
 
   # GET /tasks/1
@@ -147,5 +149,11 @@ class TasksController < ApplicationController
 
     flash[:alert] = "ゲストユーザーはタスクを作成できません"
     redirect_to tasks_path
+  end
+
+  def ransack_result
+    @q = @user.tasks.ransack(params[:q])
+    @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
+    @q.result(distinct: true)
   end
 end

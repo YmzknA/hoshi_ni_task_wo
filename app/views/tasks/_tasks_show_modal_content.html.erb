@@ -1,22 +1,17 @@
-<div class="modal-box max-h-[90vh] text-sm">
-  <p class="text-center pb-4">ESC or 画面外を押すと閉じます</p>
-  <div class="flex w-full items-center justify-center">
-    <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
+<div class="modal-box w-lg max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-0 bg-transparent">
+  <div class="flex items-center justify-center">
+    <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center">
       <div>
 
         <!-- エラーメッセージ -->
         <%= render "error_messages", resource: @task%>
 
         <!-- タスク詳細表示 -->
-        <div class="space-y-5">
-
-          <div class="flex items-center justify-center text-secondary">
-            <p class="text-xl">詳細</p>
-          </div>
+        <div class="space-y-3 md:space-y-5">
 
           <!-- マイルストーン -->
           <% if @task.milestone.present? %>
-            <div class="flex items-center justify-center text-xl">
+            <div class="flex items-center justify-center text-lg">
               <div class="mr-2">
                 <%= render "stars_icon", { width: 35, height: 35, color: @task.milestone.color } %>
               </div>
@@ -34,8 +29,8 @@
           <!-- タイトル -->
           <div class="flex w-full items-center justify-center">
             <div class="card w-full text-neutral">
-              <p class="card-title h-5 pl-2 text-sm text-primary">タイトル</p>
-              <div class="flex w-full items-center justify-center rounded-xl text-xl bg-primary p-3">
+              <p class="card-title h-5 pl-2 text-xs md:text-sm text-primary">タイトル</p>
+              <div class="flex w-full items-center justify-center rounded-xl text-lg md:text-xl bg-primary p-2 md:p-3">
                 <%= @task.title %>
               </div>
             </div>
@@ -49,26 +44,28 @@
             <div class="flex w-full px-5 text-neutral <%= start_date_and_end_date_present ? "justify-between" : "justify-center" %>">
 
               <% if @task.start_date.present? %>
-                <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-                  <div>
+                <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-1 md:p-2">
+                  <div class="text-xs md:text-base">
                     <%= @task.start_date&.year %>
                   </div>
-                  <div class="w-full font-bold md:text-2xl">
+                  <div class="w-full font-bold text-sm md:text-2xl">
                     <%= to_short_date(@task.start_date) %>
                   </div>
                 </div>
               <% end %>
               <div class="flex w-1/5 items-center justify-center">
-              <p class="w-full text-5xl text-primary">~</p>
-            </div>
-            <% if @task.end_date.present? %>
-              <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-2">
-                <%= @task.end_date&.year %><br>
-                <div class="w-full font-bold md:text-2xl">
-                  <%= to_short_date(@task.end_date) %>
-                </div>
+                <p class="w-full text-3xl md:text-5xl text-primary">~</p>
               </div>
-            <% end %>
+              <% if @task.end_date.present? %>
+                <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-1 md:p-2">
+                  <div class="text-xs md:text-base">
+                    <%= @task.end_date&.year %>
+                  </div>
+                  <div class="w-full font-bold text-sm md:text-2xl">
+                    <%= to_short_date(@task.end_date) %>
+                  </div>
+                </div>
+              <% end %>
             </div>
           <% else %>
             <div class="flex w-full justify-center">
@@ -81,8 +78,8 @@
           <!-- 説明 -->
           <div class="flex w-full items-center justify-center">
             <div class="card w-full text-neutral">
-              <p class="card-title h-5 pl-2 text-sm text-primary">詳細</p>
-              <div class="flex min-h-24 w-full items-center justify-center rounded-xl bg-primary p-3">
+              <p class="card-title h-5 pl-2 text-xs md:text-sm text-primary">詳細</p>
+              <div class="flex min-h-16 md:min-h-24 w-full items-center justify-center rounded-xl bg-primary p-2 md:p-3 text-xs md:text-sm">
                 <%= @task.description.present? ? safe_join(@task.description.split("\n"),tag(:br)) : "詳細はありません" %>
               </div>
             </div>
@@ -90,8 +87,10 @@
 
           <!-- 進捗状況 -->
           <% unless task.milestone_completed? %>
-            <div id="task_show_progress_button_id_<%= task.id %>" class="flex w-full items-center justify-center">
-              <%= render "tasks/progress_button", task: @task %>
+            <div class="mt-5">
+              <div id="task_show_progress_button_id_<%= task.id %>" class="flex w-full items-center justify-center">
+                <%= render "tasks/progress_button", task: @task %>
+              </div>
             </div>
           <% end %>
 
@@ -99,12 +98,12 @@
           <% if @task.is_a?(LimitedSharingTask) %>
             <!-- not content -->
           <% elsif current_user&.guest? && current_user?(@task.user) %>
-            <div class="flex h-12 w-full mt-10 justify-center text-neutral">
+            <div class="flex h-10 md:h-12 w-full mt-5 md:mt-10 justify-center text-neutral">
               <div class="tooltip" data-tip="ゲストユーザーは使用できません">
-                <button class="btn btn-disabled h-12 w-25 mr-5 md:w-42">削除</button>
+                <button class="btn btn-disabled h-10 md:h-12 w-20 md:w-25 mr-3 md:mr-5 text-xs md:text-sm md:w-42">削除</button>
               </div>
-              <div class="btn btn-accent h-12 w-25 md:w-42">
-                <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center", data: { turbo_frame: "tasks_edit_modal"} do %>
+              <div class="btn btn-accent h-10 md:h-12 w-20 md:w-25 md:w-42">
+                <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center text-xs md:text-sm", data: { turbo_frame: "tasks_edit_modal"} do %>
                   <p>
                   編集
                   </p>
@@ -114,9 +113,9 @@
 
             <div class="relative left-4 btn bg-transparent text-base-200 hover:cursor-default">
               <div class="tooltip" data-tip="ゲストユーザーは使用できません">
-              <span class="material-symbols-outlined">
-                content_copy
-              </span>
+                <span class="material-symbols-outlined">
+                  content_copy
+                </span>
               </div>
             </div>
 
@@ -128,13 +127,13 @@
               </div>
               <div
                 tabindex="0"
-                class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-10 shadow-xl border-1">
-                <div tabindex="0" class="card-body text-sm px-1">
+                class="card dropdown-content bg-base-100 rounded-box z-1 w-60 md:w-70 mr-5 md:mr-10 shadow-xl border-1">
+                <div tabindex="0" class="card-body text-xs md:text-sm px-1">
                   <div class="text-center">
-                    <p class="mb-2">始点を指定した場合、</p>
-                    <p class="mb-2">・開始日または終了日を始点の日に<br>
+                    <p class="mb-1 md:mb-2">始点を指定した場合、</p>
+                    <p class="mb-1 md:mb-2">・開始日または終了日を始点の日に<br>
                     設定してコピーします。</p>
-                    <div class="divider"></div>
+                    <div class="divider my-1 md:my-2"></div>
                     <p>・開始日も終了日も無い場合は<br>
                     日付を設定せずにコピーします。
                     </p>
@@ -143,11 +142,11 @@
               </div>
             </div>
           <% elsif current_user?(@task.user) %>
-            <div class="flex h-12 w-full mt-10 justify-center text-neutral">
-              <%= button_to "削除", task_path(@task), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-12 w-25 mr-5 md:w-42" %>
+            <div class="flex h-10 md:h-12 w-full mt-5 justify-center text-neutral">
+              <%= button_to "削除", task_path(@task), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-10 md:h-12 w-20 md:w-25 mr-3 md:mr-5 text-xs md:text-sm md:w-42" %>
 
-              <div class="btn btn-accent h-12 w-25 md:w-42">
-                <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center", data: { turbo_frame: "tasks_edit_modal"} do %>
+              <div class="btn btn-accent h-10 md:h-12 w-20 md:w-25 md:w-42">
+                <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center text-xs md:text-sm", data: { turbo_frame: "tasks_edit_modal"} do %>
                   <p>
                   編集
                   </p>
@@ -155,7 +154,7 @@
               </div>
             </div>
 
-            <%= link_to tasks_copy_path(@task), data: { turbo_frame: "tasks_copy_modal"}, class: "relative left-4 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
+            <%= link_to tasks_copy_path(@task), data: { turbo_frame: "tasks_copy_modal"}, class: "relative left-2 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
               <div class="tooltip" data-tip="タスクをコピーする">
                 <span id="copy_icon_<%=@task.id%>" class="material-symbols-outlined">
                   content_copy
@@ -163,8 +162,8 @@
               </div>
             <% end %>
 
-            <div class="dropdown dropdown-top dropdown-center relative left-4">
-              <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+            <div class="dropdown dropdown-top dropdown-center relative left-2">
+              <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs">
                 <span class="material-symbols-outlined text-base-200">
                   help
                 </span>
@@ -185,21 +184,20 @@
                 </div>
               </div>
             </div>
-
           <% end %>
+        </div>
+
+        <div class="modal-action flex justify-center mt-3">
+          <form method="dialog">
+            <button class="btn btn-accent size-9">
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
+          </form>
         </div>
 
       </div>
     </div>
   </div>
-  <div class="modal-action flex justify-center">
-    <form method="dialog">
-      <button class="btn btn-accent px-9">
-        <span class="material-symbols-outlined">
-          close
-        </span>
-      </button>
-    </form>
-  </div>
-
 </div>
