@@ -12,4 +12,8 @@ export default class extends Controller {
       this.element.requestSubmit()
     }, 200)
   }
+
+  disconnect() {
+    clearTimeout(this.timeout)
+  }
 }
