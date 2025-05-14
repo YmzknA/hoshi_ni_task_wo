@@ -129,8 +129,8 @@ class TasksController < ApplicationController
 
     if id.present? && (current_user?(Milestone.find(id).user) || Milestone.find(id).public?)
       # milsestone_idが指定されている場合
-      milestone = Milestone.find(id)
-      @tasks = Task.where(milestone_id: milestone.id)
+      @milestone = Milestone.find(id)
+      @tasks = Task.where(milestone_id: @milestone.id)
                    .where("title like ?", "%#{query}%")
 
     elsif progress.present?

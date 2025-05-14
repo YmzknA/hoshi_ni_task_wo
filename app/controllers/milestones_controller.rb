@@ -77,9 +77,10 @@ class MilestonesController < ApplicationController
       redirect_to milestones_path
     else
       @user = current_user
-      user_milestones = @user.milestones
-      @completed_milestones = user_milestones.where(progress: "completed")&.order(created_at: :desc)
-      @not_completed_milestones = user_milestones.where&.not(progress: "completed")&.order(created_at: :desc)
+      user_milestones = milestones_ransack_result
+      @completed_milestones = user_milestones.where(progress: "completed")
+      @not_completed_milestones = user_milestones.where&.not(progress: "completed")
+      @sharing_milestones = @user.limited_sharing_milestones&.order(created_at: :desc)
       @title = "星座一覧"
       @milestones_new_modal_open = true
 
@@ -96,7 +97,8 @@ class MilestonesController < ApplicationController
       prepare_for_chart(@milestone)
       @title = "星座詳細"
       @milestones_edit_modal_open = true
-      @milestone_tasks = @milestone.tasks
+      @milestone_tasks = tasks_ransack_result
+
       flash.now[:alert] = "星座の更新に失敗しました"
       render "milestones/show", status: :unprocessable_entity
     end

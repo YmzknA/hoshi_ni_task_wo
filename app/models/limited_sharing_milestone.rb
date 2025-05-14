@@ -30,4 +30,8 @@ class LimitedSharingMilestone < ApplicationRecord
     n = completed_tasks.to_f / total_tasks
     (n * 100).round
   end
+
+  def open?
+    true
+  end
 end
