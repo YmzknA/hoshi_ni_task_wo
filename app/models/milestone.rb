@@ -11,7 +11,8 @@ class Milestone < ApplicationRecord
   # 日付関連のバリデーション
   validate :start_date_check # 開始日が終了日より前の日付を設定する
   validate :end_date_check # 終了日が開始日より後の日付を設定する
-  validate :tasks_date_check, if: -> { start_date.present? && end_date.present? && is_on_chart } # タスクの日付がマイルストーンの日付内に収まるかチェック
+  # タスクの日付がマイルストーンの日付内に収まるかチェック
+  validate :tasks_date_check, if: -> { start_date.present? && end_date.present? && is_on_chart }
   validate :tasks_require_date, if: -> { is_on_chart }
   validate :on_chart_date_check, if: -> { is_on_chart }
 
@@ -142,7 +143,7 @@ class Milestone < ApplicationRecord
 
     tasks.each do |task|
       if task.start_date.blank? && task.end_date.blank?
-        errors.add(:base, "チャートに表示する場合、各タスクは開始日か終了日の少なくとも一方を設定してください")
+        errors.add(:base, "チャートに表示する場合、タスク「title: #{task.title}」は開始日か終了日の少なくとも一方を設定してください")
         break
       end
     end

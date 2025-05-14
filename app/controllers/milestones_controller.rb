@@ -14,17 +14,8 @@ class MilestonesController < ApplicationController
 
     @sharing_milestones = @user.limited_sharing_milestones&.order(created_at: :desc)
 
-    # 二度クエリを発行するのではなく、rubyで処理したほうが早い？
-    @completed_milestones = []
-    @not_completed_milestones = []
-    user_milestones.each do |milestone|
-      if milestone.completed?
-        @completed_milestones << milestone
-      else
-        @not_completed_milestones << milestone
-      end
-    end
-
+    # partitionメソッドを使用して、completed?がtrueのものとfalseのものに分ける
+    @completed_milestones, @not_completed_milestones = user_milestones.partition(&:completed?)
     @title = "星座一覧"
   end
 
@@ -85,16 +76,7 @@ class MilestonesController < ApplicationController
       @user = current_user
       user_milestones = milestones_ransack_result
 
-      @completed_milestones = []
-      @not_completed_milestones = []
-      user_milestones.each do |milestone|
-        if milestone.completed?
-          @completed_milestones << milestone
-        else
-          @not_completed_milestones << milestone
-        end
-      end
-
+      @completed_milestones, @not_completed_milestones = user_milestones.partition(&:completed?)
       @sharing_milestones = @user.limited_sharing_milestones&.order(created_at: :desc)
       @title = "星座一覧"
       @milestones_new_modal_open = true
