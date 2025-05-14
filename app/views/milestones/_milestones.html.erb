@@ -1,7 +1,20 @@
-
 <!-- 星座 -->
-<div id="milestones_content" class="mx-auto">
-  <% milestones.each do |milestone| %>
-    <%= render "milestones/milestone", milestone: milestone %>
-  <% end %>
-</div>
+<% if milestones.any? %>
+  <div id="milestones_content" class="mx-auto">
+    <% milestones.each do |milestone| %>
+      <%= render "milestones/milestone", milestone: milestone %>
+    <% end %>
+  </div>
+<% else %>
+  <div id="milestones_content" class="mx-auto">
+    <div class="card mb-4 w-full h-30 p-4 bg-base-300/40 shadow-xl/10">
+      <div class="flex size-full items-center justify-center">
+        <div class="flex items-center">
+          <%= render "stars_icon" %>
+        </div>
+
+        <p class="text-lg ml-2">星座が見つかりません</p>
+      </div>
+    </div>
+  </div>
+<% end %>
