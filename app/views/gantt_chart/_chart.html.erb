@@ -10,6 +10,7 @@
 
             # 色の設定(taskもこの色を使う)
             milestone_color = milestone.color
+            truncate_num = milestone_title_truncate_num(milestone)
             # すでにソートされたTasksをメモリ内で取得する
             tasks = milestone.tasks.valid_dates.start_date_asc.to_a
           %>
@@ -24,7 +25,9 @@
             border-color: <%= milestone_color %>cc;
             ">
 
-            <%= milestone.title %>
+            <% if milestone.open? %>
+              <%= milestone.title.truncate(truncate_num, omission: '...') %>
+            <% end %>
           </div>
 
           <!-- milestone本体、内部にtask -->
@@ -37,11 +40,24 @@
             border-color: <%= milestone_color %>cc;
             ">
 
-            <!-- Task（丸と線） -->
-            <%# valid_datesでstart_dateかend_dateが無いtaskを弾く %>
-            <div id="chart_<%=milestone.id%>">
-              <% tasks.each do |task| %>
-                <%= render "gantt_chart/task_chart", task: task, tasks: tasks %>
+            <% if milestone.open? %>
+              <!-- Task（丸と線） -->
+              <%# valid_datesでstart_dateかend_dateが無いtaskを弾く %>
+              <div id="chart_<%=milestone.id%>">
+                <% tasks.each do |task| %>
+                  <%= render "gantt_chart/task_chart", task: task, tasks: tasks %>
+                <% end %>
+              </div>
+            <% else %>
+              <%= button_to milestone_open_toggle_path(milestone), class: "hover:cursor-pointer hover:bg-base-100/30 w-full mt-2", method: :patch do %>
+                <span class="material-symbols-outlined">
+                  left_panel_open
+                </span>
+                <div class="flex w-full justify-start items-center [writing-mode:vertical-rl]">
+                  <div>
+                  <%= milestone.title.truncate(truncate_num, omission: '...') %>
+                  </div>
+                </div>
               <% end %>
-            </div>
+            <% end %>
           </div>

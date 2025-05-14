@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_09_110953) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_14_064305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_09_110953) do
     t.datetime "updated_at", null: false
     t.string "color", default: "#FFDF5E", null: false
     t.bigint "constellation_id"
+    t.boolean "is_open", default: true, null: false
     t.index ["constellation_id"], name: "index_milestones_on_constellation_id"
     t.index ["user_id"], name: "index_milestones_on_user_id"
   end
