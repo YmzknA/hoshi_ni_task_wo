@@ -25,7 +25,7 @@
             <%
               # 色の設定
               milestone_color = milestone.color
-              truncate_num = [milestone.tasks.count * 2, 10].max
+              truncate_num = milestone_title_truncate_num(milestone)
             %>
           <div class="border border-3 rounded-md text-base-200 text-xl absolute flex items-center justify-start font-medium px-2 text-center"
               style="

@@ -73,4 +73,8 @@ module GanttChartHelper
       45
     end
   end
+
+  def milestone_title_truncate_num(milestone)
+    [milestone.tasks.count * 2, 10].max
+  end
 end
