@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   resources :tasks do
     patch "update_progress", on: :member
     get "share" => "limited_sharing_tasks#show", on: :member
+
+    collection do
+      get :autocomplete
+    end
   end
   namespace :tasks do
     resources :copies, only: [:show, :create]
@@ -13,6 +17,10 @@ Rails.application.routes.draw do
     get "show_complete_page", on: :member
     patch "complete", on: :member
     get "share" => "limited_sharing_milestones#show", on: :member
+
+    collection do
+      get :autocomplete
+    end
   end
   namespace :milestones do
     resources :copies, only: [:show, :create]

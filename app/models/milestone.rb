@@ -41,6 +41,10 @@ class Milestone < ApplicationRecord
   # メソッド
   # ######################################
 
+  def completed?
+    progress == "completed"
+  end
+
   def tasks_completed?
     tasks.all? { |task| task.progress == "completed" }
   end

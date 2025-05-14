@@ -124,6 +124,9 @@ class MilestonesController < ApplicationController
     redirect_to @milestone
   end
 
+  # ####################
+  # CRUD以外のアクション
+  # ###############################
   def show_complete_page; end
 
   def complete
@@ -146,6 +149,35 @@ class MilestonesController < ApplicationController
     end
   end
 
+  def autocomplete
+    progress = params[:progress]
+    query = ActiveRecord::Base.sanitize_sql_like(params[:q])
+
+    @milestones = if progress.present?
+                    # progressが指定されている場合
+                    # progress = "not_completed" || "completed"
+                    if progress == "not_completed"
+                      Milestone.where(user_id: current_user.id)
+                               .where("title LIKE ?", "%#{query}%")
+                               .where.not(progress: "completed")
+                    else
+                      Milestone.where(user_id: current_user.id)
+                               .where("title LIKE ?", "%#{query}%")
+                               .where(progress: "completed")
+                    end
+                  else
+                    # progressが指定されていない場合
+                    Milestone.where(user_id: current_user.id)
+                             .where("title LIKE ?", "%#{query}%")
+                  end
+
+    # titleの重複を排除
+    @milestones = @milestones.group_by(&:title).map { |_, milestones| milestones.first }
+  end
+
+  # ##################
+  # private methods
+  # ############################
   private
 
   def set_milestone

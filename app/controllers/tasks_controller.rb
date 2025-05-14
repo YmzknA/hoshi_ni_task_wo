@@ -102,6 +102,9 @@ class TasksController < ApplicationController
     flash.now[:notice] = "タスクを削除しました"
   end
 
+  # #################################
+  # CRUD以外のアクション
+  # ###########################################
   def update_progress
     if @task.milestone_completed?
       flash.now.alert = "このタスクは完成した星座に関連付けられています"
@@ -118,6 +121,34 @@ class TasksController < ApplicationController
     end
   end
 
+  # タスクのautocomplete機能, stimulus_autocompleteで使用
+  def autocomplete
+    id = params[:milestone_id] # optional
+    progress = params[:progress] # optional
+    query = ActiveRecord::Base.sanitize_sql_like(params[:q])
+
+    if id.present? && (current_user?(Milestone.find(id).user) || Milestone.find(id).public?)
+      # milsestone_idが指定されている場合
+      milestone = Milestone.find(id)
+      @tasks = Task.where(milestone_id: milestone.id)
+                   .where("title like ?", "%#{query}%")
+
+    elsif progress.present?
+      # progressが指定されている場合
+      # progress = "not_completed" || progressのenum値
+      @tasks = search_tasks_by_progress(query, progress)
+    else
+      @tasks = Task.where(user_id: current_user.id)
+                   .where("title like ?", "%#{query}%")
+    end
+
+    # @tasksの中でタイトルが他のものと同じものを一つに
+    @tasks = @tasks.group_by(&:title).map { |_, tasks| tasks.first }
+  end
+
+  # ##################################
+  # privateメソッド
+  # ############################################
   private
 
   def set_task
@@ -153,5 +184,19 @@ class TasksController < ApplicationController
     @q = @user.tasks.ransack(params[:q])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
     @q.result(distinct: true)
+  end
+
+  def search_tasks_by_progress(query, progress)
+    if progress == "not_completed"
+      # 未完了のタスクを取得
+      Task.where(user_id: current_user.id)
+          .where("title like ?", "%#{query}%")
+          .where.not(progress: "completed")
+    else
+      # 完了したタスクを取得
+      Task.where(user_id: current_user.id)
+          .where("title like ?", "%#{query}%")
+          .where(progress: progress)
+    end
   end
 end
