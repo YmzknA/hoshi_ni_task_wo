@@ -6,11 +6,11 @@
 <%# _milestone_idが渡されている場合は、autocomplete_pathにそのIDを渡す %>
 <% 
   if (defined? _milestone_id)
-    autocomplete_path = ((@q.klass == Task) ? autocomplete_tasks_path(milestone_id: _milestone_id) : autocomplete_milestones_path(milestone_id: _milestone_id))
+    autocomplete_path = ((@q&.klass == Task) ? autocomplete_tasks_path(milestone_id: _milestone_id) : autocomplete_milestones_path(milestone_id: _milestone_id))
   elsif (defined? _progress)
-    autocomplete_path = ((@q.klass == Task) ? autocomplete_tasks_path(progress: _progress) : autocomplete_milestones_path(progress: _progress))
+    autocomplete_path = ((@q&.klass == Task) ? autocomplete_tasks_path(progress: _progress) : autocomplete_milestones_path(progress: _progress))
   else
-    autocomplete_path = ((@q.klass == Task) ? autocomplete_tasks_path : autocomplete_milestones_path)
+    autocomplete_path = ((@q&.klass == Task) ? autocomplete_tasks_path : autocomplete_milestones_path)
   end
 %>
 
