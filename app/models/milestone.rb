@@ -75,6 +75,10 @@ class Milestone < ApplicationRecord
     is_public == true
   end
 
+  def open?
+    is_open == true
+  end
+
   def copy(set_date)
     copy = dup
     copy.title = "#{title}_copy"
