@@ -22,6 +22,7 @@ class Task < ApplicationRecord
   scope :valid_dates, -> { where.not(start_date: nil, end_date: nil) }
   scope :completed, -> { where(progress: :completed) }
   scope :in_progress, -> { where(progress: :in_progress) }
+  scope :not_completed, -> { where.not(progress: :completed) }
   scope :not_started, -> { where(progress: :not_started) }
   scope :created_at_desc, -> { order(created_at: :desc) }
   scope :start_date_asc, -> { order(start_date: :asc) }
