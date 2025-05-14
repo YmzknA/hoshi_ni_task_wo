@@ -49,7 +49,6 @@
                       left_panel_open
                     </span>
                   <% end %>
-<<<<<<< HEAD
                 <% end %>
                 <%# ここまでbutton_to %>
 
@@ -65,25 +64,7 @@
                 <div class="flex items-center justify-center h-full w-full">
                   <%= milestone.title %>
                 </div>
-=======
-                <% end %>
-                <%# ここまでbutton_to %>
 
-                <%# openならタスクのタイトルを表示 %>
-                <% if milestone.open? %>
-                  <%= link_to gantt_chart_milestone_show_path(milestone), class: "hover:cursor-pointer hover:bg-base-100/20 flex h-full w-full items-center justify-center", data: { turbo_frame: "milestone_show_modal" } do %>
-                    <%= milestone.title.truncate(truncate_num, omission: '...') %>
-                  <% end %>
-                <% end %>
-
-              <% else %>
-                <%# limited_sharing_milestoneのチャートの場合 %>
-
-                <% if milestone.open? %>
-                  <%= milestone.title %>
-                <% end %>
-
->>>>>>> a71680416c1e245fd051b1cddf4faf8f570f9811
               <% end %>
             </div>
           <% end %>
