@@ -1,4 +1,5 @@
 <div class="h-full w-full">
+  <% milestone_completed = @milestone.completed? %>
   <!-- 月の画像 -->
   <%= render 'title_header', title: @title %>
 
@@ -10,7 +11,7 @@
 
     <!-- 完成状態は星座アイコンと完成コメント -->
     <!-- 星座のアイコン -->
-    <% if @is_milestone_completed %>
+    <% if milestone_completed %>
       <!-- title -->
       <div class="text-3xl">
         <%= "#{@milestone.title} 座" %>
@@ -100,7 +101,7 @@
     <div class="mb-8 flex h-full md:h-[100px] items-center justify-center">
       <div class="flex items-center justify-center rounded-xl text-base-200 md:w-3/4 md:mb-0">
         <div>
-          <%if @is_milestone_completed %>
+          <% if milestone_completed %>
             <div class="flex items-center">
               <div class="mr-2 text-center">
                 チャートに表示する：
@@ -146,7 +147,7 @@
           <%= render "tasks/tasks", tasks: @milestone_tasks %>
 
         </div>
-        <% if @is_not_milestone_on_chart || @is_milestone_completed %>
+        <% if !@milestone.on_chart? || milestone_completed %>
           <!-- 完成状態の場合チャートは表示しない -->
         <% else %>
           <!-- チャート -->

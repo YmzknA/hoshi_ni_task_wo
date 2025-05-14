@@ -6,8 +6,6 @@ class LimitedSharingMilestonesController < ApplicationController
 
   def show
     @title = "限定公開の星座"
-    @is_milestone_completed = (@milestone.progress == "completed")
-    @is_not_milestone_on_chart = @milestone.is_on_chart == false
 
     prepare_meta_tags(@milestone)
     prepare_for_chart(@milestone) if @milestone.is_on_chart

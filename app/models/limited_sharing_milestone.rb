@@ -34,4 +34,8 @@ class LimitedSharingMilestone < ApplicationRecord
   def open?
     true
   end
+
+  def on_chart?
+    is_on_chart == true
+  end
 end
