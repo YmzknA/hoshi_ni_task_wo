@@ -27,7 +27,7 @@
               milestone_color = milestone.color
               truncate_num = [milestone.tasks.count * 2, 10].max
             %>
-          <div class="border border-3 rounded-md text-base-200 text-xl absolute flex items-center justify-center font-medium px-2 text-center"
+          <div class="border border-3 rounded-md text-base-200 text-xl absolute flex items-center justify-start font-medium px-2 text-center"
               style="
               width: <%= milestone_widths[milestone.id] %>px;
               left: <%= milestone_lefts[milestone.id].to_i %>px;
@@ -36,11 +36,36 @@
               border-color: <%= milestone_color %>cc;
               ">
               <% if milestone.is_a?(Milestone) %>
-                <%= link_to gantt_chart_milestone_show_path(milestone), class: "hover:cursor-pointer", data: { turbo_frame: "milestone_show_modal" } do %>
-                  <%= milestone.title.truncate(truncate_num, omission: '...') %>
+                <%# milestoneのチャートの場合 %>
+
+                <%= button_to milestone_open_toggle_path(milestone), class: "flex items-center justify-center hover:cursor-pointer hover:bg-base-100/30", method: :patch do %>
+                  <%# milestoneの開閉 %>
+                  <% if milestone.open? %>
+                    <span id="open_icon_<%=milestone.id%>" class="material-symbols-outlined size-full">
+                      left_panel_open
+                    </span>
+                  <% else %>
+                    <span id="open_icon_<%=milestone.id%>" class="material-symbols-outlined">
+                      left_panel_close
+                    </span>
+                  <% end %>
                 <% end %>
+                <%# ここまでbutton_to %>
+
+                <%# openならタスクのタイトルを表示 %>
+                <% if milestone.open? %>
+                  <%= link_to gantt_chart_milestone_show_path(milestone), class: "hover:cursor-pointer hover:bg-base-100/20 flex h-full w-full items-center justify-center", data: { turbo_frame: "milestone_show_modal" } do %>
+                    <%= milestone.title.truncate(truncate_num, omission: '...') %>
+                  <% end %>
+                <% end %>
+
               <% else %>
-                <%= milestone.title %>
+                <%# limited_sharing_milestoneのチャートの場合 %>
+
+                <% if milestone.open? %>
+                  <%= milestone.title %>
+                <% end %>
+
               <% end %>
             </div>
           <% end %>

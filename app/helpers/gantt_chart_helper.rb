@@ -19,7 +19,11 @@ module GanttChartHelper
 
       task_count = [task_counts[milestone.id], 3].max
 
-      width_size = (task_count * 80)
+      width_size = if milestone.open?
+                     (task_count * 80)
+                   else
+                     45
+                   end
 
       # 幅と左位置を保存
       milestone_widths[milestone.id] = width_size.to_s

@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   get "gantt_chart" => "gantt_chart#show", as: :gantt_chart
   get "gantt_chart_milestone/:id" => "gantt_chart#milestone_show", as: :gantt_chart_milestone_show
 
+  patch "milestone_open_toggle/:id" => "milestone_open_toggle#toggle", as: :milestone_open_toggle
+
   post "callback" => "line_bot#callback"
 
   devise_for :users, controllers: {
