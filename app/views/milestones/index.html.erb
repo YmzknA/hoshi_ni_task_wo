@@ -77,16 +77,29 @@
         <div class="tab-content border-base-300 bg-base-100 p-3">
 
           <!-- 星座 -->
+          <% if @sharing_milestones.any? %>
             <% @sharing_milestones.each do |milestone| %>
               <%= render "limited_sharing_milestones/milestone", milestone: milestone %>
             <% end %>
+          <% else %>
+            <div class="mx-auto">
+              <div class="card mb-4 w-full h-30 p-4 bg-base-300/40 shadow-xl/10">
+                <div class="flex size-full items-center justify-center">
+                  <div class="flex items-center">
+                    <%= render "stars_icon" %>
+                  </div>
+
+                  <p class="text-lg ml-2">星座が見つかりません</p>
+                </div>
+              </div>
+            </div>
+          <% end %>
 
         </div>
 
       </div>
     </div>
   </div>
-
 
   <div class="mt-10" >
     <%= render "menu_bar" %>
