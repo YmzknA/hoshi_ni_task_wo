@@ -10,6 +10,7 @@
 
             # 色の設定(taskもこの色を使う)
             milestone_color = milestone.color
+            truncate_num = [milestone.tasks.count * 2, 10].max
             # すでにソートされたTasksをメモリ内で取得する
             tasks = milestone.tasks.valid_dates.start_date_asc.to_a
           %>
@@ -24,7 +25,7 @@
             border-color: <%= milestone_color %>cc;
             ">
 
-            <%= milestone.title %>
+            <%= milestone.title.truncate(truncate_num, omission: '...') %>
           </div>
 
           <!-- milestone本体、内部にtask -->

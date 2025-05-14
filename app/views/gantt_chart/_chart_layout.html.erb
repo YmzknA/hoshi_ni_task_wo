@@ -25,7 +25,7 @@
             <%
               # 色の設定
               milestone_color = milestone.color
-              transcate_num = [milestone.tasks.count * 2, 10].max
+              truncate_num = [milestone.tasks.count * 2, 10].max
             %>
           <div class="border border-3 rounded-md text-base-200 text-xl absolute flex items-center justify-center font-medium px-2 text-center"
               style="
@@ -37,7 +37,7 @@
               ">
               <% if milestone.is_a?(Milestone) %>
                 <%= link_to gantt_chart_milestone_show_path(milestone), class: "hover:cursor-pointer", data: { turbo_frame: "milestone_show_modal" } do %>
-                  <%= milestone.title.truncate(transcate_num, omission: '...') %>
+                  <%= milestone.title.truncate(truncate_num, omission: '...') %>
                 <% end %>
               <% else %>
                 <%= milestone.title %>
