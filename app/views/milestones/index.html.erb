@@ -25,7 +25,7 @@
 
           <!-- 検索欄、ソートの切り替えセレクト -->
           <div class="mb-3">
-            <%= render "search_or_sort_select", q: @q, path: milestones_path %>
+            <%= render "search_or_sort_select", q: @q, path: milestones_path, _progress: "not_completed" %>
           </div>
 
           <% if current_user.guest? %>
@@ -63,7 +63,7 @@
         <div class="tab-content border-base-300 bg-base-100 p-3">
           <!-- ソートの切り替えセレクト -->
           <div class="mb-3">
-            <%= render "search_or_sort_select", q: @q, path: milestones_path, _frame_target: "secondary" %>
+            <%= render "search_or_sort_select", q: @q, path: milestones_path, _frame_target: "secondary", _progress: "completed" %>
           </div>
 
           <!-- 星座 -->

@@ -1,22 +1,43 @@
-<%# q:とpath:は必須、frame_target:はオプション %>
-<%# frame_targetが渡されている場合は、そのframe_target + "_tasks_content_frame"を使用 %>
+<%# q:とpath:は必須、_frame_target:,_progress:, _milestone_id:は任意 %>
+<%# frame_targetが渡されている場合は、そのframe_target + "_search_sort_content_frame"を使用する %>
+
+<%# stimulus_autocompleteで使用するパスをここで決定する %>
+<%# @q.klassがTaskの場合はautocomplete_tasks_pathを、Milestoneの場合はautocomplete_milestones_pathを使用する %>
+<%# _milestone_idが渡されている場合は、autocomplete_pathにそのIDを渡す %>
+<% 
+  if (defined? _milestone_id)
+    autocomplete_path = ((@q.klass == Task) ? autocomplete_tasks_path(milestone_id: _milestone_id) : autocomplete_milestones_path(milestone_id: _milestone_id))
+  elsif (defined? _progress)
+    autocomplete_path = ((@q.klass == Task) ? autocomplete_tasks_path(progress: _progress) : autocomplete_milestones_path(progress: _progress))
+  else
+    autocomplete_path = ((@q.klass == Task) ? autocomplete_tasks_path : autocomplete_milestones_path)
+  end
+%>
+
 <div class="flex justify-center h-10 items-center mt-2 mb-5">
-  <%= search_form_for @q, url: path, class: "w-[60%]", html: { data: { turbo_frame: "#{(defined? _frame_target) ? "#{_frame_target}_search_sort_content_frame" : "search_sort_content_frame"}", controller: "form", action: "input->form#submit" } } do |f| %>
-    <label class="input input-sm md:input-md bg-base-300/40 shadow">
-      <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <g
-        stroke-linejoin="round"
-        stroke-linecap="round"
-        stroke-width="2.5"
-        fill="none"
-        stroke="currentColor"
-        >
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.3-4.3"></path>
-        </g>
-      </svg>
-      <input class="grow" placeholder="タイトル or 詳細" type="search" name="q[title_or_description_cont]" id="q_title_or_description_cont">
-    </label>
+  <%= search_form_for @q, url: path, class: "w-[60%]", html: { data: { turbo_frame: "#{(defined? _frame_target) ? "#{_frame_target}_search_sort_content_frame" : "search_sort_content_frame"}", controller: "form", action: "input->form#submit change->form#submit" } } do |f| %>
+
+    <%# stimulus_autocompleteによるautocomplete %>
+    <div data-controller="autocomplete" data-autocomplete-url-value="<%= autocomplete_path %>" role="combobox">
+      <label class="input input-sm md:input-md bg-base-300/40 shadow">
+        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          stroke-width="2.5"
+          fill="none"
+          stroke="currentColor"
+          >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+          </g>
+        </svg>
+        <input class="grow" placeholder="タイトル or 詳細" type="search" name="q[title_or_description_cont]" id="q_title_or_description_cont" data-autocomplete-target="input">
+      </label>
+
+      <%= f.hidden_field :title, data: { autocomplete_target: 'hidden' } %>
+      <ul class="list-group absolute w-[400px]" data-autocomplete-target="results"></ul>
+    </div>
   <% end %>
 
   <div class="divider divider-horizontal text-xs">OR</div>

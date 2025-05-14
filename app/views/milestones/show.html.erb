@@ -300,7 +300,7 @@
 
           <!-- ソートの切り替えセレクト -->
           <div class="mb-3">
-            <%= render "search_or_sort_select", q: @q, path: milestone_path(@milestone) %>
+            <%= render "search_or_sort_select", q: @q, path: milestone_path(@milestone), _milestone_id: @milestone.id %>
           </div>
 
           <% if !@is_milestone_completed && current_user?(@milestone.user) %>
