@@ -1,5 +1,4 @@
 class MilestoneOpenToggleController < ApplicationController
-  include GanttChartHelper
   before_action :authenticate_user!
 
   # POST /milestones/1/toggle
