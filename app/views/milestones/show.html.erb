@@ -1,4 +1,5 @@
-<div class="h-full w-full">
+  <% milestone_completed = @milestone.completed? %>
+  <% milestone_on_chart = @milestone.on_chart? %>
   <!-- 月の画像 -->
   <%= render 'title_header', title: @title %>
 
@@ -10,7 +11,7 @@
 
     <!-- 完成状態は星座アイコンと完成コメント -->
     <!-- 星座のアイコン -->
-    <% if @is_milestone_completed %>
+    <% if milestone_completed %>
       <!-- title -->
       <div class="text-3xl">
         <%= "#{@milestone.title} 座" %>
@@ -112,7 +113,7 @@
               <% end %>
             </div>
 
-            <%if @is_milestone_completed %>
+            <% if milestone_completed %>
               <div class="flex items-center">
                 <div class="mr-2 text-center">
                   チャートに表示する：
@@ -126,7 +127,7 @@
                 <div class="mr-2 text-center">
                   チャートに表示する：
                 </div>
-                <% if @milestone.is_on_chart %>
+                <% if milestone_on_chart %>
                   <span class="badge badge-md badge-primary md:badge-lg">ON</span>
                 <% else %>
                   <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
@@ -303,7 +304,7 @@
             <%= render "search_or_sort_select", q: @q, path: milestone_path(@milestone), _milestone_id: @milestone.id %>
           </div>
 
-          <% if !@is_milestone_completed && current_user?(@milestone.user) %>
+          <% if !milestone_completed && current_user?(@milestone.user) %>
             <!-- 新規作成ボタン -->
             <%= render "tasks/add_task_button", milestone: @milestone %>
           <% end %>
@@ -314,8 +315,8 @@
           <% end %>
 
         </div>
-        <% if @is_not_milestone_on_chart || @is_milestone_completed %>
-          <!-- 完成状態の場合チャートは表示しない -->
+        <% if !milestone_on_chart || milestone_completed || @milestone.start_date.blank? || @milestone.end_date.blank? %>
+          <!-- 完成状態、または開始日か終了日が無い場合はチャートは表示しない -->
         <% else %>
           <!-- チャート -->
           <input type="radio" name="my_tabs" class="tab" aria-label="チャート"  />
@@ -376,5 +377,4 @@
     });
   });
 </script>
-
 

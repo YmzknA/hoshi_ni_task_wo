@@ -14,8 +14,17 @@ class MilestonesController < ApplicationController
 
     @sharing_milestones = @user.limited_sharing_milestones&.order(created_at: :desc)
 
-    @completed_milestones = user_milestones.where(progress: "completed")
-    @not_completed_milestones = user_milestones.where&.not(progress: "completed")
+    # 二度クエリを発行するのではなく、rubyで処理したほうが早い？
+    @completed_milestones = []
+    @not_completed_milestones = []
+    user_milestones.each do |milestone|
+      if milestone.completed?
+        @completed_milestones << milestone
+      else
+        @not_completed_milestones << milestone
+      end
+    end
+
     @title = "星座一覧"
   end
 
@@ -32,9 +41,6 @@ class MilestonesController < ApplicationController
              else
                "#{@milestone.user.name}さんの星座詳細"
              end
-
-    @is_milestone_completed = (@milestone.progress == "completed")
-    @is_not_milestone_on_chart = (@milestone.is_on_chart == false)
 
     if @milestone.is_public || current_user?(@milestone.user)
       prepare_meta_tags(@milestone)
@@ -62,7 +68,6 @@ class MilestonesController < ApplicationController
   # GET /milestones/1/edit
   def edit; end
 
-  # POST /milestones
   def create
     if current_user.guest?
       flash[:alert] = "ゲストユーザーは星座を作成できません"
@@ -76,10 +81,20 @@ class MilestonesController < ApplicationController
       flash[:notice] = "星座を作成しました"
       redirect_to milestones_path
     else
+      # renderで/indexを表示するため、indexアクションと同様の処理
       @user = current_user
       user_milestones = milestones_ransack_result
-      @completed_milestones = user_milestones.where(progress: "completed")
-      @not_completed_milestones = user_milestones.where&.not(progress: "completed")
+
+      @completed_milestones = []
+      @not_completed_milestones = []
+      user_milestones.each do |milestone|
+        if milestone.completed?
+          @completed_milestones << milestone
+        else
+          @not_completed_milestones << milestone
+        end
+      end
+
       @sharing_milestones = @user.limited_sharing_milestones&.order(created_at: :desc)
       @title = "星座一覧"
       @milestones_new_modal_open = true
@@ -94,6 +109,7 @@ class MilestonesController < ApplicationController
     if @milestone.update(milestone_params)
       redirect_to @milestone, notice: "星座を更新しました"
     else
+      # renderで/showを表示するため、showアクションと同様の処理
       prepare_for_chart(@milestone)
       @title = "星座詳細"
       @milestones_edit_modal_open = true
@@ -214,6 +230,9 @@ class MilestonesController < ApplicationController
   end
 
   def prepare_for_chart(milestone)
+    return if milestone.start_date.nil? || milestone.end_date.nil?
+    return unless milestone.on_chart?
+
     # milestone_chartの幅と位置情報を計算
     @milestone_widths, @milestone_lefts = milestone_widths_lefts_hash([milestone])
     @date_range = date_range([milestone])
