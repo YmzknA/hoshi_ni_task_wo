@@ -51,6 +51,9 @@ class LineBotController < ApplicationController
       LineBot::MessageBuilder.text(
         "続いて、星座のタイトルを送信してください。\n\n↓星座のタイトル一覧↓\n#{@milestone_presenter.milestones_title_list}"
       )
+    when "タイトルか詳細から検索"
+      Rails.cache.write("user_#{@user_id}_step", "search_tasks", expires_in: 1.minutes)
+      LineBot::MessageBuilder.text("続いて、検索ワードを送信してください。")
     else
       handle_other_message
     end
@@ -59,6 +62,8 @@ class LineBotController < ApplicationController
   def handle_other_message
     if Rails.cache.read("user_#{@user_id}_step") == "tasks_for_milestone"
       handle_milestone_selection
+    elsif Rails.cache.read("user_#{@user_id}_step") == "search_tasks"
+      handle_search_tasks
     else
       LineBot::MessageBuilder.text("メニューから選択してください")
     end
@@ -67,6 +72,11 @@ class LineBotController < ApplicationController
   def handle_milestone_selection
     milestone_title = @event.message["text"]
     LineBot::MessageBuilder.text(@task_presenter.tasks_for_milestone(milestone_title))
+  end
+
+  def handle_search_tasks
+    search_word = @event.message["text"]
+    LineBot::MessageBuilder.text(@task_presenter.tasks_milestones_for_search(search_word))
   end
 
   def setup(event)
