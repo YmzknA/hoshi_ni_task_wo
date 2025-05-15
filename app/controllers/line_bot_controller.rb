@@ -19,10 +19,17 @@ class LineBotController < ApplicationController
   private
 
   def client
-    @client ||= Line::Bot::Client.new do |config|
-      config.channel_secret = Rails.application.credentials.dig(:LINE_BOT, :SECRET)
-      config.channel_token = Rails.application.credentials.dig(:LINE_BOT, :TOKEN)
-    end
+    @client ||= if Rails.env.development?
+                  Line::Bot::Client.new do |config|
+                    config.channel_secret = Rails.application.credentials.dig(:TEST_LINE_BOT, :SECRET)
+                    config.channel_token = Rails.application.credentials.dig(:TEST_LINE_BOT, :TOKEN)
+                  end
+                else
+                  Line::Bot::Client.new do |config|
+                    config.channel_secret = Rails.application.credentials.dig(:LINE_BOT, :SECRET)
+                    config.channel_token = Rails.application.credentials.dig(:LINE_BOT, :TOKEN)
+                  end
+                end
   end
 
   def reply
@@ -51,9 +58,9 @@ class LineBotController < ApplicationController
       LineBot::MessageBuilder.text(
         "続いて、星座のタイトルを送信してください。\n\n↓星座のタイトル一覧↓\n#{@milestone_presenter.milestones_title_list}"
       )
-    when "タイトルか詳細から検索"
+    when "検索"
       Rails.cache.write("user_#{@user_id}_step", "search_tasks", expires_in: 1.minutes)
-      LineBot::MessageBuilder.text("続いて、検索ワードを送信してください。")
+      LineBot::MessageBuilder.text("タイトルか詳細に含まれている文字から検索します。\n続いて、検索ワードを送信してください。")
     else
       handle_other_message
     end
