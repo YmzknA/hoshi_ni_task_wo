@@ -65,6 +65,17 @@ module LineBot
       \n   #{date_range(start_date, end_date)}"
     end
 
+    def self.search_results_message(tasks, milestones)
+      tasks_message = tasks.present? ? tasks_message(tasks) : "📝 タスクはありません"
+      milestones_message = milestones.present? ? milestones_message(milestones) : "🌟 星座はありません"
+
+      if tasks.empty? && milestones.empty?
+        "どちらも見つかりませんでした。"
+      else
+        "#{milestones_message}\n\n----------\n\n#{tasks_message}"
+      end
+    end
+
     def self.to_short_date(date)
       return if date.nil?
 

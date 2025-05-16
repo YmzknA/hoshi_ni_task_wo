@@ -19,10 +19,17 @@ class LineBotController < ApplicationController
   private
 
   def client
-    @client ||= Line::Bot::Client.new do |config|
-      config.channel_secret = Rails.application.credentials.dig(:LINE_BOT, :SECRET)
-      config.channel_token = Rails.application.credentials.dig(:LINE_BOT, :TOKEN)
-    end
+    @client ||= if Rails.env.development?
+                  Line::Bot::Client.new do |config|
+                    config.channel_secret = Rails.application.credentials.dig(:TEST_LINE_BOT, :SECRET)
+                    config.channel_token = Rails.application.credentials.dig(:TEST_LINE_BOT, :TOKEN)
+                  end
+                else
+                  Line::Bot::Client.new do |config|
+                    config.channel_secret = Rails.application.credentials.dig(:LINE_BOT, :SECRET)
+                    config.channel_token = Rails.application.credentials.dig(:LINE_BOT, :TOKEN)
+                  end
+                end
   end
 
   def reply
@@ -47,18 +54,23 @@ class LineBotController < ApplicationController
       )
     when "星座の名前で確認"
       Rails.cache.write("user_#{@user_id}_step", "tasks_for_milestone", expires_in: 1.minutes)
-
       LineBot::MessageBuilder.text(
-        "続いて、星座のタイトルを送信してください。\n\n↓星座のタイトル一覧↓\n#{@milestone_presenter.milestones_title_list}"
+        "🌟 続いて、星座のタイトルを送信してください。\n\n↓星座のタイトル一覧↓\n#{@milestone_presenter.milestones_title_list}"
       )
+    when "検索"
+      Rails.cache.write("user_#{@user_id}_step", "search_tasks", expires_in: 1.minutes)
+      LineBot::MessageBuilder.text("🔍 続いて、検索ワードを送信してください。\nタイトルに含まれている文字から検索します")
     else
       handle_other_message
     end
   end
 
   def handle_other_message
+    # tasks_for_milestoneとsearch_tasksのステップにいる場合は、メッセージを処理する
     if Rails.cache.read("user_#{@user_id}_step") == "tasks_for_milestone"
       handle_milestone_selection
+    elsif Rails.cache.read("user_#{@user_id}_step") == "search_tasks"
+      handle_search_tasks
     else
       LineBot::MessageBuilder.text("メニューから選択してください")
     end
@@ -67,6 +79,11 @@ class LineBotController < ApplicationController
   def handle_milestone_selection
     milestone_title = @event.message["text"]
     LineBot::MessageBuilder.text(@task_presenter.tasks_for_milestone(milestone_title))
+  end
+
+  def handle_search_tasks
+    search_word = @event.message["text"]
+    LineBot::MessageBuilder.text(@task_presenter.tasks_milestones_for_search(search_word))
   end
 
   def setup(event)

@@ -25,5 +25,22 @@ module LineBot
         "その星座は見つかりませんでした。"
       end
     end
+
+    def tasks_milestones_for_search(search_word)
+      search_word = ActiveRecord::Base.sanitize_sql_like(search_word)
+
+      tasks = @user.tasks.where(
+        "title LIKE ?",
+        "%#{search_word}%"
+      ).order(:start_date)
+
+      milestones = @user.milestones.where(
+        "title LIKE ?",
+        "%#{search_word}%"
+      ).order(:start_date)
+
+      # tasksやmilestonesが空の場合の分岐はsearch_results_messageメソッド内で行う
+      MessageBuilder.search_results_message(tasks, milestones)
+    end
   end
 end
