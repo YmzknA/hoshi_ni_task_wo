@@ -54,19 +54,19 @@ class LineBotController < ApplicationController
       )
     when "星座の名前で確認"
       Rails.cache.write("user_#{@user_id}_step", "tasks_for_milestone", expires_in: 1.minutes)
-
       LineBot::MessageBuilder.text(
-        "続いて、星座のタイトルを送信してください。\n\n↓星座のタイトル一覧↓\n#{@milestone_presenter.milestones_title_list}"
+        "🌟 続いて、星座のタイトルを送信してください。\n\n↓星座のタイトル一覧↓\n#{@milestone_presenter.milestones_title_list}"
       )
     when "検索"
       Rails.cache.write("user_#{@user_id}_step", "search_tasks", expires_in: 1.minutes)
-      LineBot::MessageBuilder.text("タイトルか詳細に含まれている文字から検索します。\n続いて、検索ワードを送信してください。")
+      LineBot::MessageBuilder.text("🔍 続いて、検索ワードを送信してください。\nタイトルに含まれている文字から検索します")
     else
       handle_other_message
     end
   end
 
   def handle_other_message
+    # tasks_for_milestoneとsearch_tasksのステップにいる場合は、メッセージを処理する
     if Rails.cache.read("user_#{@user_id}_step") == "tasks_for_milestone"
       handle_milestone_selection
     elsif Rails.cache.read("user_#{@user_id}_step") == "search_tasks"

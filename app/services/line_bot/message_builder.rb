@@ -66,8 +66,8 @@ module LineBot
     end
 
     def self.search_results_message(tasks, milestones)
-      tasks_message = tasks.present? ? tasks_message(tasks) : "タスクはありません"
-      milestones_message = milestones.present? ? milestones_message(milestones) : "星座はありません"
+      tasks_message = tasks.present? ? tasks_message(tasks) : "📝 タスクはありません"
+      milestones_message = milestones.present? ? milestones_message(milestones) : "🌟 星座はありません"
 
       if tasks.empty? && milestones.empty?
         "どちらも見つかりませんでした。"
