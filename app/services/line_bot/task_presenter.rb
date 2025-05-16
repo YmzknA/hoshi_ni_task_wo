@@ -39,11 +39,8 @@ module LineBot
         "%#{search_word}%"
       ).order(:start_date)
 
-      if tasks.empty? && milestones.empty?
-        "どちらも見つかりませんでした。"
-      else
-        MessageBuilder.search_results_message(tasks, milestones)
-      end
+      # tasksやmilestonesが空の場合の分岐はsearch_results_messageメソッド内で行う
+      MessageBuilder.search_results_message(tasks, milestones)
     end
   end
 end
