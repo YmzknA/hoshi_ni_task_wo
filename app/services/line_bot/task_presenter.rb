@@ -26,15 +26,15 @@ module LineBot
       end
     end
 
-    def tasks_milestones_for_search(search_word)
+    def tasks_milestones_info_from_search(search_word)
       search_word = ActiveRecord::Base.sanitize_sql_like(search_word)
 
-      tasks = @user.tasks.where(
+      tasks = @user.tasks.reject { |t| t.milestone.present? && t.milestone.completed? }.where(
         "title ILIKE ?",
         "%#{search_word}%"
       ).order(:start_date)
 
-      milestones = @user.milestones.where(
+      milestones = @user.milestones.not_completed.where(
         "title ILIKE ?",
         "%#{search_word}%"
       ).order(:start_date)
