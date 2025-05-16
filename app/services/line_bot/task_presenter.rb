@@ -30,12 +30,12 @@ module LineBot
       search_word = ActiveRecord::Base.sanitize_sql_like(search_word)
 
       tasks = @user.tasks.where(
-        "title LIKE ?",
+        "title ILIKE ?",
         "%#{search_word}%"
       ).order(:start_date)
 
       milestones = @user.milestones.where(
-        "title LIKE ?",
+        "title ILIKE ?",
         "%#{search_word}%"
       ).order(:start_date)
 
