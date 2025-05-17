@@ -7,11 +7,24 @@ module LineBot
     end
 
     # tasksのメッセージを生成する
-    def self.tasks_message(tasks, is_show_milestone: true)
+    def self.tasks_message(tasks, is_show_milestone: true, with_id: false)
       tasks.map.with_index do |task, index|
         is_first = index.zero?
-        tasks_info(task, is_first: is_first, is_show_milestone: is_show_milestone)
+        tasks_info(task, is_first: is_first, is_show_milestone: is_show_milestone, with_id: with_id)
       end.join("\n")
+    end
+
+    def self.task_change_date_message(task)
+      "#{tasks_info(task, is_first: true)}
+      \n続いて、日付を送信してください。\
+      \n年の指定が無い場合は、今年に設定されます。\
+      \n   例: 2023-10-01 または 10-01\
+      \n   例: 2023年10月1日 または 10月1日"
+    end
+
+    def self.tasks_list_for_change(tasks)
+      tasks_message = tasks_message(tasks, with_id: true)
+      "どれを変更しますか？\n以下のリストからIDを選んでください。\n\n#{tasks_message}"
     end
 
     # milestoneと、それのtasksのメッセージを生成する
@@ -24,16 +37,18 @@ module LineBot
     end
 
     # taskの情報表示部分を生成する
-    def self.tasks_info(task, is_first: false, is_show_milestone: true)
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def self.tasks_info(task, is_first: false, is_show_milestone: true, with_id: false)
       start_date = task.start_date.present? ? to_short_date(task.start_date) : ""
       end_date = task.end_date.present? ? to_short_date(task.end_date) : ""
       task_milestone_title = task.milestone&.title || "---"
       progress = get_progress_message(task)
 
-      "#{is_first ? '' : "\n"}📝：#{task.title} - #{progress}\
+      "#{is_first ? '' : "\n"}📝：#{with_id ? "(ID: #{task.id}) " : ''}#{task.title} - #{progress}\
       #{"\n   🌟：#{task_milestone_title}" if is_show_milestone}\
       \n   #{date_range(start_date, end_date)}"
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     # milestonesのメッセージを生成する
     def self.milestones_message(milestones)
@@ -76,11 +91,86 @@ module LineBot
       end
     end
 
+    def self.error_message(errors)
+      message = errors.join("\n")
+
+      "❌📝 変更に失敗しました。\n#{message}"
+    end
+
     def self.to_short_date(date)
       return if date.nil?
 
       "#{date.mon}/#{date.mday} (#{day_of_week(date)})"
     end
+
+    # rubocop:disable Metrics/MethodLength
+    def self.menu_list(message)
+      {
+        type: "text",
+        text: message,
+        quickReply: {
+          items: [
+            {
+              type: "action",
+              action: {
+                type: "message",
+                label: "タスクの開始日変更",
+                text: "タスクの開始日変更"
+              }
+            },
+            {
+              type: "action",
+              action: {
+                type: "message",
+                label: "タスクの終了日変更",
+                text: "タスクの終了日変更"
+              }
+            },
+            {
+              type: "action",
+              action: {
+                type: "message",
+                label: "タスク確認",
+                text: "タスク確認"
+              }
+            },
+            {
+              type: "action",
+              action: {
+                type: "message",
+                label: "星座確認",
+                text: "星座確認"
+              }
+            },
+            {
+              type: "action",
+              action: {
+                type: "message",
+                label: "両方確認",
+                text: "両方確認"
+              }
+            },
+            {
+              type: "action",
+              action: {
+                type: "message",
+                label: "星座の名前で確認",
+                text: "星座の名前で確認"
+              }
+            },
+            {
+              type: "action",
+              action: {
+                type: "message",
+                label: "タイトルか詳細から検索",
+                text: "タイトルか詳細から検索"
+              }
+            }
+          ]
+        }
+      }
+    end
+    # rubocop:enable Metrics/MethodLength
 
     # 日付の曜日を日本語で取得する
     def self.day_of_week(date)
