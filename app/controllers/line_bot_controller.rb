@@ -69,12 +69,12 @@ class LineBotController < ApplicationController
       cache_write("step", "select_task_edit_end_date", 2.minutes)
       LineBot::MessageBuilder.text("どのタスクの終了日を変更しますか？")
     when "メニュー一覧"
-      LineBot::MessageBuilder.menu_list("ご利用になりたいメニューを選んでください。\n\nはじめからやり直したい場合は「はじめから」と入力してください。")
+      LineBot::MenuListBuilder.menu_list("ご利用になりたいメニューを選んでください。\n\nはじめからやり直したい場合は「はじめから」と入力してください。")
     when "はじめから"
       cache_delete("step")
       cache_delete("task_id")
       cache_delete("task_select")
-      LineBot::MessageBuilder.menu_list("はじめからやり直します。\n\nご利用になりたいメニューを選んでください。\n\nはじめからやり直したい場合は「はじめから」と入力してください。")
+      LineBot::MenuListBuilder.menu_list("はじめからやり直します。\n\nご利用になりたいメニューを選んでください。\n\nはじめからやり直したい場合は「はじめから」と入力してください。")
     else
       handle_other_message
     end
@@ -86,7 +86,7 @@ class LineBotController < ApplicationController
     if cache_read("step").present?
       handle_cache_step
     else
-      LineBot::MessageBuilder.menu_list("ご利用になりたいメニューを選んでください。")
+      LineBot::MenuListBuilder.menu_list("ご利用になりたいメニューを選んでください。\n\nはじめからやり直したい場合は「はじめから」と入力してください。")
     end
   end
 
@@ -105,7 +105,10 @@ class LineBotController < ApplicationController
     when "change_task_end_date"
       task_date_change("end_date") # タスクの終了日変更日付選択
     else
-      LineBot::MessageBuilder.text("メニューから選択してください")
+      cache_delete("step")
+      LineBot::MenuListBuilder.menu_list("エラーが発生しました。はじめからやり直します。\
+                                         \n\nご利用になりたいメニューを選んでください。\
+                                         \n\nはじめからやり直したい場合は「はじめから」と入力してください。")
     end
   end
 
