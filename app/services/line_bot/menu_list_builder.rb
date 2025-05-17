@@ -59,8 +59,8 @@ module LineBot
               type: "action",
               action: {
                 type: "message",
-                label: "タイトルか詳細から検索",
-                text: "タイトルか詳細から検索"
+                label: "タイトルから検索",
+                text: "タイトルから検索"
               }
             }
           ]
