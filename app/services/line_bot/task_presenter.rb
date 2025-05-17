@@ -87,7 +87,7 @@ module LineBot
       rescue Date::Error
         next
       end
-      false
+      nil
     end
   end
 end
