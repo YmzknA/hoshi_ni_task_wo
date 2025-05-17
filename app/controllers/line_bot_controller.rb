@@ -59,15 +59,15 @@ class LineBotController < ApplicationController
       LineBot::MessageBuilder.text(
         "🌟 続いて、星座のタイトルを送信してください。\n\n↓星座のタイトル一覧↓\n#{@milestone_presenter.milestones_title_list}"
       )
-    when "タイトルか詳細から検索"
+    when "タイトルから検索"
       cache_write("step", "search_tasks_milestones", 1.minutes)
       LineBot::MessageBuilder.text("🔍 続いて、検索ワードを送信してください。\nタイトルに含まれている文字から検索します")
     when "タスクの開始日変更"
       cache_write("step", "select_task_edit_start_date", 2.minutes)
-      LineBot::MessageBuilder.text("どのタスクの開始日を変更しますか？")
+      LineBot::MessageBuilder.text("どのタスクの開始日を変更しますか？\nタイトルを入力してください。")
     when "タスクの終了日変更"
       cache_write("step", "select_task_edit_end_date", 2.minutes)
-      LineBot::MessageBuilder.text("どのタスクの終了日を変更しますか？")
+      LineBot::MessageBuilder.text("どのタスクの終了日を変更しますか？\nタイトルを入力してください。")
     when "メニュー一覧"
       LineBot::MenuListBuilder.menu_list("ご利用になりたいメニューを選んでください。\n\nはじめからやり直したい場合は「はじめから」と入力してください。")
     when "はじめから"
