@@ -84,13 +84,13 @@ class LineBotController < ApplicationController
   def handle_other_message
     # ステップがある場合は、ステップに応じた処理を行う
     if cache_read("step").present?
-      handle_chache_step
+      handle_cache_step
     else
       LineBot::MessageBuilder.menu_list("ご利用になりたいメニューを選んでください。")
     end
   end
 
-  def handle_chache_step
+  def handle_cache_step
     case cache_read("step")
     when "tasks_for_milestone"
       handle_milestone_selection # 星座の名前で確認
