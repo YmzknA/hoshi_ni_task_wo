@@ -1,7 +1,6 @@
 class LineTaskNotifier
   def initialize(user)
     @user = user
-    @user_id = user.uid
     @task_presenter = LineBot::TaskPresenter.new(user)
     @milestone_presenter = LineBot::MilestonePresenter.new(user)
   end
