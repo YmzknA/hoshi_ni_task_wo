@@ -47,6 +47,13 @@ module LineBot
       @user.tasks.where(title: title).order(:start_date).reject { |t| t.milestone.present? && t.milestone.completed? }
     end
 
+    def tasks_from_list(tasks)
+      return "ユーザーが見つかりません" unless @user
+      return "タスクはありません" if tasks.empty?
+
+      MessageBuilder.tasks_message(tasks)
+    end
+
     def tasks_from_id(task_id)
       @user.tasks.where(id: task_id).reject { |t| t.milestone.present? && t.milestone.completed? }
     end
