@@ -17,6 +17,8 @@ class User < ApplicationRecord
   has_many :limited_sharing_milestones, dependent: :destroy
   has_many :limited_sharing_tasks, dependent: :destroy
 
+  scope :notifications_enabled, -> { where(is_notifications_enabled: true) }
+
   # Lineログイン用の設定
   def social_profile(provider)
     social_profiles.select { |sp| sp.provider == provider.to_s }.first
@@ -61,6 +63,10 @@ class User < ApplicationRecord
 
   def guest?
     is_guest == true
+  end
+
+  def notifications_enabled?
+    is_notifications_enabled == true
   end
 
   def uid_required?

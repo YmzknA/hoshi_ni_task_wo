@@ -50,7 +50,11 @@ Rails.application.routes.draw do
   get "privacy_policy" => "static_pages#privacy_policy"
   get "terms_of_service" => "static_pages#terms_of_service"
 
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      patch "toggle_notifications" => "users#toggle_notifications"
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

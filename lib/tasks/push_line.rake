@@ -6,6 +6,7 @@ namespace :push_line do
     # テスト用にコメントアウトし、ユーザーを指定して実行
     # User.all.each do |user|
     # next if user.uid.nil?
+    return unless user.notifications_enabled?
 
     notifier = LineTaskNotifier.new(user)
     notifier.send_daily_notifications
