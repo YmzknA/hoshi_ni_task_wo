@@ -60,6 +60,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'solargraph'
   gem 'swimming_fish'
+  gem 'bullet'
 end
 
 group :development do
