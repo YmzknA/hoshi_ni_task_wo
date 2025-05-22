@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :update_progress, :destroy]
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:show, :autocomplete]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   before_action :set_task_milestone, only: [:update_progress, :update, :destroy]
   before_action :valid_guest_user, only: [:new, :create]
@@ -124,23 +124,20 @@ class TasksController < ApplicationController
   # タスクのautocomplete機能, stimulus_autocompleteで使用
   def autocomplete
     id = params[:milestone_id] # optional
+    @milestone = Milestone.find_by(id: id) # idが存在しない場合はnil
     progress = params[:progress] # optional
     query = ActiveRecord::Base.sanitize_sql_like(params[:q])
 
-    if id.present? && (current_user?(Milestone.find(id).user) || Milestone.find(id).public?)
-      # milsestone_idが指定されている場合
-      @milestone = Milestone.find(id)
-      @tasks = Task.where(milestone_id: @milestone.id)
-                   .where("title like ?", "%#{query}%")
-
-    elsif progress.present?
-      # progressが指定されている場合
-      # progress = "not_completed" || progressのenum値
-      @tasks = search_tasks_by_progress(query, progress)
-    else
-      @tasks = Task.where(user_id: current_user.id)
-                   .where("title like ?", "%#{query}%")
-    end
+    @tasks = if @milestone.present? && (current_user?(@milestone.user) || @milestone.public?)
+               # milsestone_idが指定されている場合
+               search_milestone_tasks(query, @milestone)
+             elsif progress.present?
+               # progressが指定されている場合
+               # progress = "not_completed" || progressのenum値
+               search_tasks_by_progress(query, progress)
+             else
+               search_tasks_by_title(query)
+             end
 
     # @tasksの中でタイトルが他のものと同じものを一つに
     @tasks = @tasks.group_by(&:title).map { |_, tasks| tasks.first }
@@ -183,20 +180,31 @@ class TasksController < ApplicationController
   def ransack_result
     @q = @user.tasks.ransack(params[:q])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
-    @q.result(distinct: true)
+    @q.result(distinct: true).includes(:milestone)
+  end
+
+  def search_tasks_by_title(query)
+    # タスクのautocomplete機能で使用
+    q = current_user.tasks.ransack("title_cont" => query)
+    q.sorts = ["start_date asc", "end_date asc"] if q.sorts.empty?
+    q.result(distinct: true).includes(:milestone)
+  end
+
+  def search_milestone_tasks(query, milestone)
+    # マイルストーン詳細画面からタスクのautocomplete機能を使用する場合
+    q = milestone.tasks.ransack("title_cont" => query)
+    q.sorts = ["start_date asc", "end_date asc"] if q.sorts.empty?
+    q.result(distinct: true).includes(:milestone)
   end
 
   def search_tasks_by_progress(query, progress)
+    tasks = search_tasks_by_title(query)
     if progress == "not_completed"
       # 未完了のタスクを取得
-      Task.where(user_id: current_user.id)
-          .where("title like ?", "%#{query}%")
-          .where.not(progress: "completed")
+      tasks.where.not(progress: :completed)
     else
       # 完了したタスクを取得
-      Task.where(user_id: current_user.id)
-          .where("title like ?", "%#{query}%")
-          .where(progress: progress)
+      tasks.where(progress: progress)
     end
   end
 end

@@ -12,13 +12,11 @@ class UsersController < ApplicationController
       @title = "ユーザーページ"
       prepare_meta_tags(@user)
 
-      if current_user?(@user)
-        @not_completed_milestones = not_completed_milestones(public: false)
-        @completed_milestones = completed_milestones(public: false)
-      else
-        @not_completed_milestones = not_completed_milestones(public: true)
-        @completed_milestones = completed_milestones(public: true)
-      end
+      # 自分の場合は全て表示、他人の場合はis_publicがtrueのもののみ
+      is_show_all = current_user?(@user)
+
+      @not_completed_milestones = milestones_by_completed_and_show_all(completed: false, show_all: is_show_all)
+      @completed_milestones = milestones_by_completed_and_show_all(completed: true, show_all: is_show_all)
     end
   end
 
@@ -61,29 +59,18 @@ class UsersController < ApplicationController
     }
   end
 
-  def not_completed_milestones(public: false)
-    if public
-      @user.milestones
-           .where(is_public: true)
-           .where.not(progress: "completed")
-           .index_order
-    else
-      @user.milestones
-           .where.not(progress: "completed")
-           .index_order
-    end
-  end
+  def milestones_by_completed_and_show_all(completed: false, show_all: false)
+    milestones = @user.milestones.includes(:tasks)
 
-  def completed_milestones(public: false)
-    if public
-      @user.milestones
-           .where(is_public: true)
-           .where(progress: "completed")
-           .index_order
+    milestones = completed ? milestones.where(progress: "completed") : milestones.where.not(progress: "completed")
+
+    if show_all
+      # 渡し忘れた際などミスがあった場合のために、
+      # 明示的にshow_all:trueを指定しないとis_public:trueのものだけを取得する
     else
-      @user.milestones
-           .where(progress: "completed")
-           .index_order
+      milestones = milestones.where(is_public: true)
     end
+
+    milestones.index_order
   end
 end

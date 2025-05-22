@@ -155,20 +155,11 @@ class MilestonesController < ApplicationController
 
     @milestones = if progress.present?
                     # progressが指定されている場合
-                    # progress = "not_completed" || "completed"
-                    if progress == "not_completed"
-                      Milestone.where(user_id: current_user.id)
-                               .where("title LIKE ?", "%#{query}%")
-                               .where.not(progress: "completed")
-                    else
-                      Milestone.where(user_id: current_user.id)
-                               .where("title LIKE ?", "%#{query}%")
-                               .where(progress: "completed")
-                    end
+                    # progress = "not_completed" || その他
+                    search_milestones_by_progress(query, progress)
                   else
                     # progressが指定されていない場合
-                    Milestone.where(user_id: current_user.id)
-                             .where("title LIKE ?", "%#{query}%")
+                    search_milestones_by_title(query)
                   end
 
     # titleの重複を排除
@@ -254,13 +245,31 @@ class MilestonesController < ApplicationController
   def tasks_ransack_result
     @q = @milestone.tasks.ransack(params[:q])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
-    @q.result(distinct: true)
+    @q.result(distinct: true).includes(:user)
   end
 
   def milestones_ransack_result
     @q = current_user.milestones.ransack(params[:q])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
-    @q.result(distinct: true)
+    @q.result(distinct: true).includes(:tasks)
+  end
+
+  def search_milestones_by_title(query)
+    # 星座のautocomplete機能で使用
+    q = current_user.milestones.ransack("title_cont" => query)
+    q.sorts = ["start_date asc", "end_date asc"] if q.sorts.empty?
+    q.result(distinct: true)
+  end
+
+  def search_milestones_by_progress(query, progress)
+    milestones = search_milestones_by_title(query)
+    if progress == "not_completed"
+      # 未完了の星座を取得
+      milestones.where.not(progress: "completed")
+    else
+      # 完了した星座を取得
+      milestones.where(progress: progress)
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength
