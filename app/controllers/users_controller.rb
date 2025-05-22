@@ -66,10 +66,12 @@ class UsersController < ApplicationController
       @user.milestones
            .where(is_public: true)
            .where.not(progress: "completed")
+           .includes(:tasks)
            .index_order
     else
       @user.milestones
            .where.not(progress: "completed")
+           .includes(:tasks)
            .index_order
     end
   end
@@ -79,10 +81,12 @@ class UsersController < ApplicationController
       @user.milestones
            .where(is_public: true)
            .where(progress: "completed")
+           .includes(:tasks)
            .index_order
     else
       @user.milestones
            .where(progress: "completed")
+           .includes(:tasks)
            .index_order
     end
   end

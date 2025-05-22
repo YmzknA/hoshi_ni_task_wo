@@ -254,13 +254,13 @@ class MilestonesController < ApplicationController
   def tasks_ransack_result
     @q = @milestone.tasks.ransack(params[:q])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
-    @q.result(distinct: true)
+    @q.result(distinct: true).includes(:user)
   end
 
   def milestones_ransack_result
     @q = current_user.milestones.ransack(params[:q])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
-    @q.result(distinct: true)
+    @q.result(distinct: true).includes(:tasks)
   end
 end
 # rubocop:enable Metrics/ClassLength
