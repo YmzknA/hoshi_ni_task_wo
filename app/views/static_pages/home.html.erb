@@ -1,10 +1,9 @@
-<%= render "flash" %>
 <div class="h-full w-full">
 
-  <div class="h-[94dvh] flex items-center justify-center max-sm:w-full intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once">
+  <div class="flex h-[94dvh] items-center justify-center opacity-0 transition max-sm:w-full intersect-once intersect:motion-delay-200 intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect:opacity-100">
     <div class="flex flex-col items-center">
       <%= image_tag 'icon-512x512.png', class: 'relative z-10 mb-5 h-20 w-20 md:h-30 md:w-30' %>
-      <p class="text-5xl md:text-6xl text-center [writing-mode:vertical-rl] [text-orientation:upright]">星にタスクを</p>
+      <p class="text-center text-5xl [writing-mode:vertical-rl] [text-orientation:upright] md:text-6xl">星にタスクを</p>
     </div>
   </div>
 
@@ -12,39 +11,39 @@
   <div class="flex justify-center">
     scroll
   </div>
-  <div class="flex justify-center mb-8">
+  <div class="mb-8 flex justify-center">
     <%= image_tag 'bar.png', class: 'h-[30px] w-[1px] animate-scroll' %>
   </div>
 
-  <div class="mb-20 animate-fade-in text-center text-xl xl:text-2xl intersect:animate-fade-in intersect-once">
+  <div class="mb-20 animate-fade-in text-center text-xl opacity-0 transition xl:text-2xl intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
     今日したことを星で繋いで、<br>
     終わったタスクを星座にかえて。
 
   </div>
 
   <!-- ボタン -->
-  <div class="intersect:animate-fade-in intersect-once mb-8">
+  <div class="mb-8 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
     <%= render 'auth_buttons' %>
   </div>
 
   <!-- 説明部分 -->
-  <div class="relative mb-20 z-10 flex w-full items-center justify-center p-6">
+  <div class="relative z-10 mb-20 flex w-full items-center justify-center p-6">
     <div class="mb-12 flex w-full flex-col items-center justify-center">
       <div class="mb-3 flex w-full items-center justify-center md:justify-start">
-        <p class="playwrite-au-sa relative mb-10 text-4xl intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once md:mb-0 md:ml-10 md:text-7xl">About</p>
+        <p class="cormorant-garamond relative mb-10 text-4xl opacity-0 transition md:mb-0 md:ml-10 md:text-7xl intersect-once intersect:motion-delay-200 intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect:opacity-100">About</p>
       </div>
       <div class="flex w-full flex-col-reverse items-center text-center md:flex-row md:items-center md:justify-end md:text-start">
-        <div class="mb-5 px-5 md:text-xl intersect:animate-fade-in intersect-once">
+        <div class="mb-5 px-5 opacity-0 transition md:text-xl intersect-once intersect:animate-fade-in intersect:opacity-100">
           <p class="mb-8 text-xl font-bold md:text-3xl">タスクを星に、<br>まとめて星座に。</p>
           <p class="mb-4">複雑なタスク管理を、<br>わかりやすく管理できる、<br>タスク管理アプリ「星にタスクを」</p>
           <p>このアプリで面倒なタスク管理を、<br>少し楽しく。</p>
         </div>
-        <%= image_tag "tasks_index_todo.png", class: "mb-5 w-5/10 intersect:animate-fade-in intersect-once" %>
+        <%= image_tag "tasks_index_todo.png", class: "mb-5 w-5/10 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100" %>
       </div>
 
       <div class="flex w-full flex-col items-center md:flex-row md:items-center md:justify-start">
-        <%= image_tag "chart_show.png", class: "mb-5 w-5/10 intersect:animate-fade-in intersect-once"  %>
-        <div class="px-5 text-center md:text-start md:text-xl intersect:animate-fade-in intersect-once">
+        <%= image_tag "chart_show.png", class: "mb-5 w-5/10 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100"  %>
+        <div class="px-5 text-center opacity-0 transition md:text-start md:text-xl intersect-once intersect:animate-fade-in intersect:opacity-100">
           <p class="mb-8 text-xl font-bold md:text-3xl">ひと目で分かる<br>チャート式</p>
           <p class="mb-4">チャート式の表示で、<br>長期間のタスクもひと目で管理。</p>
           <p>星座としてまとめて、<br>グループ化したものを表示できちゃいます。</p>
@@ -54,33 +53,33 @@
   </div>
 
   <div class="relative z-10 flex w-full items-center justify-end">
-    <div class="mb-40 ml-8 w-4xl rounded-l-xl bg-base-100 p-8 intersect:animate-fade-in intersect-once">
-      <p class="playwrite-au-sa mb-10 mt-8 text-center text-4xl intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once md:text-7xl">Use Image</p>
+    <div class="mb-40 ml-8 w-4xl rounded-l-xl bg-gradient-to-b from-base-300 via-base-300 to-base-300/0 p-8 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
+      <p class="cormorant-garamond mb-10 mt-8 text-center text-4xl opacity-0 transition md:text-7xl intersect-once intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect:opacity-100">Use Image</p>
       <div class="flex w-full flex-col items-center justify-between p-5 text-center text-xl md:flex-row">
 
-        <div class="mx-auto mb-5 md:w-2/5 md:mb-0">
-          <div class="mb-3 flex items-center justify-center intersect:animate-fade-in intersect-once">
+        <div class="mx-auto mb-5 md:mb-0 md:w-2/5">
+          <div class="mb-3 flex items-center justify-center opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">
             <%= image_tag "sun.png", class: "w-10" %>
             <p class="ml-2">朝</p>
           </div>
-          <p class="mb-5 intersect:animate-fade-in intersect-once">LINEでパパっと<br>タスクを確認</p>
-          <div class="mb-5 flex items-center justify-center intersect:animate-fade-in intersect-once">
+          <p class="mb-5 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">LINEでパパっと<br>タスクを確認</p>
+          <div class="mb-5 flex items-center justify-center opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">
             <%= image_tag "smartphone.png", class: "w-30" %>
             <%= image_tag "chat.png", class: "w-30" %>
           </div>
         </div>
 
         <div>
-          <%= image_tag "double_arrow.png", class: "mb-5 w-10 rotate-90 md:rotate-0 intersect:animate-fade-in intersect-once" %>
+          <%= image_tag "double_arrow.png", class: "mb-5 w-10 rotate-90 opacity-0 transition md:rotate-0 intersect-once intersect:animate-fade-in intersect:opacity-100" %>
         </div>
 
         <div class="mx-auto md:w-2/5">
-          <div class="mb-3 flex items-center justify-center intersect:animate-fade-in intersect-once">
+          <div class="mb-3 flex items-center justify-center opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">
             <%= image_tag "moon.png", class: "w-10" %>
             <p class="ml-2">夜</p>
           </div>
-          <p class="mb-5 intersect:animate-fade-in intersect-once">おうちでのんびり<br>今日を振り返る</p>
-          <div class="mb-5 flex items-center justify-center intersect:animate-fade-in intersect-once">
+          <p class="mb-5 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">おうちでのんびり<br>今日を振り返る</p>
+          <div class="mb-5 flex items-center justify-center opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">
             <%= image_tag "chair.png", class: "w-30" %>
             <%= image_tag "check_box.png", class: "w-30" %>
           </div>
@@ -90,85 +89,111 @@
   </div>
 
   <div class="relative z-10 mb-40 w-full p-10">
-    <div class="w-full rounded-xl bg-base-100 p-8 intersect:animate-fade-in intersect-once">
-      <div class="playwrite-au-sa flex flex-col mb-20 items-center text-4xl intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once md:text-7xl">
+    <div class="relative w-full rounded-xl bg-gradient-to-b from-base-300 via-base-300 to-base-300/0 p-8 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
+      <div class="cormorant-garamond relative z-10 mb-20 flex flex-col items-center text-4xl md:text-7xl intersect-once intersect:motion-delay-300 intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down">
         Steps
       </div>
 
-      <div class="flex w-full flex-col items-center justify-center text-center text-xl">
-        <div class="flex flex-col items-start justify-center">
-        <div class="mb-5 flex items-center justify-start intersect:animate-fade-in intersect-once">
-          <div class="w-23 hidden md:block">
-            <%= render "star_icon", width: 30, height: 30 %>
+      <div class="relative z-10 flex w-full flex-col items-center justify-center text-center text-xl">
+        <div class="flex flex-col items-start justify-center space-y-8">
+          <div class="mb-5 flex items-center justify-start transform transition-transform duration-200 hover:scale-105 intersect-once intersect:animate-fade-in intersect:motion-delay-400">
+            <div class="hidden w-23 md:block">
+              <div class="transform intersect-once intersect:motion-delay-500 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 30, height: 30 %>
+              </div>
+            </div>
+            <div class="w-15 md:hidden">
+              <div class="transform intersect-once intersect:motion-delay-500 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 20, height: 20 %>
+              </div>
+            </div>
+            <p class="ml-5 transform font-semibold md:text-2xl intersect-once intersect:motion-delay-600 intersect:motion-preset-slide-right">タスクを登録</p>
           </div>
-          <div class="w-15 md:hidden">
-            <%= render "star_icon", width: 20, height: 20 %>
+          
+          <div class="mb-5 flex items-center justify-start transform transition-transform duration-200 hover:scale-105 intersect-once intersect:animate-fade-in intersect:motion-delay-700">
+            <div class="hidden w-23 flex space-x-1 md:flex">
+              <div class="transform intersect-once intersect:motion-delay-800 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 30, height: 30 %>
+              </div>
+              <div class="transform intersect-once intersect:motion-delay-900 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 30, height: 30 %>
+              </div>
+            </div>
+            <div class="flex w-15 space-x-1 md:hidden">
+              <div class="transform intersect-once intersect:motion-delay-800 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 20, height: 20 %>
+              </div>
+              <div class="transform intersect-once intersect:motion-delay-900 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 20, height: 20 %>
+              </div>
+            </div>
+            <p class="ml-5 hidden transform font-semibold md:block md:text-2xl intersect-once intersect:motion-delay-1000 intersect:motion-preset-slide-right">タスクを星座にまとめる</p>
+            <p class="ml-5 transform font-semibold md:hidden md:text-2xl intersect-once intersect:motion-delay-1000 intersect:motion-preset-slide-right">タスクを<br>星座に<br>まとめる</p>
           </div>
-          <p class="ml-5 md:text-2xl">タスクを登録</p>
-        </div>
-        <div class="mb-5 flex items-center justify-start intersect:animate-fade-in intersect-once">
-          <div class="w-23 flex hidden md:flex">
-            <%= render "star_icon", width: 30, height: 30 %>
-            <%= render "star_icon", width: 30, height: 30 %>
+          
+          <div class="mb-5 flex items-center justify-start transform transition-transform duration-200 hover:scale-105 intersect-once intersect:animate-fade-in intersect:motion-delay-1100">
+            <div class="hidden w-23 flex space-x-1 md:flex">
+              <div class="transform intersect-once intersect:motion-delay-1200 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 30, height: 30 %>
+              </div>
+              <div class="transform intersect-once intersect:motion-delay-1300 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 30, height: 30 %>
+              </div>
+              <div class="transform intersect-once intersect:motion-delay-1400 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 30, height: 30 %>
+              </div>
+            </div>
+            <div class="flex w-15 space-x-1 md:hidden">
+              <div class="transform intersect-once intersect:motion-delay-1200 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 20, height: 20 %>
+              </div>
+              <div class="transform intersect-once intersect:motion-delay-1300 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 20, height: 20 %>
+              </div>
+              <div class="transform intersect-once intersect:motion-delay-1400 intersect:motion-preset-bounce">
+                <%= render "star_icon", width: 20, height: 20 %>
+              </div>
+            </div>
+            <p class="ml-5 transform font-semibold md:text-2xl intersect-once intersect:motion-delay-1500 intersect:motion-preset-slide-right">完成する</p>
           </div>
-          <div class="w-15 flex md:hidden">
-            <%= render "star_icon", width: 20, height: 20 %>
-            <%= render "star_icon", width: 20, height: 20 %>
-          </div>
-          <p class="ml-5 hidden md:text-2xl md:block">タスクをまとめる</p>
-          <p class="ml-5 md:text-2xl md:hidden">タスクを<br>まとめる</p>
-        </div>
-        <div class="mb-5 flex items-center justify-start intersect:animate-fade-in intersect-once">
-          <div class="w-23 flex hidden md:flex">
-            <%= render "star_icon", width: 30, height: 30 %>
-            <%= render "star_icon", width: 30, height: 30 %>
-            <%= render "star_icon", width: 30, height: 30 %>
-          </div>
-          <div class="w-15 flex md:hidden">
-            <%= render "star_icon", width: 20, height: 20 %>
-            <%= render "star_icon", width: 20, height: 20 %>
-            <%= render "star_icon", width: 20, height: 20 %>
-          </div>
-          <p class="ml-5 md:text-2xl">完了させる</p>
-        </div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="relative z-10 mb-10 flex w-full items-center justify-start">
-    <div class="w-4xl flex justify-center rounded-r-xl bg-base-100 px-5 py-12 mr-8 md:p-12 md:text-lg intersect:animate-fade-in intersect-once">
+    <div class="mr-8 flex w-4xl justify-center rounded-r-xl bg-gradient-to-b from-base-300 via-base-300 to-base-300/0 px-5 py-12 opacity-0 transition md:p-12 md:text-lg intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
 
       <div>
-      <div class="flex w-full flex-col items-center md:items-start justify-center">
-        <div class="flex flex-col items-center intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down intersect-once">
-          <p class="playwrite-au-sa mb-3 text-4xl md:text-7xl">Feature</p>
+      <div class="flex w-full flex-col items-center justify-center md:items-start">
+        <div class="flex flex-col items-center intersect-once intersect:motion-ease-spring-bouncier intersect:motion-preset-slide-down">
+          <p class="cormorant-garamond mb-3 text-4xl md:text-7xl">Feature</p>
           <p class="mb-8 text-xs md:text-sm"> 少し長いので読み飛ばしても大丈夫です</p>
         </div>
       </div>
 
-      <p class="mb-4">このアプリは、縦型チャートで管理する新しいカタチのタスク管理ツールです。<br>
+      <p class="mb-4 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">このアプリは、縦型チャートで管理する新しいカタチのタスク管理ツールです。<br>
       日々のタスクを「星」としてとらえて、ひとつにまとめたタスクは「星座」となります。</p>
 
-      <p class="mb-4">タスクは個別に管理してもよし、「星座」にまとめて管理することも可能です。</p>
+      <p class="mb-4 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">タスクは個別に管理してもよし、「星座」にまとめて管理することも可能です。</p>
 
-      <p class="mb-4">進捗は"未着手", "進行中", "完了"の3段階で管理できます。</p>
+      <p class="mb-4 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">進捗は"未着手", "進行中", "完了"の3段階で管理できます。</p>
 
-      <p class="mb-4">すべてのタスクが完了すると「星座」を完成とすることができ、<br>88星座の中からアイコンが付きます。<br>
+      <p class="mb-4 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">すべてのタスクが完了すると「星座」を完成とすることができ、<br>88星座の中からアイコンが付きます。<br>
       さらに、完成した「星座」にはコメントも追加できます。</p>
 
-      <p class="mb-4">タスクや「星座」を、LINEから確認することもできます。<br>
+      <p class="mb-4 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">タスクや「星座」を、LINEから確認することもできます。<br>
       LINE連携して、手軽に管理しちゃいましょう。</p>
 
-      <p class="mb-4">自分のユーザーページはだれでも訪れることができ、<br>
+      <p class="mb-4 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">自分のユーザーページはだれでも訪れることができ、<br>
       全体公開設定になっている「星座」と、そのタスクを誰でも見ることができます。<br>
       自分のがんばりを、友人や家族にシェアしてみませんか？</p>
 
-      <p class="mb-4">長い文章をここまで読んでいただき、ありがとうございます。<br>
+      <p class="mb-4 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">長い文章をここまで読んでいただき、ありがとうございます。<br>
       最初にサンプルタスクが登録されているので、<br>
       まずは一度試しに触ってみてください。</p>
 
-      <p class="mb-4">それでは、<br>
+      <p class="mb-4 opacity-0 transition intersect-once intersect:animate-fade-in intersect:opacity-100">それでは、<br>
       このアプリで、みなさんが楽しくタスク管理できますように...</p>
 
       </div>
@@ -176,18 +201,18 @@
   </div>
 
   <!-- ボタン -->
-  <div class="pt-10 px-8 md:text-lg intersect:animate-fade-in intersect-once">
+  <div class="px-8 pt-10 opacity-0 transition md:text-lg intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
     <% unless user_signed_in? %>
       <p class="mb-8 text-center text-xl md:hidden">まずは、<br>"ログインせずに使ってみる"<br>から始めてみてください</p>
-      <p class="mb-8 text-center text-xl hidden md:block">まずは、"ログインせずに使ってみる"から始めてみてください</p>
+      <p class="mb-8 hidden text-center text-xl md:block">まずは、"ログインせずに使ってみる"から始めてみてください</p>
     <% end %>
       <%= render 'auth_buttons' %>
   </div>
 
 </div>
 
-<footer class="footer footer-center relative z-10 footer-horizontal rounded bg-base-300 p-10 text-base-content">
-  <nav class="grid grid-flow-col gap-4">
+<footer class="footer footer-center relative z-10 rounded bg-base-300 p-10 text-base-content footer-horizontal">
+  <nav class="flex flex-col md:grid md:grid-flow-col md:gap-4">
     <a class="link link-hover" href="https://docs.google.com/forms/d/e/1FAIpQLScH-P7JBj_jwoFrQuMeJI_eQJwutS7p57h8nEbdWGgK30sXZQ/viewform">お問い合わせ</a>
     <a class="link link-hover" href="/terms_of_service">利用規約</a>
     <a class="link link-hover" href="/privacy_policy">プライバシーポリシー</a>
