@@ -61,6 +61,7 @@ group :development, :test do
   gem 'solargraph'
   gem 'swimming_fish'
   gem 'bullet'
+  gem 'rack-mini-profiler'
 end
 
 group :development do
