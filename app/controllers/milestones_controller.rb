@@ -258,7 +258,7 @@ class MilestonesController < ApplicationController
     # 星座のautocomplete機能で使用
     q = current_user.milestones.ransack("title_cont" => query)
     q.sorts = ["start_date asc", "end_date asc"] if q.sorts.empty?
-    q.result(distinct: true).includes(:tasks)
+    q.result(distinct: true)
   end
 
   def search_milestones_by_progress(query, progress)
