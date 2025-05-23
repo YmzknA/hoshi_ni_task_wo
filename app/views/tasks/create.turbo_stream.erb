@@ -3,7 +3,7 @@
   <% end %>
 
   <%= turbo_stream.replace "loading_close" do %>
-    <%= turbo_frame_tag "loading_close", data: { controller: "loading-close" } %>
+    <div id="loading_close" data-controller="loading-close"/>
   <% end %>
 
   <% if @task_create_success %>
