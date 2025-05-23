@@ -10,5 +10,8 @@ application.register("form", FormController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import LoadingController from "./loading_controller"
+application.register("loading", LoadingController)
+
 import ShowModalController from "./show_modal_controller"
 application.register("show-modal", ShowModalController)
