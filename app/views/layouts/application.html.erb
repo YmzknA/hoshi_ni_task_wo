@@ -43,13 +43,9 @@
   <body class="flex w-full zen-old-mincho-regular">
 
     <div data-controller="loading" class="w-full flex-glow bg-[radial-gradient(ellipse_at_bottom,_#466374_0%,_#080606_100%)]">
-        <dialog id="loading" data-loading-target="loading_animation" class="backdrop-blur-xs bg-transparent">
-          <div class="flex flex-col items-center justify-center bg-transparent">
-            <div data-loading-target="loading_rings" id="loading_rings" class="flex items-end gap-5">
-              <span class="loading loading-ring size-20"></span>
-            </div>
-          </div>
-        </dialog>
+      <dialog id="loading" data-loading-target="loading_animation" class="modal backdrop-blur-xs bg-transparent">
+          <span class="loading loading-ring size-20"></span>
+      </dialog>
 
       <%= yield %>
     </div>
@@ -69,6 +65,8 @@
         class="w-[3px] h-[3px] bg-transparent absolute top-0 left-0 before:content-[''] before:absolute before:left-[2000px] after:content-[''] after:absolute after:top-[2000px]"
         ></div>
     </div>
+
+    <%= turbo_frame_tag "loading_close" %>
   </body>
 </html>
 
