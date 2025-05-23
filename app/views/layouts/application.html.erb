@@ -41,8 +41,13 @@
   </head>
 
   <body class="flex w-full zen-old-mincho-regular">
-    <div class="w-full flex-glow bg-[radial-gradient(ellipse_at_bottom,_#466374_0%,_#080606_100%)]">
-    <%= yield %>
+
+    <div data-controller="loading" class="w-full flex-glow bg-[radial-gradient(ellipse_at_bottom,_#466374_0%,_#080606_100%)]">
+      <dialog id="loading" data-loading-target="loading_animation" class="modal backdrop-blur-xs bg-transparent">
+          <span class="loading loading-ring size-20"></span>
+      </dialog>
+
+      <%= yield %>
     </div>
 
     <!-- 星をランダムに生成するための要素 -->
@@ -60,6 +65,9 @@
         class="w-[3px] h-[3px] bg-transparent absolute top-0 left-0 before:content-[''] before:absolute before:left-[2000px] after:content-[''] after:absolute after:top-[2000px]"
         ></div>
     </div>
+
+    <!-- turbo_streamでローディングモーダルを閉じるコントローラーに接続した要素と置換するための要素 -->
+    <div id="loading_close"></div>
   </body>
 </html>
 

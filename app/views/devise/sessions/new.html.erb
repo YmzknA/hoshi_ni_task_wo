@@ -22,7 +22,7 @@
       </div>
 
       <!-- ログインフォーム -->
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: {turbo: false}, html: { class: "w-full mt-6" }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: {turbo: false, action: "submit->loading#show" }, html: { class: "w-full mt-6" }) do |f| %>
 
         <label class="floating-label mt-5">
           <%= f.text_field :email,

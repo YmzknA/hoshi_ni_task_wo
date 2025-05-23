@@ -2,6 +2,10 @@
     <%= render "flash" %>
   <% end %>
 
+  <%= turbo_stream.replace "loading_close" do %>
+    <div id="loading_close" data-controller="loading-close"></div>
+  <% end %>
+
   <% if @task_create_success %>
     <%= turbo_stream.replace "tasks_new_modal" do %>
       <%= render "tasks_new_modal", task: Task.new, milestones: @milestones %>
