@@ -10,10 +10,10 @@ export default class extends Controller {
   }
 
   show() {
+    this.loading_ringsTarget.classList.add("hidden");
     this.loading_animationTarget.showModal();
     this.timeout = setTimeout(() => {
       this.loading_ringsTarget.classList.remove("hidden");
-    }, 100)
+    }, 200);
   }
-
 }
