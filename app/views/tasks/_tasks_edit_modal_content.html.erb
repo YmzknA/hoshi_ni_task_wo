@@ -7,7 +7,7 @@
         <%= render "error_messages", resource: @task%>
 
         <!-- 編集フォーム -->
-        <%= form_with(model: @task, class: "w-full mt-2 p-2", data: { turbo_stream: true }) do |f| %>
+        <%= form_with(model: @task, class: "w-full mt-2 p-2", data: { turbo_stream: true, action: "submit->loading#show" }) do |f| %>
 
           <label class="floating-label">
             <%= f.collection_select :milestone_id, @milestones, :id, :title,
