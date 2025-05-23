@@ -146,7 +146,7 @@
               <%= button_to "削除", task_path(@task), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-10 md:h-12 w-20 md:w-25 mr-3 md:mr-5 text-xs md:text-sm md:w-42" %>
 
               <div class="btn btn-accent h-10 md:h-12 w-20 md:w-25 md:w-42">
-                <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center text-xs md:text-sm", data: { turbo_frame: "tasks_edit_modal", action: "click->loading#show" } do %>
+                <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center text-xs md:text-sm", data: { turbo_frame: "tasks_edit_modal"} do %>
                   <p>
                   編集
                   </p>
