@@ -7,7 +7,7 @@
         <%= render "error_messages", resource: @task %>
 
         <!-- 編集フォーム -->
-        <%= form_for(@task, as: @task, url: tasks_path, html: { method: :post, class: "w-full mt-2 p-2" }) do |f| %>
+        <%= form_for(@task, as: @task, url: tasks_path, html: { method: :post, class: "w-full mt-2 p-2" }, data: { action: "submit->loading#show" }) do |f| %>
 
           <% if @from_milestone_show %>
             <label class="floating-label">

@@ -3,7 +3,7 @@
   <%# groupにhoverするとbgが変わる %>
   <%# remove_hover_btn要素にhoverするとjsによってlink_card要素のgroup-hover:bg-base-300/30が取り除かれる %>
   <div class="group">
-    <%= link_to milestone_path(milestone), class: "link_card flex w-full items-center group-hover:bg-base-300/30 group-active:bg-base-300/30 rounded-t-xl", data: {turbo: false} do %>
+    <%= link_to milestone_path(milestone), class: "link_card flex w-full items-center group-hover:bg-base-300/30 group-active:bg-base-300/30 rounded-t-xl", data: {turbo: false, action: "click->loading#show"} do %>
       <!-- タイトル, 日付, マーク -->
       <div class="flex w-full items-center">
         <% if milestone.completed? %>
