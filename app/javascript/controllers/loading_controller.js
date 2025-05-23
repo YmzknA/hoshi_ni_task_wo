@@ -7,9 +7,7 @@ export default class extends Controller {
   // すこしディレイをかけることで、軽いローディングの場合はローディング画面が表示されないように
   show() {
     this.timeout = setTimeout(() => {
-      requestAnimationFrame(() => {
-        this.loading_animationTarget.showModal();
-      });
+      this.loading_animationTarget.showModal();
     }, 150);
   }
 }
