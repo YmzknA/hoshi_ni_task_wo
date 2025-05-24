@@ -10,4 +10,13 @@ export default class extends Controller {
       this.loading_animationTarget.showModal();
     }, 150);
   }
+
+  disconnect() {
+    console.log("disconnect");
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    // ローディングアニメーションを閉じる
+    this.loading_animationTarget.close();
+  }
 }
