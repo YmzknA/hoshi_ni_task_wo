@@ -77,4 +77,36 @@ module GanttChartHelper
   def milestone_title_truncate_num(milestone)
     [milestone.tasks.count * 2, 10].max
   end
+
+  def date_class(date)
+    if date == Time.zone.today
+      "today"
+    elsif date.wday.zero? || date.wday == 6
+      "weekend"
+    else
+      "weekday"
+    end
+  end
+
+  def date_line_color(date)
+    case date_class(date)
+    when "today"
+      "bg-accent/20"
+    when "weekend"
+      "bg-error/20"
+    else
+      ""
+    end
+  end
+
+  def date_header_color(date)
+    case date_class(date)
+    when "today"
+      "bg-accent/70"
+    when "weekend"
+      "bg-error/70"
+    else
+      ""
+    end
+  end
 end

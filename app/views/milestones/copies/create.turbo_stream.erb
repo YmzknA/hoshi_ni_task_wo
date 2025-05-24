@@ -2,6 +2,10 @@
     <%= render "flash" %>
   <% end %>
 
+  <%= turbo_stream.replace "loading_close" do %>
+    <div id="loading_close" data-controller="loading-close"></div>
+  <% end %>
+
   <% if @copy_success %>
     <%= turbo_stream.replace "copy_icon_#{@milestone.id}" do %>
       <span id="copy_icon_<%=@milestone.id%>" class="material-symbols-outlined">

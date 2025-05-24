@@ -8,7 +8,7 @@
           <p class="text-sm text-base-200">チャートからコピーする場合は、<br>再読み込みするまで表示されません。</p>
         </div>
 
-    <%= form_with model: @task, url:tasks_copies_path(id:@task.id) , method: :post, local: true do |f| %>
+        <%= form_with model: @task, url:tasks_copies_path(id:@task.id) , method: :post, local: true, data: { action: "submit->loading#show" } do |f| %>
       <div class="flex justify-center">
         <label class="mb-8 w-50">
           <span class="text-base-200 text-sm">始点となる日付</span>

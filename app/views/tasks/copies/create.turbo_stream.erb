@@ -2,6 +2,10 @@
     <%= render "flash" %>
   <% end %>
 
+  <%= turbo_stream.replace "loading_close" do %>
+    <div id="loading_close" data-controller="loading-close"></div>
+  <% end %>
+
   <% if @copy_success %>
     <%= turbo_stream.prepend "tasks_content" do %>
       <%= render "tasks/task", task: @copy %>

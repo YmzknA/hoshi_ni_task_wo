@@ -5,7 +5,7 @@
         <p class="text-xl">星座をコピーする</p>
       </div>
 
-    <%= form_with model: @milestone, url:milestones_copies_path(id: @milestone.id), method: :post, local: true do |f| %>
+    <%= form_with model: @milestone, url:milestones_copies_path(id: @milestone.id), method: :post, local: true, data: { action: "submit->loading#show" } do |f| %>
       <div class="flex justify-center">
         <label class="mb-8 w-50">
           <span class="text-base-200 text-sm">始点となる日付</span>

@@ -49,7 +49,7 @@
                 <% end %>
               </div>
             <% else %>
-              <%= button_to milestone_open_toggle_path(milestone), class: "hover:cursor-pointer hover:bg-base-100/30 w-full mt-2", method: :patch do %>
+              <%= button_to milestone_open_toggle_path(milestone), class: "hover:cursor-pointer hover:bg-base-100/30 w-full mt-2", method: :patch, data: { action: "click->loading#show" } do %>
                 <span class="material-symbols-outlined">
                   left_panel_open
                 </span>
