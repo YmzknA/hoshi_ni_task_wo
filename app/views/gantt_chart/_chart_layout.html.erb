@@ -38,7 +38,7 @@
               <% if milestone.is_a?(Milestone) %>
                 <%# milestoneのチャートの場合 %>
 
-                <%= button_to milestone_open_toggle_path(milestone), class: "flex items-center justify-center hover:cursor-pointer hover:bg-base-100/30", method: :patch do %>
+                <%= button_to milestone_open_toggle_path(milestone), class: "flex items-center justify-center hover:cursor-pointer hover:bg-base-100/30", method: :patch, data: { action: "click->loading#show" } do %>
                   <%# milestoneの開閉 %>
                   <% if milestone.open? %>
                     <span id="open_icon_<%=milestone.id%>" class="material-symbols-outlined size-full">
