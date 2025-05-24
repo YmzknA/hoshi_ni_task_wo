@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get "images/ogp.png", to: "images#ogp", as: "images_ogp"
 
-  resources :tasks do
+  resources :tasks, only: [:index, :show, :create, :edit, :update, :destroy] do
     patch "update_progress", on: :member
     get "share" => "limited_sharing_tasks#show", on: :member
 

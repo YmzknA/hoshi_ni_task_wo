@@ -350,9 +350,9 @@
 
 <% if current_user?(@milestone.user) %>
   <%= render 'milestones/milestones_edit_modal', milestone: @milestone %>
+  <%= render "tasks/tasks_new_modal", task: @task, milestones: [@milestone], from_milestone_show: @from_milestone_show %>
   <%= render 'milestones/delete_confirm_modal' %>
   <%= turbo_frame_tag "tasks_edit_modal" %>
-  <%= turbo_frame_tag "tasks_new_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
   <%= turbo_frame_tag "milestones_copy_modal" %>
   <%= render 'limited_sharing_milestones/share_confirm_modal' %>
