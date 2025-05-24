@@ -78,11 +78,11 @@ module GanttChartHelper
     [milestone.tasks.count * 2, 10].max
   end
 
-  def today_color(date)
+  def today_color(date, transparent = nil)
     if date == Time.zone.today
-      "bg-accent"
+      "bg-accent#{transparent || ''}"
     elsif date.wday.zero? || date.wday == 6
-      "bg-error"
+      "bg-error#{transparent || ''}"
     else
       ""
     end

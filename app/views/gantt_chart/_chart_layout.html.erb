@@ -10,7 +10,7 @@
         </div>
         <div class="flex flex-col z-60">
           <% date_range.each_with_index do |date, index| %>
-            <div id="<%= (date == Time.zone.today) ? 'today' : '' %>" class="h-[40px] flex items-center justify-center text-sm border-b border-base-100 <%= today_color(date) + "/70" %> <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>">
+            <div id="<%= (date == Time.zone.today) ? 'today' : '' %>" class="h-[40px] flex items-center justify-center text-sm border-b border-base-100 <%= today_color(date, "/70") %> <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>">
               <%= date.strftime("%m/%d") %>
             </div>
           <% end %>
@@ -78,7 +78,7 @@
               class="h-[40px] border-b border-base-100 z-30
               <%= (index == 0) ? 'border-t' : '' %>
               <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>
-              <%= today_color(date)+ "/20" %>
+              <%= today_color(date, "/20") %>
               "
               style="width: max(<%= chart_total_width %>px, 100%);"
             >
