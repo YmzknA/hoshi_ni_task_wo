@@ -11,7 +11,9 @@
 
         <%= button_to "公開", limited_sharing_milestones_path(id: @milestone.id),
           method: :post,
-          class: "btn btn-primary text-base-100 px-9" %>
+          class: "btn btn-primary text-base-100 px-9",
+          data: { action: "click->loading#show" }
+        %>
 
       </div>
     </div>
