@@ -10,7 +10,11 @@
         </div>
         <div class="flex flex-col z-60">
           <% date_range.each_with_index do |date, index| %>
-            <div id="<%= (date == Time.zone.today) ? 'today' : '' %>" class="h-[40px] flex items-center justify-center text-sm border-b border-base-100 <%= today_color(date, "/70") %> <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>">
+
+            <%# 日付表示部の色を決める %>
+            <% date_color = date_header_color(date) %>
+
+            <div id="<%= (date == Time.zone.today) ? 'today' : '' %>" class="h-[40px] flex items-center justify-center text-sm border-b border-base-100 <%= date_color %> <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>">
               <%= date.strftime("%m/%d") %>
             </div>
           <% end %>
@@ -74,11 +78,14 @@
           <!-- 日付ごとの行 -->
           <div>
           <% date_range.each_with_index do |date, index| %>
+
+            <%# 日付線の色を決める %>
+            <% date_color = date_line_color(date) %>
+
             <div
               class="h-[40px] border-b border-base-100 z-30
               <%= (index == 0) ? 'border-t' : '' %>
-              <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>
-              <%= today_color(date, "/20") %>
+              <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %> <%= date_color %>
               "
               style="width: max(<%= chart_total_width %>px, 100%);"
             >
