@@ -3,10 +3,12 @@ class TasksController < ApplicationController
   before_action :authenticate_user!, except: [:show, :autocomplete]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   before_action :set_task_milestone, only: [:update_progress, :update, :destroy]
-  before_action :valid_guest_user, only: [:new, :create]
+  before_action :valid_guest_user, only: [:create]
 
   # GET /tasks or /tasks.json
   def index
+    @task = Task.new
+    @milestones = current_user.milestones.not_completed
     @title = "タスク一覧"
     @user = current_user
     base_tasks = ransack_result
@@ -36,21 +38,6 @@ class TasksController < ApplicationController
     end
   end
 
-  # GET /tasks/new
-  # turbo_frameでモーダルを表示
-  def new
-    @task = Task.new
-    if params[:milestone_from_milestone_show].present?
-      # マイルストーン詳細画面から遷移した場合
-      @from_milestone_show = true
-      @milestones = [Milestone.find(params[:milestone_from_milestone_show])]
-    else
-      # マイルストーン詳細画面から遷移していない場合
-      @from_milestone_show = false
-      @milestones = current_user.milestones.reject { |m| m.progress == "completed" }
-    end
-  end
-
   # GET /tasks/1/edit
   def edit
     @milestones = current_user.milestones.not_completed
@@ -61,7 +48,11 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     user = current_user
-    @milestones = user.milestones
+    @milestones = if params[:milestone_id]
+                    user.milestones.where(id: params[:milestone_id])
+                  else
+                    user.milestones
+                  end
 
     if @task.save
       @task_milestone = @task.milestone

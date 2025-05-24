@@ -62,8 +62,8 @@
     <%= render "menu_bar" %>
   </div>
   <%= turbo_frame_tag "tasks_edit_modal" %>
-  <%= turbo_frame_tag "tasks_new_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
+  <%= render "tasks/tasks_new_modal", task: @task, milestones: @milestones %>
 
   <div id="tasks_show_modals">
   <% @not_completed_tasks.each do |task| %>

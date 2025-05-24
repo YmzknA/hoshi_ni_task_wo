@@ -38,6 +38,7 @@ class MilestonesController < ApplicationController
       prepare_for_chart(@milestone) if @milestone.is_on_chart
 
       @milestone_tasks = tasks_ransack_result
+      @from_milestone_show = true
       @task = Task.new
     else
       flash[:alert] = "この星座は非公開です"
