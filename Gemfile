@@ -64,6 +64,7 @@ group :development, :test do
   gem 'bullet'
   gem 'rack-mini-profiler'
   gem 'rspec-rails'
+  gem 'factory_bot_rails'
 end
 
 group :development do
