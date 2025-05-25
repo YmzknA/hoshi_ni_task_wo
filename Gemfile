@@ -63,6 +63,7 @@ group :development, :test do
   gem 'swimming_fish'
   gem 'bullet'
   gem 'rack-mini-profiler'
+  gem 'rspec-rails'
 end
 
 group :development do
