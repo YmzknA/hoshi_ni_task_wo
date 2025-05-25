@@ -65,6 +65,7 @@ group :development, :test do
   gem 'rack-mini-profiler'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
