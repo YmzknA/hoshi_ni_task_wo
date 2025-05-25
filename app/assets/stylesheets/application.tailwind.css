@@ -99,7 +99,3 @@
 .btn:active {
   opacity: 0.5;
 }
-
-.modal {
-  @apply backdrop-blur-sm;
-}
