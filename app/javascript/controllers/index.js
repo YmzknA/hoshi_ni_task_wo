@@ -16,5 +16,8 @@ application.register("loading-close", LoadingCloseController)
 import LoadingController from "./loading_controller"
 application.register("loading", LoadingController)
 
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
+
 import ShowModalController from "./show_modal_controller"
 application.register("show-modal", ShowModalController)
