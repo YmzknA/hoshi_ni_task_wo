@@ -1,4 +1,5 @@
-<dialog id="milestones_edit_modal" class="modal" <%= @milestones_edit_modal_open ? 'open' : ' ' %> >
+<div data-controller="modal">
+<dialog data-modal-target="to_not_blur" id="milestones_edit_modal" class="modal" <%= @milestones_edit_modal_open ? 'open' : ' ' %> >
   <div class="modal-box w-xl max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-1 bg-transparent">
     <div class="flex items-center justify-center">
       <div class="card bg-base-300 w-xl h-2xl p-5 flex justify-center z-10">
@@ -85,7 +86,7 @@
           
           <div class="modal-action flex justify-center mt-3">
             <form method="dialog">
-              <button class="btn btn-accent size-9">
+              <button data-modal-target="close" class="btn btn-accent size-9">
                 <span class="material-symbols-outlined">
                   close
                 </span>
@@ -97,3 +98,4 @@
     </div>
   </div>
 </dialog>
+</div>

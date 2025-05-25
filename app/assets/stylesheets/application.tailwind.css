@@ -99,3 +99,10 @@
 .btn:active {
   opacity: 0.5;
 }
+
+.modal {
+  backdrop-filter: blur(3px);
+}
+.not_blur {
+  backdrop-filter: none;
+}

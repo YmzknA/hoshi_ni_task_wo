@@ -1,17 +1,19 @@
 <%= turbo_frame_tag "milestones_copy_modal" do %>
   <div data-controller="show-modal">
+  <div data-controller="modal">
     <div data-show-modal-target="modal_top">
-      <dialog data-show-modal-target="task_modal" class="modal">
+      <dialog data-modal-target="to_not_blur" data-show-modal-target="task_modal" class="modal">
 
         <%# まずはturbo_frame_tagを使ってmilestones/copies/showでモーダルの部分を表示 %>
         <%# milestones/copies#createでturbo_stremasを使って、モーダルの部分を_milestones_copy_modal_contentファイルに置換しています %>
 
         <%= render "milestones/copies/milestones_copy_modal_content", task: @task %>
 
-        <form method="dialog" class="modal-backdrop">
+        <form data-modal-target="close" method="dialog" class="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>
+    </div>
     </div>
   </div>
 <% end %>
