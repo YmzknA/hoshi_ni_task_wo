@@ -11,7 +11,7 @@ class LimitedSharingTask < ApplicationRecord
   enum progress: [:not_started, :in_progress, :completed]
 
   # dateが両方nilのものを弾くscope
-  scope :valid_dates, -> { where.not(start_date: nil, end_date: nil) }
+  scope :valid_dates_nil, -> { where.not(start_date: nil, end_date: nil) }
   scope :start_date_asc, -> { order(start_date: :asc) }
 
   # ######################################
