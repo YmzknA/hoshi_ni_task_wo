@@ -48,6 +48,8 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     user = current_user
+
+    # params[:milestone_id]が存在する場合（milestone_showからのアクセス）
     @milestones = if params[:milestone_id]
                     user.milestones.where(id: params[:milestone_id])
                   else
@@ -56,11 +58,18 @@ class TasksController < ApplicationController
 
     if @task.save
       @task_milestone = @task.milestone
-      @task_milestone&.update_progress
+
+      if @task_milestone.present? # taskにmilestoneが紐づいている場合
+        @task_milestone.update_progress
+
+        if @task_milestone.on_chart? # かつ、is_on_chartがtrueの場合
+          tasks = @task_milestone.tasks.valid_dates_nil
+          @tasks = sort_tasks_by_complete_and_start_date(tasks)
+        end
+      end
 
       @task_create_success = true
-
-      flash[:notice] = "タスクを作成しました"
+      flash.now[:notice] = "タスクを作成しました"
     else
       @task_create_success = false
       @task_new_modal_open = true
@@ -76,7 +85,16 @@ class TasksController < ApplicationController
 
     if @task.update(task_params)
       # タスクの更新に成功した場合、タスク詳細を表示
-      @task_milestone = @task.milestone
+
+      if @task_milestone.present? # taskにmilestoneが紐づいている場合
+        @task_milestone.update_progress
+
+        if @task_milestone.on_chart? # かつ、is_on_chartがtrueの場合
+          tasks = @task_milestone.tasks.valid_dates_nil
+          @tasks = sort_tasks_by_complete_and_start_date(tasks)
+        end
+      end
+
       @tasks_show_modal_open = true
       @tasks_update_success = true
       flash.now[:notice] = "タスクを更新しました"
@@ -90,6 +108,12 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   def destroy
     @task.destroy!
+
+    if @task_milestone.present? && @task_milestone.on_chart?
+      tasks = @task_milestone.tasks.valid_dates_nil
+      @tasks = sort_tasks_by_complete_and_start_date(tasks)
+    end
+
     flash.now[:notice] = "タスクを削除しました"
   end
 
@@ -166,6 +190,13 @@ class TasksController < ApplicationController
 
     flash[:alert] = "ゲストユーザーはタスクを作成できません"
     redirect_to tasks_path
+  end
+
+  def sort_tasks_by_complete_and_start_date(tasks)
+    # 完了したタスクを後ろにして、それぞれ開始日でソート
+    not_completed_tasks = tasks.not_completed.start_date_asc
+    completed_tasks = tasks.completed.start_date_asc
+    not_completed_tasks + completed_tasks
   end
 
   def ransack_result

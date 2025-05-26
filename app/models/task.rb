@@ -19,14 +19,13 @@ class Task < ApplicationRecord
   # スコープ
   # ######################################
   # start_dateとend_dateのどちらかがnilのものを弾くscope
-  scope :valid_dates, -> { where.not(start_date: nil, end_date: nil) }
-  scope :completed, -> { where(progress: :completed) }
-  scope :in_progress, -> { where(progress: :in_progress) }
-  scope :not_completed, -> { where.not(progress: :completed) }
+  scope :valid_dates_nil, -> { where.not(start_date: nil, end_date: nil) }
   scope :not_started, -> { where(progress: :not_started) }
+  scope :in_progress, -> { where(progress: :in_progress) }
+  scope :completed, -> { where(progress: :completed) }
+  scope :not_completed, -> { where.not(progress: :completed) }
   scope :created_at_desc, -> { order(created_at: :desc) }
   scope :start_date_asc, -> { order(start_date: :asc) }
-  scope :index_order, -> { order(Arel.sql("start_date IS NULL ASC, start_date ASC, end_date ASC")) }
 
   # ######################################
   # メソッド
