@@ -1,4 +1,9 @@
 ja:
+  errors:
+    messages:
+      not_saved:
+        one: "1 件のエラーが発生したため %{resource} は保存されませんでした。"
+        other: "%{count} 件のエラーが発生したため %{resource} は保存されませんでした。"
   activerecord:
     errors:
       models:
@@ -23,6 +28,9 @@ ja:
               too_long: "は%{count}文字以下に設定して下さい。"
               invalid: "は有効でありません。"
               confirmation: "が内容とあっていません。"
+            password_confirmation:
+              confirmation: "がパスワードと一致していません。"
+              blank: "が入力されていません。"
     attributes:
       user:
         current_password: "現在のパスワード"
@@ -33,6 +41,8 @@ ja:
         remember_me: "次回から自動的にログイン"
     models:
       user: "ユーザ"
+      milestone: "星座"
+      task: "タスク"
   devise:
     confirmations:
       new:
