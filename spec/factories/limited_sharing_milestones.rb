@@ -3,13 +3,21 @@ FactoryBot.define do
     id { Faker::Alphanumeric.alphanumeric(number: 21) }
     title { Faker::Lorem.sentence(word_count: 3) }
     description { Faker::Lorem.paragraph }
-    progress { Faker::Number.between(from: 0, to: 2) }
+    progress { Faker::Number.between(from: 0, to: 1) }
     color { "#FFDF5E" }
     start_date { Faker::Date.between(from: 1.year.ago, to: Date.today) }
     end_date { Faker::Date.between(from: Date.today, to: 1.year.from_now) }
-    completed_comment { Faker::Lorem.sentence(word_count: 5) if progress == 2 }
+    completed_comment { Faker::Lorem.sentence(word_count: 5) }
     is_on_chart { false }
     association :user
-    association :constellation, factory: :constellation, optional: true
+
+    trait :completed do
+      progress { 2 } # completed
+      completed_comment { Faker::Lorem.sentence(word_count: 5) }
+
+      trait :with_tasks do
+        create_list { :limited_sharing_task }
+      end
+    end
   end
 end
