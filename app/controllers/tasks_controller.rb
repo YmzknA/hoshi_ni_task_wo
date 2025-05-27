@@ -110,7 +110,7 @@ class TasksController < ApplicationController
     @task.progress = @task.next_progress
 
     if @task.save
-      @task_milestone&.update_progress
+      update_task_milestone_and_load_tasks
       flash.now.notice = "タスクの進捗状況を更新しました"
     else
       flash.now.alert = "タスクの進捗状況の更新に失敗しました"
