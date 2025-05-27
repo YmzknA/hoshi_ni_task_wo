@@ -97,6 +97,8 @@ class MilestonesController < ApplicationController
       @title = "星座詳細"
       @milestones_edit_modal_open = true
       @milestone_tasks = tasks_ransack_result
+      @task = Task.new
+      @from_milestone_show = true
 
       flash.now[:alert] = "星座の更新に失敗しました"
       render "milestones/show", status: :unprocessable_entity
