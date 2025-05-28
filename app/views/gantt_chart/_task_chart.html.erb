@@ -2,7 +2,7 @@
       # 色の設定(taskもこの色を使う)
       milestone = task.milestone
       milestone_color = milestone.color
-      task_index = sort_completed(tasks).index(task)
+      task_index = tasks.index(task)
       task_count = [tasks.count, 3].max
       milestone_width_size = (task_count * 80)
           %>

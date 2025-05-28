@@ -119,6 +119,13 @@ GEM
     diff-lcs (1.6.1)
     drb (2.2.1)
     erubi (1.13.1)
+    factory_bot (6.5.1)
+      activesupport (>= 6.1.0)
+    factory_bot_rails (6.4.4)
+      factory_bot (~> 6.5)
+      railties (>= 5.0.0)
+    faker (3.5.1)
+      i18n (>= 1.8.11, < 2)
     faraday (2.13.0)
       faraday-net_http (>= 2.0, < 3.5)
       json
@@ -305,6 +312,23 @@ GEM
     reverse_markdown (3.0.0)
       nokogiri
     rexml (3.4.1)
+    rspec-core (3.13.3)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.4)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.4)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-rails (7.1.1)
+      actionpack (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      rspec-core (~> 3.13)
+      rspec-expectations (~> 3.13)
+      rspec-mocks (~> 3.13)
+      rspec-support (~> 3.13)
+    rspec-support (3.13.3)
     rubocop (1.75.2)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -425,6 +449,8 @@ DEPENDENCIES
   debug
   devise
   devise-i18n
+  factory_bot_rails
+  faker
   jbuilder
   jsbundling-rails
   line-bot-api
@@ -438,6 +464,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (~> 7.2.2, >= 7.2.2.1)
   ransack
+  rspec-rails (~> 7.1.1)
   rubocop
   rubocop-performance
   rubocop-rails

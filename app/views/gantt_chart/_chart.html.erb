@@ -11,8 +11,12 @@
             # 色の設定(taskもこの色を使う)
             milestone_color = milestone.color
             truncate_num = milestone_title_truncate_num(milestone)
-            # すでにソートされたTasksをメモリ内で取得する
-            tasks = milestone.tasks.valid_dates.start_date_asc.to_a
+
+            # タスクの取得
+            tasks = milestone.tasks.valid_dates_nil
+            not_completed_tasks = tasks.not_completed.start_date_asc
+            completed_tasks = tasks.completed.start_date_asc
+            tasks = not_completed_tasks + completed_tasks
           %>
 
           <!-- milestone名前 -->
@@ -42,7 +46,7 @@
 
             <% if milestone.open? %>
               <!-- Task（丸と線） -->
-              <%# valid_datesでstart_dateかend_dateが無いtaskを弾く %>
+              <%# valid_dates_nilでstart_dateかend_dateが無いtaskを弾く %>
               <div id="chart_<%=milestone.id%>">
                 <% tasks.each do |task| %>
                   <%= render "gantt_chart/task_chart", task: task, tasks: tasks %>

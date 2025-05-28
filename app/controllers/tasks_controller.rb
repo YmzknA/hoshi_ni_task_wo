@@ -14,11 +14,10 @@ class TasksController < ApplicationController
     base_tasks = ransack_result
 
     # 完了したタスク - 作成日の降順
-    completed_tasks_set = base_tasks.where(progress: :completed)
-    @completed_tasks = completed_tasks_set.reject(&:milestone_completed?)
+    @completed_tasks = base_tasks.completed.reject(&:milestone_completed?)
 
     # 未完了のタスク - 締切日の昇順（nilを最後に表示）、同じ締切日なら開始日の昇順
-    @not_completed_tasks = base_tasks.where.not(progress: :completed)
+    @not_completed_tasks = base_tasks.not_completed.reject(&:milestone_completed?)
   end
 
   # GET /tasks/1
@@ -48,6 +47,8 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     user = current_user
+
+    # params[:milestone_id]が存在する場合（milestone_showからのアクセス）
     @milestones = if params[:milestone_id]
                     user.milestones.where(id: params[:milestone_id])
                   else
@@ -56,11 +57,11 @@ class TasksController < ApplicationController
 
     if @task.save
       @task_milestone = @task.milestone
-      @task_milestone&.update_progress
+
+      update_task_milestone_and_load_tasks
 
       @task_create_success = true
-
-      flash[:notice] = "タスクを作成しました"
+      flash.now[:notice] = "タスクを作成しました"
     else
       @task_create_success = false
       @task_new_modal_open = true
@@ -76,7 +77,9 @@ class TasksController < ApplicationController
 
     if @task.update(task_params)
       # タスクの更新に成功した場合、タスク詳細を表示
-      @task_milestone = @task.milestone
+
+      update_task_milestone_and_load_tasks
+
       @tasks_show_modal_open = true
       @tasks_update_success = true
       flash.now[:notice] = "タスクを更新しました"
@@ -90,6 +93,8 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   def destroy
     @task.destroy!
+
+    update_task_milestone_and_load_tasks
     flash.now[:notice] = "タスクを削除しました"
   end
 
@@ -105,7 +110,7 @@ class TasksController < ApplicationController
     @task.progress = @task.next_progress
 
     if @task.save
-      @task_milestone&.update_progress
+      update_task_milestone_and_load_tasks
       flash.now.notice = "タスクの進捗状況を更新しました"
     else
       flash.now.alert = "タスクの進捗状況の更新に失敗しました"
@@ -148,6 +153,10 @@ class TasksController < ApplicationController
                                  :start_date, :end_date, :milestone_id).merge(user_id: current_user.id)
   end
 
+  def set_task_milestone
+    @task_milestone = @task.milestone if @task.milestone.present?
+  end
+
   def ensure_correct_user
     task = Task.find(params[:id])
 
@@ -157,15 +166,29 @@ class TasksController < ApplicationController
     redirect_to user_path(current_user)
   end
 
-  def set_task_milestone
-    @task_milestone = @task.milestone if @task.milestone.present?
-  end
-
   def valid_guest_user
     return unless current_user.guest?
 
     flash[:alert] = "ゲストユーザーはタスクを作成できません"
     redirect_to tasks_path
+  end
+
+  def sort_tasks_by_complete_and_start_date(tasks)
+    # 完了したタスクを後ろにして、それぞれ開始日でソート
+    not_completed_tasks = tasks.not_completed.start_date_asc
+    completed_tasks = tasks.completed.start_date_asc
+    not_completed_tasks + completed_tasks
+  end
+
+  def update_task_milestone_and_load_tasks
+    return unless @task_milestone.present?
+
+    @task_milestone.update_progress
+
+    return unless @task_milestone.on_chart?
+
+    tasks = @task_milestone.tasks.valid_dates_nil
+    @tasks = sort_tasks_by_complete_and_start_date(tasks)
   end
 
   def ransack_result
@@ -192,9 +215,8 @@ class TasksController < ApplicationController
     tasks = search_tasks_by_title(query)
     if progress == "not_completed"
       # 未完了のタスクを取得
-      tasks.where.not(progress: :completed)
+      tasks.not_completed
     else
-      # 完了したタスクを取得
       tasks.where(progress: progress)
     end
   end

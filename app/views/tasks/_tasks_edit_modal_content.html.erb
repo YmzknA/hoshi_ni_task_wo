@@ -2,6 +2,8 @@
   <div class="flex items-center justify-center">
     <div class="card bg-base-300 w-2xl h-2xl p-5 flex justify-center z-10">
       <div>
+        <%# 編集ボタンを押した際に出るローディングを消す要素 %>
+        <div data-controller="loading-close"></div>
 
         <!-- エラーメッセージ -->
         <%= render "error_messages", resource: @task%>

@@ -3,13 +3,24 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="loading-close"
 export default class extends Controller {
 
-  // 接続時、loading_animationを閉じ、loading_ringsを非表示にする
   connect() {
     const loading = document.querySelector("#loading");
     loading.close();
 
+    // loading_controllerのタイムアウトをキャンセル
+    if (window.loadingTimeout) {
+      clearTimeout(window.loadingTimeout);
+      window.loadingTimeout = null;
+    }
+
     this.timeout = setTimeout(() => {
-    loading.close();
-    }, 150);
+      loading.close();
+    }, 50);
+  }
+
+  disconnect() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
   }
 }
