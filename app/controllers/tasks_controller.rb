@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :update_progress, :destroy]
-  before_action :authenticate_user!, except: [:show, :autocomplete]
+  before_action :set_task, only: [:edit, :update, :update_progress, :destroy]
+  before_action :authenticate_user!, except: [:autocomplete]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   before_action :set_task_milestone, only: [:update_progress, :update, :destroy]
   before_action :valid_guest_user, only: [:create]
@@ -18,23 +18,6 @@ class TasksController < ApplicationController
 
     # 未完了のタスク - 締切日の昇順（nilを最後に表示）、同じ締切日なら開始日の昇順
     @not_completed_tasks = base_tasks.not_completed.reject(&:milestone_completed?)
-  end
-
-  # GET /tasks/1
-  def show
-    # タスク詳細画面に遷移する際、タスクのユーザーがゲストユーザーで、
-    # 現在のユーザーがそのタスクのユーザーでない場合は、タスク詳細画面を表示しない
-    if @task.user.guest? && !current_user?(@task.user)
-      flash[:alert] = "指定されたタスクが見つかりません"
-      redirect_to tasks_path
-    end
-
-    if @task.milestone&.is_public || current_user?(@task&.user)
-      # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合のみ表示
-    else
-      flash[:alert] = "このタスクは非公開です"
-      redirect_to tasks_path
-    end
   end
 
   # GET /tasks/1/edit
@@ -63,7 +46,6 @@ class TasksController < ApplicationController
       @task_create_success = true
       flash.now[:notice] = "タスクを作成しました"
     else
-      @task_create_success = false
       @task_new_modal_open = true
 
       flash.now[:alert] = "タスクの作成に失敗しました"
@@ -85,6 +67,7 @@ class TasksController < ApplicationController
       flash.now[:notice] = "タスクを更新しました"
     else
       # タスクの更新に失敗した場合、editモーダルを開いた状態でタスク一覧を表示
+      @base_task = Task.find_by(id: params[:id])
       @tasks_edit_modal_open = true
       flash.now[:alert] = "タスクの更新に失敗しました"
     end

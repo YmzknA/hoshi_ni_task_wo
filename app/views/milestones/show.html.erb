@@ -361,7 +361,7 @@
 <%= turbo_frame_tag "milestone_show_modal" %>
 <div id="tasks_show_modals">
   <% @milestone_tasks.each do |task| %>
-    <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
+      <%= render "tasks/tasks_show_modal", task: task, tasks_show_modal_open: false %>
   <% end %>
 </div>
 
