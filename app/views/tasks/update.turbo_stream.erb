@@ -16,11 +16,18 @@
     <%= render "flash" %>
   <% end %>
 
+<% if @tasks_update_success == true %>
   <%= turbo_stream.replace "tasks_show_modal_#{@task.id}" do %>
     <%= render "tasks_show_modal", task: @task, tasks_show_modal_open: @tasks_show_modal_open %>
   <% end %>
 
   <%= turbo_stream.replace @task %>
+<% else %>
+  <%= turbo_stream.replace "tasks_show_modal_#{@task.id}" do %>
+    <%= render "tasks_show_modal", task: @base_task, tasks_show_modal_open: @tasks_show_modal_open %>
+  <% end %>
+<% end %>
+
 
   <% if @task_milestone && @tasks_update_success == true && @task_milestone.on_chart? %>
     <%= turbo_stream.replace "chart_#{@task_milestone.id}" do %>
