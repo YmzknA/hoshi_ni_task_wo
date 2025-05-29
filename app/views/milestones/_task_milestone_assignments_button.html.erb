@@ -1,0 +1,43 @@
+<div class="flex items-center justify-center size-full">
+  <span class="invisible w-[15%]">横の要素</span>
+
+  <div class="card flex items-center justify-center mt-1 mb-5 w-[70%] h-12 bg-base-300/40 shadow-xl/10 md:h-14">
+    <%= link_to task_milestone_assignment_path,
+      data: { turbo_frame: "task_milestone_assignments_modal" },
+      class: "size-full rounded-xl hover:cursor-pointer hover:bg-base-300/30 active:bg-base-300/30 p-4" do %>
+      <div class="flex items-center justify-center size-full text-sm md:text-lg">
+        <span class="material-symbols-outlined mr-2">
+          library_add
+        </span>
+        一覧から追加 / 解除
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex items-end justify-start w-[15%]">
+    <div class="dropdown dropdown-center ml-2">
+      <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+        <span class="material-symbols-outlined text-base-200">
+          help
+        </span>
+      </div>
+      <div
+        tabindex="0"
+        class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-20 md:mr-10 mt-2 shadow-xl border-1">
+        <div tabindex="0" class="card-body text-sm px-1">
+          <p>
+          タスク一覧から選んで<br>追加や解除を行います。<br>
+          </p>
+
+          <div class="divider"></div>
+
+          <p>
+          まだ星座に紐づいていないタスクが<br>
+          一覧に表示されます。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
