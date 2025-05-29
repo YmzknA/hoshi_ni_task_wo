@@ -3,7 +3,7 @@
     <% is_checked = task.milestone_id == @milestone.id %>
     <%= f.label :"#{task.id}" do %>
       <div class="flex items-center justify-start rounded-xl bg-base-100/90 mb-4 px-4 py-2 text-lg hover:cursor-pointer hover:bg-base-100/60">
-        <%= f.check_box :"#{task.id}", {type: "checkbox", class: "checkbox checkbox-primary mr-4", checked: "#{is_checked ? 'checked' : '' }"} %>
+        <%= f.check_box :"#{task.id}", { type: "checkbox", class: "checkbox checkbox-primary mr-4", checked: is_checked } %>
         <div class="flex flex-col items-start justify-center">
           <div class="text-md">
             <%= task.title.truncate(20) %>
