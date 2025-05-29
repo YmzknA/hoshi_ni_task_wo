@@ -1,0 +1,15 @@
+<%# stimulusを使用して、connect時にモーダルを開く %>
+<%= turbo_frame_tag "task_milestone_assignments_modal" do %>
+  <div data-controller="show-modal">
+    <div data-show-modal-target="modal_top">
+      <dialog data-show-modal-target="task_modal" class="modal">
+
+
+        <%# まずはturbo_frame_tagを使ってtask_milestone_assignments/showでモーダルの部分を表示 %>
+        <%# #createでturbo_streamsを使って、モーダルの部分を_show_modalファイルに置換しています %>
+        <%= render "task_milestone_assignments/show_modal_content", tasks: @tasks, milestone: @milestone %>
+
+      </dialog>
+    </div>
+  </div>
+<% end %>

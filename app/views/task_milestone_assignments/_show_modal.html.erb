@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "task_milestone_assignments_modal" do %>
+  <div data-controller="modal">
+    <dialog data-modal-target="to_not_blur" class="modal" <%= show_modal_open ? 'open' : ' ' %> >
+
+
+        <%# まずはturbo_frame_tagを使ってtask_milestone_assignments/showでモーダルの部分を表示 %>
+        <%# #createでturbo_streamsを使って、モーダルの部分を_show_modalファイルに置換しています %>
+        <%= render "task_milestone_assignments/show_modal_content", tasks: @tasks, milestone: @milestone %>
+
+      </dialog>
+<% end %>

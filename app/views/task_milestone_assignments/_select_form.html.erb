@@ -1,0 +1,19 @@
+<%= form_with model: @milestone, url: task_milestone_assignment_path(@milestone), method: :patch, local: true, id: "assignments", data: { turbo_stream: true, action: "submit->loading#show" } do |f| %>
+  <% @tasks.each do |task| %>
+    <% is_checked = task.milestone_id == @milestone.id %>
+    <%= f.label :"#{task.id}" do %>
+      <div class="flex items-center justify-start rounded-xl bg-base-100/90 mb-4 px-4 py-2 text-lg hover:cursor-pointer hover:bg-base-100/60">
+        <%= f.check_box :"#{task.id}", {type: "checkbox", class: "checkbox checkbox-primary mr-4", checked: "#{is_checked ? 'checked' : '' }"} %>
+        <div class="flex flex-col items-start justify-center">
+          <div class="text-md">
+            <%= task.title.truncate(20) %>
+          </div>
+          <div class="text-sm ml-4">
+            <%= to_short_date(task.start_date) %> 〜 <%= to_short_date(task.end_date) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
