@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   resources :limited_sharing_milestones, only: [:create, :destroy]
 
+  resources :task_milestone_assignments, only: [:show, :update]
+
   get "gantt_chart" => "gantt_chart#show", as: :gantt_chart
   get "gantt_chart_milestone/:id" => "gantt_chart#milestone_show", as: :gantt_chart_milestone_show
 
