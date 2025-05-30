@@ -1,0 +1,34 @@
+<div class="modal-box max-h-[90dvh] max-w-[85dvw] w-lg bg-transparent p-0 text-xs md:text-sm">
+  <div class="flex items-center justify-center">
+    <div class="flex h-2xl w-full justify-center rounded-t-xl bg-base-300 p-5 pb-0 text-center z-10">
+      <div class="w-full">
+
+        <!-- エラーメッセージ -->
+        <div id="assignments_error">
+          <%= render "error_messages", resource: @milestone %>
+        </div>
+
+        <!-- セレクトフォーム -->
+        <%= render "task_milestone_assignments/select_form", tasks: @tasks, milestone: @milestone %>
+
+        <!-- モーダル下部ボタン -->
+        <div class="sticky bottom-0 z-20 flex w-full items-center justify-center bg-base-300/70 p-4">
+
+          <!-- 閉じるボタン -->
+          <form method="dialog">
+            <button data-tip="キャンセル" data-modal-target="close" class="btn btn-accent tooltip size-[45px]">
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
+          </form>
+
+          <!-- submitボタン -->
+          <button type="submit" form="assignments" class="btn btn-md btn-primary ml-4 w-[70%] text-base-300" data-action="loading-close#close">決定</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div data-controller="loading-close"></div>

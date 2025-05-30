@@ -48,7 +48,7 @@
       <!-- 進捗バー -->
       <div class="flex items-center justify-center text-2xl">
         <div class="my-10 h-12 w-xl rounded-full bg-primary px-5 text-xl text-neutral">
-          <%= render "milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
+          <%= render "milestones/milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
         </div>
       </div>
 
@@ -305,6 +305,7 @@
           </div>
 
           <% if !milestone_completed && current_user?(@milestone.user) %>
+            <%= render "milestones/task_milestone_assignments_button" %>
             <!-- 新規作成ボタン -->
             <%= render "tasks/add_task_button", milestone: @milestone %>
           <% end %>
@@ -355,6 +356,7 @@
   <%= turbo_frame_tag "tasks_edit_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
   <%= turbo_frame_tag "milestones_copy_modal" %>
+  <%= turbo_frame_tag "task_milestone_assignments_modal" %>
   <%= render 'limited_sharing_milestones/share_confirm_modal' %>
 <% end %>
 

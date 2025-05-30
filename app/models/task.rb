@@ -26,6 +26,7 @@ class Task < ApplicationRecord
   scope :not_completed, -> { where.not(progress: :completed) }
   scope :created_at_desc, -> { order(created_at: :desc) }
   scope :start_date_asc, -> { order(start_date: :asc) }
+  scope :without_milestone, -> { where(milestone_id: nil) }
 
   # ######################################
   # メソッド

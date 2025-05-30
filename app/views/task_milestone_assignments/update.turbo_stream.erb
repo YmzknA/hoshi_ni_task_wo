@@ -1,0 +1,48 @@
+<%= turbo_stream.replace "loading_close" do %>
+  <div id="loading_close" data-controller="loading-close"></div>
+<% end %>
+
+<%= turbo_stream.replace "flash" do %>
+  <%= render "flash" %>
+<% end %>
+
+<%# 保存に失敗し、エラーメッセージがある場合で分岐 %>
+<% if @milestone.errors.any? %>
+
+  <%# 失敗時の処理 %>
+  <%= turbo_stream.replace "assignments_error" do %>
+    <div id="assignments_error">
+      <div data-controller="error-messages">
+        <div data-error-messages-target="errorMessage">
+          <%= render "error_messages", resource: @milestone %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+<% else %>
+
+  <%# 成功時の処理 %>
+  <%= turbo_stream.replace "task_milestone_assignments_modal" do %>
+    <%= turbo_frame_tag "task_milestone_assignments_modal" %>
+  <% end %>
+
+
+  <%= turbo_stream.replace "search_sort_content_frame" do %>
+    <%= turbo_frame_tag "search_sort_content_frame" do %>
+      <%= render "tasks/tasks", tasks: @milestone_tasks %>
+    <% end %>
+  <% end %>
+
+
+  <% if @milestone.on_chart? %>
+    <%= turbo_stream.replace "gantt_chart" do %>
+      <%= render "gantt_chart/chart_layout", 
+        date_range: @date_range, 
+        milestones: [@milestone], 
+        milestone_widths: @milestone_widths, 
+        milestone_lefts: @milestone_lefts, 
+        chart_total_width: @chart_total_width %>
+    <% end %>
+  <% end %>
+<% end %>

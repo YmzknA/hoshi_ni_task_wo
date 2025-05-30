@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import ErrorMessagesController from "./error_messages_controller"
+application.register("error-messages", ErrorMessagesController)
+
 import FormController from "./form_controller"
 application.register("form", FormController)
 
