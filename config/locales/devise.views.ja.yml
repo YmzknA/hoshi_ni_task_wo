@@ -87,6 +87,7 @@ ja:
     sessions:
       new:
         sign_in: "ログイン"
+        remember_me: "次回から自動的にログイン"
     shared:
       links:
         back: "戻る"
