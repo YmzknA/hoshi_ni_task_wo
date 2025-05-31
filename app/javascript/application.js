@@ -3,8 +3,7 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 import { bgStarShow } from "./bgStarShow"
 import { groupBtnHoverRemoveGroupLinkCardBg } from "./groupBtnHoverRemoveGroupLinkCardBg"
-import { addButtonHandleScroll } from "./addButtonHandleScroll"
-import { menuBarHandleScroll } from "./menuBarHandleScroll"
+import { fadeElementOnScroll } from "./menuBarHandleScroll"
 import { addButtonNotification } from "./addButtonNotification"
 
 function initializeApp() {
@@ -15,8 +14,8 @@ function initializeApp() {
   groupBtnHoverRemoveGroupLinkCardBg();
 
   // スクロール時のボタン表示/非表示を制御
-  addButtonHandleScroll();
-  menuBarHandleScroll();
+  fadeElementOnScroll('add_button');
+  fadeElementOnScroll('menu_bar');
 
   // 通知ボタンの表示制御
   addButtonNotification();
