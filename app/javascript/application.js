@@ -3,7 +3,7 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 import { bgStarShow } from "./bgStarShow"
 import { groupBtnHoverRemoveGroupLinkCardBg } from "./groupBtnHoverRemoveGroupLinkCardBg"
-import { fadeElementOnScroll } from "./menuBarHandleScroll"
+import { fadeElementOnScroll } from "./fadeElementOnScroll"
 import { addButtonNotification } from "./addButtonNotification"
 
 function initializeApp() {
