@@ -1,5 +1,5 @@
 <div class="h-full w-full">
-  <!-- 月の画像 -->
+  <!-- タイトル -->
   <%= render 'title_header', title: @title %>
 
   <!-- 内容表示部分 -->
@@ -30,6 +30,8 @@
           <!-- タスクの追加ボタン -->
           <%# ゲストユーザーの時は、追加ボタン無効化されます %>
           <%= render "tasks/add_task_button" %>
+          <!-- ボタンの移動を通知 -->
+          <%= render "add_button_notification" %>
 
           <!-- タスク -->
           <%= turbo_frame_tag "search_sort_content_frame" do %>
@@ -57,10 +59,9 @@
     </div>
   </div>
 
+  <%= render "menu_bar" %>
 
-  <div class="mt-10" >
-    <%= render "menu_bar" %>
-  </div>
+
   <%= turbo_frame_tag "tasks_edit_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
   <%= render "tasks/tasks_new_modal", task: @task, milestones: @milestones %>

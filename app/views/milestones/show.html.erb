@@ -306,8 +306,10 @@
 
           <% if !milestone_completed && current_user?(@milestone.user) %>
             <%= render "milestones/task_milestone_assignments_button" %>
-            <!-- 新規作成ボタン -->
+            <!-- タスク新規作成ボタン -->
             <%= render "tasks/add_task_button", milestone: @milestone %>
+            <!-- ボタンの移動を通知 -->
+            <%= render "add_button_notification" %>
           <% end %>
 
           <!-- タスク一覧 -->
@@ -345,9 +347,7 @@
   </div>
 
   <!-- メニューバー -->
-  <div class="mt-3">
-    <%= render 'menu_bar' %>
-  </div>
+  <%= render 'menu_bar' %>
 
 <% if current_user?(@milestone.user) %>
   <%= render 'milestones/milestones_edit_modal', milestone: @milestone %>
