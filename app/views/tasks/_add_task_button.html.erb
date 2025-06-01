@@ -1,5 +1,7 @@
 <% if current_user.guest? %>
-  <div id="add_button" class="z-20 fixed bottom-20 right-4 md:bottom-22 md:right-6">
+  <div id="add_button" class="z-20 fixed right-4 md:bottom-22 md:right-6"
+    style="bottom: calc(5rem + env(safe-area-inset-bottom));"
+    >
     <span class="tooltip tooltip-left" data-tip="ゲストユーザーは使用できません">
       <div class="flex items-center justify-center bg-base-100 rounded-full size-12 md:size-18 shadow-md">
         <%= render "star_icon", width: "24", height: "24", color: "#EAF2F5" %>
@@ -7,7 +9,9 @@
     </span>
   </div>
 <% else %>
-  <div id="add_button" class="z-20 fixed bottom-20 right-4 md:bottom-22 md:right-6">
+  <div id="add_button" class="z-20 fixed right-4 md:bottom-22 md:right-6"
+      style="bottom: calc(5rem + env(safe-area-inset-bottom));"
+    >
     <span class="tooltip tooltip-left" data-tip="タスクを追加">
       <button class="flex items-center justify-center bg-primary rounded-full size-12 md:size-18 shadow-md hover:cursor-pointer hover:bg-primary/80 active:bg-primary/80" onclick="tasks_new_modal.showModal()">
         <%= render "star_icon", width: "24", height: "24", color: "#466374" %>
