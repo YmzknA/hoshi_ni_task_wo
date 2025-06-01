@@ -1,0 +1,20 @@
+<%# jsで表示を切り替えてます %>
+<div id="new_release_notification" class="hidden z-100 w-full flex justify-center">
+  <div role="alert" class="alert alert-success  max-w-xl">
+    <div class="rounded-xl hover:cursor-pointer hover:bg-base-100/30 flex items-center" onclick="new_release_modal.showModal()">
+      <span class="material-symbols-outlined">
+        celebration
+      </span>
+      <span class="ml-2 text-sm md:text-base">新しいリリースを公開！<br>（詳細はここをクリック）</span>
+    </div>
+
+    <!-- フラッシュメッセージ閉じるボタン -->
+    <button id="new_release_close" class="tooltip btn btn-sm btn-circle btn-ghost" data-tip="この通知を削除">
+      <span class="material-symbols-outlined">
+        close
+      </span>
+    </button>
+  </div>
+</div>
+
+
