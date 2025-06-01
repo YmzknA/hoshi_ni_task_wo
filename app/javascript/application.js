@@ -5,6 +5,7 @@ import { bgStarShow } from "./bgStarShow"
 import { groupBtnHoverRemoveGroupLinkCardBg } from "./groupBtnHoverRemoveGroupLinkCardBg"
 import { fadeElementOnScroll } from "./fadeElementOnScroll"
 import { addButtonNotification } from "./addButtonNotification"
+import { newReleaseNotification } from "./newReleaseNotification"
 
 function initializeApp() {
   // 背景の星を表示
@@ -19,6 +20,9 @@ function initializeApp() {
 
   // 通知ボタンの表示制御
   addButtonNotification();
+
+  // 新リリース通知の表示制御
+  newReleaseNotification();
 }
 
 document.addEventListener("turbo:load", initializeApp);

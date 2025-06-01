@@ -3,7 +3,7 @@ export function fadeElementOnScroll(id) {
   let lastScrollY = window.scrollY;
 
   // どれだけスクロールしたら反応するか(px)
-  const scrollThreshold = 100;
+  const scrollThreshold = 40;
 
   // 対象の要素を取得
   const targetItem = document.getElementById(id);

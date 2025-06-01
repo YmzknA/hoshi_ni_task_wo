@@ -2,7 +2,7 @@
 <html data-theme="hoshi">
   <head>
     <title><%= content_for(:title) || "星にタスクを" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -42,11 +42,13 @@
 
   <body class="flex w-full zen-old-mincho-regular">
 
+    <!-- ローディングモーダル -->
     <div data-controller="loading" class="w-full flex-glow bg-[radial-gradient(ellipse_at_bottom,_#466374_0%,_#080606_100%)]">
       <dialog id="loading" data-loading-target="loading_animation" class="modal backdrop-blur-xs bg-transparent">
           <span class="loading loading-ring size-20"></span>
       </dialog>
 
+      <%# ここから本体 %>
       <%= yield %>
     </div>
 
@@ -68,6 +70,9 @@
 
     <!-- turbo_streamでローディングモーダルを閉じるコントローラーに接続した要素と置換するための要素 -->
     <div id="loading_close"></div>
+
+    <!-- 新しいリリース通知用のモーダル -->
+    <%= render "new_release_modal" %>
   </body>
 </html>
 

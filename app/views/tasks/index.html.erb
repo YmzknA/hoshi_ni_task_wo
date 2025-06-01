@@ -14,9 +14,13 @@
       <%= @user.name %>
     </div>
 
+    <%# 新しいリリース通知 %>
+    <%= render "new_release_notification" %>
 
     <!-- 表示部分 -->
     <div class="flex w-full items-center justify-center mb-10">
+
+
       <div class="tabs tabs-lift w-xl">
         <!-- 未完了のタスク -->
         <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="未完了" checked="checked"/>

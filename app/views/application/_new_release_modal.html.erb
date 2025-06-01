@@ -1,0 +1,80 @@
+<%# 通知を出す期間を設定する %>
+<% if Date.today <= Date.new(2025, 6, 30) %>
+  <div data-controller="modal">
+    <dialog id="new_release_modal" data-modal-target="to_not_blur" class="modal">
+
+      <div class="modal-box w-lg max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-0 bg-transparent">
+        <div class="flex items-center justify-center">
+          <div class="card z-10 h-2xl w-full bg-base-300 p-5">
+            <div class="card-body">
+              <h1 class="card-title text-lg md:text-xl">
+                <span class="material-symbols-outlined">
+                  celebration
+                </span>
+                新しいリリース
+              </h1>
+              <p class="text-sm md:text-base">新機能を追加しました！</p>
+            </div>
+
+            <div class="card-actions px-5 py-10 mb-4 gap-5 bg-base-100 rounded-md">
+              <div class="flex items-center">
+                <div>
+                  <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
+                </div>
+                <span class="ml-2 text-sm md:text-base">タスク追加ボタン、星座追加ボタンを右下に移動</span>
+              </div>
+              <div class="flex items-center">
+                <div>
+                  <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
+                </div>
+                <span class="ml-2 text-sm md:text-base">星座詳細画面からタスクを一括紐づけする機能</span>
+              </div>
+              <div class="flex items-center">
+                <div>
+                  <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
+                </div>
+                <span class="ml-2 text-sm md:text-base">ログイン状態を維持する機能</span>
+              </div>
+              <div class="flex items-center">
+                <div>
+                  <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
+                </div>
+                <span class="ml-2 text-sm md:text-base">スクロールで、メニューバーと追加ボタンを表示 / 非表示</span>
+              </div>
+
+              <div class="flex items-center">
+                <span class="material-symbols-outlined text-primary">
+                  build
+                </span>
+                <span class="ml-2 text-sm md:text-base">その他、バグを一部修正しました</span>
+              </div>
+            </div>
+
+            <span class="mb-5">
+              以上です！<br>
+              今後ともよろしくお願いいたします🎉!<br>
+            </span>
+
+            <!-- 閉じるボタン -->
+            <div class="modal-action flex justify-center mt-3">
+              <form method="dialog">
+                <button data-modal-target="close" class="btn btn-accent size-9">
+                  <span class="material-symbols-outlined">
+                    close
+                  </span>
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 枠外をクリックしてモーダルを閉じる -->
+      <form data-modal-target="close" method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+
+    </dialog>
+  </div>
+<% end %>
