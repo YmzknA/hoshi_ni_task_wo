@@ -14,6 +14,20 @@
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  # テストの実行順序をランダムに
+  config.order = :random
+  # テスト失敗時のバックトレースを見やすく
+  config.full_backtrace = false
+  # フォーカスされたテストのみ実行可能に
+  config.filter_run_when_matching :focus
+
+  require "simplecov"
+  SimpleCov.start do
+    add_filter "/spec/"
+    add_group "Models", "app/models"
+    add_group "Controllers", "app/controllers"
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
