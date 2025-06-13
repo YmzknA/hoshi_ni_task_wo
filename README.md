@@ -184,4 +184,5 @@ https://www.figma.com/design/6D9vI84v3wzD69sPWU2pAw/%E6%98%9F%E3%81%AB%E3%82%BF%
 https://www.figma.com/proto/6D9vI84v3wzD69sPWU2pAw/%E6%98%9F%E3%81%AB%E3%82%BF%E3%82%B9%E3%82%AF%E3%82%92?node-id=8-78&p=f&t=jKHxKEk1ukl9UK2n-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=8%3A78
 
 ## ER図
-![er_diagram](https://github.com/user-attachments/assets/a47a2ce2-8cfd-4531-9c7b-1496ee06d0e3)
+![image](https://github.com/user-attachments/assets/ac1cc734-5b1d-43c0-ac63-992e5fc41e8c)
+
