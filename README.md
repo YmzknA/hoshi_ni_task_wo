@@ -107,7 +107,7 @@
 
 | カテゴリ | 使用技術 |
 | --- | --- |
-| フロントエンド | TailwindCSS / daisyUI / Hotwire / Javascript |
+| フロントエンド | TailwindCSS / daisyUI / Hotwire / JavaScript |
 | バックエンド | Ruby 3.4.2 / Rails 7.2.2 |
 | データベース | PostgreSQL (neon) |
 | 開発環境 | Docker |
