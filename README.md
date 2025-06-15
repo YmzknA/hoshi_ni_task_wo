@@ -44,7 +44,7 @@
 
 | ユーザー登録・ログイン | 縦型ガントチャート |
 | :---: | :---: | 
-| <img src="https://github.com/user-attachments/assets/59147a84-72a9-4a91-9a4b-d509cffae52a" width="350"> | <img src="https://github.com/user-attachments/assets/46968b61-7ef4-4c55-a5c6-f254ea2f54d5" width="600"> |
+| <img src="https://github.com/user-attachments/assets/59147a84-72a9-4a91-9a4b-d509cffae52a" width="300"> | <img src="https://github.com/user-attachments/assets/46968b61-7ef4-4c55-a5c6-f254ea2f54d5" width="415"> |
 | <p align="left">『名前』『メールアドレス』『パスワード』『確認用パスワード』を入力してユーザー登録を行います。<br>また、LINE認証でも登録 / ログインでき、LINE認証済みのアカウントは、いくつかの追加機能が使えるようになります。</p> | <p align="left">縦型ガントチャートは折り畳むことができます。<br>また、ここからタスクの詳細/編集/削除も行えます。</p> |
 <br>
 
@@ -53,17 +53,17 @@
 
 | 作成 | 詳細 |
 | :---: | :---: | 
-| <img src="https://github.com/user-attachments/assets/1c9b9348-d241-47b3-8eb7-68b5b298e902" width="475"> | <img src="https://github.com/user-attachments/assets/77c618f0-32b5-41c0-bae6-6b1c54008a56" width="475"> |
+| <img src="https://github.com/user-attachments/assets/1c9b9348-d241-47b3-8eb7-68b5b298e902" width="415"> | <img src="https://github.com/user-attachments/assets/77c618f0-32b5-41c0-bae6-6b1c54008a56" width="415"> |
 | <p align="left">タスクは一覧画面から作成できます。</p> | <p align="left">モーダルで詳細を確認できます。</p> |
 
 | 編集 | 削除 |
 | :---: | :---: | 
-| <img src="https://github.com/user-attachments/assets/59ea0d38-95b7-491a-b09e-3b09711e0962" width="475"> | <img src="https://github.com/user-attachments/assets/aa364cd2-2a9a-4014-a35f-d83425b1fa77" width="475"> |
+| <img src="https://github.com/user-attachments/assets/59ea0d38-95b7-491a-b09e-3b09711e0962" width="415"> | <img src="https://github.com/user-attachments/assets/aa364cd2-2a9a-4014-a35f-d83425b1fa77" width="415"> |
 | <p align="left">モーダルから編集することができます。</p> |  |
 
 | コピー |
 | :---: |
-| <img src="https://github.com/user-attachments/assets/580ffbd6-2280-40aa-8703-ba80cbbd8b02" width="475"> |
+| <img src="https://github.com/user-attachments/assets/580ffbd6-2280-40aa-8703-ba80cbbd8b02" width="415"> |
 | <p align="left">タスクを、始点となる日付を指定してコピーできます。</p> |
 <br>
 
@@ -71,34 +71,34 @@
 
 | 作成 | 削除 |
 | :---: | :---: | 
-| <img src="https://github.com/user-attachments/assets/662f9d2d-1e35-42f0-8c32-482706803d00" width="475"> | <img src="https://github.com/user-attachments/assets/c05d0a32-fc73-408b-b1ad-6c988a012dcd" width="475"> |
+| <img src="https://github.com/user-attachments/assets/662f9d2d-1e35-42f0-8c32-482706803d00" width="415"> | <img src="https://github.com/user-attachments/assets/c05d0a32-fc73-408b-b1ad-6c988a012dcd" width="415"> |
 | <p align="left">星座は一覧画面から作成できます。</p> | <p align="left">星座を削除する際、紐づくタスクも一緒に削除するか選択できます。</p> |
 
 | 星座詳細画面: タスク追加 | 星座詳細画面: タスク一覧から追加 |
 | :---: | :---: | 
-| <img src="https://github.com/user-attachments/assets/dcbe96eb-deb0-4da6-8ef7-db740019cb1d" width="475"> | <img src="https://github.com/user-attachments/assets/aae1599b-58ee-46d9-96df-0fd105895bc3" width="475"> | 
+| <img src="https://github.com/user-attachments/assets/dcbe96eb-deb0-4da6-8ef7-db740019cb1d" width="415"> | <img src="https://github.com/user-attachments/assets/aae1599b-58ee-46d9-96df-0fd105895bc3" width="415"> | 
 | <p align="left">星座詳細画面から、星座に紐づくタスクを直接作成できます。</p> | <p align="left">星座詳細画面から、どの星座にも紐づいていない星座を一括で追加できます。<br>また、この星座のタスクのチェックを外すことで紐づけを解除できます。</p> |
 
 | 星座を完成させる | 星座のコピー |
 | :---: | :---: | 
-| <img src="https://github.com/user-attachments/assets/15033d54-ce13-41a7-9dbc-abf604b1bbf5" width="475"> | <img src="https://github.com/user-attachments/assets/0790d1f2-5e02-4ebb-8f4f-9e7fcc0ac1e0" width="475"> |
+| <img src="https://github.com/user-attachments/assets/15033d54-ce13-41a7-9dbc-abf604b1bbf5" width="415"> | <img src="https://github.com/user-attachments/assets/0790d1f2-5e02-4ebb-8f4f-9e7fcc0ac1e0" width="415"> |
 | <p align="left">タスクが全て完了の星座を完成させることができます。<br>そうすると、星座は完成タブに移動し、紐づくタスクは表示されなくなります。<br>また、88星座の中から、タスクの数に応じた星の数の星座が付与されます。</p> | <p align="left">星座を、始点となる日付を指定してコピーできます。</p> |
 <br>
 
 | 星座の限定公開URLを発行する |
 | :---: | 
-| <img src="https://github.com/user-attachments/assets/3c0078a8-65ed-4c1d-8c27-439cf6995d9e" width="475"> |
+| <img src="https://github.com/user-attachments/assets/3c0078a8-65ed-4c1d-8c27-439cf6995d9e" width="415"> |
 | <p align="left">URLを知っている人だけが閲覧できる星座の共有ページを作成できます。<br>公開した時点での星座と紐づくタスクの状態が保持されます。</p> |
 <br>
 
 
 ### LINEからの操作
 <p align="left">リッチメニューから選択して使用できます。</p>
-<img src="https://github.com/user-attachments/assets/af7b3f3a-f926-4fcb-977e-72943f1bb3a7" width="475">
+<img src="https://github.com/user-attachments/assets/af7b3f3a-f926-4fcb-977e-72943f1bb3a7" width="415">
 
 | 名前から検索する | クイックメニューを表示する | タスクの開始日を変更 |
 | :---: | :---: | :---: | 
-| <img src="https://github.com/user-attachments/assets/78f5f4ce-8dcf-4c0b-9d3c-02e3fb1a3d66" width="300"> | <img src="https://github.com/user-attachments/assets/375e2c2a-ee12-461d-b26b-b0e9a5b08200" width="300"> | <img src="https://github.com/user-attachments/assets/375e2c2a-ee12-461d-b26b-b0e9a5b08200" width="300"> |
+| <img src="https://github.com/user-attachments/assets/78f5f4ce-8dcf-4c0b-9d3c-02e3fb1a3d66" width="275"> | <img src="https://github.com/user-attachments/assets/375e2c2a-ee12-461d-b26b-b0e9a5b08200" width="275"> | <img src="https://github.com/user-attachments/assets/375e2c2a-ee12-461d-b26b-b0e9a5b08200" width="275"> |
 | <p align="left">星座やタスクのタイトルから曖昧検索が出来ます。</p> | <p align="left">メニュー一覧を押すとクイックメニューが表示されます。<br>ここからタスクの開始日や終了日の編集が行えます。<br>また、対応していないメッセージなどを受信した場合もクイックメニューを表示します。</p> | <p align="left">タスクのみ、開始日と終了日をLINE上から変更できます。</p> |
 <br>
 
@@ -107,7 +107,7 @@
 
 | カテゴリ | 使用技術 |
 | --- | --- |
-| フロントエンド | TailwindCSS / daisyUI / Hotwire / JavaScript |
+| フロントエンド | TailwindCSS / daisyUI / Hotwire / Javascript |
 | バックエンド | Ruby 3.4.2 / Rails 7.2.2 |
 | データベース | PostgreSQL (neon) |
 | 開発環境 | Docker |
