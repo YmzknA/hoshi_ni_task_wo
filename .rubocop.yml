@@ -20,6 +20,7 @@ AllCops:
     - "config/initializers/devise.rb"
     - "config/environments/*.rb"
     - "Gemfile"
+    - ".simplecov"
   NewCops: enable
 
 Gemspec/DevelopmentDependencies:
