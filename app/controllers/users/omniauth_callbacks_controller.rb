@@ -24,7 +24,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         email = "#{random_id}-#{@omniauth['provider']}@example.com"
         @profile = current_user || User.create!(provider: @omniauth["provider"], uid: @omniauth["uid"], email: email, name: @omniauth["info"]["name"], password: Devise.friendly_token[0, 20])
       end
-      @profile.set_values(@omniauth)
       @profile.remember_me = true
       sign_in(:user, @profile)
       UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile) if @profile.tasks.empty? && @profile.milestones.empty?
