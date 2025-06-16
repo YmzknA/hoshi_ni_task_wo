@@ -215,7 +215,11 @@ RSpec.describe User, type: :model do
       end
 
       it "bioが適切に設定されること" do
-        expected_bio = "ゲストユーザーです。\n      星座やタスクの作成や編集、削除は出来ませんが、一部の機能を体験できます。\n      ぜひ、アカウントを作成して、全ての機能を体験してみてください！"
+        expected_bio = <<~BIO
+          ゲストユーザーです。
+          星座やタスクの作成や編集、削除は出来ませんが、一部の機能を体験できます。
+          ぜひ、アカウントを作成して、全ての機能を体験してみてください！
+        BIO
         expect(subject.bio).to eq expected_bio
       end
 

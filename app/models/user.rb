@@ -55,9 +55,11 @@ class User < ApplicationRecord
       user.password = "password"
       user.name = "ゲストユーザー"
       user.is_guest = true
-      user.bio = "ゲストユーザーです。
-      星座やタスクの作成や編集、削除は出来ませんが、一部の機能を体験できます。
-      ぜひ、アカウントを作成して、全ての機能を体験してみてください！"
+      user.bio = <<~BIO
+        ゲストユーザーです。
+        星座やタスクの作成や編集、削除は出来ませんが、一部の機能を体験できます。
+        ぜひ、アカウントを作成して、全ての機能を体験してみてください！
+      BIO
     end
   end
 
