@@ -20,7 +20,7 @@ FactoryBot.define do
 
     trait :with_oauth do
       provider { "line" }
-      uid { Faker::Alphanumeric.alphanumeric(number: 10) }
+      uid { 123456789 }
     end
   end
 end
