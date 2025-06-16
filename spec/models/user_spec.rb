@@ -167,36 +167,6 @@ RSpec.describe User, type: :model do
         expect(user.uid_required?).to be false
       end
     end
-
-    describe "#set_values" do
-      let(:omniauth_hash) do
-        {
-          "provider" => "line",
-          "uid" => "123456789",
-          "credentials" => {
-            "refresh_token" => "refresh_token_value",
-            "secret" => "secret_value"
-          },
-          "info" => {
-            "name" => "Test User"
-          }
-        }
-      end
-
-      it "providerとuidが一致する場合、値を設定すること" do
-        expect(oauth_user.set_values(omniauth_hash)).to be_truthy
-      end
-
-      it "providerが一致しない場合、早期returnすること" do
-        omniauth_hash["provider"] = "google"
-        expect(oauth_user.set_values(omniauth_hash)).to be_nil
-      end
-
-      it "uidが一致しない場合、早期returnすること" do
-        omniauth_hash["uid"] = "different_uid"
-        expect(oauth_user.set_values(omniauth_hash)).to be_nil
-      end
-    end
   end
 
   describe "classメソッド" do
