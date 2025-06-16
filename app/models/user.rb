@@ -24,15 +24,6 @@ class User < ApplicationRecord
     social_profiles.select { |sp| sp.provider == provider.to_s }.first
   end
 
-  # rubocop:disable Style/RedundantSelf
-  def set_values_by_raw_info(raw_info)
-    self.raw_info = raw_info.to_json
-    self.save!
-  end
-  # rubocop:enable Naming/AccessorMethodName
-  # rubocop:enable Style/RedundantSelf
-  #
-
   # ゲストユーザー
   def self.guest
     create do |user|
