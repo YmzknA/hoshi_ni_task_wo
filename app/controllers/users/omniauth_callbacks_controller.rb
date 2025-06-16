@@ -20,7 +20,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @omniauth.present?
       @profile = User.find_or_initialize_by(provider: @omniauth["provider"], uid: @omniauth["uid"])
       if @profile.email.blank?
-        email = @omniauth["info"]["email"] ? @omniauth["info"]["email"] : "#{@omniauth['uid']}-#{@omniauth['provider']}@example.com"
+        random_id = Nanoid.generate(size: NanoidGenerator::ID_LENGTH, alphabet: NanoidGenerator::ID_ALPHABET)
+        email = "#{random_id}-#{@omniauth['provider']}@example.com"
         @profile = current_user || User.create!(provider: @omniauth["provider"], uid: @omniauth["uid"], email: email, name: @omniauth["info"]["name"], password: Devise.friendly_token[0, 20])
       end
       @profile.set_values(@omniauth)
