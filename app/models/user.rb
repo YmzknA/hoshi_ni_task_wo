@@ -19,11 +19,6 @@ class User < ApplicationRecord
 
   scope :notifications_enabled, -> { where(is_notifications_enabled: true) }
 
-  # Lineログイン用の設定
-  def social_profile(provider)
-    social_profiles.select { |sp| sp.provider == provider.to_s }.first
-  end
-
   # ゲストユーザー
   def self.guest
     create do |user|
