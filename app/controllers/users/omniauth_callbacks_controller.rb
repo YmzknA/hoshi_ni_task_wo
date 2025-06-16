@@ -13,32 +13,36 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   private
 
-  # rubocop:disable Style/RedundantCondition
-  # rubocop:disable Layout/LineLength
   def basic_action
     @omniauth = request.env["omniauth.auth"]
     if @omniauth.present?
       @profile = User.find_or_initialize_by(provider: @omniauth["provider"], uid: @omniauth["uid"])
       if @profile.email.blank?
-        email = @omniauth["info"]["email"] ? @omniauth["info"]["email"] : "#{@omniauth['uid']}-#{@omniauth['provider']}@example.com"
-        @profile = current_user || User.create!(provider: @omniauth["provider"], uid: @omniauth["uid"], email: email, name: @omniauth["info"]["name"], password: Devise.friendly_token[0, 20])
+        email = fake_email(@omniauth["provider"])
+        @profile = current_user || User.create!(
+          provider: @omniauth["provider"],
+          uid: @omniauth["uid"],
+          email: email,
+          name: @omniauth["info"]["name"],
+          password: Devise.friendly_token[0, 20]
+        )
       end
-      @profile.set_values(@omniauth)
       @profile.remember_me = true
       sign_in(:user, @profile)
-      UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile) if @profile.tasks.empty? && @profile.milestones.empty?
+
+      if @profile.tasks.empty? && @profile.milestones.empty?
+        UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile)
+      end
     end
 
     # ログイン後のflash messageとリダイレクト先を設定
     flash[:notice] = "ログインしました"
     redirect_to user_path(current_user)
   end
-  # rubocop:enable Style/RedundantCondition
-  # rubocop:enable Layout/LineLength
 
-  # rubocop:disable Lint/UnusedMethodArgument
-  def fake_email(uid, provider)
-    "#{auth.uid}-#{auth.provider}@example.com"
+  def fake_email(provider)
+    random_id = Nanoid.generate(size: NanoidGenerator::ID_LENGTH, alphabet: NanoidGenerator::ID_ALPHABET)
+    "#{random_id}-#{provider}@example.com"
   end
 
   def link_line_account
@@ -61,4 +65,3 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     redirect_to user_path(current_user)
   end
 end
-# rubocop:enable Lint/UnusedMethodArgument
