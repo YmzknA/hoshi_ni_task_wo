@@ -18,8 +18,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @omniauth.present?
       @profile = User.find_or_initialize_by(provider: @omniauth["provider"], uid: @omniauth["uid"])
       if @profile.email.blank?
-        random_id = Nanoid.generate(size: NanoidGenerator::ID_LENGTH, alphabet: NanoidGenerator::ID_ALPHABET)
-        email = "#{random_id}-#{@omniauth['provider']}@example.com"
+        email = fake_email(@omniauth["provider"])
         @profile = current_user || User.create!(
           provider: @omniauth["provider"],
           uid: @omniauth["uid"],
@@ -42,8 +41,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   # rubocop:disable Lint/UnusedMethodArgument
-  def fake_email(uid, provider)
-    "#{auth.uid}-#{auth.provider}@example.com"
+  def fake_email(provider)
+    random_id = Nanoid.generate(size: NanoidGenerator::ID_LENGTH, alphabet: NanoidGenerator::ID_ALPHABET)
+    "#{random_id}-#{@omniauth['provider']}@example.com"
   end
 
   def link_line_account
