@@ -40,7 +40,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     redirect_to user_path(current_user)
   end
 
-  # rubocop:disable Lint/UnusedMethodArgument
   def fake_email(provider)
     random_id = Nanoid.generate(size: NanoidGenerator::ID_LENGTH, alphabet: NanoidGenerator::ID_ALPHABET)
     "#{random_id}-#{provider}@example.com"
@@ -66,4 +65,3 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     redirect_to user_path(current_user)
   end
 end
-# rubocop:enable Lint/UnusedMethodArgument
