@@ -20,6 +20,7 @@ AllCops:
     - "config/initializers/devise.rb"
     - "config/environments/*.rb"
     - "Gemfile"
+    - ".simplecov"
   NewCops: enable
 
 Gemspec/DevelopmentDependencies:
@@ -59,6 +60,7 @@ Style/Documentation:
 Metrics/BlockLength:
   Exclude:
     - "config/routes.rb"
+    - 'spec/**/*'
 
 Metrics/MethodLength:
   Max: 40
