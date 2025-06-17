@@ -6,7 +6,6 @@ class MilestonesController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
-  # GET /milestones or /milestones.json
   def index
     @user = current_user
     user_milestones = milestones_ransack_result
@@ -19,7 +18,6 @@ class MilestonesController < ApplicationController
     @title = "星座一覧"
   end
 
-  # GET /milestones/1
   def show
     if other_guest_milestone?(@milestone)
       flash[:alert] = "星座が見つかりませんでした"
@@ -46,7 +44,6 @@ class MilestonesController < ApplicationController
     end
   end
 
-  # GET /milestones/new
   def new
     if current_user.guest?
       flash[:alert] = "ゲストユーザーは星座を作成できません"
@@ -57,7 +54,6 @@ class MilestonesController < ApplicationController
     @milestone = Milestone.new
   end
 
-  # GET /milestones/1/edit
   def edit; end
 
   def create
@@ -87,7 +83,6 @@ class MilestonesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /milestones/1
   def update
     if @milestone.update(milestone_params)
       redirect_to @milestone, notice: "星座を更新しました"
@@ -105,7 +100,6 @@ class MilestonesController < ApplicationController
     end
   end
 
-  # DELETE /milestones/1
   def destroy
     with_task = params[:with_task] == "true"
 
