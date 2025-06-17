@@ -41,9 +41,9 @@
             <% if milestone.open? %>
               <% 
                 # タスクの取得
-                tasks = milestone.tasks.valid_dates_nil
-                not_completed_tasks = tasks.not_completed.start_date_asc
-                completed_tasks = tasks.completed.start_date_asc
+                base_tasks = milestone.tasks.valid_dates_nil
+                not_completed_tasks = base_tasks.not_completed.start_date_asc
+                completed_tasks = base_tasks.completed.start_date_asc
                 tasks = not_completed_tasks + completed_tasks
               %>
 
