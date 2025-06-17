@@ -1,7 +1,6 @@
 class MilestoneOpenToggleController < ApplicationController
   before_action :authenticate_user!
 
-  # POST /milestones/1/toggle
   def toggle
     @milestone = Milestone.find(params[:id])
 

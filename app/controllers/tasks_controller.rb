@@ -5,7 +5,6 @@ class TasksController < ApplicationController
   before_action :set_task_milestone, only: [:update_progress, :update, :destroy]
   before_action :valid_guest_user, only: [:create]
 
-  # GET /tasks or /tasks.json
   def index
     @task = Task.new
     @milestones = current_user.milestones.not_completed
@@ -20,13 +19,11 @@ class TasksController < ApplicationController
     @not_completed_tasks = base_tasks.not_completed.reject(&:milestone_completed?)
   end
 
-  # GET /tasks/1/edit
   def edit
     @milestones = current_user.milestones.not_completed
   end
 
-  # POST /tasks
-  # turbo_streamでモーダルを更新
+  # turbo_streamで更新
   def create
     @task = Task.new(task_params)
     user = current_user
@@ -52,7 +49,7 @@ class TasksController < ApplicationController
     end
   end
 
-  # turbo_streamでモーダルを更新している
+  # turbo_stream更新している
   def update
     user = current_user
     @milestones = user.milestones
@@ -73,7 +70,6 @@ class TasksController < ApplicationController
     end
   end
 
-  # DELETE /tasks/1
   def destroy
     @task.destroy!
 
