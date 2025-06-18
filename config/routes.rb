@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show] do
     member do
       patch "toggle_notifications" => "users#toggle_notifications"
+      patch "toggle_hide_completed_tasks" => "users#toggle_hide_completed_tasks"
     end
   end
 
