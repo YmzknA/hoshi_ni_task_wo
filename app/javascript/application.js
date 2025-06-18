@@ -6,6 +6,7 @@ import { groupBtnHoverRemoveGroupLinkCardBg } from "./groupBtnHoverRemoveGroupLi
 import { fadeElementOnScroll } from "./fadeElementOnScroll"
 import { addButtonNotification } from "./addButtonNotification"
 import { newReleaseNotification } from "./newReleaseNotification"
+import { settingButtonRotate } from "./settingButtonRotate"
 
 function initializeApp() {
   // 背景の星を表示
@@ -23,8 +24,12 @@ function initializeApp() {
 
   // 新リリース通知の表示制御
   newReleaseNotification();
+
+  // 設定ボタンのホバー時のアニメーション
+  settingButtonRotate();
 }
 
 document.addEventListener("turbo:load", initializeApp);
 
 document.addEventListener("DOMContentLoaded", initializeApp);
+

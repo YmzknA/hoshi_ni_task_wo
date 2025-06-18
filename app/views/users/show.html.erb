@@ -38,14 +38,22 @@
 
       <!-- ゲストユーザーの時は、ユーザー編集ボタンを無効化 -->
       <div class="flex justify-center items-center">
-        <div class="flex w-xl <%= current_user?(@user) ? 'justify-between' : 'justify-end' %>">
+        <div class="flex w-xl items-center <%= current_user?(@user) ? 'justify-between' : 'justify-end' %>">
 
           <% if current_user&.guest? && current_user?(@user) %>
             <div class="tooltip" data-tip="ゲストユーザーは使用できません">
               <button class="btn btn-disabled rounded-lg">ユーザー編集</button>
             </div>
           <% elsif current_user?(@user) %>
-            <button class="btn btn-accent rounded-lg" onclick="edit_modal.showModal()">ユーザー編集</button>
+            <div class="flex items-center space-x-3">
+              <button class="btn btn-accent rounded-lg" onclick="edit_modal.showModal()">ユーザー編集</button>
+
+              <button id="setting_button" class="btn bg-base-100 size-10" onclick="setting.showModal()">
+                <span id="setting_mark" class="material-symbols-outlined text-base-200">
+                  settings
+                </span>
+              </button>
+            </div>
           <% end %>
 
           <%= render "x_share_button", instance: @user %>
@@ -193,4 +201,28 @@
   <!-- モーダル -->
   <%= render 'devise/registrations/edit_form_modal' %>
   <%= turbo_frame_tag "show_complete_page_modal" %>
+
+  <div data-controller="modal">
+    <dialog data-modal-target="to_not_blur" id="setting" class="modal">
+      <div class="modal-box w-xl max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-1 text-base-100 card bg-base-300 w-2xl h-2xl p-5 flex justify-center z-10">
+        <h2 class="text-2xl font-bold mb-4">ユーザー編集</h2>
+
+                <div class="modal-action flex justify-center mt-5">
+          <form method="dialog">
+            <button data-modal-target="close" class="btn btn-accent px-3">
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <form data-modal-target="close" method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+  </div>
+
 <% end %>
