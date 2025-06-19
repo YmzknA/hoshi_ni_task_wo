@@ -22,7 +22,7 @@ class TaskMilestoneAssignmentsController < ApplicationController
     end
 
     if success_flag
-      prepare_for_chart(@milestone) if @milestone.is_on_chart
+      @chart_presenter = GanttChartPresenter.new([@milestone]) if @milestone.on_chart?
       @milestone_tasks = tasks_ransack_result
 
       flash.now[:notice] = "星座のタスクを更新しました"
@@ -67,15 +67,5 @@ class TaskMilestoneAssignmentsController < ApplicationController
     @q = @milestone.tasks.ransack(params[:q])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
     @q.result(distinct: true).includes(:user)
-  end
-
-  def prepare_for_chart(milestone)
-    return if milestone.start_date.nil? || milestone.end_date.nil?
-    return unless milestone.on_chart?
-
-    # milestone_chartの幅と位置情報を計算
-    @milestone_widths, @milestone_lefts = milestone_widths_lefts_hash([milestone])
-    @date_range = date_range([milestone])
-    @chart_total_width = @milestone_widths[milestone.id].to_i + 40
   end
 end

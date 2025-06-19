@@ -8,7 +8,7 @@ class LimitedSharingMilestonesController < ApplicationController
     @title = "限定公開の星座"
 
     prepare_meta_tags(@milestone)
-    prepare_for_chart(@milestone) if @milestone.is_on_chart
+    @chart_presenter = GanttChartPresenter.new([@milestone]) if @milestone.on_chart?
     @milestone_tasks = @milestone.tasks
   end
 
@@ -85,13 +85,6 @@ class LimitedSharingMilestonesController < ApplicationController
       end_date: base_task.end_date,
       user: base_task.user
     )
-  end
-
-  def prepare_for_chart(milestone)
-    # milestone_chartの幅と位置情報を計算
-    @milestone_widths, @milestone_lefts = milestone_widths_lefts_hash([milestone])
-    @date_range = date_range([milestone])
-    @chart_total_width = @milestone_widths[milestone.id].to_i + 40
   end
 
   def prepare_meta_tags(milestone)
