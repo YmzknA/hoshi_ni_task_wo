@@ -160,12 +160,7 @@
             </div>
 
             <div class="overflow-x-auto text-sm">
-              <%= render "gantt_chart/chart_layout", 
-                date_range: @date_range, 
-                milestones: [@milestone], 
-                milestone_widths: @milestone_widths, 
-                milestone_lefts: @milestone_lefts, 
-                chart_total_width: @chart_total_width %>
+              <%= render "gantt_chart/chart_layout", chart_presenter: @chart_presenter %>
           </div>
           </div>
         <% end %>
