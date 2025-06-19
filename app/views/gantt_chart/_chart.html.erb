@@ -11,12 +11,6 @@
             # 色の設定(taskもこの色を使う)
             milestone_color = milestone.color
             truncate_num = milestone_title_truncate_num(milestone)
-
-            # タスクの取得
-            tasks = milestone.tasks.valid_dates_nil
-            not_completed_tasks = tasks.not_completed.start_date_asc
-            completed_tasks = tasks.completed.start_date_asc
-            tasks = not_completed_tasks + completed_tasks
           %>
 
           <!-- milestone名前 -->
@@ -45,14 +39,23 @@
             ">
 
             <% if milestone.open? %>
+              <% 
+                # タスクの取得
+                base_tasks = milestone.tasks.valid_dates_nil
+                not_completed_tasks = base_tasks.not_completed.start_date_asc
+                completed_tasks = base_tasks.completed.start_date_asc
+                tasks = not_completed_tasks + completed_tasks
+              %>
+
               <!-- Task（丸と線） -->
-              <%# valid_dates_nilでstart_dateかend_dateが無いtaskを弾く %>
               <div id="chart_<%=milestone.id%>">
                 <% tasks.each do |task| %>
                   <%= render "gantt_chart/task_chart", task: task, tasks: tasks %>
                 <% end %>
               </div>
+
             <% else %>
+
               <%= button_to milestone_open_toggle_path(milestone), class: "hover:cursor-pointer hover:bg-base-100/30 w-full mt-2", method: :patch, data: { action: "click->loading#show" } do %>
                 <span class="material-symbols-outlined">
                   left_panel_open
@@ -63,5 +66,6 @@
                   </div>
                 </div>
               <% end %>
+
             <% end %>
           </div>

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-  before_action :set_user, only: [:show, :toggle_notifications]
-  before_action :validate_another_user, only: [:toggle_notifications]
+  before_action :set_user, only: [:show, :toggle_notifications, :toggle_hide_completed_tasks]
+  before_action :validate_another_user, only: [:toggle_notifications, :toggle_hide_completed_tasks]
 
   def show
     # @userがnilであるか、またはゲストユーザかつ現在のユーザと異なる場合はリダイレクト
@@ -35,6 +35,25 @@ class UsersController < ApplicationController
       else
         flash.now[:alert] = "通知の切り替えに失敗しました"
       end
+    end
+  end
+
+  def toggle_hide_completed_tasks
+    if @user.nil?
+      redirect_to root_path, alert: "ユーザが見つかりません"
+    else
+      @user.is_hide_completed_tasks = !@user.is_hide_completed_tasks
+      if @user.save
+        flash.now[:notice] = if @user.is_hide_completed_tasks
+                               "完了したタスクを非表示にしました"
+                             else
+                               "完了したタスクを表示するように設定しました"
+                             end
+      else
+        flash.now[:alert] = "完了したタスクの表示設定の切り替えに失敗しました"
+      end
+
+      # turbo_streamで更新する
     end
   end
 
