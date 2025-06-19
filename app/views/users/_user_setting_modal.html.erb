@@ -1,0 +1,57 @@
+  <div data-controller="modal">
+    <dialog data-modal-target="to_not_blur" id="setting" class="modal">
+      <div class="modal-box w-xl h-100 max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-1 text-base-200 card bg-base-100 w-2xl h-2xl p-5 flex justify-center z-10">
+
+        <h3 class="text-xl font-bold mb-2 text-center text-secondary">ユーザー設定</h3>
+        <p class="text-center mb-5">他の設定項目は今後実装予定です</p>
+        <div class="card z-10 flex h-2xl size-full justify-center bg-base-300 p-5 text-center">
+          <div class="mb-8 flex items-center justify-center">
+            <%= form_with model: @user, url: toggle_hide_completed_tasks_user_path(@user), method: :patch, local: false, class: "flex items-center justify-center" do |f| %>
+              <div class="flex flex-col items-center mr-2">
+                <%= f.label :is_hide_completed_tasks, "完了したタスクをチャート上で非表示：", class: "cursor-pointer mr-2 text-sm md:text-lg hidden md:block" %>
+                <%= f.label :is_hide_completed_tasks, "完了したタスクを", class: "cursor-pointer mr-2 text-sm md:text-lg md:hidden" %>
+                <%= f.label :is_hide_completed_tasks, "チャート上で非表示：", class: "cursor-pointer mr-2 text-sm md:text-lg md:hidden" %>
+              </div>
+              <%= f.check_box :is_hide_completed_tasks, class: "toggle toggle-md bg-base-100 md:toggle-xl checked:bg-primary checked:text-accent checked:border-primary", onchange: "this.form.requestSubmit()" %>
+            <% end %>
+
+            <div class="dropdown dropdown-center ml-2">
+              <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-xs text-info">
+                <span class="material-symbols-outlined text-base-200">
+                  help
+                </span>
+              </div>
+              <div
+                tabindex="0"
+                class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-24 mt-2 shadow-xl border-1">
+                <div tabindex="0" class="card-body text-sm px-1">
+                  <div class="text-center">
+                    <p class="mb-2">ガントチャートで完了したタスクを非表示にします</p>
+                    <p class="mb-2">個別の星座詳細ページでは、完了したタスクも表示されます</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="modal-action flex justify-center mt-5 items-end">
+          <form method="dialog">
+            <button data-modal-target="close" class="btn btn-accent px-3">
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <form data-modal-target="close" method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+  </div>
+
