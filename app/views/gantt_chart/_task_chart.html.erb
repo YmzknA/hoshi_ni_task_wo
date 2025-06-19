@@ -1,39 +1,12 @@
 <%
-      # 色の設定(taskもこの色を使う)
-      milestone = task.milestone
-      milestone_color = milestone.color
-      task_index = tasks.index(task)
-      task_count = [tasks.count, 3].max
-      milestone_width_size = (task_count * 80)
-          %>
+          # 定数をまとめて変数に代入
+          constants = {
+            task_title_max_length: GanttChartHelper::TASK_TITLE_MAX_LENGTH,
+          }
 
-          <%
-              if task.start_date && task.end_date
-                # task_xxx_index：taskの表示はmilestoneの四角の上辺を始点に始まっているため、taskのmilestone.start_dateを引く
-                task_start_index = (task.start_date - task.milestone.start_date).to_i
-                task_end_index = (task.end_date - task.milestone.start_date).to_i
-
-                task_height = (task_end_index - task_start_index + 1) * 40
-                task_top = task_start_index * 40
-              elsif task.start_date && !task.end_date
-                task_start_index = (task.start_date - task.milestone.start_date).to_i
-                task_height = 40
-                task_top = task_start_index * 40
-              elsif !task.start_date && task.end_date
-                task_end_index = (task.end_date - task.milestone.start_date).to_i
-                task_height = 40
-                task_top = task_end_index * 40
-              else
-              end
-          margin_top = 8
-          task_title_height = ([task.title.length, 14].min + 1) * 15
-
-          # taskの水平位置を計算
-          # section_widthでtask一つあたりの占有割合を出す
-          # task_leftで現在のtaskがこのmilestoneの何%の位置かで計算し、task要素の幅分右にずれているので、左にずらす
-          # 9.5はボーダーの幅の半分の1.5とtaskの幅の半分の8を足したもの
-          section_width = 1.000 / (tasks.count + 1)
-          task_left = "#{milestone_width_size * section_width * (task_index + 1) - 9.5}"
+          # TaskChartPresenterを使って、taskのデータを取得
+          presenter = TaskChartPresenter.new(task, tasks)
+          task_data = presenter.task_data
         %>
 
         <%# heightの-5は上下につける〇の要素のサイズ分 %>
@@ -41,26 +14,26 @@
           id="task_chart_<%= task.id %>"
           class="absolute flex flex-col items-center cursor-pointer"
           onclick="tasks_show_modal_<%=task.id%>_target.showModal()"
-          style="top: <%= task_top + margin_top %>px;
-          height: <%= task_height - (margin_top * 2) - 5 %>px;
-          left: <%= task_left %>px"
+          style="top: <%= task_data[:top] + task_data[:margin_top] %>px;
+          height: <%= task_data[:height] - (task_data[:margin_top] * 2) - 5 %>px;
+          left: <%= task_data[:left] %>px"
           >
           <!-- タスク名 -->
           <div class="absolute left-8 top-2 text-start [writing-mode:vertical-rl] ">
             <div class="absolute left-[-14px] w-4 h-4 bg-base-200" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
-            <div style="height: <%= task_title_height %>px">
-              <%= task.title.truncate(15, omission: '...') %>
+            <div style="height: <%= task_data[:title_height] %>px">
+              <%= task.title.truncate(constants[:task_title_max_length], omission: "...") %>
             </div>
           </div>
 
           <!-- 開始点の円 -->
-          <div class="z-40 <%= task.in_progress? ? "size-4 relative top-1 mask mask-triangle-2" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
+          <div class="z-40 <%= task.in_progress? ? "size-4 relative top-1 mask mask-triangle-2" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{task_data[:color]}4d" : task_data[:color] %>;"></div>
 
           <% if task.start_date && task.end_date %>
             <!-- 線 -->
-            <div class="w-1 flex-grow z-40" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
+            <div class="w-1 flex-grow z-40" style="background-color: <%= task.completed? ? "#{task_data[:color]}4d" : task_data[:color] %>;"></div>
 
             <!-- 終了点の円 -->
-            <div class="z-40 <%= task.in_progress? ? "size-4 relative -top-1 mask mask-triangle" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{milestone_color}4d" : milestone_color %>;"></div>
+            <div class="z-40 <%= task.in_progress? ? "size-4 relative -top-1 mask mask-triangle" : "size-4 rounded-full" %>" style="background-color: <%= task.completed? ? "#{task_data[:color]}4d" : task_data[:color] %>;"></div>
           <% end %>
         </button>

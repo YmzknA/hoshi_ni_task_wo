@@ -1,11 +1,6 @@
 <div class="container mx-auto p-4">
   <%= render "flash" %>
-  <%= render "chart_layout", 
-             date_range: @date_range, 
-             milestones: @milestones, 
-             milestone_widths: @milestone_widths, 
-             milestone_lefts: @milestone_lefts, 
-             chart_total_width: @chart_total_width %>
+  <%= render "chart_layout", chart_presenter: @chart_presenter %>
 </div>
 
 
@@ -16,7 +11,7 @@
 <%= turbo_frame_tag "milestone_show_modal" %>
 <%= turbo_frame_tag "tasks_copy_modal" %>
 
-<% @milestones.each do |milestone| %>
+<% @chart_presenter.milestones.each do |milestone| %>
   <% milestone.tasks.includes(:user).each do |task| %>
     <%= render "tasks/tasks_show_modal", task: task, tasks_show_modal_open: false %>
   <% end %>
