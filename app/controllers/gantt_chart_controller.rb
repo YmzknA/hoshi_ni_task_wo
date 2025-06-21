@@ -11,7 +11,7 @@ class GanttChartController < ApplicationController
       return
     end
 
-    @chart_presenter = GanttChartPresenter.new(milestones)
+    @chart_presenter = GanttChartPresenter.new(milestones, current_user)
   end
 
   def milestone_show

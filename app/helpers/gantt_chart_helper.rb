@@ -35,14 +35,18 @@ module GanttChartHelper
   MILESTONE_HEADER_WIDTH_MARGIN = 20
   MILESTONE_HEADER_LEFT_MARGIN = 10
 
-  def milestone_widths_lefts_hash(milestones)
+  def milestone_widths_lefts_hash(milestones, user = nil)
     current_position = MILESTONE_INITIAL_POSITION
     milestone_widths = {}
     milestone_lefts = {}
 
     # 星座のタスク数を取得
     if milestones.first.instance_of?(Milestone)
-      task_counts = Task.where(milestone_id: milestones.map(&:id)).group(:milestone_id).count
+      task_counts = if user&.completed_tasks_hidden?
+                      Task.where(milestone_id: milestones.map(&:id)).not_completed.group(:milestone_id).count
+                    else
+                      Task.where(milestone_id: milestones.map(&:id)).group(:milestone_id).count
+                    end
     elsif milestones.first.instance_of?(LimitedSharingMilestone)
       # 渡されたmilestonesがLimitedSharingMilestoneの場合
       # rubocop:disable Layout/LineLength

@@ -1,11 +1,12 @@
 class MilestoneChartPresenter
   include ::GanttChartHelper
 
-  def initialize(milestone, date_range, milestone_widths, milestone_lefts)
+  def initialize(milestone, date_range, milestone_widths, milestone_lefts, current_user)
     @milestone = milestone
     @date_range = date_range
     @milestone_widths = milestone_widths
     @milestone_lefts = milestone_lefts
+    @current_user = current_user
   end
 
   def milestone_data
@@ -27,10 +28,16 @@ class MilestoneChartPresenter
   def tasks
     base_tasks = @milestone.tasks.valid_dates_nil
 
-    not_completed_tasks = base_tasks.not_completed.start_date_asc
-    completed_tasks = base_tasks.completed.start_date_asc
+    if @current_user&.completed_tasks_hidden?
+      tasks = base_tasks.not_completed.start_date_asc
+    else
+      not_completed_tasks = base_tasks.not_completed.start_date_asc
+      completed_tasks = base_tasks.completed.start_date_asc
 
-    not_completed_tasks + completed_tasks
+      tasks = not_completed_tasks + completed_tasks
+    end
+
+    tasks
   end
 
   def start_index

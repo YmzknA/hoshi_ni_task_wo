@@ -8,7 +8,7 @@
 
             # MilestoneChartPresenterを使って、milestoneのデータを取得
             chart_data =  chart_presenter.chart_data
-            milestone_presenter = MilestoneChartPresenter.new(milestone, chart_data[:date_range], chart_data[:milestone_widths], chart_data[:milestone_lefts])
+            milestone_presenter = MilestoneChartPresenter.new(milestone, chart_data[:date_range], chart_data[:milestone_widths], chart_data[:milestone_lefts], chart_data[:current_user])
             milestone_data = milestone_presenter.milestone_data
           %>
 
