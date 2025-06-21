@@ -129,7 +129,7 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :description, :progress,
-                                 :start_date, :end_date, :milestone_id).merge(user_id: current_user.id)
+                                 :start_date, :end_date, :milestone_id, :from_chart).merge(user_id: current_user.id)
   end
 
   def set_task_milestone
@@ -171,15 +171,10 @@ class TasksController < ApplicationController
   def set_chart_tasks
     return unless @task_milestone.on_chart?
 
-    tasks = if current_user.completed_tasks_hidden?
-              @task_milestone.tasks.not_completed.valid_dates_nil
-            else
-              @task_milestone.tasks.valid_dates_nil
-            end
-
+    tasks = fetch_chart_tasks
     @chart_tasks = sort_tasks_by_complete_and_start_date(tasks).to_a
 
-    # いま処理しているタスクがまだdbに存在していればチャートに表示するために追加している
+    # いま処理しているタスクがまだdbに存在していればチャートに表示するために追加
     current_task = @task_milestone.tasks.find_by(id: @task.id)
     @chart_tasks << current_task if current_task && @chart_tasks.exclude?(current_task)
   end
@@ -211,6 +206,28 @@ class TasksController < ApplicationController
       tasks.not_completed
     else
       tasks.where(progress: progress)
+    end
+  end
+
+  def from_chart_page?
+    # URLからアクセス元のページを判定
+    referer = request.referer
+    return false if referer.blank?
+
+    # チャート画面のURLパターンをチェック
+    referer.include?("/gantt_chart")
+  end
+
+  def fetch_chart_tasks
+    # アクセス元のページを判定してタスクを取得
+    # チャート画面からのアクセスの場合：完了タスクを非表示にする設定を確認する
+    # 星座詳細画面からのアクセスの場合：常にすべてのタスクを表示
+    return @task_milestone.tasks.valid_dates_nil unless from_chart_page?
+
+    if current_user.completed_tasks_hidden?
+      @task_milestone.tasks.not_completed.valid_dates_nil
+    else
+      @task_milestone.tasks.valid_dates_nil
     end
   end
 end
