@@ -32,8 +32,8 @@
   <% if @task_milestone && @tasks_update_success == true && @task_milestone.on_chart? %>
     <%= turbo_stream.replace "chart_#{@task_milestone.id}" do %>
       <div id="chart_<%=@task_milestone.id%>">
-      <% @tasks.each do |task| %>
-        <%= render "gantt_chart/task_chart", task: task, tasks: @tasks %>
+      <% @chart_tasks.each do |task| %>
+        <%= render "gantt_chart/task_chart", task: task, tasks: @chart_tasks %>
       <% end %>
       </div>
     <% end %>

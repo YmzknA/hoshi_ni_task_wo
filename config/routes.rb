@@ -2,14 +2,13 @@ Rails.application.routes.draw do
   get "images/ogp.png", to: "images#ogp", as: "images_ogp"
 
   resources :tasks, only: [:index, :create, :edit, :update, :destroy] do
-    patch "update_progress", on: :member
-
     collection do
       get :autocomplete
     end
   end
   namespace :tasks do
     resources :copies, only: [:show, :create]
+    patch "update_progress/:id", to: "update_progress#update", as: :update_progress
   end
 
   resources :milestones do

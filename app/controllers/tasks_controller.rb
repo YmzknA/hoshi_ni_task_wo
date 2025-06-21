@@ -1,8 +1,8 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :update_progress, :destroy]
+  before_action :set_task, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, except: [:autocomplete]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
-  before_action :set_task_milestone, only: [:update_progress, :update, :destroy]
+  before_action :set_task_milestone, only: [:update, :destroy]
   before_action :valid_guest_user, only: [:create]
 
   def index
@@ -80,21 +80,6 @@ class TasksController < ApplicationController
   # #################################
   # CRUD以外のアクション
   # ###########################################
-  def update_progress
-    if @task.milestone_completed?
-      flash.now.alert = "このタスクは完成した星座に関連付けられています"
-      redirect_back fallback_location: tasks_path and return
-    end
-
-    @task.progress = @task.next_progress
-
-    if @task.save
-      update_task_milestone_and_load_tasks
-      flash.now.notice = "タスクの進捗状況を更新しました"
-    else
-      flash.now.alert = "タスクの進捗状況の更新に失敗しました"
-    end
-  end
 
   # タスクのautocomplete機能, stimulus_autocompleteで使用
   def autocomplete
@@ -129,7 +114,7 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :description, :progress,
-                                 :start_date, :end_date, :milestone_id).merge(user_id: current_user.id)
+                                 :start_date, :end_date, :milestone_id, :from_chart).merge(user_id: current_user.id)
   end
 
   def set_task_milestone
@@ -162,12 +147,21 @@ class TasksController < ApplicationController
   def update_task_milestone_and_load_tasks
     return unless @task_milestone.present?
 
+    # 星座の進捗をタスクの進捗に合わせて更新
     @task_milestone.update_progress
 
+    set_chart_tasks
+  end
+
+  def set_chart_tasks
     return unless @task_milestone.on_chart?
 
-    tasks = @task_milestone.tasks.valid_dates_nil
-    @tasks = sort_tasks_by_complete_and_start_date(tasks)
+    tasks = fetch_chart_tasks
+    @chart_tasks = sort_tasks_by_complete_and_start_date(tasks).to_a
+
+    # いま処理しているタスクがまだdbに存在していればチャートに表示するために追加
+    current_task = @task_milestone.tasks.find_by(id: @task.id)
+    @chart_tasks << current_task if current_task && @chart_tasks.exclude?(current_task)
   end
 
   def ransack_result
@@ -197,6 +191,28 @@ class TasksController < ApplicationController
       tasks.not_completed
     else
       tasks.where(progress: progress)
+    end
+  end
+
+  def from_chart_page?
+    # URLからアクセス元のページを判定
+    referer = request.referer
+    return false if referer.blank?
+
+    # チャート画面のURLパターンをチェック
+    referer.include?("/gantt_chart")
+  end
+
+  def fetch_chart_tasks
+    # アクセス元のページを判定してタスクを取得
+    # チャート画面からのアクセスの場合：完了タスクを非表示にする設定を確認する
+    # 星座詳細画面からのアクセスの場合：常にすべてのタスクを表示
+    return @task_milestone.tasks.valid_dates_nil unless from_chart_page?
+
+    if current_user.completed_tasks_hidden?
+      @task_milestone.tasks.not_completed.valid_dates_nil
+    else
+      @task_milestone.tasks.valid_dates_nil
     end
   end
 end

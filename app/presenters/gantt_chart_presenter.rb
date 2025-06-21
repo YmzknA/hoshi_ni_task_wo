@@ -3,8 +3,9 @@ class GanttChartPresenter
 
   attr_reader :milestones
 
-  def initialize(milestones)
+  def initialize(milestones, current_user = nil)
     @milestones = milestones
+    @current_user = current_user
   end
 
   def chart_data
@@ -13,18 +14,19 @@ class GanttChartPresenter
       milestone_widths: milestone_widths, # 星座ごとの幅
       milestone_lefts: milestone_lefts, # 星座ごとの左位置
       chart_total_width: chart_total_width, # チャート全体の幅
-      milestones: @milestones # chart_presenter.milestonesでも参照できるが、chart_dataでまとめて取得することで統一した記述にしている
+      milestones: @milestones, # chart_presenter.milestonesでも参照できるが、chart_dataでまとめて取得することで統一した記述にしている
+      current_user: @current_user # 現在のユーザー情報
     }
   end
 
   private
 
   def milestone_widths
-    milestone_widths_lefts_hash(@milestones)[0] # メソッドの戻り値は[widths, lefts]の配列
+    milestone_widths_lefts_hash(@milestones, @current_user)[0] # メソッドの戻り値は[widths, lefts]の配列
   end
 
   def milestone_lefts
-    milestone_widths_lefts_hash(@milestones)[1] # メソッドの戻り値は[widths, lefts]の配列
+    milestone_widths_lefts_hash(@milestones, @current_user)[1] # メソッドの戻り値は[widths, lefts]の配列
   end
 
   def chart_total_width

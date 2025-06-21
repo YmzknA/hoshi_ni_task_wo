@@ -45,4 +45,8 @@ class User < ApplicationRecord
   def uid_required?
     provider.present?
   end
+
+  def completed_tasks_hidden?
+    is_hide_completed_tasks == true
+  end
 end

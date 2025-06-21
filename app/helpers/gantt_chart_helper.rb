@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ModuleLength
 module GanttChartHelper
   # 日付行の高さ（px）
   DATE_ROW_HEIGHT = 40
@@ -35,20 +36,13 @@ module GanttChartHelper
   MILESTONE_HEADER_WIDTH_MARGIN = 20
   MILESTONE_HEADER_LEFT_MARGIN = 10
 
-  def milestone_widths_lefts_hash(milestones)
+  def milestone_widths_lefts_hash(milestones, user = nil)
     current_position = MILESTONE_INITIAL_POSITION
     milestone_widths = {}
     milestone_lefts = {}
 
     # 星座のタスク数を取得
-    if milestones.first.instance_of?(Milestone)
-      task_counts = Task.where(milestone_id: milestones.map(&:id)).group(:milestone_id).count
-    elsif milestones.first.instance_of?(LimitedSharingMilestone)
-      # 渡されたmilestonesがLimitedSharingMilestoneの場合
-      # rubocop:disable Layout/LineLength
-      task_counts = LimitedSharingTask.where(limited_sharing_milestone_id: milestones.map(&:id)).group(:limited_sharing_milestone_id).count
-      # rubocop:enable Layout/LineLength
-    end
+    task_counts = milestone_task_counts_hash(milestones, user)
 
     milestones.each do |milestone|
       task_counts[milestone.id] = 0 if task_counts[milestone.id].nil?
@@ -145,4 +139,27 @@ module GanttChartHelper
       ""
     end
   end
+
+  def milestone_task_counts(milestones, user = nil)
+    if user&.completed_tasks_hidden?
+      Task.where(milestone_id: milestones.map(&:id)).not_completed.group(:milestone_id).count
+    else
+      Task.where(milestone_id: milestones.map(&:id)).group(:milestone_id).count
+    end
+  end
+
+  def limited_sharing_milestone_task_counts(milestones)
+    # rubocop:disable Layout/LineLength
+    LimitedSharingTask.where(limited_sharing_milestone_id: milestones.map(&:id)).group(:limited_sharing_milestone_id).count
+    # rubocop:enable Layout/LineLength
+  end
+
+  def milestone_task_counts_hash(milestones, user = nil)
+    if milestones.first.instance_of?(Milestone)
+      milestone_task_counts(milestones, user)
+    elsif milestones.first.instance_of?(LimitedSharingMilestone)
+      limited_sharing_milestone_task_counts(milestones)
+    end
+  end
 end
+# rubocop:enable Metrics/ModuleLength
