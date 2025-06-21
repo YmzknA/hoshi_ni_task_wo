@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   end
   namespace :tasks do
     resources :copies, only: [:show, :create]
-    patch 'update_progress/:id', to: 'update_progress#update', as: :update_progress
+    patch "update_progress/:id", to: "update_progress#update", as: :update_progress
   end
 
   resources :milestones do
