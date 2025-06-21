@@ -1,8 +1,8 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:edit, :update, :update_progress, :destroy]
+  before_action :set_task, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, except: [:autocomplete]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
-  before_action :set_task_milestone, only: [:update_progress, :update, :destroy]
+  before_action :set_task_milestone, only: [:update, :destroy]
   before_action :valid_guest_user, only: [:create]
 
   def index
