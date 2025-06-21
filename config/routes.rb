@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
   namespace :tasks do
     resources :copies, only: [:show, :create]
+    resources :update_progress, only: [:update]
   end
 
   resources :milestones do

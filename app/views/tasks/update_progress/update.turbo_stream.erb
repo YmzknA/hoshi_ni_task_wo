@@ -3,12 +3,12 @@
 <% end %>
 
 <%= turbo_stream.replace "progress_button_#{@task.id}" do %>
-  <%= render "progress_button", task: @task %>
+  <%= render "tasks/progress_button", task: @task %>
 <% end %>
 
 <%= turbo_stream.replace "task_show_progress_button_id_#{@task.id}" do %>
   <div id="task_show_progress_button_id_<%= @task.id %>" class="flex w-full items-center justify-center">
-  <%= render "progress_button", task: @task %>
+  <%= render "tasks/progress_button", task: @task %>
   </div>
 <% end %>
 

@@ -80,21 +80,6 @@ class TasksController < ApplicationController
   # #################################
   # CRUD以外のアクション
   # ###########################################
-  def update_progress
-    if @task.milestone_completed?
-      flash.now.alert = "このタスクは完成した星座に関連付けられています"
-      redirect_back fallback_location: tasks_path and return
-    end
-
-    @task.progress = @task.next_progress
-
-    if @task.save
-      update_task_milestone_and_load_tasks
-      flash.now.notice = "タスクの進捗状況を更新しました"
-    else
-      flash.now.alert = "タスクの進捗状況の更新に失敗しました"
-    end
-  end
 
   # タスクのautocomplete機能, stimulus_autocompleteで使用
   def autocomplete
