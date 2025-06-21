@@ -162,12 +162,26 @@ class TasksController < ApplicationController
   def update_task_milestone_and_load_tasks
     return unless @task_milestone.present?
 
+    # 星座の進捗をタスクの進捗に合わせて更新
     @task_milestone.update_progress
 
+    set_chart_tasks
+  end
+
+  def set_chart_tasks
     return unless @task_milestone.on_chart?
 
-    tasks = @task_milestone.tasks.valid_dates_nil
-    @tasks = sort_tasks_by_complete_and_start_date(tasks)
+    tasks = if current_user.completed_tasks_hidden?
+              @task_milestone.tasks.not_completed.valid_dates_nil
+            else
+              @task_milestone.tasks.valid_dates_nil
+            end
+
+    @chart_tasks = sort_tasks_by_complete_and_start_date(tasks).to_a
+
+    # いま処理しているタスクがまだdbに存在していればチャートに表示するために追加している
+    current_task = @task_milestone.tasks.find_by(id: @task.id)
+    @chart_tasks << current_task if current_task && @chart_tasks.exclude?(current_task)
   end
 
   def ransack_result
