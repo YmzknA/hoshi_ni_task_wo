@@ -9,7 +9,7 @@ module Tasks
     # 完了した星座に関連付けられている場合は更新できない
     def update
       if @task.milestone_completed?
-        flash.now.alert = "このタスクは完成した星座に関連付けられています"
+        flash[:alert] = "完了した星座に関連付けられているタスクの進捗は更新できません"
         redirect_back fallback_location: tasks_path and return
       end
 
