@@ -1,5 +1,5 @@
 <div class="h-full w-full">
-  <!-- 月の画像 -->
+  <!-- タイトル -->
   <%= render 'title_header', title: @title %>
 
   <!-- 内容表示部分 -->
@@ -14,9 +14,13 @@
       <%= @user.name %>
     </div>
 
+    <%# 新しいリリース通知 %>
+    <%= render "new_release_notification" %>
 
     <!-- 表示部分 -->
     <div class="flex w-full items-center justify-center mb-10">
+
+
       <div class="tabs tabs-lift w-xl">
         <!-- 未完了のタスク -->
         <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="未完了" checked="checked"/>
@@ -30,6 +34,8 @@
           <!-- タスクの追加ボタン -->
           <%# ゲストユーザーの時は、追加ボタン無効化されます %>
           <%= render "tasks/add_task_button" %>
+          <!-- ボタンの移動を通知 -->
+          <%= render "add_button_notification" %>
 
           <!-- タスク -->
           <%= turbo_frame_tag "search_sort_content_frame" do %>
@@ -57,19 +63,18 @@
     </div>
   </div>
 
+  <%= render "menu_bar" %>
 
-  <div class="mt-10" >
-    <%= render "menu_bar" %>
-  </div>
+
   <%= turbo_frame_tag "tasks_edit_modal" %>
-  <%= turbo_frame_tag "tasks_new_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
+  <%= render "tasks/tasks_new_modal", task: @task, milestones: @milestones %>
 
   <div id="tasks_show_modals">
   <% @not_completed_tasks.each do |task| %>
-    <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
+    <%= render "tasks/tasks_show_modal", task: task, tasks_show_modal_open: false %>
   <% end %>
   <% @completed_tasks.each do |task| %>
-    <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
+    <%= render "tasks/tasks_show_modal", task: task, tasks_show_modal_open: false %>
   <% end %>
   </div>

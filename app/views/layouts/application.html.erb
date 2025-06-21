@@ -2,7 +2,7 @@
 <html data-theme="hoshi">
   <head>
     <title><%= content_for(:title) || "星にタスクを" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -21,7 +21,7 @@
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+SA:wght@100..400&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
 
     <!-- google material symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -41,8 +41,15 @@
   </head>
 
   <body class="flex w-full zen-old-mincho-regular">
-    <div class="w-full flex-glow bg-[radial-gradient(ellipse_at_bottom,_#466374_0%,_#080606_100%)]">
-    <%= yield %>
+
+    <!-- ローディングモーダル -->
+    <div data-controller="loading" class="w-full flex-glow bg-[radial-gradient(ellipse_at_bottom,_#466374_0%,_#080606_100%)]">
+      <dialog id="loading" data-loading-target="loading_animation" class="modal backdrop-blur-xs bg-transparent">
+          <span class="loading loading-ring size-20"></span>
+      </dialog>
+
+      <%# ここから本体 %>
+      <%= yield %>
     </div>
 
     <!-- 星をランダムに生成するための要素 -->
@@ -60,6 +67,12 @@
         class="w-[3px] h-[3px] bg-transparent absolute top-0 left-0 before:content-[''] before:absolute before:left-[2000px] after:content-[''] after:absolute after:top-[2000px]"
         ></div>
     </div>
+
+    <!-- turbo_streamでローディングモーダルを閉じるコントローラーに接続した要素と置換するための要素 -->
+    <div id="loading_close"></div>
+
+    <!-- 新しいリリース通知用のモーダル -->
+    <%= render "new_release_modal" %>
   </body>
 </html>
 

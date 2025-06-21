@@ -1,4 +1,5 @@
-<div class="h-full w-full">
+  <% milestone_completed = @milestone.completed? %>
+  <% milestone_on_chart = @milestone.on_chart? %>
   <!-- 月の画像 -->
   <%= render 'title_header', title: @title %>
 
@@ -10,7 +11,7 @@
 
     <!-- 完成状態は星座アイコンと完成コメント -->
     <!-- 星座のアイコン -->
-    <% if @is_milestone_completed %>
+    <% if milestone_completed %>
       <!-- title -->
       <div class="text-3xl">
         <%= "#{@milestone.title} 座" %>
@@ -47,7 +48,7 @@
       <!-- 進捗バー -->
       <div class="flex items-center justify-center text-2xl">
         <div class="my-10 h-12 w-xl rounded-full bg-primary px-5 text-xl text-neutral">
-          <%= render "milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
+          <%= render "milestones/milestone_completed_percent_bar", milestone: @milestone, milestone_tasks: @milestone_tasks %>
         </div>
       </div>
 
@@ -112,7 +113,7 @@
               <% end %>
             </div>
 
-            <%if @is_milestone_completed %>
+            <% if milestone_completed %>
               <div class="flex items-center">
                 <div class="mr-2 text-center">
                   チャートに表示する：
@@ -126,7 +127,7 @@
                 <div class="mr-2 text-center">
                   チャートに表示する：
                 </div>
-                <% if @milestone.is_on_chart %>
+                <% if milestone_on_chart %>
                   <span class="badge badge-md badge-primary md:badge-lg">ON</span>
                 <% else %>
                   <span class="badge badge-md badge-base-300 md:badge-lg">OFF</span>
@@ -215,7 +216,7 @@
 
                   <div class="divider"></div>
 
-                  <p class="mb-2">共有取り消しボタンを推すまで、<br>公開され続けます。</p>
+                  <p class="mb-2">共有取り消しボタンを押すまで、<br>公開され続けます。</p>
                   <p class="">共有取り消しボタンは、<br>公開ページ内に、星座の所有者のみに表示されます。</p>
 
                 </div>
@@ -303,9 +304,12 @@
             <%= render "search_or_sort_select", q: @q, path: milestone_path(@milestone), _milestone_id: @milestone.id %>
           </div>
 
-          <% if !@is_milestone_completed && current_user?(@milestone.user) %>
-            <!-- 新規作成ボタン -->
+          <% if !milestone_completed && current_user?(@milestone.user) %>
+            <%= render "milestones/task_milestone_assignments_button" %>
+            <!-- タスク新規作成ボタン -->
             <%= render "tasks/add_task_button", milestone: @milestone %>
+            <!-- ボタンの移動を通知 -->
+            <%= render "add_button_notification" %>
           <% end %>
 
           <!-- タスク一覧 -->
@@ -314,8 +318,8 @@
           <% end %>
 
         </div>
-        <% if @is_not_milestone_on_chart || @is_milestone_completed %>
-          <!-- 完成状態の場合チャートは表示しない -->
+        <% if !milestone_on_chart || milestone_completed || @milestone.start_date.blank? || @milestone.end_date.blank? %>
+          <!-- 完成状態、または開始日か終了日が無い場合はチャートは表示しない -->
         <% else %>
           <!-- チャート -->
           <input type="radio" name="my_tabs" class="tab" aria-label="チャート"  />
@@ -327,12 +331,7 @@
             </div>
 
             <div class="overflow-x-auto text-sm">
-              <%= render "gantt_chart/chart_layout", 
-                date_range: @date_range, 
-                milestones: [@milestone], 
-                milestone_widths: @milestone_widths, 
-                milestone_lefts: @milestone_lefts, 
-                chart_total_width: @chart_total_width %>
+              <%= render "gantt_chart/chart_layout", chart_presenter: @chart_presenter %>
             </div>
           </div>
         <% end %>
@@ -343,25 +342,25 @@
   </div>
 
   <!-- メニューバー -->
-  <div class="mt-3">
-    <%= render 'menu_bar' %>
-  </div>
-</div>
+  <%= render 'menu_bar' %>
 
 <% if current_user?(@milestone.user) %>
   <%= render 'milestones/milestones_edit_modal', milestone: @milestone %>
+  <%= render "tasks/tasks_new_modal", task: @task, milestones: [@milestone], from_milestone_show: @from_milestone_show %>
   <%= render 'milestones/delete_confirm_modal' %>
   <%= turbo_frame_tag "tasks_edit_modal" %>
-  <%= turbo_frame_tag "tasks_new_modal" %>
   <%= turbo_frame_tag "tasks_copy_modal" %>
   <%= turbo_frame_tag "milestones_copy_modal" %>
+  <%= turbo_frame_tag "task_milestone_assignments_modal" %>
   <%= render 'limited_sharing_milestones/share_confirm_modal' %>
 <% end %>
 
 <%= turbo_frame_tag "milestone_show_modal" %>
-<% @milestone_tasks.each do |task| %>
-  <%= turbo_frame_tag "tasks_show_modal_#{task.id}", src: task_path(task)%>
-<% end %>
+<div id="tasks_show_modals">
+  <% @milestone_tasks.each do |task| %>
+      <%= render "tasks/tasks_show_modal", task: task, tasks_show_modal_open: false %>
+  <% end %>
+</div>
 
 
 <script>
@@ -376,5 +375,4 @@
     });
   });
 </script>
-
 

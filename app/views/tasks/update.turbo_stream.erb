@@ -4,6 +4,10 @@
   <%# 失敗時は@tasks_edit_modal_open: trueを渡しているのでedit_modalは開いた状態でreplaceされる %>
   <%# 失敗時は@tasks_show_modal_open: 渡していないのでshow_modalは閉じた状態でreplaceされる %>
 
+  <%= turbo_stream.replace "loading_close" do %>
+    <div id="loading_close" data-controller="loading-close"></div>
+  <% end %>
+
   <%= turbo_stream.replace "tasks_edit_modal" do %>
     <%= render "tasks_edit_modal", task: @task, milestones: @milestones, tasks_edit_modal_open: @tasks_edit_modal_open %>
   <% end %>
@@ -12,17 +16,24 @@
     <%= render "flash" %>
   <% end %>
 
+<% if @tasks_update_success == true %>
   <%= turbo_stream.replace "tasks_show_modal_#{@task.id}" do %>
     <%= render "tasks_show_modal", task: @task, tasks_show_modal_open: @tasks_show_modal_open %>
   <% end %>
 
   <%= turbo_stream.replace @task %>
+<% else %>
+  <%= turbo_stream.replace "tasks_show_modal_#{@task.id}" do %>
+    <%= render "tasks_show_modal", task: @base_task, tasks_show_modal_open: @tasks_show_modal_open %>
+  <% end %>
+<% end %>
 
-  <% if @task.milestone && @tasks_update_success == true && @task.milestone.is_on_chart == true %>
+
+  <% if @task_milestone && @tasks_update_success == true && @task_milestone.on_chart? %>
     <%= turbo_stream.replace "chart_#{@task_milestone.id}" do %>
       <div id="chart_<%=@task_milestone.id%>">
-      <% @task_milestone.tasks.valid_dates.each do |task| %>
-        <%= render "gantt_chart/task_chart", task: task, tasks: @task_milestone.tasks.start_date_asc.to_a %>
+      <% @chart_tasks.each do |task| %>
+        <%= render "gantt_chart/task_chart", task: task, tasks: @chart_tasks %>
       <% end %>
       </div>
     <% end %>

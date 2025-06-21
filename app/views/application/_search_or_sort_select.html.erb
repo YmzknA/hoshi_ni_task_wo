@@ -15,7 +15,7 @@
 %>
 
 <div class="flex justify-center h-10 items-center mt-2 mb-5">
-  <%= search_form_for @q, url: path, class: "w-[60%]", html: { data: { turbo_frame: "#{(defined? _frame_target) ? "#{_frame_target}_search_sort_content_frame" : "search_sort_content_frame"}", controller: "form", action: "input->form#submit change->form#submit" } } do |f| %>
+  <%= search_form_for @q, url: path, class: "w-[60%]", html: { data: { turbo_frame: "#{(defined? _frame_target) ? "#{_frame_target}_search_sort_content_frame" : "search_sort_content_frame"}", controller: "form", action: "input->form#submit change->form#submit submit->loading#show" } } do |f| %>
 
     <%# stimulus_autocompleteによるautocomplete %>
     <div data-controller="autocomplete" data-autocomplete-url-value="<%= autocomplete_path %>" role="combobox">
@@ -47,7 +47,9 @@
               const frame = document.getElementById('<%= (defined? _frame_target) ? "#{_frame_target}_search_sort_content_frame" : "search_sort_content_frame" %>');
               frame.src=event.target.value;
               frame.reload();
-              ">
+              "
+              data-action="change->loading#show"
+              >
   <option disabled selected>Sort</option>
   <option value="<%= sort_url(@q, :start_date , ["start_date asc", "end_date asc"]) %>">開始日昇順</option>
   <option value="<%= sort_url(@q, :start_date, ["start_date desc", "end_date desc"]) %>">開始日降順</option>

@@ -1,5 +1,5 @@
 <% @milestones.each do |milestone| %>
-  <li class="relative z-30 flex w-full items-center text-sm py-2 px-3 bg-base-300 hover:bg-base-100" role="option" data-autocomplete-value="<%= milestone.id %>" data-autocomplete-label="<%= milestone.title %>">
+  <li class="relative z-30 flex w-full items-center text-sm py-2 px-3 bg-base-300 hover:bg-base-100 hover:cursor-pointer active:bg-base-100 aria-selected:bg-base-100" role="option" data-autocomplete-value="<%= milestone.id %>" data-autocomplete-label="<%= milestone.title %>">
     <%= milestone.title %>
   </li>
 <% end %>

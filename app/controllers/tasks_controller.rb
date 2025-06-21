@@ -1,146 +1,103 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :update_progress, :destroy]
-  before_action :authenticate_user!, except: [:show]
+  before_action :set_task, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:autocomplete]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
-  before_action :set_task_milestone, only: [:update_progress, :update, :destroy]
-  before_action :valid_guest_user, only: [:new, :create]
+  before_action :set_task_milestone, only: [:update, :destroy]
+  before_action :valid_guest_user, only: [:create]
 
-  # GET /tasks or /tasks.json
   def index
+    @task = Task.new
+    @milestones = current_user.milestones.not_completed
     @title = "タスク一覧"
     @user = current_user
     base_tasks = ransack_result
 
     # 完了したタスク - 作成日の降順
-    completed_tasks_set = base_tasks.where(progress: :completed)
-    @completed_tasks = completed_tasks_set.reject(&:milestone_completed?)
+    @completed_tasks = base_tasks.completed.reject(&:milestone_completed?)
 
     # 未完了のタスク - 締切日の昇順（nilを最後に表示）、同じ締切日なら開始日の昇順
-    @not_completed_tasks = base_tasks.where.not(progress: :completed)
+    @not_completed_tasks = base_tasks.not_completed.reject(&:milestone_completed?)
   end
 
-  # GET /tasks/1
-  def show
-    # タスク詳細画面に遷移する際、タスクのユーザーがゲストユーザーで、
-    # 現在のユーザーがそのタスクのユーザーでない場合は、タスク詳細画面を表示しない
-    if @task.user.guest? && !current_user?(@task.user)
-      flash[:alert] = "指定されたタスクが見つかりません"
-      redirect_to tasks_path
-    end
-
-    if @task.milestone&.is_public || current_user?(@task&.user)
-      # taskに関連するmilestoneが公開されているか、またはmilestoneのユーザーが現在のユーザーと同じ場合のみ表示
-    else
-      flash[:alert] = "このタスクは非公開です"
-      redirect_to tasks_path
-    end
-  end
-
-  # GET /tasks/new
-  # turbo_frameでモーダルを表示
-  def new
-    @task = Task.new
-    if params[:milestone_from_milestone_show].present?
-      # マイルストーン詳細画面から遷移した場合
-      @from_milestone_show = true
-      @milestones = [Milestone.find(params[:milestone_from_milestone_show])]
-    else
-      # マイルストーン詳細画面から遷移していない場合
-      @from_milestone_show = false
-      @milestones = current_user.milestones.reject { |m| m.progress == "completed" }
-    end
-  end
-
-  # GET /tasks/1/edit
   def edit
     @milestones = current_user.milestones.not_completed
   end
 
-  # POST /tasks
-  # turbo_streamでモーダルを更新
+  # turbo_streamで更新
   def create
     @task = Task.new(task_params)
     user = current_user
-    @milestones = user.milestones
+
+    # params[:milestone_id]が存在する場合（milestone_showからのアクセス）
+    @milestones = if params[:milestone_id]
+                    user.milestones.where(id: params[:milestone_id])
+                  else
+                    user.milestones
+                  end
 
     if @task.save
       @task_milestone = @task.milestone
-      @task_milestone&.update_progress
+
+      update_task_milestone_and_load_tasks
 
       @task_create_success = true
-
-      flash[:notice] = "タスクを作成しました"
+      flash.now[:notice] = "タスクを作成しました"
     else
-      @task_create_success = false
       @task_new_modal_open = true
 
       flash.now[:alert] = "タスクの作成に失敗しました"
     end
   end
 
-  # turbo_streamでモーダルを更新している
+  # turbo_stream更新している
   def update
     user = current_user
     @milestones = user.milestones
 
     if @task.update(task_params)
       # タスクの更新に成功した場合、タスク詳細を表示
-      @task_milestone = @task.milestone
+
+      update_task_milestone_and_load_tasks
+
       @tasks_show_modal_open = true
       @tasks_update_success = true
       flash.now[:notice] = "タスクを更新しました"
     else
       # タスクの更新に失敗した場合、editモーダルを開いた状態でタスク一覧を表示
+      @base_task = Task.find_by(id: params[:id])
       @tasks_edit_modal_open = true
       flash.now[:alert] = "タスクの更新に失敗しました"
     end
   end
 
-  # DELETE /tasks/1
   def destroy
     @task.destroy!
+
+    update_task_milestone_and_load_tasks
     flash.now[:notice] = "タスクを削除しました"
   end
 
   # #################################
   # CRUD以外のアクション
   # ###########################################
-  def update_progress
-    if @task.milestone_completed?
-      flash.now.alert = "このタスクは完成した星座に関連付けられています"
-      redirect_back fallback_location: tasks_path and return
-    end
-
-    @task.progress = @task.next_progress
-
-    if @task.save
-      @task_milestone&.update_progress
-      flash.now.notice = "タスクの進捗状況を更新しました"
-    else
-      flash.now.alert = "タスクの進捗状況の更新に失敗しました"
-    end
-  end
 
   # タスクのautocomplete機能, stimulus_autocompleteで使用
   def autocomplete
     id = params[:milestone_id] # optional
+    @milestone = Milestone.find_by(id: id) # idが存在しない場合はnil
     progress = params[:progress] # optional
     query = ActiveRecord::Base.sanitize_sql_like(params[:q])
 
-    if id.present? && (current_user?(Milestone.find(id).user) || Milestone.find(id).public?)
-      # milsestone_idが指定されている場合
-      @milestone = Milestone.find(id)
-      @tasks = Task.where(milestone_id: @milestone.id)
-                   .where("title like ?", "%#{query}%")
-
-    elsif progress.present?
-      # progressが指定されている場合
-      # progress = "not_completed" || progressのenum値
-      @tasks = search_tasks_by_progress(query, progress)
-    else
-      @tasks = Task.where(user_id: current_user.id)
-                   .where("title like ?", "%#{query}%")
-    end
+    @tasks = if @milestone.present? && (current_user?(@milestone.user) || @milestone.public?)
+               # milsestone_idが指定されている場合
+               search_milestone_tasks(query, @milestone)
+             elsif progress.present?
+               # progressが指定されている場合
+               # progress = "not_completed" || progressのenum値
+               search_tasks_by_progress(query, progress)
+             else
+               search_tasks_by_title(query)
+             end
 
     # @tasksの中でタイトルが他のものと同じものを一つに
     @tasks = @tasks.group_by(&:title).map { |_, tasks| tasks.first }
@@ -157,7 +114,11 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :description, :progress,
-                                 :start_date, :end_date, :milestone_id).merge(user_id: current_user.id)
+                                 :start_date, :end_date, :milestone_id, :from_chart).merge(user_id: current_user.id)
+  end
+
+  def set_task_milestone
+    @task_milestone = @task.milestone if @task.milestone.present?
   end
 
   def ensure_correct_user
@@ -169,10 +130,6 @@ class TasksController < ApplicationController
     redirect_to user_path(current_user)
   end
 
-  def set_task_milestone
-    @task_milestone = @task.milestone if @task.milestone.present?
-  end
-
   def valid_guest_user
     return unless current_user.guest?
 
@@ -180,23 +137,82 @@ class TasksController < ApplicationController
     redirect_to tasks_path
   end
 
+  def sort_tasks_by_complete_and_start_date(tasks)
+    # 完了したタスクを後ろにして、それぞれ開始日でソート
+    not_completed_tasks = tasks.not_completed.start_date_asc
+    completed_tasks = tasks.completed.start_date_asc
+    not_completed_tasks + completed_tasks
+  end
+
+  def update_task_milestone_and_load_tasks
+    return unless @task_milestone.present?
+
+    # 星座の進捗をタスクの進捗に合わせて更新
+    @task_milestone.update_progress
+
+    set_chart_tasks
+  end
+
+  def set_chart_tasks
+    return unless @task_milestone.on_chart?
+
+    tasks = fetch_chart_tasks
+    @chart_tasks = sort_tasks_by_complete_and_start_date(tasks).to_a
+
+    # いま処理しているタスクがまだdbに存在していればチャートに表示するために追加
+    current_task = @task_milestone.tasks.find_by(id: @task.id)
+    @chart_tasks << current_task if current_task && @chart_tasks.exclude?(current_task)
+  end
+
   def ransack_result
     @q = @user.tasks.ransack(params[:q])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
-    @q.result(distinct: true)
+    @q.result(distinct: true).includes(:milestone)
+  end
+
+  def search_tasks_by_title(query)
+    # タスクのautocomplete機能で使用
+    q = current_user.tasks.ransack("title_cont" => query)
+    q.sorts = ["start_date asc", "end_date asc"] if q.sorts.empty?
+    q.result(distinct: true).includes(:milestone)
+  end
+
+  def search_milestone_tasks(query, milestone)
+    # マイルストーン詳細画面からタスクのautocomplete機能を使用する場合
+    q = milestone.tasks.ransack("title_cont" => query)
+    q.sorts = ["start_date asc", "end_date asc"] if q.sorts.empty?
+    q.result(distinct: true).includes(:milestone)
   end
 
   def search_tasks_by_progress(query, progress)
+    tasks = search_tasks_by_title(query)
     if progress == "not_completed"
       # 未完了のタスクを取得
-      Task.where(user_id: current_user.id)
-          .where("title like ?", "%#{query}%")
-          .where.not(progress: "completed")
+      tasks.not_completed
     else
-      # 完了したタスクを取得
-      Task.where(user_id: current_user.id)
-          .where("title like ?", "%#{query}%")
-          .where(progress: progress)
+      tasks.where(progress: progress)
+    end
+  end
+
+  def from_chart_page?
+    # URLからアクセス元のページを判定
+    referer = request.referer
+    return false if referer.blank?
+
+    # チャート画面のURLパターンをチェック
+    referer.include?("/gantt_chart")
+  end
+
+  def fetch_chart_tasks
+    # アクセス元のページを判定してタスクを取得
+    # チャート画面からのアクセスの場合：完了タスクを非表示にする設定を確認する
+    # 星座詳細画面からのアクセスの場合：常にすべてのタスクを表示
+    return @task_milestone.tasks.valid_dates_nil unless from_chart_page?
+
+    if current_user.completed_tasks_hidden?
+      @task_milestone.tasks.not_completed.valid_dates_nil
+    else
+      @task_milestone.tasks.valid_dates_nil
     end
   end
 end

@@ -4,18 +4,18 @@
       <div>
 
         <!-- エラーメッセージ -->
-        <%= render "error_messages", resource: @task%>
+        <%= render "error_messages", resource: task%>
 
         <!-- タスク詳細表示 -->
         <div class="space-y-3 md:space-y-5">
 
           <!-- マイルストーン -->
-          <% if @task.milestone.present? %>
+          <% if task.milestone.present? %>
             <div class="flex items-center justify-center text-lg">
               <div class="mr-2">
-                <%= render "stars_icon", { width: 35, height: 35, color: @task.milestone.color } %>
+                <%= render "stars_icon", { width: 35, height: 35, color: task.milestone.color } %>
               </div>
-              <%= @task.milestone.title %>
+              <%= task.milestone.title %>
             </div>
           <% else %>
             <div class="flex items-center justify-center text-xl">
@@ -31,38 +31,38 @@
             <div class="card w-full text-neutral">
               <p class="card-title h-5 pl-2 text-xs md:text-sm text-primary">タイトル</p>
               <div class="flex w-full items-center justify-center rounded-xl text-lg md:text-xl bg-primary p-2 md:p-3">
-                <%= @task.title %>
+                <%= task.title %>
               </div>
             </div>
           </div>
 
 
           <!-- 期間 -->
-          <% start_date_and_end_date_present = @task.start_date.present? && @task.end_date.present? %>
+          <% start_date_and_end_date_present = task.start_date.present? && task.end_date.present? %>
 
-          <% if @task.start_date.present? || @task.end_date.present? %>
+          <% if task.start_date.present? || task.end_date.present? %>
             <div class="flex w-full px-5 text-neutral <%= start_date_and_end_date_present ? "justify-between" : "justify-center" %>">
 
-              <% if @task.start_date.present? %>
+              <% if task.start_date.present? %>
                 <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-1 md:p-2">
                   <div class="text-xs md:text-base">
-                    <%= @task.start_date&.year %>
+                    <%= task.start_date&.year %>
                   </div>
                   <div class="w-full font-bold text-sm md:text-2xl">
-                    <%= to_short_date(@task.start_date) %>
+                    <%= to_short_date(task.start_date) %>
                   </div>
                 </div>
               <% end %>
               <div class="flex w-1/5 items-center justify-center">
                 <p class="w-full text-3xl md:text-5xl text-primary">~</p>
               </div>
-              <% if @task.end_date.present? %>
+              <% if task.end_date.present? %>
                 <div class="card flex h-full w-2/5 flex-col justify-center bg-primary p-1 md:p-2">
                   <div class="text-xs md:text-base">
-                    <%= @task.end_date&.year %>
+                    <%= task.end_date&.year %>
                   </div>
                   <div class="w-full font-bold text-sm md:text-2xl">
-                    <%= to_short_date(@task.end_date) %>
+                    <%= to_short_date(task.end_date) %>
                   </div>
                 </div>
               <% end %>
@@ -80,7 +80,7 @@
             <div class="card w-full text-neutral">
               <p class="card-title h-5 pl-2 text-xs md:text-sm text-primary">詳細</p>
               <div class="flex flex-wrap min-h-16 md:min-h-20 w-full items-center justify-center rounded-xl bg-primary p-2 md:p-3 text-xs md:text-sm">
-                <%= @task.description.present? ? safe_join(@task.description.split("\n"),tag(:br)) : "詳細はありません" %>
+                <%= task.description.present? ? safe_join(task.description.split("\n"),tag(:br)) : "詳細はありません" %>
               </div>
             </div>
           </div>
@@ -89,21 +89,21 @@
           <% unless task.milestone_completed? %>
             <div class="mt-5">
               <div id="task_show_progress_button_id_<%= task.id %>" class="flex w-full items-center justify-center">
-                <%= render "tasks/progress_button", task: @task %>
+                <%= render "tasks/progress_button", task: task %>
               </div>
             </div>
           <% end %>
 
           <!-- アクションボタン -->
-          <% if @task.is_a?(LimitedSharingTask) %>
+          <% if task.is_a?(LimitedSharingTask) %>
             <!-- not content -->
-          <% elsif current_user&.guest? && current_user?(@task.user) %>
+          <% elsif current_user&.guest? && current_user?(task.user) %>
             <div class="flex h-10 md:h-12 w-full mt-5 md:mt-10 justify-center text-neutral">
               <div class="tooltip" data-tip="ゲストユーザーは使用できません">
                 <button class="btn btn-disabled h-10 md:h-12 w-20 md:w-25 mr-3 md:mr-5 text-xs md:text-sm md:w-42">削除</button>
               </div>
               <div class="btn btn-accent h-10 md:h-12 w-20 md:w-25 md:w-42">
-                <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center text-xs md:text-sm", data: { turbo_frame: "tasks_edit_modal"} do %>
+                <%= link_to edit_task_path(task), class: "w-full h-full flex justify-center items-center text-xs md:text-sm", data: { turbo_frame: "tasks_edit_modal"} do %>
                   <p>
                   編集
                   </p>
@@ -141,12 +141,12 @@
                 </div>
               </div>
             </div>
-          <% elsif current_user?(@task.user) %>
+          <% elsif current_user?(task.user) %>
             <div class="flex h-10 md:h-12 w-full mt-5 justify-center text-neutral">
-              <%= button_to "削除", task_path(@task), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-10 md:h-12 w-20 md:w-25 mr-3 md:mr-5 text-xs md:text-sm md:w-42" %>
+              <%= button_to "削除", task_path(task), method: :delete, data: { turbo_confirm: "本当に削除しますか？", turbo_stream: true }, class: "btn btn-error h-10 md:h-12 w-20 md:w-25 mr-3 md:mr-5 text-xs md:text-sm md:w-42" %>
 
               <div class="btn btn-accent h-10 md:h-12 w-20 md:w-25 md:w-42">
-                <%= link_to edit_task_path(@task), class: "w-full h-full flex justify-center items-center text-xs md:text-sm", data: { turbo_frame: "tasks_edit_modal"} do %>
+                <%= link_to edit_task_path(task), class: "w-full h-full flex justify-center items-center text-xs md:text-sm", data: { turbo_frame: "tasks_edit_modal", action: "click->loading#show" } do %>
                   <p>
                   編集
                   </p>
@@ -154,9 +154,9 @@
               </div>
             </div>
 
-            <%= link_to tasks_copy_path(@task), data: { turbo_frame: "tasks_copy_modal"}, class: "relative left-2 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
+            <%= link_to tasks_copy_path(task), data: { turbo_frame: "tasks_copy_modal"}, class: "relative left-2 btn bg-base-300 hover:bg-base-200/10 text-base-200" do %>
               <div class="tooltip" data-tip="タスクをコピーする">
-                <span id="copy_icon_<%=@task.id%>" class="material-symbols-outlined">
+                <span id="copy_icon_<%=task.id%>" class="material-symbols-outlined">
                   content_copy
                 </span>
               </div>
@@ -189,7 +189,7 @@
 
         <div class="modal-action flex justify-center mt-3">
           <form method="dialog">
-            <button class="btn btn-accent size-9">
+            <button data-modal-target="close" class="btn btn-accent size-9">
               <span class="material-symbols-outlined">
                 close
               </span>

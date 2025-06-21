@@ -1,26 +1,18 @@
 <% if current_user.guest? %>
-  <div >
-    <div data-tip="ゲストユーザーは使用できません" class="tooltip rounded-xl flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
-      <div class="size-full p-1 rounded-xl p-4">
-        <div class="flex items-center justify-center size-full line-through text-base-200/50">
-          <span class="material-symbols-outlined">
-            add_circle
-          </span>
-    追加
-        </div>
+  <div id="add_button" class="z-20 fixed bottom-24 right-4 md:bottom-26 md:right-6">
+    <span class="tooltip tooltip-left" data-tip="ゲストユーザーは使用できません">
+      <div class="flex items-center justify-center bg-base-100 rounded-full size-12 md:size-18 shadow-md">
+        <%= render "star_icon", width: "24", height: "24", color: "#EAF2F5" %>
       </div>
-    </div>
+    </span>
   </div>
 <% else %>
-  <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
-    <%= link_to new_task_path(milestone_from_milestone_show: @milestone), class: "size-full rounded-xl hover:cursor-pointer hover:bg-base-300/30 active:bg-base-300/30 p-4", data: { turbo_frame: "tasks_new_modal"} do %>
-      <div class="flex items-center justify-center size-full">
-        <span class="material-symbols-outlined">
-          add_circle
-        </span>
-        追加
-      </div>
-    <% end %>
+  <div id="add_button" class="z-20 fixed bottom-24 right-4 md:bottom-26 md:right-6">
+    <span class="tooltip tooltip-left" data-tip="タスクを追加">
+      <button class="flex items-center justify-center bg-primary rounded-full size-12 md:size-18 shadow-md hover:cursor-pointer hover:bg-primary/80 active:bg-primary/80" onclick="tasks_new_modal.showModal()">
+        <%= render "star_icon", width: "24", height: "24", color: "#466374" %>
+      </button>
+    </span>
   </div>
 <% end %>
 

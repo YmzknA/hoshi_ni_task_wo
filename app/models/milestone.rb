@@ -7,13 +7,14 @@ class Milestone < ApplicationRecord
   validates :title, presence: true
   validates :description, length: { maximum: 150 }, allow_blank: true
 
-  validates :start_date, presence: true, if: -> { is_on_chart }
-  validate :start_date_check
-
-  validates :end_date, presence: true, if: -> { is_on_chart }
-  validate :end_date_check
-
-  validate :tasks_date_check, if: -> { is_on_chart }
+  # is_on_chartがtrueの場合、start_dateとend_dateは必須
+  # 日付関連のバリデーション
+  validate :start_date_check # 開始日が終了日より前の日付を設定する
+  validate :end_date_check # 終了日が開始日より後の日付を設定する
+  # タスクの日付がマイルストーンの日付内に収まるかチェック
+  validate :tasks_date_check, if: -> { start_date.present? && end_date.present? && is_on_chart }
+  validate :tasks_require_date, if: -> { is_on_chart }
+  validate :on_chart_date_check, if: -> { is_on_chart }
 
   validates :progress, presence: true
   validates :color, presence: true
@@ -22,6 +23,7 @@ class Milestone < ApplicationRecord
 
   validates :is_public, inclusion: { in: [true, false] }
   validates :is_on_chart, inclusion: { in: [true, false] }
+  validates :is_open, inclusion: { in: [true, false] }
 
   # Enum for progress status
   # :not_started = 0
@@ -79,6 +81,10 @@ class Milestone < ApplicationRecord
     is_open == true
   end
 
+  def on_chart?
+    is_on_chart == true
+  end
+
   def copy(set_date)
     copy = dup
     copy.title = "#{title}_copy"
@@ -125,20 +131,40 @@ class Milestone < ApplicationRecord
     errors.add(:end_date, "は開始日より後の日付を設定してください") if end_after_start
   end
 
+  def on_chart_date_check
+    return unless is_on_chart
+
+    errors.add(:start_date, "チャートに表示する場合、開始日と終了日を設定してください") if start_date.blank? || end_date.blank?
+  end
+
+  # is_on_chartがtrueの場合、各タスクはstart_dateかend_dateの少なくとも一方を持つ必要がある
+  def tasks_require_date
+    return unless tasks.any?
+
+    tasks.each do |task|
+      if task.start_date.blank? && task.end_date.blank?
+        errors.add(:base, "チャートに表示する場合、タスク「title: #{task.title}」は開始日か終了日の少なくとも一方を設定してください")
+        break
+      end
+    end
+  end
+
+  # タスクの日付がマイルストーンの日付内に収まるかチェック
   def tasks_date_check
     return unless tasks.any?
 
     tasks.each do |task|
       validate_task_start_date(task) unless task.start_date.blank?
-
       validate_task_end_date(task) unless task.end_date.blank?
     end
   end
 
+  # tasks_date_checkメソッドで使用するバリデーションメソッド
   def validate_task_start_date(task)
     errors.add(:start_date, "は紐づくタスクの開始日以前に設定してください。タスクは星座の期間内に収まる必要があります") if task.start_date < start_date
   end
 
+  # tasks_date_checkメソッドで使用するバリデーションメソッド
   def validate_task_end_date(task)
     errors.add(:end_date, "は紐づくタスクの終了日以降に設定してください。タスクは星座の期間内に収まる必要があります") if task.end_date > end_date
   end

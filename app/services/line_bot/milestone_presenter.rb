@@ -22,6 +22,13 @@ module LineBot
       MessageBuilder.milestones_title_message(milestones)
     end
 
+    def milestones_from_list(milestones)
+      return "ユーザーが見つかりません" unless @user
+      return "星座はありません" if milestones.empty?
+
+      MessageBuilder.milestones_message(milestones)
+    end
+
     private
 
     def active_milestones

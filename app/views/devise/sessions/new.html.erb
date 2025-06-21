@@ -22,7 +22,7 @@
       </div>
 
       <!-- ログインフォーム -->
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: {turbo: false}, html: { class: "w-full mt-6" }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: {turbo: false, action: "submit->loading#show" }, html: { class: "w-full mt-6" }) do |f| %>
 
         <label class="floating-label mt-5">
           <%= f.text_field :email,
@@ -41,7 +41,12 @@
           <span class="floating-label-text">パスワード</span>
         </label>
 
-        <%= f.submit "ログイン", class: "btn btn-secondary text-base-200 w-full mt-8" %>
+        <%= f.submit "ログイン", class: "btn btn-secondary text-base-100 w-full mt-8" %>
+
+        <%= f.label :remember_me, class: "flex w-full items-center justify-center hover:cursor-pointer mt-5" do %>
+          <%= f.check_box :remember_me, class: "checkbox checkbox-primary bg-base-100" %>
+          <span class="ml-2"><%= I18n.t('devise.sessions.new.remember_me') %></span>
+        <% end %>
       <% end %>
 
       <div class="my-8 text-center space-y-2">

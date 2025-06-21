@@ -2,8 +2,12 @@
     <%= render "flash" %>
   <% end %>
 
+  <%= turbo_stream.replace "loading_close" do %>
+    <div id="loading_close" data-controller="loading-close"></div>
+  <% end %>
+
   <% if @task_create_success %>
-    <%= turbo_stream.replace "tasks_new_modal" do %>
+   <%= turbo_stream.replace "tasks_new_stream_target" do %>
       <%= render "tasks_new_modal", task: Task.new, milestones: @milestones %>
     <% end %>
 
@@ -12,21 +16,21 @@
     <% end %>
 
     <%= turbo_stream.append "tasks_show_modals" do %>
-      <%= turbo_frame_tag "tasks_show_modal_#{@task.id}", src: task_path(@task)%>
+      <%= render "tasks/tasks_show_modal", task: @task, tasks_show_modal_open: false %>
     <% end %>
 
   <% else %>
-    <%= turbo_stream.replace "tasks_new_modal" do %>
-      <%= render "tasks_new_modal", task: @task, milestones: @milestones, tasks_edit_modal_open: @tasks_edit_modal_open %>
+    <%= turbo_stream.replace "tasks_new_stream_target" do %>
+      <%= render "tasks_new_modal", task: @task, milestones: @milestones, task_new_modal_open: @task_new_modal_open %>
     <% end %>
   <% end %>
 
 
-  <% if @task.milestone && @task_create_success == true && @task.milestone.is_on_chart == true %>
+  <% if @task_milestone && @task_create_success == true && @task_milestone.on_chart? %>
     <%= turbo_stream.replace "chart_#{@task_milestone.id}" do %>
       <div id="chart_<%=@task_milestone.id%>">
-      <% @task_milestone.tasks.valid_dates.each do |task| %>
-        <%= render "gantt_chart/task_chart", task: task, tasks: @task_milestone.tasks.start_date_asc.to_a %>
+      <% @chart_tasks.each do |task| %>
+        <%= render "gantt_chart/task_chart", task: task, tasks: @chart_tasks%>
       <% end %>
       </div>
     <% end %>

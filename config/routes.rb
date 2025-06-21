@@ -1,16 +1,14 @@
 Rails.application.routes.draw do
   get "images/ogp.png", to: "images#ogp", as: "images_ogp"
 
-  resources :tasks do
-    patch "update_progress", on: :member
-    get "share" => "limited_sharing_tasks#show", on: :member
-
+  resources :tasks, only: [:index, :create, :edit, :update, :destroy] do
     collection do
       get :autocomplete
     end
   end
   namespace :tasks do
     resources :copies, only: [:show, :create]
+    patch "update_progress/:id", to: "update_progress#update", as: :update_progress
   end
 
   resources :milestones do
@@ -27,6 +25,8 @@ Rails.application.routes.draw do
   end
 
   resources :limited_sharing_milestones, only: [:create, :destroy]
+
+  resources :task_milestone_assignments, only: [:show, :update]
 
   get "gantt_chart" => "gantt_chart#show", as: :gantt_chart
   get "gantt_chart_milestone/:id" => "gantt_chart#milestone_show", as: :gantt_chart_milestone_show
@@ -50,7 +50,12 @@ Rails.application.routes.draw do
   get "privacy_policy" => "static_pages#privacy_policy"
   get "terms_of_service" => "static_pages#terms_of_service"
 
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      patch "toggle_notifications" => "users#toggle_notifications"
+      patch "toggle_hide_completed_tasks" => "users#toggle_hide_completed_tasks"
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

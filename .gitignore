@@ -38,3 +38,13 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+/coverage
+/erd.pdf
+
+/.simplecov
+
+/pr_template.md
+
+/CLAUDE.md
+/PROJECT_OVERVIEW.md

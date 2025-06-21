@@ -3,19 +3,33 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 import { bgStarShow } from "./bgStarShow"
 import { groupBtnHoverRemoveGroupLinkCardBg } from "./groupBtnHoverRemoveGroupLinkCardBg"
+import { fadeElementOnScroll } from "./fadeElementOnScroll"
+import { addButtonNotification } from "./addButtonNotification"
+import { newReleaseNotification } from "./newReleaseNotification"
+import { settingButtonRotate } from "./settingButtonRotate"
 
-document.addEventListener("turbo:load", function() {
+function initializeApp() {
   // 背景の星を表示
   bgStarShow();
 
-  // 完了ボタンのホバー時にグループリンクカードの背景を変更
+  // ボタンのホバー時にグループリンクカードの背景を変更
   groupBtnHoverRemoveGroupLinkCardBg();
-});
 
-document.addEventListener("DOMContentLoaded", function() {
-  // 背景の星を表示
-  bgStarShow();
+  // スクロール時のボタン表示/非表示を制御
+  fadeElementOnScroll('add_button');
+  fadeElementOnScroll('menu_bar');
 
-  // 完了ボタンのホバー時にグループリンクカードの背景を変更
-  groupBtnHoverRemoveGroupLinkCardBg();
-});
+  // 通知ボタンの表示制御
+  addButtonNotification();
+
+  // 新リリース通知の表示制御
+  newReleaseNotification();
+
+  // 設定ボタンのホバー時のアニメーション
+  settingButtonRotate();
+}
+
+document.addEventListener("turbo:load", initializeApp);
+
+document.addEventListener("DOMContentLoaded", initializeApp);
+

@@ -1,4 +1,5 @@
-<dialog id="share_confirm_modal" class="modal">
+<div data-controller="modal">
+<dialog data-modal-target="to_not_blur" id="share_confirm_modal" class="modal">
   <div class="modal-box w-sm max-h-[90vh] max-w-[85dvw] px-2">
     <div class="flex w-full items-center justify-center">
       <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 px-0 md:px-5 text-center md:w-2xl">
@@ -11,13 +12,15 @@
 
         <%= button_to "公開", limited_sharing_milestones_path(id: @milestone.id),
           method: :post,
-          class: "btn btn-primary text-base-100 px-9" %>
+          class: "btn btn-primary text-base-100 px-9",
+          data: { action: "click->loading#show" }
+        %>
 
       </div>
     </div>
   <div class="modal-action flex justify-center">
     <form method="dialog">
-      <button class="btn btn-accent px-9">
+      <button data-modal-target="close" class="btn btn-accent px-9">
         キャンセル
       </button>
     </form>
@@ -27,6 +30,7 @@
 
 
   <form method="dialog" class="modal-backdrop">
-    <button>close</button>
+    <button data-modal-target="close">close</button>
   </form>
 </dialog>
+</div>

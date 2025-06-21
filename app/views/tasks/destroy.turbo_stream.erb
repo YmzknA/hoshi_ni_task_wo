@@ -6,11 +6,11 @@
 
   <%= turbo_stream.remove "tasks_show_modal_#{@task.id}" %>
 
-  <% if @task_milestone && @task.milestone.is_on_chart == true %>
+  <% if @task_milestone && @task_milestone.on_chart? %>
     <%= turbo_stream.replace "chart_#{@task_milestone.id}" do %>
       <div id="chart_<%=@task_milestone.id%>">
-      <% @task_milestone.tasks.valid_dates.each do |task| %>
-        <%= render "gantt_chart/task_chart", task: task, tasks: @task_milestone.tasks.start_date_asc.to_a %>
+      <% @chart_tasks.each do |task| %>
+        <%= render "gantt_chart/task_chart", task: task, tasks: @chart_tasks %>
       <% end %>
       </div>
     <% end %>

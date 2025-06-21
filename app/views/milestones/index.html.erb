@@ -14,6 +14,8 @@
       <%= @user.name %>
     </div>
 
+    <%#-- 新しいリリース通知 %>
+    <%= render "new_release_notification" %>
 
     <!-- 表示部分 -->
     <div class="flex w-full items-center justify-center mb-10">
@@ -28,29 +30,10 @@
             <%= render "search_or_sort_select", q: @q, path: milestones_path, _progress: "not_completed" %>
           </div>
 
-          <% if current_user.guest? %>
-            <div data-tip="ゲストユーザーは使用できません" class="tooltip rounded-xl flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
-              <button class="size-full p-4 rounded-xl">
-                <div class="flex items-center justify-center size-full line-through text-base-200/50">
-                  <span class="material-symbols-outlined">
-                    add_circle
-                  </span>
-                  追加
-                </div>
-              </button>
-            </div>
-          <% else %>
-            <div class="card flex items-center justify-center mb-4 size-full h-25 bg-base-300/40 shadow-xl/10">
-              <button class="size-full p-4 rounded-xl hover:cursor-pointer hover:bg-base-300/30 active:bg-base-300/30" onclick="milestones_new_modal.showModal()">
-                <div class="flex items-center justify-center size-full">
-                  <span class="material-symbols-outlined">
-                    add_circle
-                  </span>
-                  追加
-                </div>
-              </button>
-            </div>
-          <% end %>
+          <!-- 星座の追加ボタン -->
+          <%= render "milestones/add_milestone_button" %>
+          <!-- ボタンの移動を通知 -->
+          <%= render "add_button_notification" %>
 
           <!-- 星座 -->
           <%= turbo_frame_tag "search_sort_content_frame" do %>
@@ -101,9 +84,7 @@
     </div>
   </div>
 
-  <div class="mt-10" >
-    <%= render "menu_bar" %>
-  </div>
+  <%= render "menu_bar" %>
 
   <%= render "milestones/milestones_new_modal", milestone: @milestone %>
   <%= turbo_frame_tag "show_complete_page_modal" %>

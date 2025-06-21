@@ -1,5 +1,7 @@
+<% chart_data = chart_presenter.chart_data %>
+
   <div id="gantt_chart" class="h-[90vh] overflow-auto border rounded-lg shadow-sm border-base-300 bg-base-300/50">
-    <div class="flex min-w-full" style="width: max(<%= chart_total_width %>px, 100%);">
+    <div class="flex min-w-full" style="width: max(<%= chart_data[:chart_total_width] %>px, 100%);">
 
       <!-- 日付列 -->
       <div class="sticky left-0 w-[60px] border-r border-gray-700 bg-gray-800 relative z-60">
@@ -9,8 +11,12 @@
           日付
         </div>
         <div class="flex flex-col z-60">
-          <% date_range.each_with_index do |date, index| %>
-            <div id="<%= (date == Time.zone.today) ? 'today' : '' %>" class="h-[40px] flex items-center justify-center text-sm border-b border-base-100 <%= (date.wday == 0) || (date.wday == 6) ? 'bg-error/70' : '' %> <%= (date == Time.zone.today) ? 'bg-accent/70' : '' %> <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>">
+          <% chart_data[:date_range].each_with_index do |date, index| %>
+
+            <%# 日付表示部の色を決める %>
+            <% date_color = date_header_color(date) %>
+
+            <div id="<%= (date == Time.zone.today) ? 'today' : '' %>" class="h-[40px] flex items-center justify-center text-sm border-b border-base-100 <%= date_color %> <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>">
               <%= date.strftime("%m/%d") %>
             </div>
           <% end %>
@@ -21,7 +27,7 @@
       <div class="flex-grow relative">
         <!-- ヘッダー行 - 星座名 (固定) -->
         <div class="sticky top-0 h-14 flex z-50 w-full">
-          <% milestones.each do |milestone| %>
+          <% chart_data[:milestones].each do |milestone| %>
             <%
               # 色の設定
               milestone_color = milestone.color
@@ -29,8 +35,8 @@
             %>
           <div class="border border-3 rounded-md text-base-200 text-xl absolute flex items-center justify-start font-medium px-2 text-center"
               style="
-              width: <%= milestone_widths[milestone.id] %>px;
-              left: <%= milestone_lefts[milestone.id].to_i %>px;
+              width: <%= chart_data[:milestone_widths][milestone.id] %>px;
+              left: <%= chart_data[:milestone_lefts][milestone.id] %>px;
               top: 0; height: 100%;
               background-color: <%= milestone_color %>b3;
               border-color: <%= milestone_color %>cc;
@@ -38,7 +44,7 @@
               <% if milestone.is_a?(Milestone) %>
                 <%# milestoneのチャートの場合 %>
 
-                <%= button_to milestone_open_toggle_path(milestone), class: "flex items-center justify-center hover:cursor-pointer hover:bg-base-100/30", method: :patch do %>
+                <%= button_to milestone_open_toggle_path(milestone), class: "flex items-center justify-center hover:cursor-pointer hover:bg-base-100/30", method: :patch, data: { action: "click->loading#show" } do %>
                   <%# milestoneの開閉 %>
                   <% if milestone.open? %>
                     <span id="open_icon_<%=milestone.id%>" class="material-symbols-outlined size-full">
@@ -73,26 +79,27 @@
         <div class="relative">
           <!-- 日付ごとの行 -->
           <div>
-          <% date_range.each_with_index do |date, index| %>
-            <div
-              class="h-[40px] border-b border-base-100 z-30
-              <%= (index == 0) ? 'border-t' : '' %>
-              <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %>
-              <%= (date.wday == 0) || (date.wday == 6) ? 'bg-error/20' : '' %>
-              <%= (date == Time.zone.today) ? 'bg-accent/20' : '' %>
-              "
-              style="width: max(<%= chart_total_width %>px, 100%);"
-            >
-            <%# @chart_total_width：日付の横線のサイズを指定している %>
-            <%# 100%にすると、画面幅以上のチャートになった際に日付線が画面幅で切れてしまう %>
-            <%# この行には何も表示しない（背景色のみ） %>
-            </div>
-          <% end %>
+            <% chart_data[:date_range].each_with_index do |date, index| %>
+              <%# 日付線の色を決める %>
+              <% date_color = date_line_color(date) %>
+
+              <div
+                class="h-[40px] border-b border-base-100 z-30
+                <%= (index == 0) ? 'border-t' : '' %>
+                <%= (date.mday == 1) ? 'border-t-3 border-t-info' : '' %> <%= date_color %>
+                "
+                style="width: max(<%= chart_data[:chart_total_width] %>px, 100%);"
+              >
+              <%# chart_total_width：日付の横線のサイズを指定している %>
+              <%# 100%にすると、画面幅以上のチャートになった際に日付線が画面幅で切れてしまう %>
+              <%# この行には何も表示しない（背景色のみ） %>
+              </div>
+            <% end %>
           </div>
 
           <!-- milestone（長方形） -->
-        <% milestones.each do |milestone| %>
-          <%= render "gantt_chart/chart", milestone: milestone, milestone_widths: milestone_widths, milestone_lefts: milestone_lefts, date_range: date_range %>
+        <% chart_data[:milestones].each do |milestone| %>
+          <%= render "gantt_chart/chart", milestone: milestone, chart_presenter: chart_presenter %>
         <% end %>
       </div>
     </div>

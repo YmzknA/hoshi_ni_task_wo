@@ -37,6 +37,7 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 gem "devise"
+gem "devise-i18n"
 gem 'omniauth-line'
 gem 'omniauth-rails_csrf_protection'
 gem 'line-bot-api'
@@ -60,15 +61,24 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'solargraph'
   gem 'swimming_fish'
+  gem 'bullet'
+  gem 'rack-mini-profiler'
+  gem 'rspec-rails', '~> 7.1.1'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "rails-erd"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
+  gem "shoulda-matchers"
+  gem 'simplecov', require: false
 end
