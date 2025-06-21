@@ -1,6 +1,6 @@
 <div id="progress_button_<%=task.id%>">
   <% if !(task.is_a?(LimitedSharingTask)) && current_user?(task.user) %>
-    <%= button_to tasks_update_progress_path(task), method: :put, form: { data: { turbo: true } }, class: "btn btn-base-200 flex w-full h-auto aspect-square flex-col items-center justify-center rounded-xl" do %>
+    <%= button_to tasks_update_progress_path(task), method: :patch, form: { data: { turbo: true } }, class: "btn btn-base-200 flex w-full h-auto aspect-square flex-col items-center justify-center rounded-xl" do %>
       <% if task.progress == "not_started" %>
         <div class="text-xs text-base-100 whitespace-nowrap">
           <%= render "tasks/not_started_icon", color: task.milestone&.color %>

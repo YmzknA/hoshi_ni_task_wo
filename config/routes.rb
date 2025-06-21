@@ -2,8 +2,6 @@ Rails.application.routes.draw do
   get "images/ogp.png", to: "images#ogp", as: "images_ogp"
 
   resources :tasks, only: [:index, :create, :edit, :update, :destroy] do
-    patch "update_progress", on: :member
-
     collection do
       get :autocomplete
     end
