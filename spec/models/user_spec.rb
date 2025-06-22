@@ -167,6 +167,23 @@ RSpec.describe User, type: :model do
         expect(user.uid_required?).to be false
       end
     end
+
+    describe "#completed_tasks_hidden?" do
+      it "is_hide_completed_tasksがtrueの場合trueを返すこと" do
+        user.is_hide_completed_tasks = true
+        expect(user.completed_tasks_hidden?).to be true
+      end
+
+      it "is_hide_completed_tasksがfalseの場合falseを返すこと" do
+        user.is_hide_completed_tasks = false
+        expect(user.completed_tasks_hidden?).to be false
+      end
+
+      it "is_hide_completed_tasksがnilの場合falseを返すこと" do
+        user.is_hide_completed_tasks = nil
+        expect(user.completed_tasks_hidden?).to be false
+      end
+    end
   end
 
   describe "classメソッド" do
