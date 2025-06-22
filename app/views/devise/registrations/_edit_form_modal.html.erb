@@ -2,7 +2,7 @@
 <%# update失敗時にrender users/showを行う際にモーダルが閉じてしまうことを回避 %>
 <div data-controller="modal">
   <dialog data-modal-target="to_not_blur" id="edit_modal" class="modal" <%= @modal_open ? 'open' : ' ' %> >
-    <div class="modal-box w-xl max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-1 text-base-100 card bg-base-300 w-2xl h-2xl p-5 flex justify-center z-10">
+    <div class="glasscard modal-box w-xl max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-1 text-base-100 card w-2xl h-2xl p-5 flex justify-center z-10">
       <div>
 
         <!-- エラーメッセージ -->
