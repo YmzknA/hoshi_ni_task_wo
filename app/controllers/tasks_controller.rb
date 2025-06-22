@@ -29,7 +29,8 @@ class TasksController < ApplicationController
     user = current_user
 
     # params[:milestone_id]が存在する場合（milestone_showからのアクセス）
-    @milestones = if params[:milestone_id]
+    @from_milestone_show = params[:milestone_id].present?
+    @milestones = if @from_milestone_show
                     user.milestones.where(id: params[:milestone_id])
                   else
                     user.milestones.not_completed

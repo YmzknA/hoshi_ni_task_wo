@@ -8,7 +8,7 @@
 
   <% if @task_create_success %>
    <%= turbo_stream.replace "tasks_new_stream_target" do %>
-      <%= render "tasks_new_modal", task: Task.new, milestones: @milestones %>
+      <%= render "tasks_new_modal", task: Task.new, milestones: @milestones, from_milestone_show: @from_milestone_show %>
     <% end %>
 
     <%= turbo_stream.prepend "tasks_content" do %>
@@ -21,7 +21,7 @@
 
   <% else %>
     <%= turbo_stream.replace "tasks_new_stream_target" do %>
-      <%= render "tasks_new_modal", task: @task, milestones: @milestones, task_new_modal_open: @task_new_modal_open %>
+      <%= render "tasks_new_modal", task: @task, milestones: @milestones, from_milestone_show: @from_milestone_show, task_new_modal_open: @task_new_modal_open %>
     <% end %>
   <% end %>
 
