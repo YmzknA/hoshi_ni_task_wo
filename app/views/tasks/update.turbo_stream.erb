@@ -18,6 +18,12 @@
   <%= turbo_stream.replace @task %>
 <% end %>
 
-<% if @tasks_update_success && @chart_milestones.present? %>
-  <%= render "tasks/chart_updates" %>
+<% if @tasks_update_success %>
+  <% if @chart_milestones.present? %>
+    <%# チャート画面：全体更新 %>
+    <%= render "tasks/chart_updates" %>
+  <% elsif @single_milestone_updates.present? %>
+    <%# 星座詳細画面：単体更新 %>
+    <%= render "tasks/single_milestone_updates" %>
+  <% end %>
 <% end %>

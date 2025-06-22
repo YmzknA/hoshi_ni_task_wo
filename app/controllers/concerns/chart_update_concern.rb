@@ -46,11 +46,47 @@ module ChartUpdateConcern
   def setup_chart_update_data
     return unless chart_needs_update?
 
+    if from_chart_page?
+      setup_chart_page_data
+    else
+      setup_milestone_detail_page_data
+    end
+  end
+
+  def setup_chart_page_data
     @chart_milestones = current_user.milestones.includes(:tasks).on_chart.not_completed.start_date_asc
     return if @chart_milestones.empty?
 
     @chart_presenter = GanttChartPresenter.new(@chart_milestones, current_user)
     @chart_data = @chart_presenter.chart_data
+  end
+
+  def setup_milestone_detail_page_data
+    affected_milestones = set_affected_milestones
+    @single_milestone_updates = create_single_milestone_data(affected_milestones)
+  end
+
+  def set_affected_milestones
+    affected_milestones = []
+    affected_milestones << @task_milestone if @task_milestone&.on_chart?
+
+    if @previous_milestone && @previous_milestone != @task_milestone && @previous_milestone.on_chart?
+      affected_milestones << @previous_milestone
+    end
+
+    affected_milestones
+  end
+
+  def create_single_milestone_data(milestones)
+    milestones.map do |milestone|
+      single_milestone_data = [milestone]
+      chart_presenter = GanttChartPresenter.new(single_milestone_data, current_user)
+      {
+        milestone: milestone,
+        chart_presenter: chart_presenter,
+        chart_data: chart_presenter.chart_data
+      }
+    end
   end
 
   def chart_needs_update?
