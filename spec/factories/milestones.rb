@@ -27,5 +27,15 @@ FactoryBot.define do
         create_list(:task, evaluator.tasks_count, milestone: milestone)
       end
     end
+
+    trait :on_chart do
+      is_on_chart { true }
+      start_date { Date.today - 30.days }
+      end_date { Date.today + 30.days }
+    end
+
+    trait :not_on_chart do
+      is_on_chart { false }
+    end
   end
 end
