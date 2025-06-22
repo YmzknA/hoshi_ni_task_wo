@@ -1,0 +1,15 @@
+<%# ヘッダー部分の更新 %>
+<% @chart_milestones.each do |milestone| %>
+  <%= turbo_stream.replace "milestone_header_#{milestone.id}" do %>
+    <%= render "gantt_chart/milestone_header", milestone: milestone, chart_data: @chart_data %>
+  <% end %>
+<% end %>
+
+<%# チャート部分の更新 %>
+<% @chart_milestones.each do |milestone| %>
+  <%= turbo_stream.replace "milestone_chart_#{milestone.id}" do %>
+    <div id="milestone_chart_<%=milestone.id%>">
+      <%= render "gantt_chart/chart", milestone: milestone, chart_presenter: @chart_presenter %>
+    </div>
+  <% end %>
+<% end %>
