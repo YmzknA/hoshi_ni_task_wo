@@ -26,6 +26,8 @@ class MilestoneChartPresenter
   private
 
   def tasks
+    # 関連を再読み込みして最新のタスクを取得
+    @milestone.reload
     base_tasks = @milestone.tasks.valid_dates_nil
 
     if @current_user&.completed_tasks_hidden?
