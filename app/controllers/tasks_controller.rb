@@ -32,7 +32,7 @@ class TasksController < ApplicationController
     @milestones = if params[:milestone_id]
                     user.milestones.where(id: params[:milestone_id])
                   else
-                    user.milestones
+                    user.milestones.not_completed
                   end
 
     if @task.save
@@ -52,7 +52,7 @@ class TasksController < ApplicationController
   # turbo_stream更新している
   def update
     user = current_user
-    @milestones = user.milestones
+    @milestones = user.milestones.not_completed
 
     if @task.update(task_params)
       # タスクの更新に成功した場合、タスク詳細を表示
