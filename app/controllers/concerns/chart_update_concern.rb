@@ -1,6 +1,8 @@
 module ChartUpdateConcern
   extend ActiveSupport::Concern
 
+  GANTT_CHART_PATH = "/gantt_chart".freeze
+
   private
 
   def sort_tasks_by_complete_and_start_date(tasks)
@@ -40,7 +42,7 @@ module ChartUpdateConcern
     return false if referer.blank?
 
     # チャート画面のURLパターンをチェック
-    referer.include?("/gantt_chart")
+    referer.include?(GANTT_CHART_PATH)
   end
 
   def setup_chart_update_data
