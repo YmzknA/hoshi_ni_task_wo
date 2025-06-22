@@ -1,4 +1,7 @@
 class TasksController < ApplicationController
+  include TaskSearchConcern
+  include ChartUpdateConcern
+
   before_action :set_task, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, except: [:autocomplete]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
@@ -52,14 +55,13 @@ class TasksController < ApplicationController
 
   # turbo_stream更新している
   def update
-    user = current_user
-    @milestones = user.milestones.not_completed
+    @milestones = current_user.milestones.not_completed
+    @previous_milestone = @task.milestone
 
     if @task.update(task_params)
       # タスクの更新に成功した場合、タスク詳細を表示
-
       update_task_milestone_and_load_tasks
-
+      setup_chart_update_data
       @tasks_show_modal_open = true
       @tasks_update_success = true
       flash.now[:notice] = "タスクを更新しました"
@@ -138,82 +140,15 @@ class TasksController < ApplicationController
     redirect_to tasks_path
   end
 
-  def sort_tasks_by_complete_and_start_date(tasks)
-    # 完了したタスクを後ろにして、それぞれ開始日でソート
-    not_completed_tasks = tasks.not_completed.start_date_asc
-    completed_tasks = tasks.completed.start_date_asc
-    not_completed_tasks + completed_tasks
-  end
-
   def update_task_milestone_and_load_tasks
+    # 変更前の星座も更新
+    @previous_milestone&.update_progress
+
     return unless @task_milestone.present?
 
-    # 星座の進捗をタスクの進捗に合わせて更新
+    # 新しい星座も更新
     @task_milestone.update_progress
 
     set_chart_tasks
-  end
-
-  def set_chart_tasks
-    return unless @task_milestone.on_chart?
-
-    tasks = fetch_chart_tasks
-    @chart_tasks = sort_tasks_by_complete_and_start_date(tasks).to_a
-
-    # いま処理しているタスクがまだdbに存在していればチャートに表示するために追加
-    current_task = @task_milestone.tasks.find_by(id: @task.id)
-    @chart_tasks << current_task if current_task && @chart_tasks.exclude?(current_task)
-  end
-
-  def ransack_result
-    @q = @user.tasks.ransack(params[:q])
-    @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
-    @q.result(distinct: true).includes(:milestone)
-  end
-
-  def search_tasks_by_title(query)
-    # タスクのautocomplete機能で使用
-    q = current_user.tasks.ransack("title_cont" => query)
-    q.sorts = ["start_date asc", "end_date asc"] if q.sorts.empty?
-    q.result(distinct: true).includes(:milestone)
-  end
-
-  def search_milestone_tasks(query, milestone)
-    # マイルストーン詳細画面からタスクのautocomplete機能を使用する場合
-    q = milestone.tasks.ransack("title_cont" => query)
-    q.sorts = ["start_date asc", "end_date asc"] if q.sorts.empty?
-    q.result(distinct: true).includes(:milestone)
-  end
-
-  def search_tasks_by_progress(query, progress)
-    tasks = search_tasks_by_title(query)
-    if progress == "not_completed"
-      # 未完了のタスクを取得
-      tasks.not_completed
-    else
-      tasks.where(progress: progress)
-    end
-  end
-
-  def from_chart_page?
-    # URLからアクセス元のページを判定
-    referer = request.referer
-    return false if referer.blank?
-
-    # チャート画面のURLパターンをチェック
-    referer.include?("/gantt_chart")
-  end
-
-  def fetch_chart_tasks
-    # アクセス元のページを判定してタスクを取得
-    # チャート画面からのアクセスの場合：完了タスクを非表示にする設定を確認する
-    # 星座詳細画面からのアクセスの場合：常にすべてのタスクを表示
-    return @task_milestone.tasks.valid_dates_nil unless from_chart_page?
-
-    if current_user.completed_tasks_hidden?
-      @task_milestone.tasks.not_completed.valid_dates_nil
-    else
-      @task_milestone.tasks.valid_dates_nil
-    end
   end
 end
