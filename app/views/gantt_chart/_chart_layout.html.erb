@@ -28,51 +28,7 @@
         <!-- ヘッダー行 - 星座名 (固定) -->
         <div class="sticky top-0 h-14 flex z-50 w-full">
           <% chart_data[:milestones].each do |milestone| %>
-            <%
-              # 色の設定
-              milestone_color = milestone.color
-              truncate_num = milestone_title_truncate_num(milestone)
-            %>
-          <div class="border border-3 rounded-md text-base-200 text-xl absolute flex items-center justify-start font-medium px-2 text-center"
-              style="
-              width: <%= chart_data[:milestone_widths][milestone.id] %>px;
-              left: <%= chart_data[:milestone_lefts][milestone.id] %>px;
-              top: 0; height: 100%;
-              background-color: <%= milestone_color %>b3;
-              border-color: <%= milestone_color %>cc;
-              ">
-              <% if milestone.is_a?(Milestone) %>
-                <%# milestoneのチャートの場合 %>
-
-                <%= button_to milestone_open_toggle_path(milestone), class: "flex items-center justify-center hover:cursor-pointer hover:bg-base-100/30", method: :patch, data: { action: "click->loading#show" } do %>
-                  <%# milestoneの開閉 %>
-                  <% if milestone.open? %>
-                    <span id="open_icon_<%=milestone.id%>" class="material-symbols-outlined size-full">
-                      left_panel_close
-                    </span>
-                  <% else %>
-                    <span id="open_icon_<%=milestone.id%>" class="material-symbols-outlined">
-                      left_panel_open
-                    </span>
-                  <% end %>
-                <% end %>
-                <%# ここまでbutton_to %>
-
-                <%# openならタスクのタイトルを表示 %>
-                <% if milestone.open? %>
-                  <%= link_to gantt_chart_milestone_show_path(milestone), class: "hover:cursor-pointer hover:bg-base-100/20 flex h-full w-full items-center justify-center", data: { turbo_frame: "milestone_show_modal" } do %>
-                    <%= milestone.title.truncate(truncate_num, omission: '...') %>
-                  <% end %>
-                <% end %>
-
-              <% else %>
-                <%# limited_sharing_milestoneのチャートの場合 %>
-                <div class="flex items-center justify-center h-full w-full">
-                  <%= milestone.title %>
-                </div>
-
-              <% end %>
-            </div>
+            <%= render "gantt_chart/milestone_header", milestone: milestone, chart_data: chart_data %>
           <% end %>
         </div>
 
@@ -99,7 +55,9 @@
 
           <!-- milestone（長方形） -->
         <% chart_data[:milestones].each do |milestone| %>
-          <%= render "gantt_chart/chart", milestone: milestone, chart_presenter: chart_presenter %>
+          <div id="milestone_chart_<%=milestone.id%>">
+            <%= render "gantt_chart/chart", milestone: milestone, chart_presenter: chart_presenter %>
+          </div>
         <% end %>
       </div>
     </div>
