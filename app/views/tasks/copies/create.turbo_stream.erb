@@ -12,7 +12,7 @@
     <% end %>
 
     <%= turbo_stream.append "tasks_content" do %>
-      <%= turbo_frame_tag "tasks_show_modal_#{@copy.id}", src: task_path(@copy)%>
+      <%= render "tasks/tasks_show_modal", task: @copy, tasks_show_modal_open: false %>
     <% end %>
 
     <%= turbo_stream.replace "copy_icon_#{@task.id}" do %>
