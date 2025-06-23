@@ -1,4 +1,9 @@
 class LineTaskNotifier
+  # 定数定義
+  CHAR_LIMIT = 4900
+  MESSAGE_DELAY = 0.5
+  USER_DELAY = 0.5
+
   def initialize(user)
     @user = user
     @task_presenter = LineBot::TaskPresenter.new(user)
@@ -6,9 +11,44 @@ class LineTaskNotifier
   end
 
   def send_daily_notifications
-    send_greeting_message
-    send_upcoming_start_items_notification
-    send_upcoming_deadline_items_notification
+    messages_sent = 0
+
+    # 挨拶メッセージを送信
+    begin
+      send_greeting_message
+      messages_sent += 1
+      Rails.logger.info "Greeting message sent to user #{@user.id}"
+    rescue StandardError => e
+      Rails.logger.error "Failed to send greeting message to user #{@user.id}: #{e.message}"
+    end
+
+    sleep(MESSAGE_DELAY) if messages_sent.positive? # API制限回避のため少し待機
+
+    # ▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲
+
+    # 3日以内に開始するタスクとマイルストーンの通知を送信
+    begin
+      send_upcoming_start_items_notification
+      messages_sent += 1
+      Rails.logger.info "Start items notification sent to user #{@user.id}"
+    rescue StandardError => e
+      Rails.logger.error "Failed to send start items notification to user #{@user.id}: #{e.message}"
+    end
+
+    sleep(MESSAGE_DELAY) if messages_sent > 1 # API制限回避のため少し待機
+
+    # ▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲
+
+    # 終了日が前後3日以内のタスクとマイルストーンの通知を送信
+    begin
+      send_upcoming_deadline_items_notification
+      messages_sent += 1
+      Rails.logger.info "Deadline notification sent to user #{@user.id}"
+    rescue StandardError => e
+      Rails.logger.error "Failed to send deadline notification to user #{@user.id}: #{e.message}"
+    end
+
+    Rails.logger.info "Total messages sent to user #{@user.id}: #{messages_sent}/3"
   end
 
   def send_greeting_message
@@ -60,12 +100,25 @@ class LineTaskNotifier
   end
 
   def build_notification_message(tasks, milestones, message)
-    LineBot::MessageBuilder.text(
-      "#{message}\
-      \n\n#{@milestone_presenter.milestones_from_list(milestones)}\
-      \n\n----------\
-      \n\n#{@task_presenter.tasks_from_list(tasks)}"
-    )
+    content = message.to_s
+
+    # 星座のメッセージ
+    milestone_text = @milestone_presenter.milestones_from_list(milestones)
+    content += "\n\n#{milestone_text}" if milestone_text.present?
+
+    # 分割線
+    content += "\n\n----------" if milestone_text.present? || tasks.any?
+
+    # タスクのメッセージ
+    task_text = @task_presenter.tasks_from_list(tasks)
+    content += "\n\n#{task_text}" if task_text.present?
+
+    # LINEの文字数制限（5000文字）をチェック
+    if content.length > CHAR_LIMIT # 余裕を持って4900文字に制限
+      content = "#{content[0..CHAR_LIMIT]}...\n\n📱 文字数制限により一部省略しました\n残りの詳細はアプリでご確認ください"
+    end
+
+    LineBot::MessageBuilder.text(content)
   end
 
   def client
