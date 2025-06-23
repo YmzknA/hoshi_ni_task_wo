@@ -1,4 +1,9 @@
 class LineTaskNotifier
+  # 定数定義
+  CHAR_LIMIT = 4900
+  MESSAGE_DELAY = 0.5
+  USER_DELAY = 0.5
+
   def initialize(user)
     @user = user
     @task_presenter = LineBot::TaskPresenter.new(user)
@@ -17,7 +22,7 @@ class LineTaskNotifier
       Rails.logger.error "Failed to send greeting message to user #{@user.id}: #{e.message}"
     end
 
-    sleep(0.5) if messages_sent.positive? # API制限回避のため少し待機
+    sleep(MESSAGE_DELAY) if messages_sent.positive? # API制限回避のため少し待機
 
     # ▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲
 
@@ -30,7 +35,7 @@ class LineTaskNotifier
       Rails.logger.error "Failed to send start items notification to user #{@user.id}: #{e.message}"
     end
 
-    sleep(0.5) if messages_sent > 1 # API制限回避のため少し待機
+    sleep(MESSAGE_DELAY) if messages_sent > 1 # API制限回避のため少し待機
 
     # ▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲
 
@@ -109,8 +114,8 @@ class LineTaskNotifier
     content += "\n\n#{task_text}" if task_text.present?
 
     # LINEの文字数制限（5000文字）をチェック
-    if content.length > 4900 # 余裕を持って4900文字に制限
-      content = "#{content[0..4900]}...\n\n📱 文字数制限により一部省略しました\n残りの詳細はアプリでご確認ください"
+    if content.length > CHAR_LIMIT # 余裕を持って4900文字に制限
+      content = "#{content[0..CHAR_LIMIT]}...\n\n📱 文字数制限により一部省略しました\n残りの詳細はアプリでご確認ください"
     end
 
     LineBot::MessageBuilder.text(content)

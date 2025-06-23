@@ -14,7 +14,7 @@ namespace :push_line do
       Rails.logger.info "Successfully sent notification to user #{user.id}"
 
       # API制限回避のため1秒待機
-      sleep(1)
+      sleep(LineTaskNotifier::USER_DELAY)
     rescue StandardError => e
       error_count += 1
       Rails.logger.error "Failed to send notification to user #{user.id}: #{e.class} - #{e.message}"
