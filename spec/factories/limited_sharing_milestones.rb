@@ -6,7 +6,7 @@ FactoryBot.define do
     progress { Faker::Number.between(from: 0, to: 1) }
     color { "#FFDF5E" }
     start_date { Faker::Date.between(from: 1.year.ago, to: Date.today) }
-    end_date { Faker::Date.between(from: Date.today, to: 1.year.from_now) }
+    end_date { start_date + rand(1..365).days }
     completed_comment { Faker::Lorem.sentence(word_count: 5) }
     is_on_chart { false }
     association :user
@@ -14,9 +14,18 @@ FactoryBot.define do
     trait :completed do
       progress { 2 } # completed
       completed_comment { Faker::Lorem.sentence(word_count: 5) }
+    end
 
-      trait :with_tasks do
-        create_list { :limited_sharing_task }
+    trait :with_tasks do
+      transient do
+        tasks_count { 3 }
+      end
+
+      after(:create) do |milestone, evaluator|
+        create_list(:limited_sharing_task, evaluator.tasks_count,
+                    limited_sharing_milestone_id: milestone.id,
+                    user: milestone.user,
+                    create_milestone: false)
       end
     end
   end
