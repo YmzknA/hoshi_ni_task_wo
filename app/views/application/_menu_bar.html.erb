@@ -58,6 +58,15 @@
       </li>
 
       <li>
+        <%= link_to constellations_path, class: "flex items-center", data: { action: "click->loading#show" } do %>
+          <span class="material-symbols-outlined">
+            auto_stories
+          </span>
+          <p class="whitespace-nowrap"> 88星座図鑑 </p>
+        <% end %>
+      </li>
+
+      <li>
         <%= link_to tasks_path, class: "flex items-center", data: { action: "click->loading#show" } do %>
           <div class="pt-1">
             <%= render 'tasks_icon' %>
