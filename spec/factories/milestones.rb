@@ -7,7 +7,7 @@ FactoryBot.define do
     is_on_chart { Faker::Boolean.boolean }
     is_open { Faker::Boolean.boolean }
     start_date { Faker::Date.between(from: 1.year.ago, to: Date.today) }
-    end_date { Faker::Date.between(from: Date.today, to: 1.year.from_now) }
+    end_date { start_date + rand(1..365).days }
     # progressが2の場合はcompleted commentが必須
     completed_comment { Faker::Lorem.sentence(word_count: 5) if progress == 2 }
     color { "#FFDF5E" }
