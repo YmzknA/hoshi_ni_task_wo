@@ -3,7 +3,6 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 import { bgStarShow } from "./bgStarShow"
 import { groupBtnHoverRemoveGroupLinkCardBg } from "./groupBtnHoverRemoveGroupLinkCardBg"
-import { fadeElementOnScroll } from "./fadeElementOnScroll"
 import { addButtonNotification } from "./addButtonNotification"
 import { newReleaseNotification } from "./newReleaseNotification"
 import { settingButtonRotate } from "./settingButtonRotate"
@@ -15,9 +14,6 @@ function initializeApp() {
   // ボタンのホバー時にグループリンクカードの背景を変更
   groupBtnHoverRemoveGroupLinkCardBg();
 
-  // スクロール時のボタン表示/非表示を制御
-  fadeElementOnScroll('add_button');
-  fadeElementOnScroll('menu_bar');
 
   // 通知ボタンの表示制御
   addButtonNotification();
