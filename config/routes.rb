@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
   resources :task_milestone_assignments, only: [:show, :update]
 
+  resources :constellations, only: [:index, :show]
+
   get "gantt_chart" => "gantt_chart#show", as: :gantt_chart
   get "gantt_chart_milestone/:id" => "gantt_chart#milestone_show", as: :gantt_chart_milestone_show
 

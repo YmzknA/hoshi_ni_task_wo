@@ -1,0 +1,53 @@
+<div class="h-full w-full">
+  <%= render 'title_header', title: @title %>
+
+  <div class="relative z-10 min-h-screen space-y-5 rounded-t-[4rem] border-x-1 border-t-1 border-base-200 bg-base-300/30 p-8 text-center text-base-200 xl:text-xl">
+
+    <div id="flash" class="fixed m-5 top-0 left-0 right-0 z-50">
+      <%= render 'flash' %>
+    </div>
+
+    <div class="text-center text-sm text-base-200 mb-8">
+      獲得済みの星座: <%= @user_constellation_ids.length %>個 / 88個
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 mb-20">
+      <% @constellations.each do |constellation| %>
+        <%= link_to constellation_path(constellation), class: "block transition-all duration-200 hover:bg-base-100/30 hover:scale-105  rounded-xl #{ @user_constellation_ids.include?(constellation.id) ? 'border border-3 border-accent' : '' }" do %>
+          <div class="relative bg-base-100/20 rounded-xl pb-4 cursor-pointer">
+            <% if @user_constellation_ids.include?(constellation.id) %>
+                <div class="absolute -top-3 -right-3 z-20">
+              <span class="tooltip tooltip-left" data-tip="獲得済み">
+                  <div class="flex items-center justify-center bg-accent rounded-full size-10 shadow-lg">
+                    <%= render "stars_icon", width: "24", height: "24", color: "#EAF2F5" %>
+                  </div>
+              </span>
+                </div>
+            <% end %>
+            
+            <div class="aspect-square rounded-lg mb-3 flex items-center justify-center overflow-hidden">
+              <%= image_tag "#{constellation.image_name}.webp", 
+                  alt: constellation.name,
+                  class: "w-full h-full object-cover rounded-lg",
+                  loading: "lazy" %>
+            </div>
+            
+            <h3 class="md:flex justify-between items-center text-sm md:text-base text-base-200 px-2 md:px-5">
+              <%= constellation.name %>
+
+              <div class="text-secondary flex items-center justify-center md:justify-end gap-1 mt-2 md:mt-0">
+                <%= render "star_icon", width: "16", height: "16", color: "#DEC4A4" %>
+                <span><%= constellation.number_of_stars %></span>
+              </div>
+            </h3>
+            
+            <div class="flex items-center justify-center gap-1 text-xs text-primary">
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <%= render "menu_bar" %>
+</div>

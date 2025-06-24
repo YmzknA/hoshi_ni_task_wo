@@ -1,0 +1,70 @@
+<div class="h-full w-full">
+  <%= render 'title_header', title: @title %>
+
+  <div class="relative z-10 min-h-screen space-y-5 rounded-t-[4rem] border-x-1 border-t-1 border-base-200 bg-base-300/30 p-8 pb-20 text-center text-base-200 xl:text-xl">
+
+    <div id="flash" class="fixed m-5 top-0 left-0 right-0 z-50">
+      <%= render 'flash' %>
+    </div>
+
+    <div class="text-center text-3xl text-base-200 mb-4">
+      <%= @constellation.name %>
+    </div>
+
+    <div class="flex justify-center mb-8">
+      <div class="bg-base-100/20 rounded-xl p-6 max-w-sm">
+        <div class="aspect-square bg-base-100/10 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+          <%= link_to constellation_url(@constellation), target: "_blank", rel: "noopener noreferrer", class: "block" do %>
+            <%= image_tag "#{@constellation.image_name}.webp", 
+              alt: @constellation.name,
+              class: "w-full h-full object-cover rounded-lg" %>
+            <% end %>
+        </div>
+        
+        <div class="flex items-center justify-center gap-2 text-xl text-secondary mb-4">
+          <%= render "star_icon", width: "24", height: "24", color: "#DEC4A4" %>
+          <span><%= @constellation.number_of_stars %></span>
+        </div>
+
+        <%= link_to constellation_url(@constellation), target: "_blank", rel: "noopener noreferrer", 
+            class: "btn btn-sm btn-outline text-base-200 border-base-200 hover:bg-base-200 hover:text-base-300" do %>
+          <span class="material-symbols-outlined text-sm">
+            open_in_new
+          </span>
+          星座の詳細を見る
+        <% end %>
+      </div>
+    </div>
+
+    <div class="text-center text-2xl text-base-200 mb-6">
+      この星座を獲得した星座
+    </div>
+
+    <!-- 星座一覧 -->
+    <% if @milestones %>
+      <div class="flex w-full items-center justify-center mb-10">
+        <div class="w-full max-w-4xl">
+          <%= render "milestones/milestones", milestones: @milestones %>
+        </div>
+      </div>
+    <% else %>
+      <div class="text-base-200 text-lg mb-8">
+        この星座を獲得した星座はありません。
+      </div>
+    <% end %>
+
+    <div class="text-center mb-8">
+      <%= link_to constellations_path, 
+          class: "btn btn-outline text-base-200 border-base-200 hover:bg-base-200 hover:text-base-300", 
+          data: { action: "click->loading#show" } do %>
+        <span class="material-symbols-outlined">
+          arrow_back
+        </span>
+        星座図鑑に戻る
+      <% end %>
+    </div>
+
+  </div>
+
+  <%= render "menu_bar" %>
+</div>
