@@ -49,7 +49,7 @@ RSpec.describe Milestone, type: :model do
         let(:chart_end_date) { Date.new(2025, 6, 30) }
 
         it "チャート表示がtrueで両方の日付がある場合有効であること" do
-          milestone = build(:milestone, user: user, is_on_chart: true, 
+          milestone = build(:milestone, user: user, is_on_chart: true,
                                         start_date: chart_start_date, end_date: chart_end_date)
           expect(milestone).to be_valid
         end
@@ -104,7 +104,7 @@ RSpec.describe Milestone, type: :model do
         end
 
         it "タスクの開始日がマイルストーンの開始日より前の場合無効であること" do
-          task = build(:task, milestone: milestone, user: user, 
+          task = build(:task, milestone: milestone, user: user,
                               start_date: milestone_start - 1.day, end_date: milestone_start + 1.day)
           task.save(validate: false)  # taskのバリデーションを回避
           milestone.reload
@@ -113,7 +113,7 @@ RSpec.describe Milestone, type: :model do
         end
 
         it "タスクの終了日がマイルストーンの終了日より後の場合無効であること" do
-          task = build(:task, milestone: milestone, user: user, 
+          task = build(:task, milestone: milestone, user: user,
                               start_date: milestone_end - 1.day, end_date: milestone_end + 1.day)
           task.save(validate: false)  # taskのバリデーションを回避
           milestone.reload
@@ -122,7 +122,7 @@ RSpec.describe Milestone, type: :model do
         end
 
         it "タスクの日付がマイルストーンの日付範囲内の場合有効であること" do
-          create(:task, milestone: milestone, user: user, 
+          create(:task, milestone: milestone, user: user,
                         start_date: milestone_start + 1.day, end_date: milestone_end - 1.day)
           milestone.reload
           expect(milestone).to be_valid
@@ -349,7 +349,9 @@ RSpec.describe Milestone, type: :model do
       end
 
       context "開始日のみ存在する場合" do
-        let(:milestone) { create(:milestone, user: user, start_date: original_start_date, end_date: nil, is_on_chart: false) }
+        let(:milestone) do
+          create(:milestone, user: user, start_date: original_start_date, end_date: nil, is_on_chart: false)
+        end
 
         it "開始日のみを調整すること" do
           copy = milestone.copy(set_date)
@@ -360,7 +362,9 @@ RSpec.describe Milestone, type: :model do
       end
 
       context "終了日のみ存在する場合" do
-        let(:milestone) { create(:milestone, user: user, start_date: nil, end_date: original_end_date, is_on_chart: false) }
+        let(:milestone) do
+          create(:milestone, user: user, start_date: nil, end_date: original_end_date, is_on_chart: false)
+        end
 
         it "終了日のみを調整すること" do
           copy = milestone.copy(set_date)
@@ -381,7 +385,6 @@ RSpec.describe Milestone, type: :model do
         end
       end
     end
-
   end
 
   describe "classメソッド" do
