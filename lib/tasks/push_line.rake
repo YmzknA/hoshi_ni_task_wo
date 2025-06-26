@@ -1,5 +1,5 @@
 namespace :push_line do
-  desc "LINEで開始日・終了日が近いタスクとマイルストーンの通知を送信"
+  desc "LINEで開始日・終了日が近いタスクと星座の通知を送信"
   task send_daily_task_notifications: :environment do
     success_count = 0
     error_count = 0

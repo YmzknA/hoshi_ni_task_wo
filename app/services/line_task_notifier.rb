@@ -26,7 +26,7 @@ class LineTaskNotifier
 
     # ▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲
 
-    # 3日以内に開始するタスクとマイルストーンの通知を送信
+    # 3日以内に開始するタスクと星座の通知を送信
     begin
       send_upcoming_start_items_notification
       messages_sent += 1
@@ -39,7 +39,7 @@ class LineTaskNotifier
 
     # ▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲▽▲
 
-    # 終了日が前後3日以内のタスクとマイルストーンの通知を送信
+    # 終了日が前後3日以内のタスクと星座の通知を送信
     begin
       send_upcoming_deadline_items_notification
       messages_sent += 1
