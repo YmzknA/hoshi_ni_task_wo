@@ -1,5 +1,7 @@
 module LineBot
   class TaskPresenter
+    include KanaNormalizer
+
     def initialize(user)
       @user = user
     end
@@ -27,17 +29,22 @@ module LineBot
     end
 
     def tasks_milestones_info_from_search(search_word)
-      search_word = ActiveRecord::Base.sanitize_sql_like(search_word)
+      # ひらがな・カタカナ正規化でfuzzy検索を実装
+      kana_query = normalize_kana(search_word)
+      reverse_kana_query = reverse_normalize_kana(search_word)
 
-      tasks = @user.tasks.where(
-        "title ILIKE ?",
-        "%#{search_word}%"
-      ).order(:start_date).to_a.reject { |t| t.milestone.present? && t.milestone.completed? }
+      # タスク検索（完了したマイルストーンのタスクは除外）
+      tasks = @user.tasks.ransack(title_cont_any: [kana_query, reverse_kana_query])
+                   .result(distinct: true)
+                   .includes(:milestone)
+                   .order(:start_date)
+                   .to_a
+                   .reject { |t| t.milestone.present? && t.milestone.completed? }
 
-      milestones = @user.milestones.not_completed.where(
-        "title ILIKE ?",
-        "%#{search_word}%"
-      ).order(:start_date)
+      # マイルストーン検索（未完了のもののみ）
+      milestones = @user.milestones.not_completed.ransack(title_cont_any: [kana_query, reverse_kana_query])
+                        .result(distinct: true)
+                        .order(:start_date)
 
       # tasksやmilestonesが空の場合の分岐はsearch_results_messageメソッド内で行う
       MessageBuilder.search_results_message(tasks, milestones)

@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  include TaskSearchConcern
+  include SearchConcern
   include ChartUpdateConcern
 
   before_action :set_task, only: [:edit, :update, :destroy]
@@ -13,7 +13,7 @@ class TasksController < ApplicationController
     @milestones = current_user.milestones.not_completed
     @title = "タスク一覧"
     @user = current_user
-    base_tasks = ransack_result
+    base_tasks = ransack_by_title_and_description("task")
 
     # 完了したタスク - 作成日の降順
     @completed_tasks = base_tasks.completed.reject(&:milestone_completed?)
@@ -89,17 +89,16 @@ class TasksController < ApplicationController
     id = params[:milestone_id] # optional
     @milestone = Milestone.find_by(id: id) # idが存在しない場合はnil
     progress = params[:progress] # optional
-    query = ActiveRecord::Base.sanitize_sql_like(params[:q])
 
     @tasks = if @milestone.present? && (current_user?(@milestone.user) || @milestone.public?)
                # milsestone_idが指定されている場合
-               search_milestone_tasks(query, @milestone)
+               autocomplete_tasks_from_milestone(@milestone)
              elsif progress.present?
                # progressが指定されている場合
                # progress = "not_completed" || progressのenum値
-               search_tasks_by_progress(query, progress)
+               ransack_by_title_with_progress(progress)
              else
-               search_tasks_by_title(query)
+               autocomplete_by_title("task")
              end
 
     # @tasksの中でタイトルが他のものと同じものを一つに
