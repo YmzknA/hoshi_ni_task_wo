@@ -85,7 +85,7 @@ RSpec.describe "Constellations", type: :request do
       expect(response.body).to include("この星座を獲得した星座")
     end
 
-    it "紐づくマイルストーンがない場合もページが表示される" do
+    it "紐づく星座がない場合もページが表示される" do
       get constellation_path(constellation)
       expect(response).to have_http_status(:success)
       expect(response.body).to include(constellation.name)

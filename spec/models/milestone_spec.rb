@@ -103,7 +103,7 @@ RSpec.describe Milestone, type: :model do
           create(:milestone, user: user, is_on_chart: true, start_date: milestone_start, end_date: milestone_end)
         end
 
-        it "タスクの開始日がマイルストーンの開始日より前の場合無効であること" do
+        it "タスクの開始日が星座の開始日より前の場合無効であること" do
           task = build(:task, milestone: milestone, user: user,
                               start_date: milestone_start - 1.day, end_date: milestone_start + 1.day)
           task.save(validate: false)  # taskのバリデーションを回避
@@ -112,7 +112,7 @@ RSpec.describe Milestone, type: :model do
           expect(milestone.errors[:start_date]).to include("は紐づくタスクの開始日以前に設定してください。タスクは星座の期間内に収まる必要があります")
         end
 
-        it "タスクの終了日がマイルストーンの終了日より後の場合無効であること" do
+        it "タスクの終了日が星座の終了日より後の場合無効であること" do
           task = build(:task, milestone: milestone, user: user,
                               start_date: milestone_end - 1.day, end_date: milestone_end + 1.day)
           task.save(validate: false)  # taskのバリデーションを回避
@@ -121,7 +121,7 @@ RSpec.describe Milestone, type: :model do
           expect(milestone.errors[:end_date]).to include("は紐づくタスクの終了日以降に設定してください。タスクは星座の期間内に収まる必要があります")
         end
 
-        it "タスクの日付がマイルストーンの日付範囲内の場合有効であること" do
+        it "タスクの日付が星座の日付範囲内の場合有効であること" do
           create(:task, milestone: milestone, user: user,
                         start_date: milestone_start + 1.day, end_date: milestone_end - 1.day)
           milestone.reload
@@ -150,14 +150,14 @@ RSpec.describe Milestone, type: :model do
     let!(:in_progress_milestone) { create(:milestone, user: user, progress: :in_progress) }
 
     describe ".on_chart" do
-      it "チャート表示対象のマイルストーンのみを返すこと" do
+      it "チャート表示対象の星座のみを返すこと" do
         expect(Milestone.on_chart).to include(on_chart_milestone)
         expect(Milestone.on_chart).not_to include(off_chart_milestone)
       end
     end
 
     describe ".not_completed" do
-      it "未完了のマイルストーンのみを返すこと" do
+      it "未完了の星座のみを返すこと" do
         results = Milestone.not_completed
         expect(results).to include(not_started_milestone, in_progress_milestone)
         expect(results).not_to include(completed_milestone)
@@ -172,7 +172,7 @@ RSpec.describe Milestone, type: :model do
         create(:milestone, user: user, start_date: Date.new(2025, 2, 1), end_date: Date.new(2025, 2, 5))
       end
 
-      it "開始日の昇順でマイルストーンを並べ替えること" do
+      it "開始日の昇順で星座を並べ替えること" do
         results = Milestone.where(id: [early_milestone.id, late_milestone.id]).start_date_asc
         expect(results.first).to eq(early_milestone)
         expect(results.last).to eq(late_milestone)
@@ -188,7 +188,7 @@ RSpec.describe Milestone, type: :model do
         create(:milestone, user: user, start_date: Date.new(2025, 2, 1), end_date: Date.new(2025, 2, 5))
       end
 
-      it "日付なしのマイルストーンを最後に、その後開始日、終了日順で並べ替えること" do
+      it "日付なしの星座を最後に、その後開始日、終了日順で並べ替えること" do
         ordered = Milestone.where(id: [nil_date_milestone.id, early_milestone.id, late_milestone.id]).index_order
         expect(ordered[0]).to eq(early_milestone)
         expect(ordered[1]).to eq(late_milestone)
@@ -403,14 +403,14 @@ RSpec.describe Milestone, type: :model do
 
   describe "factory" do
     describe ":milestone" do
-      it "有効なマイルストーンを作成すること" do
+      it "有効な星座を作成すること" do
         milestone = build(:milestone)
         expect(milestone).to be_valid
       end
     end
 
     describe ":completed trait" do
-      it "完了状態のマイルストーンを作成すること" do
+      it "完了状態の星座を作成すること" do
         milestone = build(:milestone, :completed)
         expect(milestone.progress).to eq("completed")
         expect(milestone.completed_comment).to be_present
@@ -418,7 +418,7 @@ RSpec.describe Milestone, type: :model do
     end
 
     describe ":on_chart trait" do
-      it "チャート表示対象のマイルストーンを作成すること" do
+      it "チャート表示対象の星座を作成すること" do
         milestone = build(:milestone, :on_chart)
         expect(milestone.is_on_chart).to be true
         expect(milestone.start_date).to be_present
@@ -427,7 +427,7 @@ RSpec.describe Milestone, type: :model do
     end
 
     describe ":not_on_chart trait" do
-      it "チャート非表示のマイルストーンを作成すること" do
+      it "チャート非表示の星座を作成すること" do
         milestone = build(:milestone, :not_on_chart)
         expect(milestone.is_on_chart).to be false
       end

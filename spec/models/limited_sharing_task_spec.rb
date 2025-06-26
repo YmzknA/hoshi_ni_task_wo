@@ -88,16 +88,16 @@ RSpec.describe LimitedSharingTask, type: :model do
     end
 
     describe "#milestone_completed?" do
-      it "マイルストーンが完了している場合trueを返すこと" do
+      it "星座が完了している場合trueを返すこと" do
         expect(task.milestone_completed?).to be true
       end
 
-      it "マイルストーンが未完了の場合falseを返すこと" do
+      it "星座が未完了の場合falseを返すこと" do
         completed_milestone.update(progress: :not_started)
         expect(task.milestone_completed?).to be false
       end
 
-      it "マイルストーンがnilの場合falseを返すこと" do
+      it "星座がnilの場合falseを返すこと" do
         task.update(limited_sharing_milestone_id: nil)
         expect(task.milestone_completed?).to be false
       end
@@ -185,7 +185,7 @@ RSpec.describe LimitedSharingTask, type: :model do
         expect(task).to be_valid
       end
 
-      it "関連するマイルストーンが自動作成されること" do
+      it "関連する星座が自動作成されること" do
         task = create(:limited_sharing_task)
         expect(task.milestone).to be_present
         expect(task.milestone).to be_a(LimitedSharingMilestone)

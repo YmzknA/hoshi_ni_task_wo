@@ -128,7 +128,7 @@ RSpec.describe LimitedSharingMilestone, type: :model do
 
   describe "factory" do
     describe ":limited_sharing_milestone" do
-      it "有効な限定共有マイルストーンを作成すること" do
+      it "有効な限定共有星座を作成すること" do
         milestone = create(:limited_sharing_milestone)
         expect(milestone).to be_valid
       end
@@ -140,7 +140,7 @@ RSpec.describe LimitedSharingMilestone, type: :model do
     end
 
     describe ":completed trait" do
-      it "完了状態のマイルストーンを作成すること" do
+      it "完了状態の星座を作成すること" do
         milestone = build(:limited_sharing_milestone, :completed)
         expect(milestone.progress).to eq("completed")
         expect(milestone.completed_comment).to be_present
@@ -148,7 +148,7 @@ RSpec.describe LimitedSharingMilestone, type: :model do
     end
 
     describe ":with_tasks trait" do
-      it "関連するタスクを持つマイルストーンを作成すること" do
+      it "関連するタスクを持つ星座を作成すること" do
         milestone = create(:limited_sharing_milestone, :with_tasks)
         expect(milestone.tasks.count).to eq(3)
         milestone.tasks.each do |task|
@@ -167,7 +167,7 @@ RSpec.describe LimitedSharingMilestone, type: :model do
   describe "タスクとの連携" do
     let(:milestone_with_tasks) { create(:limited_sharing_milestone, user: user) }
 
-    it "マイルストーンが削除されると関連するタスクも削除されること" do
+    it "星座が削除されると関連するタスクも削除されること" do
       create(:limited_sharing_task, user: user,
                                     limited_sharing_milestone_id: milestone_with_tasks.id,
                                     create_milestone: false)

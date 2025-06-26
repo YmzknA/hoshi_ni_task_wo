@@ -84,7 +84,7 @@ RSpec.describe Task, type: :model do
     context "milestone date validations" do
       let(:user) { create(:user) }
 
-      context "チャートに表示されるマイルストーンに紐づく場合" do
+      context "チャートに表示される星座に紐づく場合" do
         let(:chart_milestone) do
           create(:milestone, :on_chart,
                  start_date: Date.today,
@@ -101,7 +101,7 @@ RSpec.describe Task, type: :model do
           expect(subject.errors[:end_date]).to include("または開始日のいずれかを設定してください。チャートに表示される星座のタスクには日付が必要です")
         end
 
-        it "開始日がマイルストーンの開始日より前の場合無効であること" do
+        it "開始日が星座の開始日より前の場合無効であること" do
           subject.milestone = chart_milestone
           subject.start_date = chart_milestone.start_date - 1.day
           subject.end_date = chart_milestone.end_date
@@ -109,7 +109,7 @@ RSpec.describe Task, type: :model do
           expect(subject.errors[:start_date]).to include("は星座の開始日以降の日付にしてください")
         end
 
-        it "終了日がマイルストーンの終了日より後の場合無効であること" do
+        it "終了日が星座の終了日より後の場合無効であること" do
           subject.milestone = chart_milestone
           subject.start_date = chart_milestone.start_date
           subject.end_date = chart_milestone.end_date + 1.day
@@ -117,7 +117,7 @@ RSpec.describe Task, type: :model do
           expect(subject.errors[:end_date]).to include("は星座の終了日以前の日付にしてください")
         end
 
-        it "マイルストーンの日付範囲内の場合有効であること" do
+        it "星座の日付範囲内の場合有効であること" do
           subject.milestone = chart_milestone
           subject.start_date = chart_milestone.start_date + 1.day
           subject.end_date = chart_milestone.end_date - 1.day
@@ -125,7 +125,7 @@ RSpec.describe Task, type: :model do
         end
       end
 
-      context "チャートに表示されないマイルストーンに紐づく場合" do
+      context "チャートに表示されない星座に紐づく場合" do
         let(:not_on_chart_milestone) { create(:milestone, :not_on_chart, user: user) }
 
         it "日付が設定されていなくても有効であること" do
@@ -136,7 +136,7 @@ RSpec.describe Task, type: :model do
         end
       end
 
-      context "マイルストーンに紐づかない場合" do
+      context "星座に紐づかない場合" do
         it "日付が設定されていなくても有効であること" do
           subject.milestone = nil
           subject.start_date = nil
@@ -205,7 +205,7 @@ RSpec.describe Task, type: :model do
     end
 
     describe ".without_milestone" do
-      it "マイルストーンに紐づかないタスクのみを返すこと" do
+      it "星座に紐づかないタスクのみを返すこと" do
         expect(Task.without_milestone).to include(without_milestone_task)
         expect(Task.without_milestone).not_to include(not_started_task, in_progress_task, completed_task, no_dates_task)
       end
@@ -244,7 +244,7 @@ RSpec.describe Task, type: :model do
     describe "#milestone_completed?" do
       let(:user) { create(:user) }
 
-      context "マイルストーンが完了している場合" do
+      context "星座が完了している場合" do
         let(:completed_milestone) { create(:milestone, :completed, user: user) }
 
         before { subject.update(milestone: completed_milestone) }
@@ -254,7 +254,7 @@ RSpec.describe Task, type: :model do
         end
       end
 
-      context "マイルストーンが完了していない場合" do
+      context "星座が完了していない場合" do
         let(:not_completed_milestone) { create(:milestone, progress: :not_started, user: user) }
 
         before { subject.update(milestone: not_completed_milestone) }
@@ -264,7 +264,7 @@ RSpec.describe Task, type: :model do
         end
       end
 
-      context "マイルストーンがない場合" do
+      context "星座がない場合" do
         before { subject.update(milestone: nil) }
 
         it "falseを返すこと" do
