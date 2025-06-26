@@ -1,5 +1,6 @@
 class TaskMilestoneAssignmentsController < ApplicationController
   include GanttChartHelper
+  include SearchConcern
 
   before_action :set_milestone
   before_action :authenticate_user!
@@ -23,7 +24,7 @@ class TaskMilestoneAssignmentsController < ApplicationController
 
     if success_flag
       @chart_presenter = GanttChartPresenter.new([@milestone]) if @milestone.on_chart?
-      @milestone_tasks = tasks_ransack_result
+      @milestone_tasks = tasks_ransack_from_milestone(@milestone)
 
       flash.now[:notice] = "星座のタスクを更新しました"
     else
@@ -61,11 +62,5 @@ class TaskMilestoneAssignmentsController < ApplicationController
       success_flag = false
     end
     success_flag
-  end
-
-  def tasks_ransack_result
-    @q = @milestone.tasks.ransack(params[:q])
-    @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
-    @q.result(distinct: true).includes(:user)
   end
 end
