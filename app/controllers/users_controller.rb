@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-  before_action :set_user, only: [:show, :toggle_notifications, :toggle_hide_completed_tasks]
-  before_action :validate_another_user, only: [:toggle_notifications, :toggle_hide_completed_tasks]
+  before_action :set_user, only: [:show, :toggle_notifications, :toggle_hide_completed_tasks, :update_notification_time]
+  before_action :validate_another_user, only: [:toggle_notifications, :toggle_hide_completed_tasks, :update_notification_time]
 
   def show
     # @userがnilであるか、またはゲストユーザかつ現在のユーザと異なる場合はリダイレクト
@@ -57,6 +57,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_notification_time
+    if @user.nil?
+      redirect_to root_path, alert: "ユーザが見つかりません"
+    else
+      if @user.update(notification_time_params)
+        flash.now[:notice] = "通知時間を#{@user.notification_time}時に設定しました"
+      else
+        flash.now[:alert] = "通知時間の更新に失敗しました"
+      end
+    end
+  end
+
   private
 
   def set_user
@@ -91,5 +103,9 @@ class UsersController < ApplicationController
     end
 
     milestones.index_order
+  end
+
+  def notification_time_params
+    params.require(:user).permit(:notification_time)
   end
 end
