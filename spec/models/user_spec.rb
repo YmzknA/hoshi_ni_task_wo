@@ -12,6 +12,7 @@ RSpec.describe User, type: :model do
       it { should validate_presence_of(:name).with_message("が入力されていません。") }
       it { should validate_presence_of(:email).with_message("が入力されていません。") }
       it { should validate_presence_of(:password).with_message("が入力されていません。") }
+      it { should validate_presence_of(:notification_time) }
     end
 
     describe "length validations" do
@@ -22,6 +23,10 @@ RSpec.describe User, type: :model do
 
     describe "uniqueness validations" do
       it { should validate_uniqueness_of(:email).case_insensitive.with_message("は既に使用されています。") }
+    end
+
+    describe "inclusion validations" do
+      it { should validate_inclusion_of(:notification_time).in_range(0..23) }
     end
 
     describe "confirmation validation" do
