@@ -1,10 +1,11 @@
 namespace :push_line do
   desc "LINEで開始日・終了日が近いタスクと星座の通知を送信"
   task send_daily_task_notifications: :environment do
+    current_hour = Time.current.hour
     success_count = 0
     error_count = 0
 
-    User.notifications_enabled.each do |user|
+    User.notifications_enabled.where(notification_time: current_hour).each do |user|
       next if user.uid.nil?
 
       Rails.logger.info "Starting notification for user #{user.id}"
