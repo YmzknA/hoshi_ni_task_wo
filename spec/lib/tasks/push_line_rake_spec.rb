@@ -2,6 +2,7 @@ require "rails_helper"
 require "rake"
 
 RSpec.describe "push_line:send_daily_task_notifications", type: :task do
+  include ActiveSupport::Testing::TimeHelpers
   before do
     Rails.application.load_tasks if Rake::Task.tasks.empty?
   end
@@ -13,10 +14,21 @@ RSpec.describe "push_line:send_daily_task_notifications", type: :task do
   end
 
   describe "notification時間に基づく通知送信" do
-    let!(:user_9am) { create(:user, :with_notifications, :with_oauth, notification_time: 9) }
-    let!(:user_12pm) { create(:user, :with_notifications, :with_oauth, notification_time: 12) }
-    let!(:user_notifications_disabled) { create(:user, :with_oauth, notification_time: 9, is_notifications_enabled: false) }
-    let!(:user_no_oauth) { create(:user, :with_notifications, notification_time: 9) }
+    let!(:user_9am) do
+      create(:user, :with_notifications, :with_oauth, notification_time: 9, email: "user9am@example.com",
+                                                      uid: "user9am")
+    end
+    let!(:user_12pm) do
+      create(:user, :with_notifications, :with_oauth, notification_time: 12, email: "user12pm@example.com",
+                                                      uid: "user12pm")
+    end
+    let!(:user_notifications_disabled) do
+      create(:user, :with_oauth, notification_time: 9, is_notifications_enabled: false,
+                                 email: "user_disabled@example.com", uid: "user_disabled")
+    end
+    let!(:user_no_oauth) do
+      create(:user, :with_notifications, notification_time: 9, email: "user_no_oauth@example.com")
+    end
 
     before do
       allow(LineTaskNotifier).to receive(:new).and_return(double("notifier", send_daily_notifications: true))
@@ -36,7 +48,7 @@ RSpec.describe "push_line:send_daily_task_notifications", type: :task do
         expect(LineTaskNotifier).not_to receive(:new).with(user_12pm)
         expect(LineTaskNotifier).not_to receive(:new).with(user_notifications_disabled)
         expect(LineTaskNotifier).not_to receive(:new).with(user_no_oauth)
-        
+
         task.execute
       end
     end
@@ -55,7 +67,7 @@ RSpec.describe "push_line:send_daily_task_notifications", type: :task do
         expect(LineTaskNotifier).not_to receive(:new).with(user_9am)
         expect(LineTaskNotifier).not_to receive(:new).with(user_notifications_disabled)
         expect(LineTaskNotifier).not_to receive(:new).with(user_no_oauth)
-        
+
         task.execute
       end
     end
