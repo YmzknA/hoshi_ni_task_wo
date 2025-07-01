@@ -10,12 +10,12 @@ export function newReleaseNotification() {
   // 新しいリリース通知の閉じるボタンにクリックイベントを追加
   // クリックされたらローカルストレージに閉じたことを記録し、通知を非表示にする
   newReleaseClose.addEventListener("click", function() {
-    localStorage.setItem('newReleaseNotification', 'closed');
+    localStorage.setItem('newReleaseNotification_7', 'closed');
     newReleaseNotification.style.display = "none";
   });
 
   // ページ読み込み時にローカルストレージから通知の状態を確認し、表示を制御する
-  const newReleaseNotificationClose = localStorage.getItem('newReleaseNotification');
+  const newReleaseNotificationClose = localStorage.getItem('newReleaseNotification_7');
   if (newReleaseNotificationClose === 'closed') {
     newReleaseNotification.style.display = "none";
   }else{
