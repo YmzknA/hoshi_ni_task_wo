@@ -9,6 +9,7 @@ class User < ApplicationRecord
   validates :bio, length: { maximum: 200 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, if: :password_required?
+  validates :notification_time, presence: true, inclusion: { in: 0..23 }
   # providerが空でない場合はuidの一意性を検証する
   validates :uid, uniqueness: { scope: :provider }, if: :uid_required?
 

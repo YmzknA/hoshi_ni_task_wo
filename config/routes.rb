@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     member do
       patch "toggle_notifications" => "users#toggle_notifications"
       patch "toggle_hide_completed_tasks" => "users#toggle_hide_completed_tasks"
+      patch "update_notification_time" => "users#update_notification_time"
     end
   end
 
