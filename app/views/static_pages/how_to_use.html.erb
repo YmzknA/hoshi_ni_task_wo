@@ -1,0 +1,695 @@
+<%= render 'title_header' %>
+
+<div class="flex min-h-screen lg:p-8 z-10 relative">
+  <!-- サイドバー -->
+  <aside class="hidden lg:block w-80 fixed h-screen overflow-y-auto">
+    <div>
+      <div class="glasscard rounded-2xl p-6 sticky top-6">
+        <h2 class="text-2xl font-bold text-primary mb-6 zen-old-mincho-regular">使い方ガイド</h2>
+        <nav class="space-y-2">
+          <a href="#basic-concept" class="block p-3 glasscard rounded-lg hover:bg-primary/20 transition-colors">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">1</span>
+              <span class="text-base-content">基本概念</span>
+            </div>
+          </a>
+          <a href="#task-management" class="block p-3 glasscard rounded-lg hover:bg-primary/20 transition-colors">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">2</span>
+              <span class="text-base-content">タスク管理</span>
+            </div>
+          </a>
+          <a href="#milestone-management" class="block p-3 glasscard rounded-lg hover:bg-primary/20 transition-colors">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">3</span>
+              <span class="text-base-content">星座管理</span>
+            </div>
+          </a>
+          <a href="#gantt-chart" class="block p-3 glasscard rounded-lg hover:bg-primary/20 transition-colors">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">4</span>
+              <span class="text-base-content">ガントチャート</span>
+            </div>
+          </a>
+          <a href="#line-integration" class="block p-3 glasscard rounded-lg hover:bg-primary/20 transition-colors">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">5</span>
+              <span class="text-base-content">LINE連携</span>
+            </div>
+          </a>
+          <a href="#sharing" class="block p-3 glasscard rounded-lg hover:bg-primary/20 transition-colors">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">6</span>
+              <span class="text-base-content">共有機能</span>
+            </div>
+          </a>
+          <a href="#tips" class="block p-3 glasscard rounded-lg hover:bg-primary/20 transition-colors">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">7</span>
+              <span class="text-base-content">使い方のヒント</span>
+            </div>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </aside>
+
+  <!-- モバイル用ドロワーボタン -->
+  <div class="lg:hidden fixed bottom-24 right-4 md:bottom-26 md:right-6 z-50">
+    <button onclick="document.getElementById('mobile-drawer').checked = !document.getElementById('mobile-drawer').checked" 
+            class="btn btn-circle btn-primary shadow-lg">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+  </div>
+
+  <!-- モバイル用ドロワー -->
+  <div class="drawer lg:hidden fixed inset-0 pointer-events-none z-[100]">
+    <input id="mobile-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-side z-[101] pointer-events-auto">
+      <label for="mobile-drawer" class="drawer-overlay"></label>
+      <div class="p-4 w-80 min-h-full bg-transparent pointer-events-none">
+        <div class="glasscard rounded-2xl p-6 pointer-events-auto">
+          <h2 class="text-2xl font-bold text-primary mb-6 zen-old-mincho-regular">使い方ガイド</h2>
+          <nav class="space-y-2">
+            <a href="#basic-concept" onclick="document.getElementById('mobile-drawer').checked = false" 
+               class="block p-3 glasscard rounded-lg">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                <span class="text-base-content">基本概念</span>
+              </div>
+            </a>
+            <a href="#task-management" onclick="document.getElementById('mobile-drawer').checked = false" 
+               class="block p-3 glasscard rounded-lg">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                <span class="text-base-content">タスク管理</span>
+              </div>
+            </a>
+            <a href="#milestone-management" onclick="document.getElementById('mobile-drawer').checked = false" 
+               class="block p-3 glasscard rounded-lg">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                <span class="text-base-content">星座管理</span>
+              </div>
+            </a>
+            <a href="#gantt-chart" onclick="document.getElementById('mobile-drawer').checked = false" 
+               class="block p-3 glasscard rounded-lg">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">4</span>
+                <span class="text-base-content">ガントチャート</span>
+              </div>
+            </a>
+            <a href="#line-integration" onclick="document.getElementById('mobile-drawer').checked = false" 
+               class="block p-3 glasscard rounded-lg">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">5</span>
+                <span class="text-base-content">LINE連携</span>
+              </div>
+            </a>
+            <a href="#sharing" onclick="document.getElementById('mobile-drawer').checked = false" 
+               class="block p-3 glasscard rounded-lg">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">6</span>
+                <span class="text-base-content">共有機能</span>
+              </div>
+            </a>
+            <a href="#tips" onclick="document.getElementById('mobile-drawer').checked = false" 
+               class="block p-3 glasscard rounded-lg">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">7</span>
+                <span class="text-base-content">使い方のヒント</span>
+              </div>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <main class="w-full lg:ml-80">
+
+    <!-- コンテンツセクション -->
+    <div class="max-w-4xl mx-auto px-4 lg:px-6 lg:pb-12 space-y-12 lg:space-y-16">
+      
+      <!-- セクション1: 基本概念 -->
+      <section id="basic-concept" class="scroll-mt-20">
+        <div class="glasscard rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">1</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">基本概念</h2>
+          </div>
+          
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            「星にタスクを」は、タスク管理を星座のメタファーで表現する革新的なアプリケーションです。
+            あなたの目標達成を美しい宇宙の物語として描きます。
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-6 lg:mb-8">
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6 text-center">
+              <div class="w-12 h-12 lg:w-16 lg:h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4">
+                <%= render "star_icon", color:"#FFDF5E", height: 20, width: 20 %>
+              </div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-2 lg:mb-3">タスク</h3>
+              <p class="text-sm text-base-content leading-relaxed">個々の作業を表す美しい「星」。一つ一つが輝いて、大きな星座を作り上げます。</p>
+            </div>
+
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6 text-center">
+              <div class="w-12 h-12 lg:w-16 lg:h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4">
+                <%= render "stars_icon" %>
+              </div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-2 lg:mb-3">星座</h3>
+              <p class="text-sm text-base-content leading-relaxed">関連するタスクをまとめた大きな目標。プロジェクト全体を表現します。</p>
+            </div>
+
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6 text-center sm:col-span-2 lg:col-span-1">
+              <div class="w-12 h-12 lg:w-16 lg:h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4">
+                <span class="material-symbols-outlined text-accent text-xl lg:text-2xl">stacked_bar_chart</span>
+              </div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-2 lg:mb-3">ガントチャート</h3>
+              <p class="text-sm text-base-content leading-relaxed">タスクと星座の進捗を視覚的に表示する美しいチャート。</p>
+            </div>
+          </div>
+
+          <!-- 例示 -->
+          <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+            <h4 class="font-semibold text-base lg:text-lg text-primary mb-3 lg:mb-4">表示例</h4>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between p-3 glasscard rounded-lg lg:rounded-xl">
+                <span class="font-medium lg:font-semibold text-sm lg:text-base text-base-content">📚 学習プロジェクト</span>
+                <span class="text-xs lg:text-sm text-primary bg-primary/20 px-2 lg:px-3 py-1 rounded-full">進行中</span>
+              </div>
+              <div class="ml-2 lg:ml-4 space-y-2">
+                <div class="flex items-center space-x-2 p-2 glasscard-success rounded-lg">
+                  <span class="text-success">●</span>
+                  <span class="text-xs lg:text-sm text-base-content">資料収集 (完了)</span>
+                </div>
+                <div class="flex items-center space-x-2 p-2 glasscard-warning rounded-lg">
+                  <span class="text-warning">◐</span>
+                  <span class="text-xs lg:text-sm text-base-content">計画立案 (進行中)</span>
+                </div>
+                <div class="flex items-center space-x-2 p-2 glasscard rounded-lg">
+                  <span class="text-base-content/40">○</span>
+                  <span class="text-xs lg:text-sm text-base-content/60">実行 (未着手)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション2: タスク管理 -->
+      <section id="task-management" class="scroll-mt-20">
+        <div class="glasscard rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">2</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">タスク管理</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            個々のタスクを星として管理し、進捗を美しく追跡できます。
+            直感的な操作で、効率的なタスク管理を実現します。
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">タスクの作成</h3>
+              <ol class="space-y-3">
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">1</span>
+                  <span class="text-sm lg:text-base text-base-content">タスク一覧ページ右下の<%= render "star_icon", height: 14, width: 14 %>ボタンをクリック</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">2</span>
+                  <span class="text-sm lg:text-base text-base-content">タイトル（必須）と説明（任意）を入力</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">3</span>
+                  <span class="text-sm lg:text-base text-base-content">開始日・終了日を設定（任意）</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">4</span>
+                  <span class="text-sm lg:text-base text-base-content">星座に紐付ける場合は選択</span>
+                </li>
+              </ol>
+            </div>
+
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">進捗管理</h3>
+              <div class="grid grid-cols-3 gap-2 lg:gap-4 mb-4">
+                <div class="text-center p-3 lg:p-4 glasscard rounded-lg lg:rounded-xl">
+                  <div class="text-2xl lg:text-3xl mb-2 text-base-content/40">○</div>
+                  <p class="text-xs lg:text-sm font-medium text-base-content">未着手</p>
+                </div>
+                <div class="text-center p-3 lg:p-4 glasscard-warning rounded-lg lg:rounded-xl">
+                  <div class="text-2xl lg:text-3xl mb-2 text-warning">◐</div>
+                  <p class="text-xs lg:text-sm font-medium text-base-content">進行中</p>
+                </div>
+                <div class="text-center p-3 lg:p-4 glasscard-success rounded-lg lg:rounded-xl">
+                  <div class="text-2xl lg:text-3xl mb-2 text-success">●</div>
+                  <p class="text-xs lg:text-sm font-medium text-base-content">完了</p>
+                </div>
+              </div>
+              <p class="text-xs lg:text-sm text-base-content/70 text-center">アイコンをクリックして進捗を更新できます</p>
+            </div>
+          </div>
+
+          <!-- タスク例 -->
+          <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+            <h4 class="font-semibold text-base lg:text-lg text-primary mb-3 lg:mb-4">今日のタスク例</h4>
+            <div class="space-y-2 lg:space-y-3">
+              <div class="flex items-center space-x-3 p-2 lg:p-3 glasscard-success rounded-lg lg:rounded-xl">
+                <span class="text-success text-lg lg:text-xl">●</span>
+                <span class="flex-1 line-through text-success text-sm lg:text-base">メールチェック</span>
+              </div>
+              <div class="flex items-center space-x-3 p-2 lg:p-3 glasscard-warning rounded-lg lg:rounded-xl">
+                <span class="text-warning text-lg lg:text-xl">◐</span>
+                <span class="flex-1 text-base-content text-sm lg:text-base">プレゼン作成</span>
+              </div>
+              <div class="flex items-center space-x-3 p-2 lg:p-3 glasscard rounded-lg lg:rounded-xl">
+                <span class="text-base-content/40 text-lg lg:text-xl">○</span>
+                <span class="flex-1 text-base-content/60 text-sm lg:text-base">レポート提出</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション3: 星座管理 -->
+      <section id="milestone-management" class="scroll-mt-20">
+        <div class="glasscard rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">3</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">星座管理</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            関連するタスクを美しい星座としてまとめ、大きなプロジェクトの進捗を管理できます。
+            完成時には88の星座からランダムに選ばれた星座が割り当てられます。
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">星座の作成</h3>
+              <ol class="space-y-3">
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">1</span>
+                  <span class="text-sm lg:text-base text-base-content">星座一覧ページの「＋」ボタンをクリック</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">2</span>
+                  <span class="text-sm lg:text-base text-base-content">タイトル（必須）と説明（任意）を入力</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">3</span>
+                  <span class="text-sm lg:text-base text-base-content">色を選択してカスタマイズ</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">4</span>
+                  <span class="text-sm lg:text-base text-base-content">チャート表示する場合は開始日・終了日を設定</span>
+                </li>
+              </ol>
+            </div>
+
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6 text-center">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">✨ 星座の完成</h3>
+              <div class="w-20 h-20 lg:w-24 lg:h-24 mx-auto mb-3 lg:mb-4 relative">
+                <!-- 簡略化された星座イメージ -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="relative w-20 h-20">
+                    <div class="absolute top-1 left-2 w-2 h-2 bg-accent rounded-full"></div>
+                    <div class="absolute top-3 left-6 w-2 h-2 bg-accent rounded-full"></div>
+                    <div class="absolute top-2 left-10 w-2 h-2 bg-accent rounded-full"></div>
+                    <div class="absolute top-6 left-12 w-2 h-2 bg-accent rounded-full"></div>
+                    <div class="absolute top-10 left-10 w-2 h-2 bg-accent rounded-full"></div>
+                    <div class="absolute top-12 left-6 w-2 h-2 bg-accent rounded-full"></div>
+                    <div class="absolute top-10 left-2 w-2 h-2 bg-accent rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-sm lg:text-base text-base-content mb-2 lg:mb-3">全てのタスクが完了すると、星座を完成させることができます。</p>
+              <p class="text-xs lg:text-sm text-base-content/80">完成時にはタスク数に応じて88星座のいずれかがランダムに割り当てられます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション4: ガントチャート -->
+      <section id="gantt-chart" class="scroll-mt-20">
+        <div class="glasscard rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">4</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">ガントチャート</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            縦型のガントチャートで、タスクと星座の進捗を美しく視覚化。
+            モバイルに最適化されたレイアウトで、いつでもどこでも進捗確認が可能です。
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">特徴</h3>
+              <div class="space-y-4">
+                <div class="flex items-start space-x-3">
+                  <span class="material-symbols-outlined text-primary mt-1">phone_iphone</span>
+                  <div>
+                    <h4 class="font-medium lg:font-semibold text-sm lg:text-base text-primary">モバイル最適化</h4>
+                    <p class="text-xs lg:text-sm text-base-content">縦型レイアウトでスマートフォンでも見やすい</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <span class="material-symbols-outlined text-accent mt-1">palette</span>
+                  <div>
+                    <h4 class="font-semibold text-primary">色分け表示</h4>
+                    <p class="text-sm text-base-content">進捗状況が一目でわかる直感的な色分け</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <span class="material-symbols-outlined text-success mt-1">timeline</span>
+                  <div>
+                    <h4 class="font-semibold text-primary">期間表示</h4>
+                    <p class="text-sm text-base-content">タスクと星座の期間を視覚的に確認</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">チャート表示例</h3>
+              <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                  <div class="w-20 text-xs text-base-content">プロジェクトA</div>
+                  <div class="flex-1 h-6 glasscard rounded-full overflow-hidden">
+                    <div class="h-full w-3/4 bg-gradient-to-r from-primary to-accent rounded-full"></div>
+                  </div>
+                  <div class="text-xs text-primary">75%</div>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="w-20 text-xs text-base-content">　タスク1</div>
+                  <div class="flex-1 h-4 glasscard rounded-full overflow-hidden">
+                    <div class="h-full w-full bg-success rounded-full"></div>
+                  </div>
+                  <div class="text-xs text-success">完了</div>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="w-20 text-xs text-base-content">　タスク2</div>
+                  <div class="flex-1 h-4 glasscard rounded-full overflow-hidden">
+                    <div class="h-full w-2/3 bg-warning rounded-full"></div>
+                  </div>
+                  <div class="text-xs text-warning">進行中</div>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="w-20 text-xs text-base-content">　タスク3</div>
+                  <div class="flex-1 h-4 glasscard rounded-full"></div>
+                  <div class="text-xs text-base-content/40">未着手</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション5: LINE連携 -->
+      <section id="line-integration" class="scroll-mt-20">
+        <div class="glasscard rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">5</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">LINE連携</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            LINEと連携することで、タスクの通知やチャット操作が可能になります。
+            日常の中でスムーズにタスク管理を続けられます。
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4 flex items-center space-x-2">
+                <span class="text-xl lg:text-2xl">🔔</span>
+                <span>通知機能</span>
+              </h3>
+              <ul class="space-y-3">
+                <li class="flex items-start space-x-3">
+                  <span class="w-2 h-2 bg-success rounded-full mt-2 flex-shrink-0"></span>
+                  <span class="text-sm lg:text-base text-base-content">毎日指定した時間に、期限が近いタスクをLINEで通知</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-2 h-2 bg-success rounded-full mt-2 flex-shrink-0"></span>
+                  <span class="text-base-content">開始日3日以内のタスク・星座をお知らせ</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-2 h-2 bg-success rounded-full mt-2 flex-shrink-0"></span>
+                  <span class="text-base-content">終了日前後3日以内のタスク・星座をお知らせ</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4 flex items-center space-x-2">
+                <span class="text-xl lg:text-2xl">💬</span>
+                <span>チャット操作</span>
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="space-y-2">
+                  <div class="bg-primary/20 px-3 py-2 rounded-lg text-sm text-center">「タスク確認」</div>
+                  <p class="text-xs text-base-content/70 text-center">未完了のタスク一覧を表示</p>
+                </div>
+                <div class="space-y-2">
+                  <div class="bg-primary/20 px-3 py-2 rounded-lg text-sm text-center">「星座確認」</div>
+                  <p class="text-xs text-base-content/70 text-center">未完了の星座一覧を表示</p>
+                </div>
+                <div class="space-y-2">
+                  <div class="bg-primary/20 px-3 py-2 rounded-lg text-sm text-center">「タイトルから検索」</div>
+                  <p class="text-xs text-base-content/70 text-center">キーワードで検索</p>
+                </div>
+                <div class="space-y-2">
+                  <div class="bg-primary/20 px-3 py-2 rounded-lg text-sm text-center">「日付変更」</div>
+                  <p class="text-xs text-base-content/70 text-center">開始日・終了日の編集</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LINE例 -->
+          <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+            <h4 class="font-semibold text-base lg:text-lg text-primary mb-3 lg:mb-4">チャット例</h4>
+            <div class="space-y-3 max-w-md">
+              <div class="glasscard-success p-3 rounded-xl border-l-4 border-success">
+                <p class="text-sm text-base-content">📅 今日のタスクをお知らせします</p>
+                <p class="text-xs text-base-content/70 mt-1">09:00</p>
+              </div>
+              
+              <div class="glasscard p-3 rounded-xl self-end ml-auto max-w-[80%]">
+                <p class="text-sm text-base-content">タスク確認</p>
+                <p class="text-xs text-base-content/70 mt-1">09:15</p>
+              </div>
+              
+              <div class="glasscard-success p-3 rounded-xl border-l-4 border-success">
+                <p class="text-sm text-base-content">📋 未完了のタスク一覧：<br>
+                ・プレゼン作成 (明日まで)<br>
+                ・レポート提出 (3日後)</p>
+                <p class="text-xs text-base-content/70 mt-1">09:15</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション6: 共有機能 -->
+      <section id="sharing" class="scroll-mt-20">
+        <div class="glasscard rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">6</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">共有機能</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            完成した美しい星座は、特別なURLを使って他の人と共有できます。
+            あなたの努力と達成を、大切な人と分かち合いましょう。
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8">
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4 flex items-center space-x-2">
+                <span class="text-xl lg:text-2xl">🔗</span>
+                <span>共有の手順</span>
+              </h3>
+              <ol class="space-y-3">
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-accent text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">1</span>
+                  <span class="text-sm lg:text-base text-base-content">星座詳細ページから「共有」ボタンをクリック</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-6 h-6 bg-accent text-neutral rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">2</span>
+                  <span class="text-base-content">生成されたURLをコピーして共有</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-6 h-6 bg-accent text-neutral rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">3</span>
+                  <span class="text-base-content">共有URLは期限なく利用可能</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-6 h-6 bg-accent text-neutral rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">4</span>
+                  <span class="text-base-content">いつでも共有を停止可能</span>
+                </li>
+              </ol>
+            </div>
+
+            <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">✨ 共有のメリット</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start space-x-3">
+                  <span class="text-accent">⭐</span>
+                  <span class="text-sm lg:text-base text-base-content">完成した星座を記念として残せる</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-accent">⭐</span>
+                  <span class="text-base-content">達成感を他の人と共有できる</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-accent">⭐</span>
+                  <span class="text-base-content">モチベーション向上につながる</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 共有例 -->
+          <div class="glasscard rounded-xl lg:rounded-2xl p-4 lg:p-6">
+            <h4 class="font-semibold text-base lg:text-lg text-primary mb-3 lg:mb-4">共有された星座例</h4>
+            <div class="glasscard rounded-xl p-4">
+              <div class="flex items-center justify-between mb-3">
+                <h5 class="font-semibold text-base-content">🎯 新規事業プロジェクト</h5>
+                <span class="text-xs bg-success/20 text-success px-2 py-1 rounded">完了</span>
+              </div>
+              <div class="text-xs text-base-content/70 mb-3">2024年1月〜3月</div>
+              <div class="space-y-2">
+                <div class="flex items-center space-x-2 text-sm">
+                  <span class="text-success">●</span>
+                  <span class="text-success">市場調査 (完了)</span>
+                </div>
+                <div class="flex items-center space-x-2 text-sm">
+                  <span class="text-success">●</span>
+                  <span class="text-success">企画書作成 (完了)</span>
+                </div>
+                <div class="flex items-center space-x-2 text-sm">
+                  <span class="text-success">●</span>
+                  <span class="text-success">プレゼン実施 (完了)</span>
+                </div>
+              </div>
+              <div class="mt-4 text-center">
+                <code class="text-xs bg-accent/20 px-2 py-1 rounded text-base-content">
+                  https://hoshi...abc123
+                </code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション7: 使い方のヒント -->
+      <section id="tips" class="scroll-mt-20">
+        <div class="glasscard rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">7</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">使い方のヒント</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            効果的にアプリを活用するためのコツをご紹介します
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+            <div class="glasscard-warning rounded-xl lg:rounded-2xl p-4 lg:p-6">
+              <div class="w-10 h-10 lg:w-12 lg:h-12 bg-warning/20 rounded-full flex items-center justify-center mb-3 lg:mb-4">
+                <span class="text-warning text-xl lg:text-2xl">📅</span>
+              </div>
+              <h3 class="font-medium lg:font-semibold text-sm lg:text-base text-primary mb-2 lg:mb-3">日付設定のコツ</h3>
+              <p class="text-xs lg:text-sm text-base-content leading-relaxed">タスクにはできるだけ開始日と終了日を設定しましょう。ガントチャートで進捗管理がしやすくなります。</p>
+            </div>
+
+            <div class="glasscard rounded-2xl p-6">
+              <div class="w-12 h-12 bg-info/20 rounded-full flex items-center justify-center mb-4">
+                <span class="text-info text-2xl">🏗️</span>
+              </div>
+              <h3 class="font-semibold text-primary mb-3">星座でまとめる</h3>
+              <p class="text-sm text-base-content">関連するタスクは星座にまとめることで、大きな目標の進捗を把握しやすくなります。</p>
+            </div>
+
+            <div class="glasscard-success rounded-2xl p-6">
+              <div class="w-12 h-12 bg-success/20 rounded-full flex items-center justify-center mb-4">
+                <span class="text-success text-2xl">📱</span>
+              </div>
+              <h3 class="font-semibold text-primary mb-3">LINE連携活用</h3>
+              <p class="text-sm text-base-content">LINE連携を活用すると、期限を忘れずにタスクを管理できます。</p>
+            </div>
+
+            <div class="glasscard rounded-2xl p-6">
+              <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mb-4">
+                <span class="text-accent text-2xl">🎉</span>
+              </div>
+              <h3 class="font-semibold text-primary mb-3">達成感を共有</h3>
+              <p class="text-sm text-base-content">完成した星座は記念として共有すると、達成感を他の人と共有できます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA セクション -->
+      <section class="text-center">
+        <div class="glasscard rounded-2xl lg:rounded-3xl p-6 lg:p-12">
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4 lg:mb-6 zen-old-mincho-regular">
+            今すぐ始めよう
+          </h2>
+          <p class="text-lg lg:text-xl text-base-content mb-8 lg:mb-10 max-w-2xl mx-auto">
+            あなたのタスクを美しい星座に変えて、<br class="hidden md:block">
+            目標達成への道のりを輝かせませんか？
+          </p>
+          <div class="space-y-4">
+            <%= render 'auth_buttons' %>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<%= render 'application/menu_bar' %>
+
+<script>
+  // スムーズスクロール
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // スクロール位置に応じて目次のアクティブ状態を更新
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 150;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('bg-primary/20');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('bg-primary/20');
+      }
+    });
+  });
+</script>
+
