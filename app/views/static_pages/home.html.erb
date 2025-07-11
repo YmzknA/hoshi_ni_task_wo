@@ -163,7 +163,16 @@
     </div>
   </div>
 
-  <div class="relative z-10 mb-10 flex w-full items-center justify-start">
+  <!-- ボタン -->
+  <div class="px-8 pb-50 opacity-0 transition md:text-lg intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
+    <% unless user_signed_in? %>
+      <p class="mb-8 text-center text-xl md:hidden">まずは、<br>"ログインせずに使ってみる"<br>から始めてみてください</p>
+      <p class="mb-8 hidden text-center text-xl md:block">まずは、"ログインせずに使ってみる"から始めてみてください</p>
+    <% end %>
+      <%= render 'auth_buttons' %>
+  </div>
+
+  <div class="relative z-10 flex w-full items-center justify-start">
     <div class="mr-8 flex w-4xl justify-center rounded-r-xl bg-gradient-to-b from-base-300 via-base-300 to-base-300/0 px-5 py-12 opacity-0 transition md:p-12 md:text-lg intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
 
       <div>
@@ -200,15 +209,6 @@
 
       </div>
     </div>
-  </div>
-
-  <!-- ボタン -->
-  <div class="px-8 pt-10 opacity-0 transition md:text-lg intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
-    <% unless user_signed_in? %>
-      <p class="mb-8 text-center text-xl md:hidden">まずは、<br>"ログインせずに使ってみる"<br>から始めてみてください</p>
-      <p class="mb-8 hidden text-center text-xl md:block">まずは、"ログインせずに使ってみる"から始めてみてください</p>
-    <% end %>
-      <%= render 'auth_buttons' %>
   </div>
 
 </div>
