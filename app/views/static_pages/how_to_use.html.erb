@@ -1,6 +1,6 @@
 <%= render 'title_header' %>
 
-<div class="flex min-h-screen lg:p-8 z-10 relative">
+<div class="flex min-h-screen lg:p-8 z-10 relative" data-controller="how-to-use">
   <%= render 'how_to_use_sidebar' %>
 
   <%= render 'how_to_use_mobile_drawer' %>
@@ -12,7 +12,7 @@
     <div class="max-w-4xl mx-auto px-4 lg:px-6 lg:pb-12 space-y-12 lg:space-y-16">
 
       <!-- セクション1: 基本概念 -->
-      <section id="basic-concept" class="scroll-mt-20">
+      <section id="basic-concept" class="scroll-mt-20" data-how-to-use-target="section">
         <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
           <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
             <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">1</div>
@@ -52,7 +52,7 @@
       </section>
 
       <!-- セクション2: タスク管理 -->
-      <section id="task-management" class="scroll-mt-20">
+      <section id="task-management" class="scroll-mt-20" data-how-to-use-target="section">
         <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-300 intersect:opacity-100">
           <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
             <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">2</div>
@@ -146,7 +146,7 @@
       </section>
 
       <!-- セクション3: 星座管理 -->
-      <section id="milestone-management" class="scroll-mt-20">
+      <section id="milestone-management" class="scroll-mt-20" data-how-to-use-target="section">
         <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-400 intersect:opacity-100">
           <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
             <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">3</div>
@@ -229,7 +229,7 @@
       </section>
 
       <!-- セクション4: ガントチャート -->
-      <section id="gantt-chart" class="scroll-mt-20">
+      <section id="gantt-chart" class="scroll-mt-20" data-how-to-use-target="section">
         <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-500 intersect:opacity-100">
           <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
             <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">4</div>
@@ -283,7 +283,7 @@
       </section>
 
       <!-- セクション5: LINE連携 -->
-      <section id="line-integration" class="scroll-mt-20">
+      <section id="line-integration" class="scroll-mt-20" data-how-to-use-target="section">
         <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-600 intersect:opacity-100">
           <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
             <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">5</div>
@@ -359,7 +359,7 @@
       </section>
 
       <!-- セクション6: 共有機能 -->
-      <section id="sharing" class="scroll-mt-20">
+      <section id="sharing" class="scroll-mt-20" data-how-to-use-target="section">
         <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-700 intersect:opacity-100">
           <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
             <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">6</div>
@@ -399,7 +399,7 @@
       </section>
 
       <!-- セクション7: 使い方のヒント -->
-      <section id="tips" class="scroll-mt-20">
+      <section id="tips" class="scroll-mt-20" data-how-to-use-target="section">
         <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-800 intersect:opacity-100">
           <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
             <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">7</div>
@@ -456,42 +456,6 @@
 
 <%= render 'application/menu_bar' %>
 
-<script>
-  // スムーズスクロール
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-
-  // スクロール位置に応じて目次のアクティブ状態を更新
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('nav a[href^="#"]');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 150;
-      if (window.scrollY >= sectionTop) {
-        current = section.getAttribute('id');
-      }
-    });
-
-    navLinks.forEach(link => {
-      link.classList.remove('bg-primary/20');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('bg-primary/20');
-      }
-    });
-  });
-</script>
 
 <!-- 画像モーダル -->
 <!-- 基本概念モーダル -->
