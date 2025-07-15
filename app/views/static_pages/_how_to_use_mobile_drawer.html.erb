@@ -1,0 +1,71 @@
+<!-- モバイル用ドロワーボタン -->
+<div class="lg:hidden fixed bottom-24 right-4 md:bottom-26 md:right-6 z-50">
+  <button onclick="document.getElementById('mobile-drawer').checked = !document.getElementById('mobile-drawer').checked" 
+          class="btn btn-circle btn-primary shadow-lg">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+</div>
+
+<!-- モバイル用ドロワー -->
+<div class="drawer lg:hidden fixed inset-0 pointer-events-none z-[100]">
+  <input id="mobile-drawer" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-side z-[101] pointer-events-auto">
+    <label for="mobile-drawer" class="drawer-overlay"></label>
+    <div class="p-4 w-80 min-h-full bg-transparent pointer-events-none">
+      <div class="glasscard rounded-2xl p-6 pointer-events-auto opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-150 intersect:opacity-100">
+        <h2 class="text-2xl font-bold text-primary mb-6 zen-old-mincho-regular">使い方ガイド</h2>
+        <nav class="space-y-2">
+          <a href="#basic-concept" onclick="document.getElementById('mobile-drawer').checked = false" 
+             class="block p-3 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">1</span>
+              <span class="text-base-content">基本概念</span>
+            </div>
+          </a>
+          <a href="#task-management" onclick="document.getElementById('mobile-drawer').checked = false" 
+             class="block p-3 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">2</span>
+              <span class="text-base-content">タスク管理</span>
+            </div>
+          </a>
+          <a href="#milestone-management" onclick="document.getElementById('mobile-drawer').checked = false" 
+             class="block p-3 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">3</span>
+              <span class="text-base-content">星座管理</span>
+            </div>
+          </a>
+          <a href="#gantt-chart" onclick="document.getElementById('mobile-drawer').checked = false" 
+             class="block p-3 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">4</span>
+              <span class="text-base-content">ガントチャート</span>
+            </div>
+          </a>
+          <a href="#line-integration" onclick="document.getElementById('mobile-drawer').checked = false" 
+             class="block p-3 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">5</span>
+              <span class="text-base-content">LINE連携</span>
+            </div>
+          </a>
+          <a href="#sharing" onclick="document.getElementById('mobile-drawer').checked = false" 
+             class="block p-3 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">6</span>
+              <span class="text-base-content">共有機能</span>
+            </div>
+          </a>
+          <a href="#tips" onclick="document.getElementById('mobile-drawer').checked = false" 
+             class="block p-3 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 bg-primary text-neutral rounded-full flex items-center justify-center text-sm font-bold">7</span>
+              <span class="text-base-content">使い方のヒント</span>
+            </div>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
