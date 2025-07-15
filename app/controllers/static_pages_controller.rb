@@ -8,6 +8,9 @@ class StaticPagesController < ApplicationController
   def terms_of_service
   end
 
+  def how_to_use
+  end
+
   def user_check
     @user = current_user if user_signed_in?
     @users = User.all

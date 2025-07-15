@@ -84,6 +84,15 @@
         <% end %>
       </li>
 
+      <li>
+        <%= link_to how_to_use_path, class: "flex items-center", data: { action: "click->loading#show" } do %>
+          <span class="material-symbols-outlined">
+            help
+          </span>
+          <p class="whitespace-nowrap">使い方</p>
+        <% end %>
+      </li>
+
       <div class="divider"></div>
 
       <li><a href="/terms_of_service">利用規約</a></li>
