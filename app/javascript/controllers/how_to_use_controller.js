@@ -28,8 +28,19 @@ export default class extends Controller {
   // スムーズスクロールのハンドラー
   handleSmoothScroll(event) {
     event.preventDefault()
+    event.stopPropagation()
+    
     const targetId = event.currentTarget.getAttribute('href')
     const targetElement = document.querySelector(targetId)
+    
+    // モバイルドロワーを閉じる
+    const isMobileDrawer = event.currentTarget.getAttribute('data-mobile-drawer') === 'true'
+    if (isMobileDrawer) {
+      const mobileDrawer = document.getElementById('mobile-drawer')
+      if (mobileDrawer) {
+        mobileDrawer.checked = false
+      }
+    }
     
     if (targetElement) {
       targetElement.scrollIntoView({
@@ -44,15 +55,19 @@ export default class extends Controller {
     let currentSection = ''
     
     // 現在表示されているセクションを特定
-    this.sectionTargets.forEach(section => {
-      const sectionTop = section.offsetTop - 150
+    const sectionsToCheck = this.sectionTargets.length > 0 ? this.sectionTargets : document.querySelectorAll('[data-how-to-use-target="section"]')
+    
+    sectionsToCheck.forEach(section => {
+      const sectionTop = section.offsetTop - 300
       if (window.scrollY >= sectionTop) {
         currentSection = section.getAttribute('id')
       }
     })
 
     // ナビゲーションリンクのアクティブ状態を更新
-    this.navLinkTargets.forEach(link => {
+    const linksToUpdate = this.navLinkTargets.length > 0 ? this.navLinkTargets : document.querySelectorAll('[data-how-to-use-target="navLink"]')
+    
+    linksToUpdate.forEach(link => {
       link.classList.remove('bg-primary/20')
       if (link.getAttribute('href') === `#${currentSection}`) {
         link.classList.add('bg-primary/20')
