@@ -5,4 +5,10 @@ class ApplicationController < ActionController::Base
   def current_user?(user)
     user && user == current_user
   end
+
+  protected
+
+  def redirect_path_for_new_user
+    how_to_use_path
+  end
 end
