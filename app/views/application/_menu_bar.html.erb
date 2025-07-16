@@ -2,11 +2,11 @@
 <div id="menu_bar" class="z-100 dock dock-md md:dock-lg glasscard">
 
   <div class="dropdown dropdown-top hover:opacity-100">
-    <button tabindex="0" class="flex flex-col w-full h-full items-center justify-center active:opacity-60">
+    <button tabindex="0" class="flex flex-col w-full h-full items-center justify-center hover:opacity-60 active:opacity-60 hover:cursor-pointer">
       <span class="material-symbols-outlined">menu</span>
       <span class="dock-label">メニュー</span>
     </button>
-    <ul tabindex="0" class="glasscard dropdown-content menu rounded z-120 p-5 inline-flex p-2 shadow-xl text-2xl">
+    <ul tabindex="0" class="bg-base-300/95 dropdown-content menu rounded z-120 p-5 inline-flex p-2 shadow-xl text-2xl">
 
       <% if user_signed_in? %>
 
