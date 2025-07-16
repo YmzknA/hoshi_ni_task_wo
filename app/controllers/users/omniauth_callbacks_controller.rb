@@ -30,14 +30,15 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @profile.remember_me = true
       sign_in(:user, @profile)
 
-      if @profile.tasks.empty? && @profile.milestones.empty?
+      is_new_user = @profile.tasks.empty? && @profile.milestones.empty?
+      if is_new_user
         UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile)
       end
     end
 
     # ログイン後のflash messageとリダイレクト先を設定
     flash[:notice] = "ログインしました"
-    redirect_to user_path(current_user)
+    redirect_to is_new_user ? redirect_path_for_new_user : user_path(current_user)
   end
 
   def fake_email(provider)

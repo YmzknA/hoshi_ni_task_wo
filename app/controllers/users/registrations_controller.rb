@@ -80,7 +80,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user)
     end
     sign_in user
-    redirect_to user_path(user), notice: "ゲストユーザーでログインしました。"
+    redirect_to redirect_path_for_new_user, notice: "ゲストユーザーでログインしました。"
   end
 
   # GET /resource/cancel
@@ -106,7 +106,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
-    user_path(resource)
+    redirect_path_for_new_user
   end
 
   def after_update_path_for(resource)
