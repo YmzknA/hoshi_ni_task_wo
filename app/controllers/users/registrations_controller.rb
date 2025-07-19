@@ -23,7 +23,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
         # sign_up後に紐づくtasksを作成
         user = resource
-        UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user)
+        is_new_user = user.new_user?
+        UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user) if is_new_user
 
         respond_with resource, location: after_sign_up_path_for(resource)
       else
@@ -75,12 +76,27 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
   #
   def guest_sign_in
-    user = User.guest
-    if user.tasks.empty? && user.milestones.empty?
-      UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user)
+    user = nil
+
+    ActiveRecord::Base.transaction do
+      retries = 0
+      begin
+        user = User.guest
+        UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user) if user.new_user?
+      rescue ActiveRecord::RecordNotUnique => e
+        retries += 1
+        raise e unless retries < 3
+
+        sleep(0.1 * retries) # 指数バックオフ: 0.1秒, 0.2秒, 0.3秒
+        retry
+      end
     end
+
     sign_in user
     redirect_to redirect_path_for_new_user, notice: "ゲストユーザーでログインしました。"
+  rescue StandardError => e
+    Rails.logger.error "Guest user creation failed: #{e.message}"
+    redirect_to root_path, alert: "ゲストログインに失敗しました。もう一度お試しください。"
   end
 
   # GET /resource/cancel
@@ -105,7 +121,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # The path used after sign up.
-  def after_sign_up_path_for(resource)
+  def after_sign_up_path_for(_resource)
     redirect_path_for_new_user
   end
 
