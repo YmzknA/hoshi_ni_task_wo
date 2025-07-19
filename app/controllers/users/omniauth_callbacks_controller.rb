@@ -15,6 +15,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def basic_action
     @omniauth = request.env["omniauth.auth"]
+    is_new_user = false # 初期値を設定
     if @omniauth.present?
       @profile = User.find_or_initialize_by(provider: @omniauth["provider"], uid: @omniauth["uid"])
       if @profile.email.blank?
@@ -30,14 +31,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @profile.remember_me = true
       sign_in(:user, @profile)
 
-      if @profile.tasks.empty? && @profile.milestones.empty?
-        UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile)
-      end
+      is_new_user = @profile.new_user?
+      UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile) if is_new_user
     end
 
     # ログイン後のflash messageとリダイレクト先を設定
     flash[:notice] = "ログインしました"
-    redirect_to user_path(current_user)
+    redirect_to is_new_user ? redirect_path_for_new_user : user_path(current_user)
   end
 
   def fake_email(provider)

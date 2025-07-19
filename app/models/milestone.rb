@@ -29,7 +29,7 @@ class Milestone < ApplicationRecord
   # :not_started = 0
   # :in_progress = 1
   # :completed = 2
-  enum progress: [:not_started, :in_progress, :completed]
+  enum :progress, [:not_started, :in_progress, :completed]
 
   # ######################################
   # スコープ

@@ -4,7 +4,6 @@ export function newReleaseNotification() {
   const newReleaseClose= document.querySelector("#new_release_close");
 
   if (!newReleaseNotification || !newReleaseClose) {
-    console.log('newReleaseNotification: id "new_release_notification" または id "new_release_close"の要素が見つかりません');
     return;
   }
 

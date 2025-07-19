@@ -8,7 +8,7 @@ class LimitedSharingTask < ApplicationRecord
   validates :progress, presence: true
   validates :limited_sharing_milestone_id, presence: true
 
-  enum progress: [:not_started, :in_progress, :completed]
+  enum :progress, [:not_started, :in_progress, :completed]
 
   # dateが両方nilのものを弾くscope
   scope :valid_dates_nil, -> { where.not(start_date: nil, end_date: nil) }
