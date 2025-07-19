@@ -1,0 +1,9 @@
+ja:
+  devise:
+    confirmations:
+      confirmed: "メールアドレスが確認できました。"
+      send_instructions: "アカウントの確認方法を記載したメールを送信しました。"
+      send_paranoid_instructions: "メールアドレスが登録済みの場合、アカウントの確認方法を記載したメールが送信されます。"
+    mailer:
+      confirmation_instructions:
+        subject: "【星にタスクを】メールアドレスの確認"
