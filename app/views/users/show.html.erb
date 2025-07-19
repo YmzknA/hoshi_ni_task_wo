@@ -8,6 +8,33 @@
     <!-- フラッシュメッセージ -->
     <%= render 'flash' %>
 
+    <!-- メール認証促進メッセージ -->
+    <% if current_user == @user && !current_user.confirmed? && current_user.confirmation_required? %>
+      <div class="alert alert-warning mb-4 max-w-xl mx-auto">
+        <div class="flex items-start">
+          <div>
+            <div class="flex">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-6 w-6 shrink-0 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+
+              <h3 class="font-bold ml-2">メール認証が必要です</h3>
+            </div>
+            <p class="text-sm mt-4">
+              メール内のリンクをクリックして認証を完了すると、全ての機能をご利用いただけます。
+            </p>
+            <p class="text-sm mt-2">
+              メールが届いていない場合は、
+              <%= link_to "認証メールを再送信", user_confirmation_path, method: :post, 
+                  data: { confirm: "認証メールを再送信しますか？" },
+                  class: "link link-primary" %>
+              してください。
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <div class=" text-center text-3xl">
       <%= @user.name %>
     </div>
