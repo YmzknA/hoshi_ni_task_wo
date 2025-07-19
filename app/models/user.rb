@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:line]
+         :confirmable, :omniauthable, omniauth_providers: [:line]
 
   validates :name, presence: true, length: { maximum: 20 }
   validates :bio, length: { maximum: 200 }
@@ -82,4 +82,20 @@ class User < ApplicationRecord
   end
   # rubocop:enable Naming/AccessorMethodName
   # rubocop:enable Style/RedundantSelf
+
+  # メール認証が必要かどうかを判定
+  def confirmation_required?
+    # LINE認証ユーザーとゲストユーザーは認証不要
+    !guest? && provider.blank?
+  end
+
+  # メール認証済みまたは認証不要なユーザーかを判定
+  def confirmed_or_not_required?
+    confirmed? || !confirmation_required?
+  end
+
+  # ゲストユーザーと同様の制限が必要かを判定
+  def restricted_user?
+    guest? || (confirmation_required? && !confirmed?)
+  end
 end
