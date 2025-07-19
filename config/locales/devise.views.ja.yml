@@ -36,6 +36,8 @@ ja:
               blank: "を入力してください"
             bio:
               too_long: "は%{count}文字以内で入力してください"
+            confirmation_token:
+              blank: "が入力されていません"
     attributes:
       user:
         current_password: "現在のパスワード"
