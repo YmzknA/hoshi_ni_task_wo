@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_01_035315) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_19_120851) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -104,6 +104,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_01_035315) do
     t.boolean "is_notifications_enabled", default: false, null: false
     t.boolean "is_hide_completed_tasks", default: false, null: false
     t.integer "notification_time", default: 9
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true

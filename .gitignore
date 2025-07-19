@@ -49,3 +49,5 @@
 /PROJECT_OVERVIEW.md
 pr_message.md
 /work_log
+
+/config/credentials/development.key
