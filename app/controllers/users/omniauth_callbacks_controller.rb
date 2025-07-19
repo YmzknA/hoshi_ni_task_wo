@@ -25,7 +25,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           uid: @omniauth["uid"],
           email: email,
           name: @omniauth["info"]["name"],
-          password: Devise.friendly_token[0, 20]
+          password: Devise.friendly_token[0, 20],
+          confirmed_at: Time.current  # LINE認証ユーザーは自動的に認証済み
         )
       end
       @profile.remember_me = true
@@ -58,7 +59,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if User.exists?(provider: @omniauth["provider"], uid: @omniauth["uid"])
       flash[:alert] = "このLINEアカウントは既に登録されています"
     else
-      current_user.update!(provider: @omniauth["provider"], uid: @omniauth["uid"])
+      current_user.update!(
+        provider: @omniauth["provider"], 
+        uid: @omniauth["uid"],
+        confirmed_at: Time.current  # LINE連携時も認証済みにする
+      )
       flash[:notice] = "LINEアカウントを紐付けました"
     end
 

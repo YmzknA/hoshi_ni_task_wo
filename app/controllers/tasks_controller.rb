@@ -6,7 +6,7 @@ class TasksController < ApplicationController
   before_action :authenticate_user!, except: [:autocomplete]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   before_action :set_task_milestone, only: [:update, :destroy]
-  before_action :valid_guest_user, only: [:create]
+  before_action :valid_restricted_user, only: [:create]
 
   def index
     @task = Task.new
@@ -132,10 +132,14 @@ class TasksController < ApplicationController
     redirect_to user_path(current_user)
   end
 
-  def valid_guest_user
-    return unless current_user.guest?
+  def valid_restricted_user
+    return unless current_user.restricted_user?
 
-    flash[:alert] = "ゲストユーザーはタスクを作成できません"
+    flash[:alert] = if current_user.guest?
+                      "ゲストユーザーはタスクを作成できません"
+                    else
+                      "メール認証を完了すると、タスクを作成できるようになります"
+                    end
     redirect_to tasks_path
   end
 

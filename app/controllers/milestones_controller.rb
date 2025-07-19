@@ -46,8 +46,12 @@ class MilestonesController < ApplicationController
   end
 
   def new
-    if current_user.guest?
-      flash[:alert] = "ゲストユーザーは星座を作成できません"
+    if current_user.restricted_user?
+      flash[:alert] = if current_user.guest?
+                        "ゲストユーザーは星座を作成できません"
+                      else
+                        "メール認証を完了すると、星座を作成できるようになります"
+                      end
       redirect_to tasks_path
       return
     end
@@ -58,8 +62,12 @@ class MilestonesController < ApplicationController
   def edit; end
 
   def create
-    if current_user.guest?
-      flash[:alert] = "ゲストユーザーは星座を作成できません"
+    if current_user.restricted_user?
+      flash[:alert] = if current_user.guest?
+                        "ゲストユーザーは星座を作成できません"
+                      else
+                        "メール認証を完了すると、星座を作成できるようになります"
+                      end
       redirect_to tasks_path
       return
     end

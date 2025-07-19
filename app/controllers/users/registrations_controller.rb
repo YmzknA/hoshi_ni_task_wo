@@ -3,7 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  before_action :valid_guest_user, only: [:update, :edit]
+  before_action :valid_restricted_user, only: [:update, :edit]
 
   # GET /resource/sign_up
   # def new
@@ -17,21 +17,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.save
     yield resource if block_given?
     if resource.persisted?
-      if resource.active_for_authentication?
-        set_flash_message! :notice, :signed_up
-        sign_up(resource_name, resource)
+      # メール認証必須でもログインさせる
+      set_flash_message! :notice, :signed_up
+      sign_up(resource_name, resource)
 
-        # sign_up後に紐づくtasksを作成
-        user = resource
-        is_new_user = user.new_user?
-        UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user) if is_new_user
+      # sign_up後に紐づくtasksを作成（未認証でもサンプルタスクを作成）
+      user = resource
+      is_new_user = user.new_user?
+      UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user) if is_new_user
 
-        respond_with resource, location: after_sign_up_path_for(resource)
-      else
-        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
-        expire_data_after_sign_in!
-        respond_with resource, location: after_inactive_sign_up_path_for(resource)
-      end
+      respond_with resource, location: after_sign_up_path_for(resource)
     else
       clean_up_passwords resource
       set_minimum_password_length
@@ -129,10 +124,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
     user_path(resource)
   end
 
-  def valid_guest_user
-    return unless current_user.guest?
+  def valid_restricted_user
+    return unless current_user.restricted_user?
 
-    flash[:alert] = "ゲストユーザーはプロフィールの編集ができません"
+    flash[:alert] = if current_user.guest?
+                      "ゲストユーザーはプロフィールの編集ができません"
+                    else
+                      "メール認証を完了すると、プロフィールを編集できるようになります"
+                    end
     redirect_to user_path(current_user)
   end
 
