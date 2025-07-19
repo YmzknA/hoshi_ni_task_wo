@@ -1,5 +1,102 @@
-<p>Welcome <%= @email %>!</p>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星にタスクを - メールアドレスの確認</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'メイリオ', Meiryo, sans-serif;">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <!-- メールコンテナ -->
+    <div style="background: #EAF2F5; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden;">
+      
+      <!-- ヘッダー部分 -->
+      <div style="background: #1E2939; padding: 40px 30px; text-align: center; position: relative;">
+        <!-- 星の装飾 -->
+        <div style="position: absolute; top: 10px; left: 20px; color: rgba(234, 242, 245, 0.3); font-size: 20px;">✦</div>
+        <div style="position: absolute; top: 10px; left: 20px; color: rgba(234, 242, 245, 0.3); font-size: 20px;">✦</div>
+        <div style="position: absolute; top: 10px; left: 20px; color: rgba(234, 242, 245, 0.3); font-size: 20px;">✦</div>
+        
+        <h1 style="color: #EAF2F5; margin: 0; font-size: 28px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+          星にタスクを
+        </h1>
+      </div>
+      
+      <!-- メインコンテンツ -->
+      <div style="padding: 40px 30px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h2 style="color: #1E2939; font-size: 24px; font-weight: 600; margin: 0 0 10px 0;">
+            ご登録ありがとうございます
+          </h2>
+          <p style="color: #466374; font-size: 18px; margin: 0; font-weight: 500;">
+            <%= @resource.name %> 様
+          </p>
+        </div>
+        
+        <div style="background: #EAF2F5; border-radius: 16px; padding: 30px; margin: 30px 0; border-left: 4px solid #BF9C50;">
+          <p style="color: #1E2939; font-size: 16px; line-height: 1.8; margin: 0 0 20px 0;">
+            下のボタンをクリックして、メールアドレスの確認を完了してください。
+          </p>
+          
+          <p style="color: #466374; font-size: 14px; margin: 0; line-height: 1.6;">
+            💡 <strong>確認後にできること：</strong><br>
 
-<p>You can confirm your account email through the link below:</p>
-
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+            • タスクと星座の作成・編集・削除<br>
+            • プロフィールの編集と設定変更<br>
+            • マイルストーンの限定共有機能<br>
+          </p>
+        </div>
+        
+        <!-- 確認ボタン -->
+        <div style="text-align: center; margin: 40px 0;">
+          <%= link_to confirmation_url(@resource, confirmation_token: @token), 
+              style: "display: inline-block; background: linear-gradient(135deg, #DEC4A4 0%, #BF9C50 100%); color: #1E2939; text-decoration: none; padding: 18px 40px; border-radius: 50px; font-size: 18px; font-weight: 600; box-shadow: 0 10px 25px rgba(191, 156, 80, 0.4); transition: all 0.3s ease;" do %>
+            メールアドレスを確認する
+          <% end %>
+        </div>
+        
+        <!-- 注意事項 -->
+        <div style="background: rgba(169, 31, 43, 0.1); border-radius: 12px; padding: 20px; margin: 30px 0; border-left: 4px solid #A91F2B;">
+          <p style="color: #A91F2B; font-size: 14px; margin: 0; line-height: 1.6;">
+            このリンクは<strong>24時間</strong>で有効期限が切れます。<br>
+            お早めに確認を完了してください。
+          </p>
+        </div>
+        
+        <!-- 代替URL -->
+        <details style="margin: 20px 0;">
+          <summary style="color: #BF9C50; cursor: pointer; font-size: 14px; margin-bottom: 10px;">
+            ボタンがクリックできない場合はこちら
+          </summary>
+          <div style="background: rgba(234, 242, 245, 0.5); border-radius: 8px; padding: 15px; margin-top: 10px;">
+            <p style="color: #466374; font-size: 12px; margin: 0 0 5px 0;">
+              以下のURLをコピーしてブラウザに貼り付けてください：
+            </p>
+            <p style="word-break: break-all; background: #EAF2F5; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 11px; color: #1E2939; margin: 0; border: 1px solid #DEC4A4;">
+              <%= confirmation_url(@resource, confirmation_token: @token) %>
+            </p>
+          </div>
+        </details>
+      </div>
+      
+      <!-- フッター -->
+      <div style="background: rgba(234, 242, 245, 0.8); padding: 30px; text-align: center; border-top: 1px solid #DEC4A4;">
+        <div style="margin-bottom: 20px;">
+          <p style="color: #466374; font-size: 14px; margin: 0 0 5px 0;">
+            問題がございましたら、お気軽にお問い合わせください
+          </p>
+          <p style="color: #466374; font-size: 12px; margin: 0;">
+            このメールに心当たりがない場合は、無視していただいて構いません
+          </p>
+        </div>
+        
+        <div style="border-top: 1px solid #DEC4A4; padding-top: 20px;">
+          <p style="color: #466374; font-size: 12px; margin: 0;">
+            © 2025 星にタスクを<br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
