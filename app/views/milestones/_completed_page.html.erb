@@ -39,8 +39,8 @@
 
               <%# publicな星座の時だけシェアボタンを表示 %>
 
-              <% if @milestone.user.guest? %>
-                <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+              <% if @milestone.user.restricted_user? %>
+                <div class="tooltip" data-tip="<%= @milestone.user.guest? ? 'ゲストユーザーは使用できません' : 'メール認証後に使用できます' %>">
                   <button class="btn btn-disabled rounded-lg">
                     <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
                     完成をシェアする
