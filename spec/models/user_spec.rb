@@ -282,8 +282,145 @@ RSpec.describe User, type: :model do
       expect(User.devise_modules).to include(:omniauthable)
     end
 
+    it "メール認証が有効であること" do
+      expect(User.devise_modules).to include(:confirmable)
+    end
+
     it "LINEプロバイダーが設定されていること" do
       expect(User.omniauth_providers).to include(:line)
+    end
+  end
+
+  describe "メール認証機能" do
+    let(:user) { build(:user) }
+    let(:guest_user) { build(:user, :guest) }
+    let(:oauth_user) { build(:user, :with_oauth) }
+    let(:confirmed_user) { build(:user, confirmed_at: Time.current) }
+    let(:unconfirmed_user) { build(:user, confirmed_at: nil) }
+
+    describe "#confirmation_required?" do
+      it "通常ユーザーはメール認証が必要" do
+        expect(user.confirmation_required?).to be true
+      end
+
+      it "LINE認証ユーザーはメール認証不要" do
+        expect(oauth_user.confirmation_required?).to be false
+      end
+
+      it "ゲストユーザーはメール認証不要" do
+        expect(guest_user.confirmation_required?).to be false
+      end
+
+      context "providerが存在する場合" do
+        it "メール認証不要を返す" do
+          user.provider = "google"
+          expect(user.confirmation_required?).to be false
+        end
+      end
+
+      context "providerが空文字の場合" do
+        it "メール認証必要を返す" do
+          user.provider = ""
+          expect(user.confirmation_required?).to be true
+        end
+      end
+
+      context "providerがnilの場合" do
+        it "メール認証必要を返す" do
+          user.provider = nil
+          expect(user.confirmation_required?).to be true
+        end
+      end
+    end
+
+    describe "#confirmed_or_not_required?" do
+      it "認証済みユーザーはtrueを返す" do
+        expect(confirmed_user.confirmed_or_not_required?).to be true
+      end
+
+      it "未認証だが認証不要ユーザー（ゲスト）はtrueを返す" do
+        expect(guest_user.confirmed_or_not_required?).to be true
+      end
+
+      it "未認証だが認証不要ユーザー（OAuth）はtrueを返す" do
+        expect(oauth_user.confirmed_or_not_required?).to be true
+      end
+
+      it "未認証で認証必要ユーザーはfalseを返す" do
+        expect(unconfirmed_user.confirmed_or_not_required?).to be false
+      end
+    end
+
+    describe "#restricted_user?" do
+      it "ゲストユーザーは制限対象" do
+        expect(guest_user.restricted_user?).to be true
+      end
+
+      it "未認証の通常ユーザーは制限対象" do
+        expect(unconfirmed_user.restricted_user?).to be true
+      end
+
+      it "認証済みの通常ユーザーは制限対象外" do
+        expect(confirmed_user.restricted_user?).to be false
+      end
+
+      it "LINE認証ユーザーは制限対象外" do
+        expect(oauth_user.restricted_user?).to be false
+      end
+
+      context "複合条件のテスト" do
+        it "ゲストユーザーで未認証の場合も制限対象" do
+          guest_user.confirmed_at = nil
+          expect(guest_user.restricted_user?).to be true
+        end
+
+        it "ゲストユーザーで認証済みでも制限対象" do
+          guest_user.confirmed_at = Time.current
+          expect(guest_user.restricted_user?).to be true
+        end
+      end
+    end
+
+    describe "認証状態の統合テスト" do
+      context "新規登録ユーザー" do
+        let(:new_user) { build(:user, confirmed_at: nil, provider: nil) }
+
+        it "認証が必要で、未認証で、制限対象である" do
+          expect(new_user.confirmation_required?).to be true
+          expect(new_user.confirmed_or_not_required?).to be false
+          expect(new_user.restricted_user?).to be true
+        end
+      end
+
+      context "メール認証完了ユーザー" do
+        let(:confirmed_email_user) { build(:user, confirmed_at: Time.current, provider: nil) }
+
+        it "認証が必要で、認証済みで、制限対象外である" do
+          expect(confirmed_email_user.confirmation_required?).to be true
+          expect(confirmed_email_user.confirmed_or_not_required?).to be true
+          expect(confirmed_email_user.restricted_user?).to be false
+        end
+      end
+
+      context "LINE認証ユーザー" do
+        let(:line_user) { build(:user, :with_oauth, confirmed_at: Time.current) }
+
+        it "認証が不要で、認証済みで、制限対象外である" do
+          expect(line_user.confirmation_required?).to be false
+          expect(line_user.confirmed_or_not_required?).to be true
+          expect(line_user.restricted_user?).to be false
+        end
+      end
+
+      context "ゲストユーザー" do
+        let(:guest) { build(:user, :guest, confirmed_at: nil) }
+
+        it "認証が不要で、制限対象である" do
+          expect(guest.confirmation_required?).to be false
+          expect(guest.confirmed_or_not_required?).to be true
+          expect(guest.restricted_user?).to be true
+        end
+      end
     end
   end
 
