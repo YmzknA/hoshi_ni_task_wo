@@ -51,6 +51,10 @@ class User < ApplicationRecord
     is_hide_completed_tasks == true
   end
 
+  def new_user?
+    !tasks.exists? && !milestones.exists?
+  end
+
   # Lineログイン用の設定
   def social_profile(provider)
     social_profiles.select { |sp| sp.provider == provider.to_s }.first
