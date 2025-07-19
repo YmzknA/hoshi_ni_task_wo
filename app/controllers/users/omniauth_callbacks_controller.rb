@@ -16,7 +16,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def basic_action
     @omniauth = request.env["omniauth.auth"]
     is_new_user = false # 初期値を設定
-    
     if @omniauth.present?
       @profile = User.find_or_initialize_by(provider: @omniauth["provider"], uid: @omniauth["uid"])
       if @profile.email.blank?
