@@ -30,10 +30,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @profile.remember_me = true
       sign_in(:user, @profile)
 
-      is_new_user = @profile.tasks.empty? && @profile.milestones.empty?
-      if is_new_user
-        UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile)
-      end
+      is_new_user = @profile.new_user?
+      UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile) if is_new_user
     end
 
     # ログイン後のflash messageとリダイレクト先を設定
