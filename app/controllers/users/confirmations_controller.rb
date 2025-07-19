@@ -36,7 +36,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # The path used after confirmation.
-  def after_confirmation_path_for(resource_name, resource)
+  def after_confirmation_path_for(_resource_name, _resource)
     redirect_path_for_new_user
   end
 end

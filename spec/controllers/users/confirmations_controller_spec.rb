@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Users::ConfirmationsController, type: :controller do
   before do
@@ -12,20 +12,20 @@ RSpec.describe Users::ConfirmationsController, type: :controller do
     context "有効なトークンの場合" do
       it "ユーザーが認証される" do
         get :show, params: { confirmation_token: confirmation_token }
-        
+
         user.reload
         expect(user.confirmed_at).to be_present
       end
 
       it "認証完了後のフラッシュメッセージが表示される" do
         get :show, params: { confirmation_token: confirmation_token }
-        
+
         expect(flash[:notice]).to be_present
       end
 
       it "認証完了後に適切なページにリダイレクトされる" do
         get :show, params: { confirmation_token: confirmation_token }
-        
+
         expect(response).to redirect_to(how_to_use_path)
       end
     end
@@ -33,14 +33,14 @@ RSpec.describe Users::ConfirmationsController, type: :controller do
     context "無効なトークンの場合" do
       it "ユーザーが認証されない" do
         get :show, params: { confirmation_token: "invalid_token" }
-        
+
         user.reload
         expect(user.confirmed_at).to be_nil
       end
 
       it "エラーが表示される" do
         get :show, params: { confirmation_token: "invalid_token" }
-        
+
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe Users::ConfirmationsController, type: :controller do
 
       it "ユーザーが認証されない" do
         get :show, params: { confirmation_token: confirmation_token }
-        
+
         user.reload
         expect(user.confirmed_at).to be_nil
       end
@@ -64,20 +64,20 @@ RSpec.describe Users::ConfirmationsController, type: :controller do
       let(:user) { create(:user, confirmed_at: nil) }
 
       it "認証メールが再送される" do
-        expect {
+        expect do
           post :create, params: { user: { email: user.email } }
-        }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        end.to change { ActionMailer::Base.deliveries.count }.by(1)
       end
 
       it "成功メッセージが表示される" do
         post :create, params: { user: { email: user.email } }
-        
+
         expect(flash[:notice]).to be_present
       end
 
       it "ルートページにリダイレクトされる" do
         post :create, params: { user: { email: user.email } }
-        
+
         expect(response).to redirect_to(root_path)
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe Users::ConfirmationsController, type: :controller do
     context "存在しないメールアドレスの場合" do
       it "paranoid設定により同じメッセージが表示される" do
         post :create, params: { user: { email: "nonexistent@example.com" } }
-        
+
         expect(flash[:notice]).to be_present
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe Users::ConfirmationsController, type: :controller do
     context "空のメールアドレスの場合" do
       it "エラーが表示される" do
         post :create, params: { user: { email: "" } }
-        
+
         expect(response).to render_template(:new)
       end
     end
