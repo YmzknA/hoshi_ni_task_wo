@@ -97,9 +97,9 @@
           <!-- アクションボタン -->
           <% if task.is_a?(LimitedSharingTask) %>
             <!-- not content -->
-          <% elsif current_user&.guest? && current_user?(task.user) %>
+          <% elsif current_user&.restricted_user? && current_user?(task.user) %>
             <div class="flex h-10 md:h-12 w-full mt-5 md:mt-10 justify-center text-neutral">
-              <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+              <div class="tooltip" data-tip="<%= current_user.guest? ? 'ゲストユーザーは使用できません' : 'メール認証後に使用できます' %>">
                 <button class="btn btn-disabled h-10 md:h-12 w-20 md:w-25 mr-3 md:mr-5 text-xs md:text-sm md:w-42">削除</button>
               </div>
               <div class="btn btn-accent h-10 md:h-12 w-20 md:w-25 md:w-42">
@@ -112,7 +112,7 @@
             </div>
 
             <div class="relative left-4 btn bg-transparent text-base-200 hover:cursor-default">
-              <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+              <div class="tooltip" data-tip="<%= current_user.guest? ? 'ゲストユーザーは使用できません' : 'メール認証後に使用できます' %>">
                 <span class="material-symbols-outlined">
                   content_copy
                 </span>

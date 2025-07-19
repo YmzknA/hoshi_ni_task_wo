@@ -67,8 +67,8 @@
       <div class="flex justify-center items-center">
         <div class="flex w-xl items-center <%= current_user?(@user) ? 'justify-between' : 'justify-end' %>">
 
-          <% if current_user&.guest? && current_user?(@user) %>
-            <div class="tooltip" data-tip="ゲストユーザーは使用できません">
+          <% if current_user&.restricted_user? && current_user?(@user) %>
+            <div class="tooltip" data-tip="<%= current_user.guest? ? 'ゲストユーザーは使用できません' : 'メール認証後に使用できます' %>">
               <button class="btn btn-disabled rounded-lg">ユーザー編集</button>
             </div>
           <% elsif current_user?(@user) %>
