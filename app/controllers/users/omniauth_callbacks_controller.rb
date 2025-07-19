@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  include UserInitializationConcern
   def line
     if user_signed_in?
       # ログイン済みの場合は、LINEアカウントを紐付ける
@@ -32,8 +33,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @profile.remember_me = true
       sign_in(:user, @profile)
 
-      is_new_user = @profile.new_user?
-      UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(@profile) if is_new_user
+      initialize_new_user(@profile)
     end
 
     # ログイン後のflash messageとリダイレクト先を設定

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  include UserInitializationConcern
+  
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
   before_action :valid_restricted_user, only: [:update, :edit]
@@ -22,9 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       sign_up(resource_name, resource)
 
       # sign_up後に紐づくtasksを作成（未認証でもサンプルタスクを作成）
-      user = resource
-      is_new_user = user.new_user?
-      UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user) if is_new_user
+      initialize_new_user(resource)
 
       respond_with resource, location: after_sign_up_path_for(resource)
     else
@@ -77,7 +77,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       retries = 0
       begin
         user = User.guest
-        UserRegistration::MakeTasksMilestones.create_tasks_and_milestones(user) if user.new_user?
+        initialize_new_user(user)
       rescue ActiveRecord::RecordNotUnique => e
         retries += 1
         raise e unless retries < 3
