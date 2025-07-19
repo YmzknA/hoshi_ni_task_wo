@@ -7,3 +7,13 @@ ja:
     mailer:
       confirmation_instructions:
         subject: "【星にタスクを】メールアドレスの確認"
+  
+  restrictions:
+    guest_user: "ゲストユーザーは使用できません"
+    email_unconfirmed: "メール認証後に使用できます"
+    profile_edit_guest: "ゲストユーザーはプロフィールの編集ができません"
+    profile_edit_unconfirmed: "メール認証を完了すると、プロフィールを編集できるようになります"
+    task_create_guest: "ゲストユーザーはタスクを作成できません"
+    task_create_unconfirmed: "メール認証を完了すると、タスクを作成できるようになります"
+    milestone_create_guest: "ゲストユーザーは星座を作成できません"
+    milestone_create_unconfirmed: "メール認証を完了すると、星座を作成できるようになります"

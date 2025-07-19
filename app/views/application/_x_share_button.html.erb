@@ -1,7 +1,7 @@
 <%# instance: Milestone or User %>
 
 <% if instance.class == Milestone && instance.user.restricted_user? %>
-  <div class="tooltip" data-tip="<%= instance.user.guest? ? 'ゲストユーザーは使用できません' : 'メール認証後に使用できます' %>">
+  <div class="tooltip" data-tip="<%= instance.user.guest? ? t('restrictions.guest_user') : t('restrictions.email_unconfirmed') %>">
     <div class="btn btn-disabled rounded-lg px-3">
       <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
     </div>
@@ -11,7 +11,7 @@
     <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
   <% end %>
 <% elsif instance.class == User && instance.restricted_user? %>
-  <div class="tooltip" data-tip="<%= instance.guest? ? 'ゲストユーザーは使用できません' : 'メール認証後に使用できます' %>">
+  <div class="tooltip" data-tip="<%= instance.guest? ? t('restrictions.guest_user') : t('restrictions.email_unconfirmed') %>">
     <div class="btn btn-disabled rounded-lg px-3">
       <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
     </div>
