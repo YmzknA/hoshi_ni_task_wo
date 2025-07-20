@@ -14,12 +14,14 @@
       </div>
 
       <!-- タイトル -->
-      <div class="flex items-center justify-center mt-6">
+      <div class="flex items-center justify-center my-6">
         <h2 class="text-lg font-medium text-primary">認証メール再送信</h2>
       </div>
 
+      <%= render "error_messages", resource: resource %>
+
       <!-- 認証メール再送信フォーム -->
-      <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), data: {turbo: false, action: "submit->loading#show" }, html: { class: "w-full mt-6" }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), data: {turbo: false, action: "submit->loading#show" }, html: { class: "w-full mt-12" }) do |f| %>
 
         <label class="floating-label mt-5">
           <%= f.text_field :email,
