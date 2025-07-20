@@ -25,8 +25,7 @@
             </p>
             <p class="text-sm mt-2">
               メールが届いていない場合は、
-              <%= link_to "認証メールを再送信", user_confirmation_path, method: :post, 
-                  data: { confirm: "認証メールを再送信しますか？" },
+              <%= link_to "認証メールを再送信", new_user_confirmation_path,
                   class: "link link-primary" %>
               してください。
             </p>
