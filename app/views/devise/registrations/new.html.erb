@@ -26,6 +26,14 @@
       <!-- 新規登録フォーム -->
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data:{ turbo: false, action: "submit->loading#show"}, html: { class: "w-full mt-6" }) do |f| %>
 
+        <!-- 認証メール通知 -->
+        <div class="flex items-center justify-center mb-8">
+          <div class="text-xs md:text-sm">
+            <span>認証メールが送信されます<br class="md:hidden">( 認証まで一部機能が制限されます )</span>
+            <button type="button" onclick="restriction_modal.showModal()" class="link link-primary ml-1">詳細</button>
+          </div>
+        </div>
+
         <label class="floating-label">
           <%= f.text_field :name,
             autofocus: true,
@@ -87,4 +95,90 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- 機能制限モーダル -->
+<div data-controller="modal">
+  <dialog id="restriction_modal" data-modal-target="to_not_blur" class="modal">
+    <div class="modal-box w-lg max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-0 bg-transparent">
+      <div class="flex items-center justify-center">
+        <div class="glasscard card z-10 h-2xl w-full p-5">
+
+          <div class="px-5 py-10 mb-4 bg-base-100 rounded-md">
+            <div class="text-sm md:text-base font-bold mb-4">認証完了まで制限される機能：</div>
+            
+            <div class="flex items-center mb-2">
+              <div>
+                <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
+              </div>
+              <span class="ml-2 text-sm md:text-base">タスクの作成・削除</span>
+            </div>
+            
+            <div class="flex items-center mb-2">
+              <div>
+                <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
+              </div>
+              <span class="ml-2 text-sm md:text-base">星座の作成・削除</span>
+            </div>
+            
+            <div class="flex items-center mb-2">
+              <div>
+                <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
+              </div>
+              <span class="ml-2 text-sm md:text-base">プロフィールの編集</span>
+            </div>
+            
+            <div class="flex items-center mb-2">
+              <div>
+                <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
+              </div>
+              <span class="ml-2 text-sm md:text-base">タスクの共有機能など</span>
+            </div>
+
+            <div class="divider divider-primary w-full my-4"></div>
+
+            <div class="flex items-center mb-4">
+              <span class="material-symbols-outlined text-warning">
+                info
+              </span>
+              <span class="ml-2 text-sm md:text-base">認証メールは登録後すぐに送信されます</span>
+            </div>
+
+            <div class="flex items-center">
+              <span class="material-symbols-outlined text-warning">
+                folder
+              </span>
+              <span class="ml-2 text-sm md:text-base">メールが届かない場合は、<br>迷惑メールフォルダをご確認ください</span>
+            </div>
+
+            <div class="flex items-center mt-3">
+              <span class="material-symbols-outlined text-warning">
+                mail
+              </span>
+              <span class="ml-2 text-sm md:text-base">
+                <%= link_to "認証メールを再送信", new_user_confirmation_path,
+                    class: "link link-primary" %>
+              </span>
+            </div>
+          </div>
+
+          <!-- 閉じるボタン -->
+          <div class="modal-action flex justify-center mt-3">
+            <form method="dialog">
+              <button data-modal-target="close" class="btn btn-accent size-9">
+                <span class="material-symbols-outlined">
+                  close
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 枠外をクリックしてモーダルを閉じる -->
+    <form data-modal-target="close" method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
 </div>
