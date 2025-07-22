@@ -83,4 +83,5 @@ test:
 #
 production:
   <<: *default
-  url: <%= Rails.application.credentials.dig(:DATABASE_URL) %>
+  # 一時的に両方previewDBに接続（安全のため）
+  url: <%= Rails.application.credentials.dig(:PREVIEW_DATABASE_URL) %>

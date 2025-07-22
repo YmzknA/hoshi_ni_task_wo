@@ -8,6 +8,24 @@
     <!-- フラッシュメッセージ -->
     <%= render 'flash' %>
 
+    <!-- 環境表示（開発・テスト用） -->
+    <% if Rails.env.production? %>
+      <div class="alert alert-info mb-4 max-w-xl mx-auto">
+        <div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-4 w-4 shrink-0 stroke-current">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="text-sm ml-2">
+            <% if ENV['IS_PREVIEW_ENV'] == 'true' %>
+              🧪 Preview環境 - PreviewDBに接続中
+            <% else %>
+              🔧 本番環境 - PreviewDBに接続中（テスト用）
+            <% end %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+
     <!-- メール認証促進メッセージ -->
     <% if current_user == @user && !current_user.confirmed? && current_user.confirmation_required? %>
       <div class="alert alert-warning mb-4 max-w-xl mx-auto">
