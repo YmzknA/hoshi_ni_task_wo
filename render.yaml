@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: hoshi_ni_task_wo
+    runtime: docker
+    plan: starter
+    previewPlan: starter
+    
+    envVars:
+      # Preview環境判定用フラグ
+      - key: IS_PREVIEW_ENV
+        value: "false"
+        previewValue: "true"
+        
+      # Preview環境用DB URL
+      - key: PREVIEW_DATABASE_URL
+        sync: false
+
+# Preview環境の設定
+previews:
+  generation: manual
+  expireAfterDays: 2
