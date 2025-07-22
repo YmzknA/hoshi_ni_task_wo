@@ -26,9 +26,16 @@
               autocomplete: "email",
               placeholder: "メールアドレス*",
               required: true,
-              class: "input input-sm md:input-lg input-primary w-full bg-base-200" %>
+              disabled: @user.provider.present?,
+              class: "input input-sm md:input-lg input-primary w-full bg-base-200 #{'opacity-60' if @user.provider.present?}" %>
             <span class="floating-label-text text-base-200">メールアドレス*</span>
           </label>
+          <% if @user.provider.present? %>
+            <p class="text-xs md:text-sm text-warning mt-2">
+              <span class="material-symbols-outlined text-sm align-middle">info</span>
+              LINE認証でログインしているため、メールアドレスは変更できません
+            </p>
+          <% end %>
 
           <label class="floating-label mt-5">
             <%= f.text_area :bio,
