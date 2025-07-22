@@ -136,6 +136,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def update_resource(resource, params)
+    # LINE認証ユーザーはメールアドレスの更新を許可しない
+    if resource.provider.present? && params[:email].present? && params[:email] != resource.email
+      resource.errors.add(:email, "LINE認証でログインしているため、メールアドレスは変更できません")
+      return false
+    end
+
     resource.update_without_password(params)
   end
 
