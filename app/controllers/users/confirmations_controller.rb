@@ -31,7 +31,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     if signed_in?
       user_path(current_user)
     else
-      super(resource_name)
+      super
     end
   end
 
