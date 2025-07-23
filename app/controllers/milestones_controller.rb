@@ -2,9 +2,10 @@
 class MilestonesController < ApplicationController
   include GanttChartHelper
   include SearchConcern
+  include AuthorizationConcern
 
-  before_action :set_milestone, only: [:show, :edit, :update, :destroy, :complete, :show_complete_page]
   before_action :authenticate_user!, except: [:show]
+  before_action :set_milestone, only: [:show, :edit, :update, :destroy, :complete, :show_complete_page]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
   def index
@@ -46,15 +47,7 @@ class MilestonesController < ApplicationController
   end
 
   def new
-    if current_user.restricted_user?
-      flash[:alert] = if current_user.guest?
-                        "ゲストユーザーは星座を作成できません"
-                      else
-                        "メール認証を完了すると、星座を作成できるようになります"
-                      end
-      redirect_to tasks_path
-      return
-    end
+    return if restrict_user_action(:create_milestone)
 
     @milestone = Milestone.new
   end
@@ -62,15 +55,7 @@ class MilestonesController < ApplicationController
   def edit; end
 
   def create
-    if current_user.restricted_user?
-      flash[:alert] = if current_user.guest?
-                        "ゲストユーザーは星座を作成できません"
-                      else
-                        "メール認証を完了すると、星座を作成できるようになります"
-                      end
-      redirect_to tasks_path
-      return
-    end
+    return if restrict_user_action(:create_milestone)
 
     @milestone = Milestone.new(milestone_params)
 
@@ -203,13 +188,7 @@ class MilestonesController < ApplicationController
   end
 
   def ensure_correct_user
-    milestone = Milestone.find(params[:id])
-    user = milestone.user
-
-    return if user.id == current_user.id
-
-    flash[:alert] = "アクセス権限がありません"
-    redirect_to user_path(current_user)
+    ensure_resource_owner(@milestone)
   end
 
   def other_guest_milestone?(milestone)

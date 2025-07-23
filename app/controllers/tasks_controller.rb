@@ -1,12 +1,13 @@
 class TasksController < ApplicationController
   include SearchConcern
   include ChartUpdateConcern
+  include AuthorizationConcern
 
-  before_action :set_task, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, except: [:autocomplete]
+  before_action :set_task, only: [:edit, :update, :destroy]
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
   before_action :set_task_milestone, only: [:update, :destroy]
-  before_action :valid_restricted_user, only: [:create]
+  before_action -> { restrict_user_action(:create_task) }, only: [:create]
 
   def index
     @task = Task.new
@@ -124,23 +125,7 @@ class TasksController < ApplicationController
   end
 
   def ensure_correct_user
-    task = Task.find(params[:id])
-
-    return if task.user.id == current_user.id
-
-    flash[:alert] = "アクセス権限がありません"
-    redirect_to user_path(current_user)
-  end
-
-  def valid_restricted_user
-    return unless current_user.restricted_user?
-
-    flash[:alert] = if current_user.guest?
-                      "ゲストユーザーはタスクを作成できません"
-                    else
-                      "メール認証を完了すると、タスクを作成できるようになります"
-                    end
-    redirect_to tasks_path
+    ensure_resource_owner(@task)
   end
 
   def update_task_milestone_and_load_tasks

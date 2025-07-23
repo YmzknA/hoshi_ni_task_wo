@@ -2,10 +2,11 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   include UserInitializationConcern
+  include AuthorizationConcern
 
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  before_action :valid_restricted_user, only: [:update, :edit]
+  before_action :check_edit_profile_restriction, only: [:update, :edit]
 
   # GET /resource/sign_up
   # def new
@@ -124,17 +125,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     user_path(resource)
   end
 
-  def valid_restricted_user
-    return unless current_user.restricted_user?
-
-    flash[:alert] = if current_user.guest?
-                      "ゲストユーザーはプロフィールの編集ができません"
-                    else
-                      "メール認証を完了すると、プロフィールを編集できるようになります"
-                    end
-    redirect_to user_path(current_user)
-  end
-
   def update_resource(resource, params)
     # LINE認証ユーザーはメールアドレスの更新を許可しない
     if resource.provider.present? && params[:email].present? && params[:email] != resource.email
@@ -143,6 +133,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
     resource.update_without_password(params)
+  end
+
+  def check_edit_profile_restriction
+    return unless current_user.restricted_user?
+
+    flash[:alert] = if current_user.guest?
+                      t("restrictions.guest_user.edit_profile")
+                    else
+                      t("restrictions.email_unconfirmed.edit_profile")
+                    end
+    redirect_to user_path(current_user)
   end
 
   # The path used after sign up for inactive accounts.
