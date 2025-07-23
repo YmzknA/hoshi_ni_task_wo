@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { maximum: 20 }
   validates :bio, length: { maximum: 200 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
+  # Deviseがpassword_required?メソッドを提供している
   validates :password, presence: true, length: { minimum: 6 }, if: :password_required?
   validates :notification_time, presence: true, inclusion: { in: 0..23 }
   # providerが空でない場合はuidの一意性を検証する
