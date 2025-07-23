@@ -9,11 +9,14 @@ ja:
         subject: "【星にタスクを】メールアドレスの確認"
   
   restrictions:
-    guest_user: "ゲストユーザーは使用できません"
-    email_unconfirmed: "メール認証後に使用できます"
-    profile_edit_guest: "ゲストユーザーはプロフィールの編集ができません"
-    profile_edit_unconfirmed: "メール認証を完了すると、プロフィールを編集できるようになります"
-    task_create_guest: "ゲストユーザーはタスクを作成できません"
-    task_create_unconfirmed: "メール認証を完了すると、タスクを作成できるようになります"
-    milestone_create_guest: "ゲストユーザーは星座を作成できません"
-    milestone_create_unconfirmed: "メール認証を完了すると、星座を作成できるようになります"
+    access_denied: "アクセス権限がありません"
+    guest_user:
+      general: "ゲストユーザーは使用できません"
+      create_task: "ゲストユーザーはタスクを作成できません"
+      create_milestone: "ゲストユーザーは星座を作成できません"
+      edit_profile: "ゲストユーザーはプロフィールの編集ができません"
+    email_unconfirmed:
+      general: "メール認証後に使用できます"
+      create_task: "メール認証を完了すると、タスクを作成できるようになります"
+      create_milestone: "メール認証を完了すると、星座を作成できるようになります"
+      edit_profile: "メール認証を完了すると、プロフィールを編集できるようになります"
