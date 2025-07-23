@@ -97,8 +97,6 @@ class User < ApplicationRecord
 
   # ゲストユーザーと同様の制限が必要かを判定
   def restricted_user?
-    return @restricted_user if defined?(@restricted_user)
-
-    @restricted_user = guest? || (confirmation_required? && !confirmed?)
+    guest? || (confirmation_required? && !confirmed?)
   end
 end
