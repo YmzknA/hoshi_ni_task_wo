@@ -1,6 +1,6 @@
 <% if current_user.restricted_user? %>
   <div id="add_button" class="z-20 fixed bottom-24 right-4 md:bottom-26 md:right-6">
-    <span class="tooltip tooltip-left" data-tip="<%= current_user.guest? ? t('restrictions.guest_user') : t('restrictions.email_unconfirmed') %>">
+    <span class="tooltip tooltip-left" data-tip="<%= current_user.guest? ? t('restrictions.guest_user.general') : t('restrictions.email_unconfirmed.general') %>">
       <div class="flex items-center justify-center bg-base-100 rounded-full size-12 md:size-18 shadow-md">
         <%= render "stars_icon", width: "30", height: "30", color: "#EAF2F5" %>
       </div>

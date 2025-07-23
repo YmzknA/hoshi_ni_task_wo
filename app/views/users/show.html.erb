@@ -85,7 +85,7 @@
         <div class="flex w-xl items-center <%= current_user?(@user) ? 'justify-between' : 'justify-end' %>">
 
           <% if current_user&.restricted_user? && current_user?(@user) %>
-            <div class="tooltip" data-tip="<%= current_user.guest? ? t('restrictions.guest_user') : t('restrictions.email_unconfirmed') %>">
+            <div class="tooltip" data-tip="<%= current_user.guest? ? t('restrictions.guest_user.general') : t('restrictions.email_unconfirmed.general') %>">
               <button class="btn btn-disabled rounded-lg">ユーザー編集</button>
             </div>
           <% elsif current_user?(@user) %>

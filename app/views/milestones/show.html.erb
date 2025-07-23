@@ -154,7 +154,7 @@
       <!-- 編集・削除ボタン -->
       <div class="flex h-12 w-full justify-center text-neutral mb-8">
         <% if current_user.restricted_user? %>
-          <div class="tooltip" data-tip="<%= current_user.guest? ? t('restrictions.guest_user') : t('restrictions.email_unconfirmed') %>">
+          <div class="tooltip" data-tip="<%= current_user.guest? ? t('restrictions.guest_user.general') : t('restrictions.email_unconfirmed.general') %>">
             <div class="btn btn-disabled mr-5 h-12 w-25 md:w-42">
               削除
             </div>
@@ -175,7 +175,7 @@
         <div class="relative mr-5">
           <% if @milestone.user.restricted_user? %>
             <div class="btn bg-transparent text-base-200 hover:cursor-default relative left-4">
-              <div class="tooltip" data-tip="<%= @milestone.user.guest? ? t('restrictions.guest_user') : t('restrictions.email_unconfirmed') %>">
+              <div class="tooltip" data-tip="<%= @milestone.user.guest? ? t('restrictions.guest_user.general') : t('restrictions.email_unconfirmed.general') %>">
                 <span class="material-symbols-outlined">
                   share
                 </span>
@@ -230,7 +230,7 @@
           <!-- copyボタン -->
           <% if @milestone.user.restricted_user? %>
             <div class="btn bg-transparent text-base-200 hover:cursor-default relative left-4">
-              <div class="tooltip" data-tip="<%= @milestone.user.guest? ? t('restrictions.guest_user') : t('restrictions.email_unconfirmed') %>">
+              <div class="tooltip" data-tip="<%= @milestone.user.guest? ? t('restrictions.guest_user.general') : t('restrictions.email_unconfirmed.general') %>">
                 <span class="material-symbols-outlined">
                   content_copy
                 </span>
