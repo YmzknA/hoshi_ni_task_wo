@@ -333,21 +333,21 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe "#confirmed_or_not_required?" do
+    describe "#email_verified?" do
       it "認証済みユーザーはtrueを返す" do
-        expect(confirmed_user.confirmed_or_not_required?).to be true
+        expect(confirmed_user.email_verified?).to be true
       end
 
       it "未認証だが認証不要ユーザー（ゲスト）はtrueを返す" do
-        expect(guest_user.confirmed_or_not_required?).to be true
+        expect(guest_user.email_verified?).to be true
       end
 
       it "未認証だが認証不要ユーザー（OAuth）はtrueを返す" do
-        expect(oauth_user.confirmed_or_not_required?).to be true
+        expect(oauth_user.email_verified?).to be true
       end
 
       it "未認証で認証必要ユーザーはfalseを返す" do
-        expect(unconfirmed_user.confirmed_or_not_required?).to be false
+        expect(unconfirmed_user.email_verified?).to be false
       end
     end
 
@@ -387,7 +387,7 @@ RSpec.describe User, type: :model do
 
         it "認証が必要で、未認証で、制限対象である" do
           expect(new_user.confirmation_required?).to be true
-          expect(new_user.confirmed_or_not_required?).to be false
+          expect(new_user.email_verified?).to be false
           expect(new_user.restricted_user?).to be true
         end
       end
@@ -397,7 +397,7 @@ RSpec.describe User, type: :model do
 
         it "認証が必要で、認証済みで、制限対象外である" do
           expect(confirmed_email_user.confirmation_required?).to be true
-          expect(confirmed_email_user.confirmed_or_not_required?).to be true
+          expect(confirmed_email_user.email_verified?).to be true
           expect(confirmed_email_user.restricted_user?).to be false
         end
       end
@@ -407,7 +407,7 @@ RSpec.describe User, type: :model do
 
         it "認証が不要で、認証済みで、制限対象外である" do
           expect(line_user.confirmation_required?).to be false
-          expect(line_user.confirmed_or_not_required?).to be true
+          expect(line_user.email_verified?).to be true
           expect(line_user.restricted_user?).to be false
         end
       end
@@ -417,7 +417,7 @@ RSpec.describe User, type: :model do
 
         it "認証が不要で、制限対象である" do
           expect(guest.confirmation_required?).to be false
-          expect(guest.confirmed_or_not_required?).to be true
+          expect(guest.email_verified?).to be true
           expect(guest.restricted_user?).to be true
         end
       end

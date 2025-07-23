@@ -4,7 +4,7 @@ module AuthorizationConcern
   private
 
   def ensure_resource_owner(resource)
-    return if resource.user_id == current_user.id
+    return if resource&.user_id == current_user&.id
 
     flash[:alert] = t("restrictions.access_denied")
     redirect_to current_user ? user_path(current_user) : root_path

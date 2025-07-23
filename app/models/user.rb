@@ -91,12 +91,14 @@ class User < ApplicationRecord
   end
 
   # メール認証済みまたは認証不要なユーザーかを判定
-  def confirmed_or_not_required?
+  def email_verified?
     confirmed? || !confirmation_required?
   end
 
   # ゲストユーザーと同様の制限が必要かを判定
   def restricted_user?
-    guest? || (confirmation_required? && !confirmed?)
+    return @restricted_user if defined?(@restricted_user)
+
+    @restricted_user = guest? || (confirmation_required? && !confirmed?)
   end
 end
