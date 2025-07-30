@@ -39,7 +39,7 @@
 
               <%# publicな星座の時だけシェアボタンを表示 %>
 
-              <% if @milestone.user.restricted_user? %>
+              <% if current_user?(@milestone.user) && @milestone.user.restricted_user? %>
                 <div class="tooltip" data-tip="<%= @milestone.user.guest? ? t('restrictions.guest_user.general') : t('restrictions.email_unconfirmed.general') %>">
                   <button class="btn btn-disabled rounded-lg">
                     <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>

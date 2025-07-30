@@ -1,7 +1,7 @@
 <%# instance: Milestone or User %>
 
-<% if instance.class == Milestone && instance.user.restricted_user? %>
-  <div class="tooltip" data-tip="<%= instance.user.guest? ? t('restrictions.guest_user.general') : t('restrictions.email_unconfirmed.general') %>">
+<% if instance.class == Milestone && instance.user.guest? %>
+  <div class="tooltip" data-tip="<%= t('restrictions.guest_user.general') %>">
     <div class="btn btn-disabled rounded-lg px-3">
       <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
     </div>
@@ -10,8 +10,8 @@
   <%= link_to "https://twitter.com/intent/tweet?text=%23星にタスクを%0A&url=#{request.base_url}/milestones/#{instance.id}", target: "_blank", class: "btn btn-neutral rounded-lg px-3" do %>
     <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
   <% end %>
-<% elsif instance.class == User && instance.restricted_user? %>
-  <div class="tooltip" data-tip="<%= instance.guest? ? t('restrictions.guest_user.general') : t('restrictions.email_unconfirmed.general') %>">
+<% elsif instance.class == User && instance.guest? %>
+  <div class="tooltip" data-tip="<%= t('restrictions.guest_user.general') %>">
     <div class="btn btn-disabled rounded-lg px-3">
       <%= image_tag 'x-logo.png', class: 'h-6 w-6' %>
     </div>
