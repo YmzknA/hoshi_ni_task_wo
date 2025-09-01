@@ -63,7 +63,7 @@ group :development, :test do
   gem 'swimming_fish'
   gem 'bullet'
   gem 'rack-mini-profiler'
-  gem 'rspec-rails', '~> 8.0.1'
+  gem 'rspec-rails', '~> 8.0.2'
   gem 'factory_bot_rails'
   gem 'faker'
 end
