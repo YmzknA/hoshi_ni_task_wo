@@ -33,6 +33,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
@@ -49,3 +50,5 @@
 /PROJECT_OVERVIEW.md
 pr_message.md
 /work_log
+/.claude
+
