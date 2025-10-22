@@ -295,13 +295,15 @@
     <div class="flex w-full items-center justify-center mb-10">
       <div class="tabs tabs-lift w-xl">
 
+      <% if @milestone.completed? %>
         <!-- タスク -->
         <input type="radio" name="my_tabs" class="tab" aria-label="タスク" checked="checked"/>
         <div class="tab-content bg-base-100 p-3">
 
           <!-- ソートの切り替えセレクト -->
           <div class="mb-3">
-            <%= render "search_or_sort_select", q: @q, path: milestone_path(@milestone), _milestone_id: @milestone.id %>
+            <%# _progressにall分岐は存在しないが、completedとnot_completed以外の場合であることを明示 %>
+            <%= render "search_or_sort_select", q: @q, path: milestone_path(@milestone), _milestone_id: @milestone.id, _progress: "all" %>
           </div>
 
           <% if !milestone_completed && current_user?(@milestone.user) %>
@@ -318,6 +320,46 @@
           <% end %>
 
         </div>
+      <% else %>
+        <!-- not completed -->
+        <input type="radio" name="my_tabs" class="tab" aria-label="未完了" checked="checked"/>
+        <div class="tab-content bg-base-100 p-3">
+
+          <!-- ソートの切り替えセレクト -->
+          <div class="mb-3">
+            <%= render "search_or_sort_select", q: @q, path: milestone_path(@milestone), _milestone_id: @milestone.id, _progress: "not_completed" %>
+          </div>
+
+          <% if !milestone_completed && current_user?(@milestone.user) %>
+            <%= render "milestones/task_milestone_assignments_button" %>
+            <!-- タスク新規作成ボタン -->
+            <%= render "tasks/add_task_button", milestone: @milestone %>
+            <!-- ボタンの移動を通知 -->
+            <%= render "add_button_notification" %>
+          <% end %>
+
+          <!-- タスク一覧 -->
+          <%= turbo_frame_tag "search_sort_content_frame" do %>
+            <%= render "tasks/tasks", tasks: @not_completed_tasks %>
+          <% end %>
+        </div>
+
+        <!-- completed -->
+        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="完了" />
+        <div class="tab-content bg-base-100 p-3">
+
+          <!-- ソートの切り替えセレクト -->
+          <div class="mb-3">
+            <%= render "search_or_sort_select", q: @q, path: milestone_path(@milestone), _milestone_id: @milestone.id, _progress: "completed" %>
+          </div>
+
+          <!-- タスク -->
+          <%= turbo_frame_tag "secondary_search_sort_content_frame" do %>
+            <%= render "tasks/tasks", tasks: @completed_tasks %>
+          <% end %>
+        </div>
+      <% end %>
+
         <% if !milestone_on_chart || milestone_completed || @milestone.start_date.blank? || @milestone.end_date.blank? %>
           <!-- 完成状態、または開始日か終了日が無い場合はチャートは表示しない -->
         <% else %>

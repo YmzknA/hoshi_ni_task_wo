@@ -37,6 +37,13 @@ class MilestonesController < ApplicationController
       @chart_presenter = GanttChartPresenter.new([@milestone]) if @milestone.on_chart?
 
       @milestone_tasks = tasks_ransack_from_milestone(@milestone)
+
+      # 完了したタスク - 作成日の降順
+      @completed_tasks = @milestone_tasks.completed
+
+      # 未完了のタスク - 締切日の昇順（nilを最後に表示）、同じ締切日なら開始日の昇順
+      @not_completed_tasks = @milestone_tasks.not_completed
+
       @from_milestone_show = true
       @task = Task.new
     else
