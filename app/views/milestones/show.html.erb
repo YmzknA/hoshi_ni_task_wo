@@ -295,6 +295,7 @@
     <div class="flex w-full items-center justify-center mb-10">
       <div class="tabs tabs-lift w-xl">
 
+      <%# 星座が完了状態の場合は、タスクタブのみ表示 %>
       <% if @milestone.completed? %>
         <!-- タスク -->
         <input type="radio" name="my_tabs" class="tab" aria-label="タスク" checked="checked"/>
