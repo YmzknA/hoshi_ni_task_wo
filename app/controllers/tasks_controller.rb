@@ -92,10 +92,11 @@ class TasksController < ApplicationController
 
     @tasks = if @milestone.present? && (current_user?(@milestone.user) || @milestone.public?)
                # milsestone_idが指定されている場合
-               autocomplete_tasks_from_milestone(@milestone)
+               # progress = "not_completed" || "completed" || その他
+               autocomplete_tasks_from_milestone(@milestone, progress)
              elsif progress.present?
-               # progressが指定されている場合
-               # progress = "not_completed" || progressのenum値
+               # progressだけが指定されている場合
+               # progress = "not_completed" || その他
                ransack_by_title_with_progress(progress)
              else
                autocomplete_by_title("task")

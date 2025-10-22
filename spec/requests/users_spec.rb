@@ -5,7 +5,7 @@ RSpec.describe UsersController, type: :request do
   let!(:other_user) { create(:user, :with_oauth, email: "other@example.com", uid: "987654321") }
 
   before do
-    post user_session_path, params: { user: { email: user.email, password: user.password } }
+    sign_in user
   end
 
   describe "PATCH /users/:id/update_notification_time" do
@@ -51,9 +51,7 @@ RSpec.describe UsersController, type: :request do
     end
 
     context "ログインしていない場合" do
-      before do
-        delete destroy_user_session_path
-      end
+      before { sign_out user }
 
       it "ログインページにリダイレクトされる" do
         patch update_notification_time_user_path(user),

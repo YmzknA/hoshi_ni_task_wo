@@ -11,11 +11,7 @@ module SearchConcern
     @q = current_user.tasks.ransack(title_cont_any: [kana_query, reverse_kana_query])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
 
-    if progress == "not_completed"
-      @q.result(distinct: true).not_completed.includes(:milestone)
-    else
-      @q.result(distinct: true).completed.includes(:milestone)
-    end
+    filter_tasks_by_progress(@q.result(distinct: true), progress)
   end
 
   def tasks_ransack_from_milestone(milestone)
@@ -24,14 +20,15 @@ module SearchConcern
     @q.result(distinct: true).includes(:user)
   end
 
-  def autocomplete_tasks_from_milestone(milestone)
+  def autocomplete_tasks_from_milestone(milestone, progress)
     query = params[:q]
     kana_query = normalize_kana(query)
     reverse_kana_query = reverse_normalize_kana(query)
 
     @q = milestone.tasks.ransack(title_cont_any: [kana_query, reverse_kana_query])
     @q.sorts = ["start_date asc", "end_date asc"] if @q.sorts.empty?
-    @q.result(distinct: true).includes(:milestone)
+
+    filter_tasks_by_progress(@q.result(distinct: true), progress)
   end
 
   # オートコンプリート検索用(平仮名・カタカナのfuzzy検索)
@@ -71,6 +68,17 @@ module SearchConcern
       @q.result(distinct: true).includes(:tasks)
     else
       @q.result(distinct: true).includes(:milestone)
+    end
+  end
+
+  def filter_tasks_by_progress(result, progress)
+    case progress.presence
+    when "not_completed"
+      result.not_completed.includes(:milestone)
+    when "completed"
+      result.completed.includes(:milestone)
+    else
+      result.includes(:milestone)
     end
   end
 end
