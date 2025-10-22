@@ -4,7 +4,7 @@ RSpec.describe "Constellations", type: :request do
   let(:user) { create(:user) }
 
   before do
-    post user_session_path, params: { user: { email: user.email, password: user.password } }
+    sign_in user
   end
 
   describe "GET /constellations" do
@@ -55,7 +55,7 @@ RSpec.describe "Constellations", type: :request do
     end
 
     context "未ログインの場合" do
-      before { delete destroy_user_session_path }
+      before { sign_out user }
 
       it "ログインページにリダイレクトされる" do
         get constellations_path
@@ -98,7 +98,7 @@ RSpec.describe "Constellations", type: :request do
     end
 
     context "未ログインの場合" do
-      before { delete destroy_user_session_path }
+      before { sign_out user }
 
       it "ログインページにリダイレクトされる" do
         get constellation_path(constellation)
