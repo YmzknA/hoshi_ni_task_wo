@@ -24,7 +24,10 @@ class TaskMilestoneAssignmentsController < ApplicationController
 
     if success_flag
       @chart_presenter = GanttChartPresenter.new([@milestone]) if @milestone.on_chart?
-      @milestone_tasks = tasks_ransack_from_milestone(@milestone)
+      milestone_tasks = tasks_ransack_from_milestone(@milestone)
+
+      @not_completed_tasks = milestone_tasks.not_completed
+      @completed_tasks = milestone_tasks.completed
 
       flash.now[:notice] = "星座のタスクを更新しました"
     else
