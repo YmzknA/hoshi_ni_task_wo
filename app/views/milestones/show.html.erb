@@ -30,7 +30,7 @@
           <% unless @milestone.completed_comment.blank? %>
             <p class="card-title h-5 pl-2 text-primary">完成コメント</p>
             <div class="flex min-h-[100px] w-full items-center justify-center rounded-xl bg-primary p-3">
-              <%= @milestone.completed_comment %>
+              <%= @milestone.completed_comment %>mileshow
             </div>
           <% end %>
         </div>
@@ -314,7 +314,7 @@
         </div>
       <% else %>
         <!-- not completed -->
-        <input type="radio" name="my_tabs" class="tab" aria-label="未完了" checked="checked"/>
+        <input type="radio" name="my_tabs" class="tab w-1/6" aria-label="未完了" checked="checked"/>
         <div class="tab-content bg-base-100 p-3">
 
           <!-- ソートの切り替えセレクト -->
