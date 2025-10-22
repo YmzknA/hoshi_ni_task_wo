@@ -307,19 +307,10 @@
             <%= render "search_or_sort_select", q: @q, path: milestone_path(@milestone), _milestone_id: @milestone.id, _progress: "all" %>
           </div>
 
-          <% if !milestone_completed && current_user?(@milestone.user) %>
-            <%= render "milestones/task_milestone_assignments_button" %>
-            <!-- タスク新規作成ボタン -->
-            <%= render "tasks/add_task_button", milestone: @milestone %>
-            <!-- ボタンの移動を通知 -->
-            <%= render "add_button_notification" %>
-          <% end %>
-
           <!-- タスク一覧 -->
           <%= turbo_frame_tag "search_sort_content_frame" do %>
             <%= render "tasks/tasks", tasks: @milestone_tasks %>
           <% end %>
-
         </div>
       <% else %>
         <!-- not completed -->
@@ -332,6 +323,7 @@
           </div>
 
           <% if !milestone_completed && current_user?(@milestone.user) %>
+            <!-- タスクの一括割り当てボタン -->
             <%= render "milestones/task_milestone_assignments_button" %>
             <!-- タスク新規作成ボタン -->
             <%= render "tasks/add_task_button", milestone: @milestone %>
