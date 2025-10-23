@@ -7,6 +7,7 @@ FactoryBot.define do
     bio { Faker::Lorem.paragraph }
     is_guest { false }
     is_notifications_enabled { false }
+    notification_time { 9 }
     provider { nil }
     uid { nil }
 

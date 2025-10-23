@@ -12,6 +12,7 @@ RSpec.describe User, type: :model do
       it { should validate_presence_of(:name).with_message("が入力されていません。") }
       it { should validate_presence_of(:email).with_message("が入力されていません。") }
       it { should validate_presence_of(:password).with_message("が入力されていません。") }
+      it { should validate_presence_of(:notification_time) }
     end
 
     describe "length validations" do
@@ -22,6 +23,10 @@ RSpec.describe User, type: :model do
 
     describe "uniqueness validations" do
       it { should validate_uniqueness_of(:email).case_insensitive.with_message("は既に使用されています。") }
+    end
+
+    describe "inclusion validations" do
+      it { should validate_inclusion_of(:notification_time).in_range(0..23) }
     end
 
     describe "confirmation validation" do
@@ -165,6 +170,53 @@ RSpec.describe User, type: :model do
       it "providerがnilの場合falseを返すこと" do
         user.provider = nil
         expect(user.uid_required?).to be false
+      end
+    end
+
+    describe "#completed_tasks_hidden?" do
+      it "is_hide_completed_tasksがtrueの場合trueを返すこと" do
+        user.is_hide_completed_tasks = true
+        expect(user.completed_tasks_hidden?).to be true
+      end
+
+      it "is_hide_completed_tasksがfalseの場合falseを返すこと" do
+        user.is_hide_completed_tasks = false
+        expect(user.completed_tasks_hidden?).to be false
+      end
+
+      it "is_hide_completed_tasksがnilの場合falseを返すこと" do
+        user.is_hide_completed_tasks = nil
+        expect(user.completed_tasks_hidden?).to be false
+      end
+
+      describe "#set_values" do
+        let(:omniauth_hash) do
+          {
+            "provider" => "line",
+            "uid" => "123456789",
+            "credentials" => {
+              "refresh_token" => "refresh_token_value",
+              "secret" => "secret_value"
+            },
+            "info" => {
+              "name" => "Test User"
+            }
+          }
+        end
+
+        it "providerとuidが一致する場合、値を設定すること" do
+          expect(oauth_user.set_values(omniauth_hash)).to be_truthy
+        end
+
+        it "providerが一致しない場合、早期returnすること" do
+          omniauth_hash["provider"] = "google"
+          expect(oauth_user.set_values(omniauth_hash)).to be_nil
+        end
+
+        it "uidが一致しない場合、早期returnすること" do
+          omniauth_hash["uid"] = "different_uid"
+          expect(oauth_user.set_values(omniauth_hash)).to be_nil
+        end
       end
     end
   end

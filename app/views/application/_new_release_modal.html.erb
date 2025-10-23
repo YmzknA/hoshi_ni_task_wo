@@ -1,17 +1,17 @@
 <%# 通知を出す期間を設定する %>
-<% if Date.today <= Date.new(2025, 6, 30) %>
+<% if Date.today <= Date.new(2025, 7, 31) %>
   <div data-controller="modal">
     <dialog id="new_release_modal" data-modal-target="to_not_blur" class="modal">
 
       <div class="modal-box w-lg max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-0 bg-transparent">
         <div class="flex items-center justify-center">
-          <div class="card z-10 h-2xl w-full bg-base-300 p-5">
+          <div class="glasscard card z-10 h-2xl w-full p-5">
             <div class="card-body">
               <h1 class="card-title text-lg md:text-xl">
                 <span class="material-symbols-outlined">
                   celebration
                 </span>
-                新しいリリース
+                7月の新しいリリース🍉
               </h1>
               <p class="text-sm md:text-base">新機能を追加しました！</p>
             </div>
@@ -21,25 +21,31 @@
                 <div>
                   <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
                 </div>
-                <span class="ml-2 text-sm md:text-base">タスク追加ボタン、星座追加ボタンを右下に移動</span>
+                <span class="ml-2 text-sm md:text-base">88星座図鑑機能</span>
               </div>
               <div class="flex items-center">
                 <div>
                   <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
                 </div>
-                <span class="ml-2 text-sm md:text-base">星座詳細画面からタスクを一括紐づけする機能</span>
+                <span class="ml-2 text-sm md:text-base">完了済みタスクをチャートから非表示にする機能</span>
               </div>
               <div class="flex items-center">
                 <div>
                   <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
                 </div>
-                <span class="ml-2 text-sm md:text-base">ログイン状態を維持する機能</span>
+                <span class="ml-2 text-sm md:text-base">モーダル周りの背景色を少し透過して圧迫感減少</span>
               </div>
               <div class="flex items-center">
                 <div>
                   <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
                 </div>
-                <span class="ml-2 text-sm md:text-base">スクロールで、メニューバーと追加ボタンを表示 / 非表示</span>
+                <span class="ml-2 text-sm md:text-base">毎日のLINE通知時間が選べるようになりました</span>
+              </div>
+              <div class="flex items-center">
+                <div>
+                  <%= render "star_icon", color: "#DEC4A4", width: 20, height: 20 %>
+                </div>
+                <span class="ml-2 text-sm md:text-base">スクロールで、メニューバーと追加ボタンを表示 / 非表示 する機能を削除しました</span>
               </div>
 
               <div class="flex items-center">
@@ -47,6 +53,15 @@
                   build
                 </span>
                 <span class="ml-2 text-sm md:text-base">その他、バグを一部修正しました</span>
+              </div>
+
+              <div class="divider divider-primary w-full my-0"></div>
+
+              <div class="flex items-center">
+                <span class="material-symbols-outlined text-primary">
+                  bug_report
+                </span>
+                <span class="ml-2 text-sm md:text-base">現在、一部でLINE通知が届かない不具合が発生しています。<br>原因を調査中のため、復旧まで今しばらくお待ちください。</span>
               </div>
             </div>
 

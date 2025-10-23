@@ -33,6 +33,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
@@ -44,7 +45,10 @@
 
 /.simplecov
 
-/pr_template.md
 
 /CLAUDE.md
 /PROJECT_OVERVIEW.md
+pr_message.md
+/work_log
+/.claude
+

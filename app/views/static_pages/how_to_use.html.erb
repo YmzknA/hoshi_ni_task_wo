@@ -1,0 +1,553 @@
+<%= render "flash" %>
+<%= render 'title_header' %>
+
+<div class="flex min-h-screen lg:p-8 z-10 relative" data-controller="how-to-use">
+  <%= render 'how_to_use_sidebar' %>
+
+  <%= render 'how_to_use_mobile_drawer' %>
+
+  <!-- メインコンテンツ -->
+  <main class="w-full lg:ml-80">
+
+    <!-- コンテンツセクション -->
+    <div class="max-w-4xl mx-auto px-4 lg:px-6 lg:pb-12 space-y-12 lg:space-y-16">
+
+      <!-- セクション1: 基本概念 -->
+      <section id="basic-concept" class="scroll-mt-20" data-how-to-use-target="section">
+        <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-200 intersect:opacity-100">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">1</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">基本概念</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            「星にタスクを」は、タスクを「星」それをまとめる大タスクを「星座」として表現するタスク管理アプリです。
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-6 lg:mb-8">
+            <div class="p-4 lg:p-6 text-center">
+              <div class="w-12 h-12 lg:w-16 lg:h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4">
+                <%= render "star_icon", height: 20, width: 20 %>
+              </div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-2 lg:mb-3">タスク</h3>
+              <p class="text-sm text-base-content leading-relaxed">タスクを「星」と捉えます。一つ一つが輝いて、大きな星座を作り上げます。</p>
+            </div>
+
+            <div class="p-4 lg:p-6 text-center">
+              <div class="w-12 h-12 lg:w-16 lg:h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4">
+                <%= render "stars_icon" %>
+              </div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-2 lg:mb-3">星座</h3>
+              <p class="text-sm text-base-content leading-relaxed">関連するタスクをまとめた大きな目標。プロジェクト全体を表現します。</p>
+            </div>
+
+            <div class="p-4 lg:p-6 text-center sm:col-span-2 lg:col-span-1">
+              <div class="w-12 h-12 lg:w-16 lg:h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4">
+                <span class="material-symbols-outlined text-base-200 text-xl lg:text-2xl">stacked_bar_chart</span>
+              </div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-2 lg:mb-3">縦型ガントチャート</h3>
+              <p class="text-sm text-base-content leading-relaxed">タスクと星座の進捗や期間を視覚的に表示する、スマホでも見やすい縦型のガントチャート。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション2: タスク管理 -->
+      <section id="task-management" class="scroll-mt-20" data-how-to-use-target="section">
+        <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-300 intersect:opacity-100">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">2</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">タスク管理</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            直感的な操作で、効率的なタスク管理を実現します。
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">タスクの作成</h3>
+              <ol class="space-y-3">
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">1</span>
+                  <span class="text-sm lg:text-base text-base-content">タスク一覧ページ右下の<span class="inline-block mx-1"><%= render "star_icon", height: 14, width: 14 %></span>ボタンをクリック</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">2</span>
+                  <span class="text-sm lg:text-base text-base-content">紐づけたい星座を選択（任意）</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">3</span>
+                  <span class="text-sm lg:text-base text-base-content">タイトル（必須）と説明（任意）を入力</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">4</span>
+                  <div class="text-sm lg:text-base text-base-content">
+                    開始日・終了日を設定<br>
+                    （任意）<br>
+                    （星座に紐づける場合はどちらか必須で星座の日付範囲内に収まるように。）
+                  </div>
+                </li>
+             </ol>
+            </div>
+
+            <div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">進捗管理</h3>
+              <div class="grid grid-cols-3 gap-2 lg:gap-4 mb-4 max-w-md mx-auto">
+                <div class="text-center">
+                  <div class="bg-base-200 flex aspect-square flex-col items-center text-center justify-center rounded-xl mb-2 w-20 h-20 mx-auto">
+                    <div class="text-xs text-base-100 whitespace-nowrap">
+                      <%= render "tasks/not_started_icon" %>
+                      未着手
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <div class="bg-base-200 flex aspect-square flex-col items-center text-center justify-center rounded-xl mb-2 w-20 h-20 mx-auto">
+                    <div class="text-xs text-base-100 whitespace-nowrap">
+                      <%= render "tasks/in_progress_icon" %>
+                      進行中
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <div class="bg-base-200 flex aspect-square flex-col items-center text-center justify-center rounded-xl mb-2 w-20 h-20 mx-auto">
+                    <div class="text-xs text-base-100 whitespace-nowrap">
+                      <%= render "tasks/completed_icon" %>
+                      完了
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs lg:text-sm text-base-content/70 text-center">一覧から進捗アイコンをクリックして進捗を更新できます</p>
+            </div>
+          </div>
+
+          <div class="divider my-8"></div>
+
+          <!-- タスク画面例 -->
+          <div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+              <div>
+                <h5 class="font-medium text-sm lg:text-base text-primary mb-3">タスク一覧</h5>
+                <label for="task-example-modal" class="cursor-pointer">
+                  <%= image_tag "tasks_index.png", 
+                      alt: "今日のタスク例画面のイメージ", 
+                      class: "w-full rounded-lg hover:scale-[1.02] transition-transform duration-200 border border-primary/20" %>
+                </label>
+              </div>
+              
+              <div>
+                <h5 class="font-medium text-sm lg:text-base text-primary mb-3">タスク作成画面</h5>
+                <label for="task-management-modal" class="cursor-pointer">
+                  <%= image_tag "task_new.png", 
+                      alt: "タスク作成画面のイメージ", 
+                      class: "w-full rounded-lg hover:scale-[1.02] transition-transform duration-200 border border-primary/20" %>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション3: 星座管理 -->
+      <section id="milestone-management" class="scroll-mt-20" data-how-to-use-target="section">
+        <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-400 intersect:opacity-100">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">3</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">星座管理</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            関連するタスクを星座としてまとめ、大きなプロジェクトの進捗を管理できます。<br class="hidden md:block">
+            完成時には88の星座からランダムに選ばれた星座が割り当てられます。
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">星座の作成</h3>
+              <ol class="space-y-3">
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">1</span>
+                  <span class="text-sm lg:text-base text-base-content">星座一覧ページ右下の<span class="inline-block mx-1"><%= render "stars_icon", height: 18, width: 18 %></span>ボタンをクリック</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">2</span>
+                  <span class="text-sm lg:text-base text-base-content">色を選択してカスタマイズ</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">3</span>
+                  <span class="text-sm lg:text-base text-base-content">タイトル（必須）と説明（任意）を入力</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-primary text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">4</span>
+                  <div class="text-sm lg:text-base text-base-content">
+                    開始日・終了日を設定<br>
+                    （任意）<br>
+                    （チャートに表示する場合は両方必須）
+                  </div>
+                </li>
+              </ol>
+            </div>
+
+            <div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">星座完成</h3>
+              <div class="flex justify-center items-center mb-4">
+                <div class="relative">
+                  <div class="size-20 bg-base-200 flex flex-col justify-center items-center rounded-xl">
+                    <div class="flex items-center justify-center">
+                      <%= render "milestones/complete_stars_icon", width: 40, height: 40, color: "#DEC4A4" %>
+                    </div>
+                    <div class="text-xs text-base-100 whitespace-nowrap">
+                      完成
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs lg:text-sm text-base-content/70 mb-2">全てのタスクが完了すると星座完成ボタンが表示されます</p>
+              <p class="text-xs lg:text-sm text-base-content/70 mb-2">完了時には88星座からランダムに割り当てられます</p>
+              <p class="text-xs lg:text-sm text-base-content/70 mb-2">メニュー内の星座図鑑から取得済みの星座が確認できます</p>
+            </div>
+          </div>
+
+          <div class="divider my-8"></div>
+
+          <!-- 星座画面例 -->
+          <div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+              <div>
+                <h5 class="font-medium text-sm lg:text-base text-primary mb-3">星座一覧画面</h5>
+                <label for="milestone-list-modal" class="cursor-pointer">
+                  <%= image_tag "milestones_index.png", 
+                      alt: "星座一覧画面のイメージ", 
+                      class: "w-full rounded-lg hover:scale-[1.02] transition-transform duration-200 border border-primary/20" %>
+                </label>
+              </div>
+              
+              <div>
+                <h5 class="font-medium text-sm lg:text-base text-primary mb-3">星座作成画面</h5>
+                <label for="milestone-create-modal" class="cursor-pointer">
+                  <%= image_tag "milestone_new.png", 
+                      alt: "星座作成画面のイメージ", 
+                      class: "w-full rounded-lg hover:scale-[1.02] transition-transform duration-200 border border-primary/20" %>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション4: ガントチャート -->
+      <section id="gantt-chart" class="scroll-mt-20" data-how-to-use-target="section">
+        <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-500 intersect:opacity-100">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">4</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">ガントチャート</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            縦型のガントチャートで、タスクと星座の進捗を視覚化。<br class="hidden md:block">
+            モバイルでも見やすいレイアウトで、いつでもどこでも進捗確認が可能です。
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4">特徴</h3>
+              <div class="space-y-4">
+                <div class="flex items-start space-x-3">
+                  <span class="material-symbols-outlined text-primary mt-1">phone_iphone</span>
+                  <div>
+                    <h4 class="font-medium lg:font-semibold text-sm lg:text-base text-primary">モバイル最適化</h4>
+                    <p class="text-xs lg:text-sm text-base-content">縦型レイアウトでスマートフォンでも見やすい</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <span class="material-symbols-outlined text-accent mt-1">palette</span>
+                  <div>
+                    <h4 class="font-semibold text-sm lg:text-base text-primary">色分け表示</h4>
+                    <p class="text-sm text-base-content">星座に設定した色で表示</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <span class="material-symbols-outlined text-success mt-1">timeline</span>
+                  <div>
+                    <h4 class="font-semibold text-sm lg:text-base text-primary">期間表示</h4>
+                    <p class="text-sm text-base-content">タスクと星座の期間を視覚的に確認</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 画像プレースホルダー -->
+            <div>
+              <h5 class="font-medium text-sm lg:text-base text-primary mb-3">ガントチャート画面</h5>
+              <label for="gantt-chart-modal" class="cursor-pointer">
+                <%= image_tag "chart.png", 
+                    alt: "ガントチャート画面のイメージ", 
+                    class: "w-full rounded-lg hover:scale-[1.02] transition-transform duration-200 border border-primary/20" %>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション5: LINE連携 -->
+      <section id="line-integration" class="scroll-mt-20" data-how-to-use-target="section">
+        <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-600 intersect:opacity-100">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">5</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">LINE連携</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            LINEと連携することで、タスクの提示通知や、チャットでタスク確認が可能になります。<br class="hidden md:block">
+            日常の中でスムーズにタスクを確認できます。
+          </p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <div class="space-y-6 lg:space-y-8">
+              <div>
+                <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4 flex items-center space-x-2">
+                  <span class="material-symbols-outlined text-xl lg:text-2xl">notifications</span>
+                  <span>通知機能</span>
+                </h3>
+                <ul class="space-y-3">
+                  <li class="flex items-start space-x-3">
+                    <span class="w-2 h-2 bg-success rounded-full mt-2 flex-shrink-0"></span>
+                    <span class="text-sm lg:text-base text-base-content">毎日指定した時間に、期限が近いタスクをLINEで通知</span>
+                  </li>
+                  <li class="flex items-start space-x-3">
+                    <span class="w-2 h-2 bg-success rounded-full mt-2 flex-shrink-0"></span>
+                    <span class="text-sm lg:text-base text-base-content">開始日3日以内のタスク・星座をお知らせ</span>
+                  </li>
+                  <li class="flex items-start space-x-3">
+                    <span class="w-2 h-2 bg-success rounded-full mt-2 flex-shrink-0"></span>
+                    <span class="text-sm lg:text-base text-base-content">終了日前後3日以内のタスク・星座をお知らせ</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="divider"></div>
+
+              <div>
+                <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4 flex items-center space-x-2">
+                  <span class="material-symbols-outlined text-xl lg:text-2xl">chat</span>
+                  <span>チャット操作例</span>
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div class="space-y-2">
+                    <div class="bg-primary/20 px-3 py-2 rounded-lg text-sm text-center">「タスク確認」</div>
+                    <p class="text-xs text-base-content/70 text-center">タスク一覧を表示</p>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="bg-primary/20 px-3 py-2 rounded-lg text-sm text-center">「星座確認」</div>
+                    <p class="text-xs text-base-content/70 text-center">未完了の星座一覧を表示</p>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="bg-primary/20 px-3 py-2 rounded-lg text-sm text-center">「検索」</div>
+                    <p class="text-xs text-base-content/70 text-center">キーワードでタイトルから曖昧検索</p>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="bg-primary/20 px-3 py-2 rounded-lg text-sm text-center">「日付変更」</div>
+                    <p class="text-xs text-base-content/70 text-center">タスクの開始日・終了日の編集</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- LINE画像 -->
+            <div class="flex justify-center lg:justify-end">
+              <label for="line-integration-modal" class="cursor-pointer">
+                <%= image_tag "LINE_chat.png", 
+                    alt: "LINE通知画面のイメージ", 
+                    class: "w-full max-w-sm rounded-lg hover:scale-[1.02] transition-transform duration-200 border border-primary/20" %>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- セクション6: 共有機能 -->
+      <section id="sharing" class="scroll-mt-20" data-how-to-use-target="section">
+        <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-700 intersect:opacity-100">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">6</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">限定公開機能</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            星座は、特別なURLを使って他の人と共有できます。<br class="hidden md:block">
+            URLはユーザー登録していなくても閲覧できるので、誰にでも現在の状況について共有することができます。
+          </p>
+
+            <div>
+              <h3 class="text-lg lg:text-xl font-semibold text-primary mb-3 lg:mb-4 flex items-center space-x-2">
+                <span class="material-symbols-outlined text-xl lg:text-2xl">link</span>
+                <span>共有の手順</span>
+              </h3>
+              <ol class="space-y-3">
+                <li class="flex items-start space-x-3">
+                  <span class="w-5 h-5 lg:w-6 lg:h-6 bg-accent text-neutral rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">1</span>
+                  <span class="text-sm lg:text-base text-base-content">星座詳細ページから「限定公開」ボタンをクリック</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-6 h-6 bg-accent text-neutral rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">2</span>
+                  <span class="text-sm lg:text-base text-base-content">生成された限定公開星座のURLをコピーして共有</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-6 h-6 bg-accent text-neutral rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">3</span>
+                  <span class="text-sm lg:text-base text-base-content">共有URLは期限なく公開されます</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="w-6 h-6 bg-accent text-neutral rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">4</span>
+                  <span class="text-sm lg:text-base text-base-content">共有を止めたい場合は「共有を取り消し」ボタンを押してください</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+      </section>
+
+      <!-- セクション7: 使い方のヒント -->
+      <section id="tips" class="scroll-mt-20" data-how-to-use-target="section">
+        <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-800 intersect:opacity-100">
+          <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 lg:mb-8">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary text-neutral rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">7</div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-primary zen-old-mincho-regular">使い方のヒント</h2>
+          </div>
+
+          <p class="text-base lg:text-lg text-base-content leading-relaxed mb-6 lg:mb-8">
+            効果的にアプリを活用するためのコツをご紹介します
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <div class="p-6">
+              <div class="w-12 h-12 bg-info/80 rounded-full flex items-center justify-center mb-4">
+                <%= render "stars_icon", height: 20, width: 20 %>
+              </div>
+              <h3 class="font-semibold text-primary mb-3">星座でまとめる</h3>
+              <p class="text-sm text-base-content">関連するタスクは星座にまとめることで、大きな目標の進捗を把握しやすくなります。</p>
+            </div>
+
+            <div class="p-6">
+              <div class="w-12 h-12 bg-success/20 rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-success text-2xl">smartphone</span>
+              </div>
+              <h3 class="font-semibold text-primary mb-3">LINE連携活用</h3>
+              <p class="text-sm text-base-content">LINE連携を活用すると、期限を忘れずにタスクを管理できます。</p>
+            </div>
+
+            <div class="p-6">
+              <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-accent text-2xl">celebration</span>
+              </div>
+              <h3 class="font-semibold text-primary mb-3">達成感を共有</h3>
+              <p class="text-sm text-base-content">完成した星座は記念として共有すると、達成感を他の人と共有できます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA セクション -->
+      <section class="text-center mb-20 lg:mb-0">
+        <div class="rounded-xl bg-gradient-to-b from-base-300 via-base-300 via-90% to-base-300/0 p-8 mb-20 opacity-0 transition intersect-once intersect:animate-fade-in intersect:motion-delay-900 intersect:opacity-100">
+          <p class="text-lg lg:text-xl text-base-content mb-8 lg:mb-10 max-w-2xl mx-auto">
+          さっそく、あなたのタスクを<br class="block md:hidden">
+          星座に変えてみませんか？
+          </p>
+          <div class="space-y-4">
+            <%= render 'auth_buttons' %>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<%= render 'application/menu_bar' %>
+
+
+<!-- 画像モーダル -->
+<!-- 基本概念モーダル -->
+<input type="checkbox" id="basic-concept-modal" class="modal-toggle" />
+<div class="modal" role="dialog">
+  <div class="modal-box max-w-fit w-auto glasscard">
+    <label for="basic-concept-modal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+    <div class="py-4 flex items-center justify-center">
+      <%= image_tag "tasks_index.png", alt: "タスク一覧画面のイメージ", class: "max-w-[90vw] max-h-[80vh] object-contain rounded-lg" %>
+    </div>
+  </div>
+  <label class="modal-backdrop" for="basic-concept-modal">Close</label>
+</div>
+
+<!-- タスク管理モーダル -->
+<input type="checkbox" id="task-management-modal" class="modal-toggle" />
+<div class="modal" role="dialog">
+  <div class="modal-box max-w-fit w-auto glasscard">
+    <label for="task-management-modal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+    <div class="py-4 flex items-center justify-center">
+      <%= image_tag "task_new.png", alt: "タスク作成画面のイメージ", class: "max-w-full max-h-[80vh] object-contain rounded-lg" %>
+    </div>
+  </div>
+  <label class="modal-backdrop" for="task-management-modal">Close</label>
+</div>
+
+<!-- 星座一覧モーダル -->
+<input type="checkbox" id="milestone-list-modal" class="modal-toggle" />
+<div class="modal" role="dialog">
+  <div class="modal-box max-w-fit w-auto glasscard">
+    <label for="milestone-list-modal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+    <div class="py-4 flex items-center justify-center">
+      <%= image_tag "milestones_index.png", alt: "星座一覧画面のイメージ", class: "max-w-full max-h-[80vh] object-contain rounded-lg" %>
+    </div>
+  </div>
+  <label class="modal-backdrop" for="milestone-list-modal">Close</label>
+</div>
+
+<!-- 星座作成モーダル -->
+<input type="checkbox" id="milestone-create-modal" class="modal-toggle" />
+<div class="modal" role="dialog">
+  <div class="modal-box max-w-fit w-auto glasscard">
+    <label for="milestone-create-modal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+    <div class="py-4 flex items-center justify-center">
+      <%= image_tag "milestone_new.png", alt: "星座作成画面のイメージ", class: "max-w-full max-h-[80vh] object-contain rounded-lg" %>
+    </div>
+  </div>
+  <label class="modal-backdrop" for="milestone-create-modal">Close</label>
+</div>
+
+<!-- ガントチャートモーダル -->
+<input type="checkbox" id="gantt-chart-modal" class="modal-toggle" />
+<div class="modal" role="dialog">
+  <div class="modal-box max-w-fit w-auto glasscard">
+    <label for="gantt-chart-modal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+    <div class="py-4 flex items-center justify-center">
+      <%= image_tag "chart.png", alt: "ガントチャート画面のイメージ", class: "max-w-full max-h-[80vh] object-contain rounded-lg" %>
+    </div>
+  </div>
+  <label class="modal-backdrop" for="gantt-chart-modal">Close</label>
+</div>
+
+<!-- タスク例モーダル -->
+<input type="checkbox" id="task-example-modal" class="modal-toggle" />
+<div class="modal" role="dialog">
+  <div class="modal-box max-w-fit w-auto glasscard">
+    <label for="task-example-modal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+    <div class="py-4 flex items-center justify-center">
+      <%= image_tag "tasks_index.png", alt: "今日のタスク例画面のイメージ", class: "max-w-[90vw] max-h-[80vh] object-contain rounded-lg" %>
+    </div>
+  </div>
+  <label class="modal-backdrop" for="task-example-modal">Close</label>
+</div>
+
+<!-- LINE連携モーダル -->
+<input type="checkbox" id="line-integration-modal" class="modal-toggle" />
+<div class="modal" role="dialog">
+  <div class="modal-box max-w-fit w-auto glasscard">
+    <label for="line-integration-modal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+    <div class="py-4 flex items-center justify-center">
+      <%= image_tag "LINE_chat.png", alt: "LINE通知画面のイメージ", class: "max-w-full max-h-[80vh] object-contain rounded-lg" %>
+    </div>
+  </div>
+  <label class="modal-backdrop" for="line-integration-modal">Close</label>
+</div>
+

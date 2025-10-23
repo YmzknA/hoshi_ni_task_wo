@@ -30,9 +30,16 @@
 
   <%= turbo_stream.replace "search_sort_content_frame" do %>
     <%= turbo_frame_tag "search_sort_content_frame" do %>
-      <%= render "tasks/tasks", tasks: @milestone_tasks %>
+      <%= render "tasks/tasks", tasks: @not_completed_tasks %>
     <% end %>
   <% end %>
+
+  <%= turbo_stream.replace "secondary_search_sort_content_frame" do %>
+    <%= turbo_frame_tag "secondary_search_sort_content_frame" do %>
+      <%= render "tasks/tasks", tasks: @completed_tasks %>
+    <% end %>
+  <% end %>
+
 
 
   <% if @milestone.on_chart? %>

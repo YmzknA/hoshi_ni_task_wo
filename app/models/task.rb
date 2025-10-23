@@ -7,13 +7,13 @@ class Task < ApplicationRecord
 
   validate :start_date_check
   validate :end_date_check
-  # milestoneがis_on_chartがtrueの場合、マイルストーンの開始日と終了日はタスクの開始日と終了日の中でなければならない
+  # milestoneがis_on_chartがtrueの場合、星座の開始日と終了日はタスクの開始日と終了日の中でなければならない
   validate :milestone_start_date_check
   validate :milestone_end_date_check
 
   validates :progress, presence: true
 
-  enum progress: [:not_started, :in_progress, :completed]
+  enum :progress, [:not_started, :in_progress, :completed]
 
   # ######################################
   # スコープ

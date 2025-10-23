@@ -96,7 +96,7 @@
             <!-- LINE通知のON/OFF -->
             <div id="notifications_enabled" class="mb-8 flex items-center justify-center">
               <%= form_with model: @user, url: toggle_notifications_user_path(@user), method: :patch, local: false, class: "flex items-center justify-center" do |f| %>
-                <%= f.label :is_notifications_enabled, "朝のLINE通知を受け取る：", class: "cursor-pointer mr-2 text-sm md:text-lg" %>
+                <%= f.label :is_notifications_enabled, "毎日のLINE通知を受け取る：", class: "cursor-pointer mr-2 text-sm md:text-lg" %>
                 <%= f.check_box :is_notifications_enabled, class: "toggle toggle-md md:toggle-xl bg-base-300 checked:bg-primary checked:text-accent checked:border-primary", onchange: "this.form.requestSubmit()" %>
               <% end %>
 
@@ -108,11 +108,11 @@
                 </div>
                 <div
                   tabindex="0"
-                  class="card dropdown-content bg-base-100 rounded-box z-1 w-70 mr-18 md:mr-0 shadow-xl border-1">
+                  class="glasscard card dropdown-content rounded-box z-1 w-70 mr-18 md:mr-0 shadow-xl border-1">
                   <div tabindex="0" class="card-body text-sm px-1">
                     <div class="text-center">
-                      <p class="mb-2">朝のお知らせを切り替えます</p>
-                      <p>通知は毎朝 9時に送信されます</p>
+                      <p class="mb-2">お知らせを切り替えます</p>
+                      <p>通知時間は設定画面で変更できます</p>
                     </div>
 
                     <div class="divider"></div>
@@ -145,7 +145,7 @@
               </div>
               <div
                 tabindex="0"
-                class="dropdown-content card card-sm bg-base-100 z-1 w-[95vw] max-w-120 shadow-md">
+                class="glasscard dropdown-content card card-sm z-1 w-[95vw] max-w-120 shadow-md">
                 <div class="card-body p-3">
                   <div class="flex justify-center items-center">
 

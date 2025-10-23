@@ -7,7 +7,7 @@ FactoryBot.define do
     is_on_chart { Faker::Boolean.boolean }
     is_open { Faker::Boolean.boolean }
     start_date { Faker::Date.between(from: 1.year.ago, to: Date.today) }
-    end_date { Faker::Date.between(from: Date.today, to: 1.year.from_now) }
+    end_date { start_date + rand(1..365).days }
     # progressが2の場合はcompleted commentが必須
     completed_comment { Faker::Lorem.sentence(word_count: 5) if progress == 2 }
     color { "#FFDF5E" }
@@ -26,6 +26,16 @@ FactoryBot.define do
       after(:create) do |milestone, evaluator|
         create_list(:task, evaluator.tasks_count, milestone: milestone)
       end
+    end
+
+    trait :on_chart do
+      is_on_chart { true }
+      start_date { Date.today - 30.days }
+      end_date { Date.today + 30.days }
+    end
+
+    trait :not_on_chart do
+      is_on_chart { false }
     end
   end
 end

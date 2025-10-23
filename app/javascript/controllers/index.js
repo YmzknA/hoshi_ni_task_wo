@@ -13,6 +13,9 @@ application.register("form", FormController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import HowToUseController from "./how_to_use_controller"
+application.register("how-to-use", HowToUseController)
+
 import LoadingCloseController from "./loading_close_controller"
 application.register("loading-close", LoadingCloseController)
 

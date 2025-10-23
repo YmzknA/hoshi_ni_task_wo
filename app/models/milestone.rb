@@ -11,7 +11,7 @@ class Milestone < ApplicationRecord
   # 日付関連のバリデーション
   validate :start_date_check # 開始日が終了日より前の日付を設定する
   validate :end_date_check # 終了日が開始日より後の日付を設定する
-  # タスクの日付がマイルストーンの日付内に収まるかチェック
+  # タスクの日付が星座の日付内に収まるかチェック
   validate :tasks_date_check, if: -> { start_date.present? && end_date.present? && is_on_chart }
   validate :tasks_require_date, if: -> { is_on_chart }
   validate :on_chart_date_check, if: -> { is_on_chart }
@@ -29,7 +29,7 @@ class Milestone < ApplicationRecord
   # :not_started = 0
   # :in_progress = 1
   # :completed = 2
-  enum progress: [:not_started, :in_progress, :completed]
+  enum :progress, [:not_started, :in_progress, :completed]
 
   # ######################################
   # スコープ
@@ -149,7 +149,7 @@ class Milestone < ApplicationRecord
     end
   end
 
-  # タスクの日付がマイルストーンの日付内に収まるかチェック
+  # タスクの日付が星座の日付内に収まるかチェック
   def tasks_date_check
     return unless tasks.any?
 

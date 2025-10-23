@@ -10,7 +10,7 @@ class LimitedSharingMilestone < ApplicationRecord
   validates :color, presence: true
   validates :user_id, presence: true
 
-  enum progress: [:not_started, :in_progress, :completed]
+  enum :progress, [:not_started, :in_progress, :completed]
 
   # ######################################
   # メソッド

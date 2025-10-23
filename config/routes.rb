@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
   resources :task_milestone_assignments, only: [:show, :update]
 
+  resources :constellations, only: [:index, :show]
+
   get "gantt_chart" => "gantt_chart#show", as: :gantt_chart
   get "gantt_chart_milestone/:id" => "gantt_chart#milestone_show", as: :gantt_chart_milestone_show
 
@@ -49,11 +51,13 @@ Rails.application.routes.draw do
   get "user_check" => "static_pages#user_check"
   get "privacy_policy" => "static_pages#privacy_policy"
   get "terms_of_service" => "static_pages#terms_of_service"
+  get "how_to_use" => "static_pages#how_to_use"
 
   resources :users, only: [:show] do
     member do
       patch "toggle_notifications" => "users#toggle_notifications"
       patch "toggle_hide_completed_tasks" => "users#toggle_hide_completed_tasks"
+      patch "update_notification_time" => "users#update_notification_time"
     end
   end
 
