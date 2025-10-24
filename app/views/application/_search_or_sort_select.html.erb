@@ -15,7 +15,7 @@
 %>
 
 <div class="flex justify-center h-10 items-center mt-2 mb-5">
-  <%= search_form_for @q, url: path, class: "w-[60%]", html: { data: { turbo_frame: "#{(defined? _frame_target) ? "#{_frame_target}_search_sort_content_frame" : "search_sort_content_frame"}", controller: "form", action: "input->form#submit change->form#submit submit->loading#show" } } do |f| %>
+  <%= search_form_for @q, url: path, class: "w-[60%]", html: { data: { turbo_frame: "#{(defined? _frame_target) ? "#{_frame_target}_search_sort_content_frame" : "search_sort_content_frame"}", controller: "form", action: "input->form#submit change->form#submit" } } do |f| %>
 
     <%# stimulus_autocompleteによるautocomplete %>
     <div data-controller="autocomplete" data-autocomplete-url-value="<%= autocomplete_path %>" role="combobox">
