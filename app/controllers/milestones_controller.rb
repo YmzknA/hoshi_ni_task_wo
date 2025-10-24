@@ -9,7 +9,7 @@ class MilestonesController < ApplicationController
 
   def index
     @user = current_user
-    user_milestones = ransack_by_title_and_description("milestone")
+    user_milestones = ransack_by_title_and_description("milestone").includes(:constellation)
     @milestone = Milestone.new
 
     @sharing_milestones = @user.limited_sharing_milestones&.order(created_at: :desc)
@@ -79,7 +79,7 @@ class MilestonesController < ApplicationController
     else
       # renderで/indexを表示するため、indexアクションと同様の処理
       @user = current_user
-      user_milestones = ransack_by_title_and_description("milestone")
+      user_milestones = ransack_by_title_and_description("milestone").includes(:constellation)
 
       @completed_milestones, @not_completed_milestones = user_milestones.partition(&:completed?)
       @sharing_milestones = @user.limited_sharing_milestones&.order(created_at: :desc)

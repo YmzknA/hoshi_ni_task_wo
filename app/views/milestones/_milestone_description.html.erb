@@ -1,0 +1,13 @@
+<p class="text-xs sm:text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
+<div class="text-left mt-2">
+  <% if milestone.description.present? %>
+    <% if milestone.tasks_completed? %>
+      <p class="text-sm"><%= milestone.description.truncate(10) %></p>
+    <% else %>
+      <p class="text-sm hidden sm:block"><%= milestone.description.truncate(30) %></p>
+      <p class="text-sm sm:hidden"><%= milestone.description.truncate(15) %></p>
+    <% end %>
+  <% else %>
+    <p class="text-lg">詳細はありません</p>
+  <% end %>
+</div>
