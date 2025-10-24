@@ -23,48 +23,44 @@
       </div>
     <% end %>
 
-  <div class="flex w-full items-center text-left">
-    <%= link_to milestone_path(milestone), class: "link_card pt-2 w-full h-20 px-1 rounded-b-xl group-hover:bg-base-300/30 group-active:bg-base-300/30", data: {turbo: false} do %>
-      <p class="text-xs sm:text-sm"><%= to_short_date(milestone&.start_date) %> ~ <%= to_short_date(milestone&.end_date) %></p>
+    <div class="flex w-full items-center text-left">
+      <% base_link_class = "link_card pt-2 w-full h-20 px-1 group-hover:bg-base-300/30 group-active:bg-base-300/30" %>
+      <% classes = base_link_class + (milestone.completed? ? " rounded-bl-xl" : " rounded-b-xl") %>
 
-      <!-- 詳細 -->
-      <div class="text-left mt-2">
-        <% if milestone.description.present? %>
-          <% if milestone.tasks_completed? %>
-            <p class="text-sm"><%= milestone.description.truncate(10) %></p>
-          <% else %>
-            <p class="text-sm hidden sm:block"><%= milestone.description.truncate(30) %></p>
-            <p class="text-sm sm:hidden"><%= milestone.description.truncate(15) %></p>
+      <%= link_to milestone_path(milestone),
+        class: classes,
+        data: {turbo: false} do %>
+        <%= render "milestones/milestone_description", milestone: milestone %>
+      <% end %>
+
+      <% if !milestone.completed? && milestone.completed_tasks_percentage == 100 && current_user?(milestone.user) %>
+        <!-- 完了ボタン -->
+        <div class="remove_hover_btn flex w-3/10 max-w-20 justify-end">
+          <%= link_to show_complete_page_milestone_path(milestone), data: { turbo_frame: "show_complete_page_modal" }, class: "btn btn-base-200 flex  w-full h-auto aspect-square flex-col items-center justify-center rounded-xl" do %>
+            <%= render "milestones/complete_stars_icon", color: milestone.color %>
+            <div class="text-xs text-base-100 whitespace-nowrap">
+              完成する
+            </div>
           <% end %>
-        <% else %>
-          <p class="text-lg">詳細はありません</p>
-        <% end %>
-      </div>
+        </div>
+      <% elsif milestone.completed? %>
+        <!-- 星座画像 -->
+        <div class="max-size-20 flex">
+          <%= link_to milestone_path(milestone), class: "link_card max-size-20 group-hover:bg-base-300/30 group-active:bg-base-300/30 rounded-br-xl", data: {turbo: false} do %>
+            <%= image_tag "#{milestone.constellation.image_name}.webp", class: "max-w-20 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+          <% end %>
+        </div>
+      <% end %>
 
-    <% end %>
-
-    <% if !milestone.completed? && milestone.completed_tasks_percentage == 100 && current_user?(milestone.user) %>
-      <!-- 完了ボタン -->
-      <div class="remove_hover_btn flex w-3/10 max-w-20 justify-end">
-        <%= link_to show_complete_page_milestone_path(milestone), data: { turbo_frame: "show_complete_page_modal" }, class: "btn btn-base-200 flex  w-full h-auto aspect-square flex-col items-center justify-center rounded-xl" do %>
-          <%= render "milestones/complete_stars_icon", color: milestone.color %>
-          <div class="text-xs text-base-100 whitespace-nowrap">
-            完成する
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-
-  </div>
+    </div>
   </div>
 
 
   <% if !milestone.completed? %>
     <!-- 進捗 -->
     <div class="mt-4">
-    <%= render "milestones/milestone_completed_percent_bar", milestone: milestone, milestone_tasks: milestone.tasks.all %>
+      <%= render "milestones/milestone_completed_percent_bar", milestone: milestone, milestone_tasks: milestone.tasks.all %>
     </div>
   <% end %>
 
 </div>
-
