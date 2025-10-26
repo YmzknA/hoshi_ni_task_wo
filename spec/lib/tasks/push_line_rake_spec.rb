@@ -3,6 +3,7 @@ require "rake"
 
 RSpec.describe "push_line:send_daily_task_notifications", type: :task do
   include ActiveSupport::Testing::TimeHelpers
+
   before do
     Rails.application.load_tasks if Rake::Task.tasks.empty?
   end

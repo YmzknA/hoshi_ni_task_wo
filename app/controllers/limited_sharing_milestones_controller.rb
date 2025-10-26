@@ -1,5 +1,6 @@
 class LimitedSharingMilestonesController < ApplicationController
   include GanttChartHelper
+
   before_action :authenticate_user!, only: [:create]
   before_action :set_milestone, only: [:show, :destroy]
   before_action :validate_another_user, only: [:destroy]

@@ -1,5 +1,6 @@
 class GanttChartController < ApplicationController
   include GanttChartHelper
+
   before_action :authenticate_user!
 
   def show
