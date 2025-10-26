@@ -33,19 +33,7 @@ class MilestonesController < ApplicationController
              end
 
     if @milestone.is_public || current_user?(@milestone.user)
-      prepare_meta_tags(@milestone)
-      @chart_presenter = GanttChartPresenter.new([@milestone]) if @milestone.on_chart?
-
-      @milestone_tasks = tasks_ransack_from_milestone(@milestone)
-
-      # 完了したタスク - 作成日の降順
-      @completed_tasks = @milestone_tasks.completed
-
-      # 未完了のタスク - 締切日の昇順（nilを最後に表示）、同じ締切日なら開始日の昇順
-      @not_completed_tasks = @milestone_tasks.not_completed
-
-      @from_milestone_show = true
-      @task = Task.new
+      prepare_milestone_show_assigns(@milestone)
     else
       flash[:alert] = "この星座は非公開です"
       redirect_to milestones_path
@@ -96,12 +84,10 @@ class MilestonesController < ApplicationController
       redirect_to @milestone, notice: "星座を更新しました"
     else
       # renderで/showを表示するため、showアクションと同様の処理
-      prepare_for_chart(@milestone)
       @title = "星座詳細"
+      prepare_milestone_show_assigns(@milestone)
+
       @milestones_edit_modal_open = true
-      @milestone_tasks = tasks_ransack_from_milestone(@milestone)
-      @task = Task.new
-      @from_milestone_show = true
 
       flash.now[:alert] = "星座の更新に失敗しました"
       render "milestones/show", status: :unprocessable_entity
@@ -217,6 +203,22 @@ class MilestonesController < ApplicationController
     return false if !milestone.user.guest? || current_user?(milestone.user)
 
     true
+  end
+
+  def prepare_milestone_show_assigns(milestone)
+    prepare_meta_tags(milestone)
+    @chart_presenter = GanttChartPresenter.new([milestone]) if milestone.on_chart?
+
+    @milestone_tasks = tasks_ransack_from_milestone(milestone)
+
+    # 完了したタスク - 作成日の降順
+    @completed_tasks = @milestone_tasks.completed
+
+    # 未完了のタスク - 締切日の昇順（nilを最後に表示）、同じ締切日なら開始日の昇順
+    @not_completed_tasks = @milestone_tasks.not_completed
+
+    @from_milestone_show = true
+    @task = Task.new
   end
 
   def prepare_meta_tags(milestone)
