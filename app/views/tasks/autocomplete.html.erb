@@ -1,6 +1,6 @@
 <% @tasks.each do |task| %>
   <% if @milestone.present? || task.milestone.nil? || !task.milestone.completed? %>
-    <li class="list-group-item relative z-30 flex w-full items-center text-sm py-2 px-3 bg-base-300 hover:bg-base-100 hover:cursor-pointer active:bg-base-100 aria-selected:bg-base-100" role="option" data-autocomplete-value="<%= task.id %>" data-autocomplete-label="<%= task.title %>">
+    <li class="list-group-item relative z-30 flex w-full items-center text-sm py-2 px-3 bg-base-300 hover:bg-base-100 hover:cursor-pointer active:bg-base-100 aria-selected:bg-base-100" role="option" data-autocomplete-value="<%= task.id %>" data-autocomplete-label="<%= task.title %>" data-action="click->form#submit">
       <%= task.title %>
     </li>
   <% end %>
