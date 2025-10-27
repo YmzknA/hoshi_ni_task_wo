@@ -4,7 +4,9 @@
 
 <% if @milestone_complete_success == true %>
   <%= turbo_stream.replace "show_complete_page_modal" do %>
-    <%= render "milestones/completed_page", milestone: @milestone, completed_page_modal_open: @completed_page_modal_open %>
+    <%= turbo_frame_tag "show_complete_page_modal" do %>
+      <%= render "milestones/completed_page", milestone: @milestone, completed_page_modal_open: @completed_page_modal_open %>
+    <% end %>
   <% end %>
 
   <%= turbo_stream.replace "milestone_#{@milestone.id}" do %>
