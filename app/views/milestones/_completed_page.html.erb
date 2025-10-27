@@ -5,7 +5,6 @@
         <div class="card z-10 flex h-2xl w-full justify-center bg-base-300 p-5 text-center md:w-2xl">
           <div>
 
-            <!-- タスク詳細表示 -->
             <div class="space-y-5">
               <div class="flex items-center justify-center text-secondary">
                 <p class="text-xl">星座が完成しました</p>
@@ -19,12 +18,15 @@
                 <%= "#{@milestone.title} 座" %>
               </div>
 
-              <div class="text-3xl">
-              </div>
+              <!-- 星座画像 -->
               <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
-                <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+                <%= button_tag type: "button",
+                  class: "h-50 w-50 mask mask-circle overflow-hidden",
+                  onclick: "constellation_external_link_modal.showModal()" do %>
+                  <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-full w-full", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+                <% end %>
               </div>
-              <p><%= @milestone.constellation.name %>のアイコンが<br>付与されました</p>
+              <p class="mt-2"><%= @milestone.constellation.name %>のアイコンが<br>付与されました</p>
 
 
               <!-- 一言コメント -->
@@ -69,3 +71,7 @@
       </div>
     </div>
   </dialog>
+
+  <%= render "milestones/constellation_external_link_modal",
+    constellation_url: milestone_constellation_url(@milestone),
+    constellation_name: @milestone.constellation.name %>

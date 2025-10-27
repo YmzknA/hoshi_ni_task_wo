@@ -1,0 +1,62 @@
+<% return if constellation_url.blank? %>
+
+<div data-controller="modal">
+  <dialog data-modal-target="to_not_blur" id="constellation_external_link_modal" class="modal">
+    <div class="modal-box w-xl max-h-[90dvh] max-w-[85dvw] p-1 bg-transparent">
+      <div class="flex items-center justify-center">
+        <div class="glasscard card w-xl md:w-2xl p-5 md:p-6 flex justify-center z-10">
+          <div class="w-full space-y-6 text-base-200">
+            <div class="flex justify-center">
+              <span class="material-symbols-outlined">
+                open_in_new
+              </span>
+            </div>
+
+            <div class="text-secondary text-center">
+              <p class="text-lg md:text-xl">外部解説サイトに移動します</p>
+            </div>
+
+            <p class="leading-relaxed text-center">
+            外部サイト<br>
+            [ スタディスタイル | 88星座図鑑 ] <br class="md:hidden">へ移動します。<br><br>
+            下記のURLをクリックすると、<br class="md:hidden">新しいタブで開きます。
+            </p>
+
+            <% if constellation_name.present? %>
+              <div class="flex justify-center">
+                <div class="badge badge-outline badge-md text-xs md:text-sm">
+                  <%= constellation_name %> | やさしい88星座図鑑
+                </div>
+              </div>
+            <% end %>
+
+            <div class="rounded-xl bg-base-200/40 px-4 py-3 text-left text-base-content">
+              <span class="font-semibold">URL：</span>
+              <%= link_to constellation_url,
+                constellation_url,
+                class: "link link-primary break-all text-lg",
+                target: "_blank",
+                rel: "noopener",
+                data: { turbo: false } %>
+            </div>
+          </div>
+
+          <div class="modal-action flex justify-center mt-8">
+            <form method="dialog">
+              <button class="btn btn-accent size-9">
+                <span class="material-symbols-outlined">
+                  close
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <form data-modal-target="close" method="dialog" class="modal-backdrop">
+      <button aria-label="close constellation external link modal"></button>
+    </form>
+  </dialog>
+</div>

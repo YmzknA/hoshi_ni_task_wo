@@ -17,13 +17,15 @@
         <%= "#{@milestone.title} 座" %>
       </div>
       <div class="mx-auto flex justify-center items-center rounded-full h-52 w-52 bg-base-200">
-        <%= link_to  milestone_constellation_url(@milestone) do %>
-          <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-50 w-50 mask mask-circle", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
+        <%= button_tag type: "button",
+          class: "h-50 w-50 mask mask-circle overflow-hidden",
+          onclick: "constellation_external_link_modal.showModal()" do %>
+          <%= image_tag "#{@milestone.constellation.image_name}.webp", class: "h-full w-full", oncontextmenu: "return false;", onselectstart: "return false;", onmousedown: "return false;" %>
         <% end %>
       </div>
-      <%= link_to  milestone_constellation_url(@milestone) do %>
-        <p class="text-xs text-base-200 link">画像：<%= @milestone.constellation.name %></p>
-      <% end %>
+      <button type="button" class="text-xs text-base-200 link" onclick="constellation_external_link_modal.showModal()">
+        画像：<%= @milestone.constellation.name %>
+      </button>
       <!-- 完了コメント -->
       <div class="flex w-full items-center justify-center">
         <div class="card w-xl text-neutral">
@@ -181,6 +183,12 @@
   <%= turbo_frame_tag "tasks_copy_modal" %>
 <% end %>
 
+<% if @milestone.completed? %>
+  <%= render "milestones/constellation_external_link_modal",
+  constellation_url: milestone_constellation_url(@milestone),
+  constellation_name: @milestone.constellation.name %>
+<% end %>
+
 <%= turbo_frame_tag "milestone_show_modal" %>
 <% @milestone_tasks.each do |task| %>
   <%= render 'tasks/tasks_show_modal', task: task, tasks_show_modal_open: false %>
@@ -199,5 +207,3 @@
     });
   });
 </script>
-
-
