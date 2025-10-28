@@ -2,69 +2,72 @@
 <%# update失敗時にrender users/showを行う際にモーダルが閉じてしまうことを回避 %>
 <div data-controller="modal">
   <dialog data-modal-target="to_not_blur" id="edit_modal" class="modal" <%= @modal_open ? 'open' : ' ' %> >
-    <div class="glasscard modal-box w-xl max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-1 text-base-100 card w-2xl h-2xl p-5 flex justify-center z-10">
-      <div>
+    <div class="modal-box w-xl max-h-[90dvh] max-w-[85dvw] text-xs md:text-sm p-1 bg-transparent">
+      <div class="flex items-center justify-center">
+        <div class="glasscard card w-xl h-2xl p-5 flex justify-center z-10 text-base-100">
+          <div>
 
-        <!-- エラーメッセージ -->
-        <%= render "error_messages", resource: @user %>
+            <!-- エラーメッセージ -->
+            <%= render "error_messages", resource: @user %>
 
-        <!-- 編集フォーム -->
-        <%= form_for(@user, as: @user, url: registration_path(@user), html: { method: :put, class: "w-full mt-2 p-2" }, data: { action: "submit->loading#show" }) do |f| %>
+            <!-- 編集フォーム -->
+            <%= form_for(@user, as: @user, url: registration_path(@user), html: { method: :put, class: "w-full mt-2 p-2" }, data: { action: "submit->loading#show" }) do |f| %>
 
-          <label class="floating-label">
-            <%= f.text_field :name,
+              <label class="floating-label">
+                <%= f.text_field :name,
               autofocus: true,
               autocomplete: "name",
               placeholder: "ユーザーネーム*",
               required: true,
               class: "input input-sm md:input-lg input-primary w-full bg-base-200" %>
-            <span class="floating-label-text text-base-200">ユーザーネーム*</span>
-          </label>
+              <span class="floating-label-text text-base-200">ユーザーネーム*</span>
+              </label>
 
-          <label class="floating-label mt-5">
-            <%= f.text_field :email,
+              <label class="floating-label mt-5">
+                <%= f.text_field :email,
               autocomplete: "email",
               placeholder: "メールアドレス*",
               required: true,
               class: "input input-sm md:input-lg input-primary w-full bg-base-200" %>
-            <span class="floating-label-text text-base-200">メールアドレス*</span>
-          </label>
+              <span class="floating-label-text text-base-200">メールアドレス*</span>
+              </label>
 
-          <label class="floating-label mt-5">
-            <%= f.text_area :bio,
+              <label class="floating-label mt-5">
+                <%= f.text_area :bio,
               autocomplete: "bio",
               placeholder: "自己紹介",
               class: "textarea textarea-sm md:textarea-lg input-primary w-full bg-base-200 rounded-lg" %>
-            <span class="floating-label-text text-base-200">自己紹介</span>
-          </label>
+              <span class="floating-label-text text-base-200">自己紹介</span>
+              </label>
 
-          <div class="mt-6">
-            <%= f.submit "保存",
+              <div class="mt-6">
+                <%= f.submit "保存",
               class:"btn btn-secondary w-full text-base-100" %>
+              </div>
+            <% end %>
+
+            <div class="divider text-base-200">ユーザー削除</div>
+
+            <div class="flex flex-col items-center">
+              <button type="button" class="btn btn-error mx-4 text-xs md:text-sm" onclick="delete_confirm_modal.showModal()">
+                アカウントを削除する
+              </button>
+            </div>
+            <div class="divider"></div>
+
+            <div class="modal-action flex justify-center mt-5">
+              <form method="dialog">
+                <button data-modal-target="close" class="btn btn-accent px-3">
+                  <span class="material-symbols-outlined">
+                    close
+                  </span>
+                </button>
+              </form>
+            </div>
           </div>
-        <% end %>
-
-        <div class="divider text-base-200">ユーザー削除</div>
-
-        <div class="flex flex-col items-center">
-          <%= button_to "アカウントを削除する", 
-            registration_path(@user), 
-            data: { confirm: "本当に削除しますか？", turbo_confirm: "本当に削除しますか？" }, 
-            method: :delete, 
-            class: "btn btn-error w-full text-xs md:text-sm" %>
-        </div>
-        <div class="divider"></div>
-
-        <div class="modal-action flex justify-center mt-5">
-          <form method="dialog">
-            <button data-modal-target="close" class="btn btn-accent px-3">
-              <span class="material-symbols-outlined">
-                close
-              </span>
-            </button>
-          </form>
         </div>
       </div>
+
     </div>
   </dialog>
 </div>
