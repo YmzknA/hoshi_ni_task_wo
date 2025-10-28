@@ -47,11 +47,9 @@
         <div class="divider text-base-200">ユーザー削除</div>
 
         <div class="flex flex-col items-center">
-          <%= button_to "アカウントを削除する", 
-            registration_path(@user), 
-            data: { confirm: "本当に削除しますか？", turbo_confirm: "本当に削除しますか？" }, 
-            method: :delete, 
-            class: "btn btn-error w-full text-xs md:text-sm" %>
+          <button type="button" class="btn btn-error w-full text-xs md:text-sm" onclick="delete_confirm_modal.showModal()">
+            アカウントを削除する
+          </button>
         </div>
         <div class="divider"></div>
 

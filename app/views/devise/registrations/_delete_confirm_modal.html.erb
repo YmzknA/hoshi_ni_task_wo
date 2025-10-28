@@ -1,0 +1,48 @@
+<dialog id="delete_confirm_modal" class="modal" <%= @delete_confirm_modal_open ? 'open' : ' ' %> >
+  <div class="modal-box max-h-[90vh]">
+    <div class="flex items-center justify-center">
+      <%= image_tag 'warning.png', class: 'h-20 w-20' %>
+    </div>
+
+    <div class="mt-4 text-center">
+      <h3 class="text-lg font-bold">本当にアカウントを削除しますか？</h3>
+      <p class="mt-2 text-sm text-primary">削除すると、ユーザー情報や紐づく<br class="md:hidden">星座・タスクは復元できません。</p>
+    </div>
+
+    <div class="divider my-4"></div>
+
+    <%= form_with scope: :user,
+      url: registration_path(@user),
+      method: :delete,
+      data: { controller: 'confirm-delete', confirm_delete_expected_name_value: @user.name, action: 'submit->loading#show' },
+      class: 'space-y-4' do %>
+      <div class="space-y-2">
+        <p class="text-sm">
+          アカウント削除を確定するには、<br class="md:hidden">
+          [ <span class="font-semibold text-base-content"><%= @user.name %></span> ]
+          と入力してください。
+        </p>
+        <%= text_field_tag 'user[delete_confirmation]',
+          @delete_confirmation_value,
+          placeholder: @user.name,
+          class: 'input input-sm text-base-100 md:input-lg input-primary w-full bg-base-200',
+          autocomplete: 'off',
+          data: { action: 'input->confirm-delete#validate', confirm_delete_target: 'input' } %>
+        <p class="text-ms font-bold" data-confirm-delete-target="message" aria-live="polite"></p>
+      </div>
+
+      <div class="modal-action flex flex-col md:flex-row md:justify-between">
+        <button type="submit" class="btn btn-error w-full md:w-40 btn-disabled" data-confirm-delete-target="button" disabled>
+          削除する
+        </button>
+        <button type="button" class="btn btn-accent w-full md:w-40" onclick="delete_confirm_modal.close()">
+          キャンセル
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>

@@ -200,6 +200,7 @@
 <% if current_user?(@user) %>
   <!-- モーダル -->
   <%= render 'devise/registrations/edit_form_modal' %>
+  <%= render 'devise/registrations/delete_confirm_modal' %>
   <%= turbo_frame_tag "show_complete_page_modal" %>
   <%= render "users/user_setting_modal" %>
 <% end %>
