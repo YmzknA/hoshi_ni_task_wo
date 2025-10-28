@@ -144,10 +144,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     user_milestones = resource.milestones.includes(:tasks, :constellation)
     @title = "ユーザーページ"
 
-    # 編集失敗時に編集modalを開くかどうかの変数
+    # 編集失敗時に編集モーダルを開くかどうかの変数
     @modal_open = open_edit_modal
 
-    # delete失敗時に削除modalを開くかどうかの変数
+    # delete失敗時に削除モーダルを開くかどうかの変数
     @delete_confirm_modal_open = open_delete_modal
     # 失敗時にフォームの値を保持するために使用
     @delete_confirmation_value = delete_confirmation

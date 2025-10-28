@@ -1,4 +1,4 @@
-<dialog id="delete_confirm_modal" class="modal" <%= @delete_confirm_modal_open ? 'open' : ' ' %> >
+<dialog id="delete_confirm_modal" class="modal" <%= 'open' if @delete_confirm_modal_open %> >
   <div class="modal-box max-h-[90vh]">
     <div class="flex items-center justify-center">
       <%= image_tag 'warning.png', class: 'h-20 w-20' %>
@@ -28,7 +28,7 @@
           class: 'input input-sm text-base-100 md:input-lg input-primary w-full bg-base-200',
           autocomplete: 'off',
           data: { action: 'input->confirm-delete#validate', confirm_delete_target: 'input' } %>
-        <p class="text-ms font-bold" data-confirm-delete-target="message" aria-live="polite"></p>
+        <p class="font-bold" data-confirm-delete-target="message" aria-live="polite"></p>
       </div>
 
       <div class="modal-action flex flex-col md:flex-row md:justify-between">
