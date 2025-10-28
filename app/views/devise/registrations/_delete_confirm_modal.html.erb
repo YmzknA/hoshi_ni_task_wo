@@ -14,7 +14,7 @@
     <%= form_with scope: :user,
       url: registration_path(@user),
       method: :delete,
-      data: { controller: 'confirm-delete', confirm_delete_expected_name_value: @user.name, action: 'submit->loading#show' },
+      data: { controller: 'confirm-delete', confirm_delete_expected_name_value: @user.name },
       class: 'space-y-4' do %>
       <div class="space-y-2">
         <p class="text-sm">
@@ -32,7 +32,7 @@
       </div>
 
       <div class="modal-action flex flex-col md:flex-row md:justify-between">
-        <button type="submit" class="btn btn-error w-full md:w-40 btn-disabled" data-confirm-delete-target="button" disabled>
+        <button type="submit" class="btn btn-error w-full md:w-40 btn-disabled" data-confirm-delete-target="button" data-turbo-confirm="本当に削除しますか？" disabled>
           削除する
         </button>
         <button type="button" class="btn btn-accent w-full md:w-40" onclick="delete_confirm_modal.close()">
