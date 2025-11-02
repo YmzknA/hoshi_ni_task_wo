@@ -1,5 +1,5 @@
 export function newReleaseNotification() {
-  const STORAGE_KEY = 'newReleaseNotification_7';
+  const STORAGE_KEY = 'newReleaseNotification_11';
   const newReleaseNotification= document.querySelector("#new_release_notification");
   const newReleaseClose= document.querySelector("#new_release_close");
 
