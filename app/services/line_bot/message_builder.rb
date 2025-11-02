@@ -44,7 +44,7 @@ module LineBot
       task_milestone_title = task.milestone&.title || "---"
       progress = get_progress_message(task)
 
-      "#{is_first ? '' : "\n"}📝：#{with_id ? "(ID: #{task.id}) " : ''}#{task.title} - #{progress}\
+      "#{"\n" unless is_first}📝：#{"(ID: #{task.id}) " if with_id}#{task.title} - #{progress}\
       #{"\n   🌟：#{task_milestone_title}" if is_show_milestone}\
       \n   #{date_range(start_date, end_date)}"
     end
@@ -62,7 +62,7 @@ module LineBot
     def self.milestones_title_message(milestones)
       milestones.map do |milestone|
         is_first = milestone == milestones.first
-        "#{is_first ? "\n" : ''}🌟：#{milestone.title}"
+        "#{"\n" if is_first}🌟：#{milestone.title}"
       end.join("\n")
     end
 
@@ -74,7 +74,7 @@ module LineBot
       completed_tasks_count = milestone.tasks.completed.count
       completed_tasks_percentage = milestone.completed_tasks_percentage
 
-      "#{is_first ? '' : "\n"}🌟：#{milestone.title}\
+      "#{"\n" unless is_first}🌟：#{milestone.title}\
       \n   📝：#{tasks_count}(完成：#{completed_tasks_count})\
       \n   🏁：#{completed_tasks_percentage}%\
       \n   #{date_range(start_date, end_date)}"

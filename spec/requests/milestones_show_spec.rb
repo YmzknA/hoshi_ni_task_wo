@@ -119,6 +119,10 @@ RSpec.describe "Milestones show", type: :request do
         )
       end
 
+      let(:expected_external_url) do
+        "https://www.study-style.com/seiza/#{completed_milestone.constellation.image_name}.html"
+      end
+
       before do
         sign_in(user)
         get milestone_path(completed_milestone)
@@ -149,6 +153,24 @@ RSpec.describe "Milestones show", type: :request do
         doc = parsed_body
         titles = doc.css("turbo-frame#search_sort_content_frame p.text-lg").map { |node| node.text.strip }
         expect(titles).to match_array(["Completed Task 1", "Completed Task 2"])
+      end
+
+      it "星座画像はモーダルを開くボタンとして表示される" do
+        doc = parsed_body
+        image_button = doc.at_css('button[onclick="constellation_external_link_modal.showModal()"]')
+        expect(image_button).to be_present
+        image_link_outside_modal = doc.at_css("div.mx-auto a[href='#{expected_external_url}']")
+        expect(image_link_outside_modal).to be_nil
+      end
+
+      it "外部リンク確認モーダルに正しいURLが表示される" do
+        doc = parsed_body
+        modal = doc.at_css("dialog#constellation_external_link_modal")
+        expect(modal).to be_present
+
+        link = modal.at_css("a.link")
+        expect(link["href"]).to eq(expected_external_url)
+        expect(link.text).to include(expected_external_url)
       end
     end
   end

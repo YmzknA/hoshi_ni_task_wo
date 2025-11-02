@@ -88,7 +88,7 @@ class UsersController < ApplicationController
   end
 
   def milestones_by_completed_and_show_all(completed: false, show_all: false)
-    milestones = @user.milestones.includes(:tasks)
+    milestones = @user.milestones.includes(:tasks, :constellation)
 
     milestones = completed ? milestones.where(progress: "completed") : milestones.where.not(progress: "completed")
 

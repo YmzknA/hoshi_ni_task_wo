@@ -27,3 +27,6 @@ application.register("modal", ModalController)
 
 import ShowModalController from "./show_modal_controller"
 application.register("show-modal", ShowModalController)
+
+import ConfirmDeleteController from "./confirm_delete_controller"
+application.register("confirm-delete", ConfirmDeleteController)

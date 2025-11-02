@@ -91,6 +91,24 @@ RSpec.describe "Constellations", type: :request do
       expect(response.body).to include(constellation.name)
     end
 
+    it "外部リンク確認モーダルが表示され正しいURLが含まれる" do
+      create(:milestone, user: user, constellation: constellation, progress: :completed)
+
+      get constellation_path(constellation)
+      doc = Nokogiri::HTML(response.body)
+
+      modal = doc.at_css("dialog#constellation_external_link_modal")
+      expect(modal).to be_present
+
+      expected_url = "https://www.study-style.com/seiza/#{constellation.image_name}.html"
+      link = modal.at_css("a.link")
+      expect(link["href"]).to eq(expected_url)
+      expect(link.text).to include(expected_url)
+
+      trigger_buttons = doc.css('button[onclick="constellation_external_link_modal.showModal()"]')
+      expect(trigger_buttons.count).to be >= 1
+    end
+
     it "存在しない星座IDの場合はリダイレクトされる" do
       get constellation_path(id: 99_999)
       expect(response).to redirect_to(constellations_path)

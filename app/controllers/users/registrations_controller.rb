@@ -5,12 +5,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [:update]
   before_action :valid_guest_user, only: [:update, :edit]
 
-  # GET /resource/sign_up
   # def new
   #   super
   # end
 
-  # POST /resource
   def create
     build_resource(sign_up_params)
 
@@ -39,12 +37,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  # GET /resource/edit
   # def edit
   #   super
   # end
 
-  # PUT /resource
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
@@ -59,22 +55,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-
-      @user = resource
-      user_milestones = current_user.milestones
-      @title = "ユーザーページ"
-      @modal_open = true
-      @not_completed_milestones = user_milestones.where.not(progress: "completed")
-      @completed_milestones = user_milestones.where(progress: "completed")
+      assign_user_show_variables(resource, open_edit_modal: true)
       render "users/show", status: :unprocessable_entity
     end
   end
 
-  # DELETE /resource
-  # def destroy
-  #   super
-  # end
-  #
+  def destroy
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    unless delete_confirmation_matches?(resource)
+      flash.now[:alert] = "ユーザーネームが一致しません。"
+      assign_user_show_variables(resource,
+                                 open_delete_modal: true,
+                                 delete_confirmation: params.dig(:user, :delete_confirmation))
+      render "users/show", status: :unprocessable_entity
+      return
+    end
+
+    super
+  end
+
   def guest_sign_in
     user = nil
 
@@ -138,6 +137,27 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def update_resource(resource, params)
     resource.update_without_password(params)
+  end
+
+  def assign_user_show_variables(resource, open_edit_modal: false, open_delete_modal: false, delete_confirmation: nil)
+    @user = resource
+    user_milestones = resource.milestones.includes(:tasks, :constellation)
+    @title = "ユーザーページ"
+
+    # 編集失敗時に編集モーダルを開くかどうかの変数
+    @modal_open = open_edit_modal
+
+    # delete失敗時に削除モーダルを開くかどうかの変数
+    @delete_confirm_modal_open = open_delete_modal
+    # 失敗時にフォームの値を保持するために使用
+    @delete_confirmation_value = delete_confirmation
+
+    @not_completed_milestones = user_milestones.where.not(progress: "completed")
+    @completed_milestones = user_milestones.where(progress: "completed")
+  end
+
+  def delete_confirmation_matches?(resource)
+    params.dig(:user, :delete_confirmation) == resource.name
   end
 
   # The path used after sign up for inactive accounts.
